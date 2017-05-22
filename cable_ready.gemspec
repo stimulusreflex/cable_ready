@@ -1,25 +1,23 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cable_ready/version'
+require File.expand_path("../lib/cable_ready/version", __FILE__)
 
-Gem::Specification.new do |spec|
-  spec.name          = "cable_ready"
-  spec.version       = CableReady::VERSION
-  spec.authors       = ["Nathan Hopkins"]
-  spec.email         = ["natehop@gmail.com"]
+Gem::Specification.new do |gem|
+  gem.name        = "cable_ready"
+  gem.license     = "MIT"
+  gem.version     = CableReady::VERSION
+  gem.authors     = ["Nathan Hopkins"]
+  gem.email       = ["natehop@gmail.com"]
+  gem.homepage    = "https://github.com/hopsoft/cable_ready"
+  gem.summary     = "put something here"
 
-  spec.summary       = "Coming soon..."
-  spec.homepage      = "https://github.com/hopsoft/cable_ready"
-  spec.license       = "MIT"
+  gem.files       = Dir["lib/**/*.rb", "bin/*", "[A-Z]*"]
+  gem.test_files  = Dir["test/**/*.rb"]
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  gem.add_dependency "activesupport"
+  gem.add_dependency "hash_validator", ">= 0.7.1"
 
-  spec.add_development_dependency "bundler", "~> 1.14"
-  spec.add_development_dependency "rake", "~> 10.0"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "pry-test"
+  gem.add_development_dependency "coveralls"
+  gem.add_development_dependency "sinatra"
 end
