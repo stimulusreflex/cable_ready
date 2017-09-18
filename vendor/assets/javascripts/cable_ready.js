@@ -1,61 +1,76 @@
 (function () {
-  self.CableReadyOperations = {
-    append_child: function (config) {
-      var element = document.getElementById(config.element_id);
+  "use strict";
+
+  const operations = {
+    prepend: function (config) {
+      let element = document.getElementById(config.element_id);
       if (element) {
-        var loader = document.createElement("div");
-        loader.textContent = config.content;
-        element.appendChild(loader.firstChild);
+        element.insertAdjacentHTML("afterbegin", config.content);
       }
     },
 
-    remove_child: function (config) {
-      var element = document.getElementById(config.element_id);
+    append: function (config) {
+      let element = document.getElementById(config.element_id);
+      if (element) {
+        element.insertAdjacentHTML("beforeend", config.content);
+      }
+    },
+
+    remove: function (config) {
+      let element = document.getElementById(config.element_id);
       if (element && element.parentNode) {
         element.parentNode.removeChild(element);
       }
     },
 
-    replace_child: function (config) {
-      var element = document.getElementById(config.element_id);
+    replace: function (config) {
+      let element = document.getElementById(config.element_id);
       if (element && element.parentNode) {
-        var loader = document.createElement("div");
-        loader.textContent = config.content;
+        let loader = document.createElement("div");
+        loader.innerHTML = config.content;
         element.parentNode.replaceChild(loader.firstChild, element);
       }
     },
 
-    text_content: function (config) {
-      var element = document.getElementById(config.element_id);
+    html: function (config) {
+      let element = document.getElementById(config.element_id);
+      if (element) {
+        element.innerHTML = config.content;
+      }
+    },
+
+    text: function (config) {
+      let element = document.getElementById(config.element_id);
       if (element) {
         element.textContent = config.content;
       }
     },
 
-    dispatch_event: function (config) {
-      var event = new Event(config.event_name);
-      var target;
+    dispatch: function (config) {
+      let event = new Event(config.event_name);
+      let target;
 
       if (config.element_id) {
         target = document.getElementById(config.element_id);
       }
 
-      target = target || self;
-      var event = new Event(config.event_name);
+      target = target || window;
+      let event = new Event(config.event_name);
       event.detail = config.arguments;
       target.dispatchEvent(event);
-    },
+    }
+  };
 
-    all: function (broadcast) {
-      console.log("CableReadyOperations.all", broadcast.event_name);
-      for (var operation in broadcast.operations) {
-        if (broadcast.operations.hasOwnProperty(operation)) {
-          var configs = broadcast.operations[operation];
-          for (var i = 0; i < configs.length; i++) {
-            self.CableReadyOperations[operation](configs[i]);
-          }
+  window.CableReady = {};
+  window.CableReady.run = function (payload) {
+    for (let operation in payload) {
+      if (payload.hasOwnProperty(operation)) {
+        let configs = payload[operation];
+        for (let i = 0; i < configs.length; i++) {
+          window.CableReady.behaviors[operation](configs[i]);
         }
       }
     }
   };
+
 })();

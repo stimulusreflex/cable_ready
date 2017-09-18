@@ -2,60 +2,55 @@ module CableReady
   module Broadcaster
     extend ::ActiveSupport::Concern
 
-    OPERATIONS = %w(
-      append_child
-      dispatch_event
-      remove_child
-      replace_child
-      text_content
-    )
-
     # EXAMPLE_PAYLOAD = {
-    #   event_name: "merged into the payload",
     #   operations: {
-    #     append_child: [
+    #     prepend: [
     #       {
     #         element_id: "string",
     #         content: "string"
     #       }, ...
     #     ],
-    #     replace_child: [
+    #     append: [
     #       {
     #         element_id: "string",
     #         content: "string"
     #       }, ...
     #     ],
-    #     remove_child: [
+    #     replace: [
+    #       {
+    #         element_id: "string",
+    #         content: "string"
+    #       }, ...
+    #     ],
+    #     remove: [
     #       {
     #         element_id: "string"
     #       }, ...
     #     ],
-    #     text_content: [
+    #     html: [
     #       {
     #         element_id: "string",
     #         content: "string"
     #       }, ...
     #     ],
-    #     dispatch_event: [
+    #     text: [
+    #       {
+    #         element_id: "string",
+    #         content: "string"
+    #       }, ...
+    #     ],
+    #     dispatch: [
     #       event_name: "string",
     #       element_id: "string",
     #       arguments: { ... }
     #     ]
     #   }
     # }
-    def broadcast(event_name, channel: nil, operations: {})
-      channel    ||= [self.class.name.underscore, try(:id)].compact.join("/")
-      operations ||= {}
-      payload = {
-        event_name: event_name.to_s,
-        operations: operations
-      }
-      payload.deep_transform_keys!(&:to_s)
-
-      # TODO: validate payload ?
-
-      logger.debug "ActionCable Broadcast: #{event_name} to #{channel} with #{payload.inspect}"
-      ::ActionCable.server.broadcast channel, payload
+    def cable_ready_broadcast(channel: nil, payload: {})
+      channel ||= [self.class.name.underscore, try(:id)].compact.join("/")
+      payload ||= {}
+      logger.debug "CableReady::Broadcaster#cable_ready_broadcast: to #{channel} with #{payload.inspect}"
+      ActionCable.server.broadcast channel, operations.deep_stringify_keys
     end
   end
 end

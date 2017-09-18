@@ -14,7 +14,6 @@ Gem::Specification.new do |gem|
   gem.test_files  = Dir["test/**/*.rb"]
 
   gem.add_dependency "activesupport"
-  gem.add_dependency "hash_validator", ">= 0.7.1"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "pry-test"
