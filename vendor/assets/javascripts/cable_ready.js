@@ -4,19 +4,6 @@
   const CableReady = {};
 
   CableReady.operations = {
-    prepend: function (config) {
-      let element = document.getElementById(config.element_id);
-      if (element) {
-        element.insertAdjacentHTML("afterbegin", config.content);
-      }
-    },
-
-    append: function (config) {
-      let element = document.getElementById(config.element_id);
-      if (element) {
-        element.insertAdjacentHTML("beforeend", config.content);
-      }
-    },
 
     remove: function (config) {
       let element = document.getElementById(config.element_id);
@@ -56,7 +43,13 @@
     innerHtml: function (config) {
       let element = document.getElementById(config.elementId);
       element.innerHTML = config.html;
-    }
+    },
+
+    insertAdjacentHtml: function (config) {
+      let element = document.getElementById(config.elementId);
+      element.insertAdjacentHTML(config.position || "beforeend", config.html);
+    },
+
   };
 
 

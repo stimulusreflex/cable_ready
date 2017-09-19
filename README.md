@@ -29,6 +29,17 @@ JavaScript DOM operations from Ruby via ActionCable.
   ```
 
 - [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+
+  ```ruby
+  cable_ready_broadcast payload: {
+    insert_adjacent_html: [{
+      element_id: "string", # required    - the DOM element id of the element to be mutated
+      position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+      html:       "string"  # [null]      - the HTML to assign
+    }]
+  }
+  ```
+
 - [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 - [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
 - [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)

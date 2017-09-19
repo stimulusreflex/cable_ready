@@ -4,18 +4,6 @@ module CableReady
 
     # EXAMPLE_PAYLOAD = {
     #   operations: {
-    #     prepend: [
-    #       {
-    #         element_id: "string",
-    #         content: "string"
-    #       }, ...
-    #     ],
-    #     append: [
-    #       {
-    #         element_id: "string",
-    #         content: "string"
-    #       }, ...
-    #     ],
     #     replace: [
     #       {
     #         element_id: "string",
@@ -34,6 +22,7 @@ module CableReady
     #       }, ...
     #     ],
     #
+    #
     #     dispatch_event: [
     #       event_name: "string",
     #       element_id: "string",
@@ -43,6 +32,14 @@ module CableReady
     #     inner_html: [
     #       {
     #         element_id: "string",
+    #         html:       "string"
+    #       }, ...
+    #     ],
+    #
+    #     insert_adjacent_html: [
+    #       {
+    #         element_id: "string",
+    #         position:   "string",
     #         html:       "string"
     #       }, ...
     #     ],
