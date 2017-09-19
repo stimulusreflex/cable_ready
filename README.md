@@ -3,6 +3,8 @@
 CableReady provides a standard interface for invoking common client-side DOM operations
 from the server via Ruby on Rails' [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
+_NOTE: It's possible to invoke multiple DOM operations with a single broadcast._
+
 ## Supported DOM Operations
 
 ### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
