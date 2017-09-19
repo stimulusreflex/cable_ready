@@ -1,64 +1,77 @@
 # CableReady
 
-CableReady provides a standard interface for invoking common client side
-JavaScript DOM operations from Ruby via ActionCable.
+CableReady provides a standard interface for invoking common client-side DOM operations
+from the server via Ruby on Rails' [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
 ## Supported DOM Operations
 
-- [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
+### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 
-  ```ruby
-  cable_ready_broadcast "my_channel", dispatch_event: [{
-    event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
-    element_id: "string", # [window] - the DOM element id of the desired event target
-    detail:     "object"  # [null]   - assigned to event.detail
-  }]
-  ```
+Dispatches a DOM event in the browser.
 
-- [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+```ruby
+cable_ready_broadcast "my_channel", dispatch_event: [{
+  event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
+  element_id: "string", # [window] - the DOM element id of the desired event target
+  detail:     "object"  # [null]   - assigned to event.detail
+}]
+```
 
-  ```ruby
-  cable_ready_broadcast "my_channel", inner_html: [{
-    element_id: "string", # required - the DOM element id of the element to be mutated
-    html:       "string"  # [null]   - the HTML to assign
-  }]
-  ```
+### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
-- [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+Sets the innerHTML of a DOM element.
 
-  ```ruby
-  cable_ready_broadcast "my_channel", insert_adjacent_html: [{
-    element_id: "string", # required    - the DOM element id of the referenced element
-    position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-    html:       "string"  # [null]      - the HTML to assign
-  }]
-  ```
+```ruby
+cable_ready_broadcast "my_channel", inner_html: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  html:       "string"  # [null]   - the HTML to assign
+}]
+```
 
-- [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+### [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
-  ```ruby
-  cable_ready_broadcast "my_channel", remove: [{
-    element_id: "string" # required - the DOM element id of the element to be removed
-  }]
-  ```
+Inserts HTML into the DOM relative to an element.
+Supports behavior akin to prepend & append.
 
-- [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+```ruby
+cable_ready_broadcast "my_channel", insert_adjacent_html: [{
+  element_id: "string", # required    - the DOM element id of the referenced element
+  position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  html:       "string"  # [null]      - the HTML to assign
+}]
+```
 
-  ```ruby
-  cable_ready_broadcast "my_channel", replace: [{
-    element_id: "string", # required - the DOM element id of the element to be replaced
-    html:       "string"  # [null]   - the HTML to use as replacement
-  }]
-  ```
+### [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 
-- [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+Removes an element from the DOM.
 
-  ```ruby
-  cable_ready_broadcast "my_channel", text_content: [{
-    element_id: "string", # required - the DOM element id of the element to be mutated
-    text:       "string"  # [null]   - the text to assign
-  }]
-  ```
+```ruby
+cable_ready_broadcast "my_channel", remove: [{
+  element_id: "string" # required - the DOM element id of the element to be removed
+}]
+```
+
+### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+
+Replaces a DOM element with new HTML.
+
+```ruby
+cable_ready_broadcast "my_channel", replace: [{
+  element_id: "string", # required - the DOM element id of the element to be replaced
+  html:       "string"  # [null]   - the HTML to use as replacement
+}]
+```
+
+### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+
+Sets the text content of a DOM element.
+
+```ruby
+cable_ready_broadcast "my_channel", text_content: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  text:       "string"  # [null]   - the text to assign
+}]
+```
 
 ## Quick Start
 
