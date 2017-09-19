@@ -34,13 +34,6 @@
       }
     },
 
-    html: function (config) {
-      let element = document.getElementById(config.element_id);
-      if (element) {
-        element.innerHTML = config.content;
-      }
-    },
-
     text: function (config) {
       let element = document.getElementById(config.element_id);
       if (element) {
@@ -48,14 +41,25 @@
       }
     },
 
+
+
+
+
     dispatchEvent: function (config) {
       let event    = new Event(config.eventName);
       let target   = document.getElementById(config.elementId) || window;
       let event    = new Event(config.eventName);
       event.detail = config.detail;
       target.dispatchEvent(event);
+    },
+
+    innerHtml: function (config) {
+      let element = document.getElementById(config.elementId);
+      element.innerHTML = config.html;
     }
   };
+
+
 
   CableReady.receive = function (operations) {
     for (let name in operations) {

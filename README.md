@@ -10,14 +10,24 @@ JavaScript DOM operations from Ruby via ActionCable.
   ```ruby
   cable_ready_broadcast payload: {
     dispatch_event: [{
-      event_name: "string", # required - the name of the event to dispatch
+      event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
       element_id: "string", # [window] - the DOM element id of the desired event target
-      detail:     "object"  # [nil]    - assigned to event.detail
+      detail:     "object"  # [null]   - assigned to event.detail
     }]
   }
   ```
 
 - [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+
+  ```ruby
+  cable_ready_broadcast payload: {
+    inner_html: [{
+      element_id: "string", # required - the DOM element id of the element to be mutated
+      html:       "string"  # [null]   - the HTML to assign
+    }]
+  }
+  ```
+
 - [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 - [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 - [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
