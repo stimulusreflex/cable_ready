@@ -33,7 +33,7 @@ JavaScript DOM operations from Ruby via ActionCable.
   ```ruby
   cable_ready_broadcast payload: {
     insert_adjacent_html: [{
-      element_id: "string", # required    - the DOM element id of the element to be mutated
+      element_id: "string", # required    - the DOM element id of the referenced element
       position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
       html:       "string"  # [null]      - the HTML to assign
     }]
@@ -50,7 +50,17 @@ JavaScript DOM operations from Ruby via ActionCable.
   }
   ```
 
-- [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+- [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+
+  ```ruby
+  cable_ready_broadcast payload: {
+    replace: [{
+      element_id: "string", # required - the DOM element id of the element to be replaced
+      html:       "string"  # [null]   - the HTML to use as replacement
+    }]
+  }
+  ```
+
 - [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
 ## Quick Start

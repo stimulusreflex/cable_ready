@@ -4,12 +4,6 @@ module CableReady
 
     # EXAMPLE_PAYLOAD = {
     #   operations: {
-    #     replace: [
-    #       {
-    #         element_id: "string",
-    #         content: "string"
-    #       }, ...
-    #     ],
     #     text: [
     #       {
     #         element_id: "string",
@@ -44,6 +38,14 @@ module CableReady
     #         element_id: "string"
     #       }, ...
     #     ],
+    #
+    #     replace: [
+    #       {
+    #         element_id: "string",
+    #         html:       "string"
+    #       }, ...
+    #     ],
+    #
     #   }
     # }
     def cable_ready_broadcast(channel:nil, payload:{})

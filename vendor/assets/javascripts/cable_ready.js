@@ -5,15 +5,6 @@
 
   CableReady.operations = {
 
-    replace: function (config) {
-      let element = document.getElementById(config.element_id);
-      if (element && element.parentNode) {
-        let loader = document.createElement("div");
-        loader.innerHTML = config.content;
-        element.parentNode.replaceChild(loader.firstChild, element);
-      }
-    },
-
     text: function (config) {
       let element = document.getElementById(config.element_id);
       if (element) {
@@ -46,6 +37,13 @@
     remove: function (config) {
       let element = document.getElementById(config.elementId);
       element.remove(element);
+    },
+
+    replace: function (config) {
+      let element     = document.getElementById(config.elementId);
+      let clone       = element.cloneNode(false);
+      clone.innerHTML = config.html;
+      element.parentNode.replaceChild(clone, element);
     },
 
   };
