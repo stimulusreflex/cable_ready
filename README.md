@@ -77,6 +77,8 @@ cable_ready_broadcast "MyChannel", text_content: [{
 
 ## Quick Start
 
+> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
+
 ```ruby
 # app/models/user.rb
 class User < ApplicationRecord
