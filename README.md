@@ -8,60 +8,57 @@ JavaScript DOM operations from Ruby via ActionCable.
 - [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 
   ```ruby
-  cable_ready_broadcast payload: {
-    dispatch_event: [{
-      event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
-      element_id: "string", # [window] - the DOM element id of the desired event target
-      detail:     "object"  # [null]   - assigned to event.detail
-    }]
-  }
+  cable_ready_broadcast "my_channel", dispatch_event: [{
+    event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
+    element_id: "string", # [window] - the DOM element id of the desired event target
+    detail:     "object"  # [null]   - assigned to event.detail
+  }]
   ```
 
 - [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
   ```ruby
-  cable_ready_broadcast payload: {
-    inner_html: [{
-      element_id: "string", # required - the DOM element id of the element to be mutated
-      html:       "string"  # [null]   - the HTML to assign
-    }]
-  }
+  cable_ready_broadcast "my_channel", inner_html: [{
+    element_id: "string", # required - the DOM element id of the element to be mutated
+    html:       "string"  # [null]   - the HTML to assign
+  }]
   ```
 
 - [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
   ```ruby
-  cable_ready_broadcast payload: {
-    insert_adjacent_html: [{
-      element_id: "string", # required    - the DOM element id of the referenced element
-      position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-      html:       "string"  # [null]      - the HTML to assign
-    }]
-  }
+  cable_ready_broadcast "my_channel", insert_adjacent_html: [{
+    element_id: "string", # required    - the DOM element id of the referenced element
+    position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+    html:       "string"  # [null]      - the HTML to assign
+  }]
   ```
 
 - [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 
   ```ruby
-  cable_ready_broadcast payload: {
-    remove: [{
-      element_id: "string" # required - the DOM element id of the element to be removed
-    }]
-  }
+  cable_ready_broadcast "my_channel", remove: [{
+    element_id: "string" # required - the DOM element id of the element to be removed
+  }]
   ```
 
 - [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
 
   ```ruby
-  cable_ready_broadcast payload: {
-    replace: [{
-      element_id: "string", # required - the DOM element id of the element to be replaced
-      html:       "string"  # [null]   - the HTML to use as replacement
-    }]
-  }
+  cable_ready_broadcast "my_channel", replace: [{
+    element_id: "string", # required - the DOM element id of the element to be replaced
+    html:       "string"  # [null]   - the HTML to use as replacement
+  }]
   ```
 
 - [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+
+  ```ruby
+  cable_ready_broadcast "my_channel", text_content: [{
+    element_id: "string", # required - the DOM element id of the element to be mutated
+    text:       "string"  # [null]   - the text to assign
+  }]
+  ```
 
 ## Quick Start
 
@@ -71,8 +68,8 @@ class User < ApplicationRecord
   include CableReady::Broadcaster
 
   def broadcast_name_changed
-    channel = "user/#{id}" # NOTE: channel defaults to UNDERSCORED_MODEL_NAME/ID
-    cable_ready_broadcast channel: channel, text: [{ element_id: "nav-user-name", content: name }]
+    channel = "user/#{id}"
+    cable_ready_broadcast channel, text_content: [{ element_id: "user-name", text: name }]
   end
 end
 ```

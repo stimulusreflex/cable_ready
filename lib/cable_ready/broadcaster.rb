@@ -2,54 +2,41 @@ module CableReady
   module Broadcaster
     extend ::ActiveSupport::Concern
 
-    # EXAMPLE_PAYLOAD = {
-    #   operations: {
-    #     text: [
-    #       {
-    #         element_id: "string",
-    #         content: "string"
-    #       }, ...
-    #     ],
+    # Example Payload:
     #
+    # {
+    #   dispatch_event: [{
+    #     event_name: "string",
+    #     element_id: "string",
+    #     detail:     "object"
+    #   }, ...],
     #
-    #     dispatch_event: [
-    #       event_name: "string",
-    #       element_id: "string",
-    #       detail:     "object"
-    #     ],
+    #   inner_html: [{
+    #     element_id: "string",
+    #     html:       "string"
+    #   }, ...],
     #
-    #     inner_html: [
-    #       {
-    #         element_id: "string",
-    #         html:       "string"
-    #       }, ...
-    #     ],
+    #   insert_adjacent_html: [{
+    #     element_id: "string",
+    #     position:   "string",
+    #     html:       "string"
+    #   }, ...],
     #
-    #     insert_adjacent_html: [
-    #       {
-    #         element_id: "string",
-    #         position:   "string",
-    #         html:       "string"
-    #       }, ...
-    #     ],
+    #   remove: [{
+    #     element_id: "string"
+    #   }, ...],
     #
-    #     remove: [
-    #       {
-    #         element_id: "string"
-    #       }, ...
-    #     ],
+    #   replace: [{
+    #     element_id: "string",
+    #     html:       "string"
+    #   }, ...],
     #
-    #     replace: [
-    #       {
-    #         element_id: "string",
-    #         html:       "string"
-    #       }, ...
-    #     ],
-    #
-    #   }
+    #   textContent: [{
+    #     element_id: "string",
+    #     text:       "string"
+    #   }, ...]
     # }
-    def cable_ready_broadcast(channel:nil, payload:{})
-      channel ||= [self.class.name.underscore, try(:id)].compact.join("/")
+    def cable_ready_broadcast(channel, payload={})
       payload ||= {}
       payload = payload.deep_transform_keys { |key| key.to_s.camelize(:lower) }
       ActionCable.server.broadcast channel, "cableReady" => payload
