@@ -41,6 +41,15 @@ JavaScript DOM operations from Ruby via ActionCable.
   ```
 
 - [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+
+  ```ruby
+  cable_ready_broadcast payload: {
+    remove: [{
+      element_id: "string" # required - the DOM element id of the element to be removed
+    }]
+  }
+  ```
+
 - [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
 - [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 

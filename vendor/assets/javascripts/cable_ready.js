@@ -5,13 +5,6 @@
 
   CableReady.operations = {
 
-    remove: function (config) {
-      let element = document.getElementById(config.element_id);
-      if (element && element.parentNode) {
-        element.parentNode.removeChild(element);
-      }
-    },
-
     replace: function (config) {
       let element = document.getElementById(config.element_id);
       if (element && element.parentNode) {
@@ -48,6 +41,11 @@
     insertAdjacentHtml: function (config) {
       let element = document.getElementById(config.elementId);
       element.insertAdjacentHTML(config.position || "beforeend", config.html);
+    },
+
+    remove: function (config) {
+      let element = document.getElementById(config.elementId);
+      element.remove(element);
     },
 
   };

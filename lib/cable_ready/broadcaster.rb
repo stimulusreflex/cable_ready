@@ -10,11 +10,6 @@ module CableReady
     #         content: "string"
     #       }, ...
     #     ],
-    #     remove: [
-    #       {
-    #         element_id: "string"
-    #       }, ...
-    #     ],
     #     text: [
     #       {
     #         element_id: "string",
@@ -41,6 +36,12 @@ module CableReady
     #         element_id: "string",
     #         position:   "string",
     #         html:       "string"
+    #       }, ...
+    #     ],
+    #
+    #     remove: [
+    #       {
+    #         element_id: "string"
     #       }, ...
     #     ],
     #   }
