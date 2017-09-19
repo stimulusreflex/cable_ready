@@ -87,6 +87,15 @@ end
 ```
 
 ```javascript
+// app/assets/javascripts/application.js
+/*
+ * ...
+ *= require cable_ready
+ * ...
+ */
+```
+
+```javascript
 // app/assets/javascripts/channels/user.js
 App.cable.subscriptions.create({ channel: "UserChannel" }, {
   received: function (data) {
@@ -96,5 +105,3 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
   }
 });
 ```
-
-
