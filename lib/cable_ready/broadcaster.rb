@@ -36,10 +36,10 @@ module CableReady
     #     text:       "string"
     #   }, ...]
     # }
-    def cable_ready_broadcast(channel, payload={})
-      payload ||= {}
-      payload = payload.deep_transform_keys { |key| key.to_s.camelize(:lower) }
-      ActionCable.server.broadcast channel, "cableReady" => payload
+    def cable_ready_broadcast(channel, operations={})
+      operations ||= {}
+      operations = operations.deep_transform_keys { |key| key.to_s.camelize(:lower) }
+      ActionCable.server.broadcast channel, "cableReady" => true, "operations" => operations
     end
   end
 end

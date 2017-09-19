@@ -10,7 +10,7 @@ from the server via Ruby on Rails' [ActionCable](http://guides.rubyonrails.org/a
 Dispatches a DOM event in the browser.
 
 ```ruby
-cable_ready_broadcast "my_channel", dispatch_event: [{
+cable_ready_broadcast "MyChannel", dispatch_event: [{
   event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
   element_id: "string", # [window] - the DOM element id of the desired event target
   detail:     "object"  # [null]   - assigned to event.detail
@@ -22,7 +22,7 @@ cable_ready_broadcast "my_channel", dispatch_event: [{
 Sets the innerHTML of a DOM element.
 
 ```ruby
-cable_ready_broadcast "my_channel", inner_html: [{
+cable_ready_broadcast "MyChannel", inner_html: [{
   element_id: "string", # required - the DOM element id of the element to be mutated
   html:       "string"  # [null]   - the HTML to assign
 }]
@@ -34,7 +34,7 @@ Inserts HTML into the DOM relative to an element.
 Supports behavior akin to prepend & append.
 
 ```ruby
-cable_ready_broadcast "my_channel", insert_adjacent_html: [{
+cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
   element_id: "string", # required    - the DOM element id of the referenced element
   position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
   html:       "string"  # [null]      - the HTML to assign
@@ -46,7 +46,7 @@ cable_ready_broadcast "my_channel", insert_adjacent_html: [{
 Removes an element from the DOM.
 
 ```ruby
-cable_ready_broadcast "my_channel", remove: [{
+cable_ready_broadcast "MyChannel", remove: [{
   element_id: "string" # required - the DOM element id of the element to be removed
 }]
 ```
@@ -56,7 +56,7 @@ cable_ready_broadcast "my_channel", remove: [{
 Replaces a DOM element with new HTML.
 
 ```ruby
-cable_ready_broadcast "my_channel", replace: [{
+cable_ready_broadcast "MyChannel", replace: [{
   element_id: "string", # required - the DOM element id of the element to be replaced
   html:       "string"  # [null]   - the HTML to use as replacement
 }]
@@ -67,7 +67,7 @@ cable_ready_broadcast "my_channel", replace: [{
 Sets the text content of a DOM element.
 
 ```ruby
-cable_ready_broadcast "my_channel", text_content: [{
+cable_ready_broadcast "MyChannel", text_content: [{
   element_id: "string", # required - the DOM element id of the element to be mutated
   text:       "string"  # [null]   - the text to assign
 }]
@@ -80,21 +80,21 @@ cable_ready_broadcast "my_channel", text_content: [{
 class User < ApplicationRecord
   include CableReady::Broadcaster
 
-  def broadcast_name_changed
-    channel = "user/#{id}"
-    cable_ready_broadcast channel, text_content: [{ element_id: "user-name", text: name }]
+  def broadcast_name_change
+    cable_ready_broadcast "UserChannel", text_content: [{ element_id: "user-name", text: name }]
   end
 end
 ```
 
 ```javascript
-let App = {};
-App.cable = ActionCable.createConsumer();
-App.cable.subscriptions.create({ channel: "UserChannel" },
+// app/assets/javascripts/channels/user.js
+App.cable.subscriptions.create({ channel: "UserChannel" }, {
   received: function (data) {
     if (data.cableReady) {
-      CableReady.receive(data.cableReady);
+      CableReady.perform(data.operations);
     }
   }
-);
+});
 ```
+
+
