@@ -42,15 +42,15 @@ module CableReady
     #     dispatch: [
     #       event_name: "string",
     #       element_id: "string",
-    #       arguments: { ... }
+    #       detail: { ... }
     #     ]
     #   }
     # }
-    def cable_ready_broadcast(channel: nil, payload: {})
+    def cable_ready_broadcast(channel:nil, payload:{})
       channel ||= [self.class.name.underscore, try(:id)].compact.join("/")
       payload ||= {}
-      logger.debug "CableReady::Broadcaster#cable_ready_broadcast: to #{channel} with #{payload.inspect}"
-      ActionCable.server.broadcast channel, operations.deep_stringify_keys
+      payload = payload.deep_transform_keys { |key| key.to_s.camelize(:lower) }
+      ActionCable.server.broadcast channel, "cableReady" => payload
     end
   end
 end

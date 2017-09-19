@@ -1,7 +1,9 @@
 (function () {
   "use strict";
 
-  const operations = {
+  const CableReady = {};
+
+  CableReady.operations = {
     prepend: function (config) {
       let element = document.getElementById(config.element_id);
       if (element) {
@@ -46,28 +48,21 @@
       }
     },
 
-    dispatch: function (config) {
-      let event = new Event(config.event_name);
-      let target;
-
-      if (config.element_id) {
-        target = document.getElementById(config.element_id);
-      }
-
-      target = target || window;
-      let event = new Event(config.event_name);
-      event.detail = config.arguments;
+    dispatchEvent: function (config) {
+      let event    = new Event(config.eventName);
+      let target   = document.getElementById(config.elementId) || window;
+      let event    = new Event(config.eventName);
+      event.detail = config.detail;
       target.dispatchEvent(event);
     }
   };
 
-  window.CableReady = {};
-  window.CableReady.run = function (payload) {
-    for (let operation in payload) {
-      if (payload.hasOwnProperty(operation)) {
-        let configs = payload[operation];
-        for (let i = 0; i < configs.length; i++) {
-          window.CableReady.behaviors[operation](configs[i]);
+  CableReady.receive = function (operations) {
+    for (let name in operations) {
+      if (operations.hasOwnProperty(name)) {
+        let entries = operations[name];
+        for (let i = 0; i < entries.length; i++) {
+          window.CableReady.operations[name](entries[i]);
         }
       }
     }

@@ -1,27 +1,38 @@
 # CableReady
 
-CableReady provides a consistent interface for common ActionCable operations.
+CableReady provides a standard interface for invoking common client side
+JavaScript DOM operations from Ruby via ActionCable.
 
-## Supported Operations
+## Supported DOM Operations
 
-- prepend
-- append
-- remove
-- replace
-- html
-- text
-- dispatch
+- [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
+
+  ```ruby
+  cable_ready_broadcast payload: {
+    dispatch_event: [{
+      event_name: "string", # required - the name of the event to dispatch
+      element_id: "string", # [window] - the DOM element id of the desired event target
+      detail:     "object"  # [nil]    - assigned to event.detail
+    }]
+  }
+  ```
+
+- [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+- [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+- [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+- [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+- [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
 ## Quick Start
 
 ```ruby
+# app/models/user.rb
 class User < ApplicationRecord
   include CableReady::Broadcaster
-  after_save :update_display_name
 
-  def update_display_name
-    return unless saved_change_to_name?
-    cable_ready_broadcast channel: "user/#{id}", text: [{ element_id: "nav-user-name", content: name }]
+  def broadcast_name_changed
+    channel = "user/#{id}" # NOTE: channel defaults to UNDERSCORED_MODEL_NAME/ID
+    cable_ready_broadcast channel: channel, text: [{ element_id: "nav-user-name", content: name }]
   end
 end
 ```
@@ -31,7 +42,9 @@ let App = {};
 App.cable = ActionCable.createConsumer();
 App.cable.subscriptions.create({ channel: "UserChannel" },
   received: function (data) {
-    CableReady.run(data);
+    if (data.cableReady) {
+      CableReady.receive(data.cableReady);
+    }
   }
 );
 ```
