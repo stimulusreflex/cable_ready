@@ -109,3 +109,8 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
   }
 });
 ```
+
+## Advanced Usage
+
+If you prefer server rendering, consider using CableReady in concert with a gem like
+[SelfRenderer](https://github.com/hopsoft/self_renderer) for a simple yet powerful workflow.
