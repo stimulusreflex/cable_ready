@@ -5,11 +5,13 @@
 # CableReady
 
 CableReady provides a standard interface for invoking common client-side DOM operations
-from the server via Ruby on Rails' [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
+from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
-_NOTE: It's possible to invoke multiple DOM operations with a single ActionCable broadcast._
+Learn more about CableReady by reading through & running the [CableReady Test](https://github.com/hopsoft/cable_ready_test) project.
 
 ## Supported DOM Operations
+
+_NOTE: It's possible to invoke multiple DOM operations with a single ActionCable broadcast._
 
 ### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 
@@ -114,11 +116,7 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 });
 ```
 
-## Testing & Experimenting
-
-Learn more about CableReady by running the [CableReady Test](https://github.com/hopsoft/cable_ready_test) project.
-
 ## Advanced Usage
 
-If you prefer server rendering, consider using CableReady in concert with a gem like
-[SelfRenderer](https://github.com/hopsoft/self_renderer) for a simple yet powerful workflow.
+Consider using CableReady in concert with a gem like
+[SelfRenderer](https://github.com/hopsoft/self_renderer) to create a powerful SPA style user experience with the simplicity of server side rendering.
