@@ -110,6 +110,10 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 });
 ```
 
+## Testing & Experimenting
+
+Learn more about CableReady by running the [CableReady Test](https://github.com/hopsoft/cable_ready_test) project.
+
 ## Advanced Usage
 
 If you prefer server rendering, consider using CableReady in concert with a gem like
