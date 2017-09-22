@@ -13,7 +13,9 @@ Learn more about CableReady by reading through & running the [CableReady Test](h
 
 _NOTE: It's possible to invoke multiple DOM operations with a single ActionCable broadcast._
 
-### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
+### DOM Events
+
+#### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 
 Dispatches a DOM event in the browser.
 
@@ -25,7 +27,9 @@ cable_ready_broadcast "MyChannel", dispatch_event: [{
 }]
 ```
 
-### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+### Element Mutations
+
+#### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
 Sets the innerHTML of a DOM element.
 
@@ -33,6 +37,17 @@ Sets the innerHTML of a DOM element.
 cable_ready_broadcast "MyChannel", inner_html: [{
   element_id: "string", # required - the DOM element id of the element to be mutated
   html:       "string"  # [null]   - the HTML to assign
+}]
+```
+
+### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+
+Sets the text content of a DOM element.
+
+```ruby
+cable_ready_broadcast "MyChannel", text_content: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  text:       "string"  # [null]   - the text to assign
 }]
 ```
 
@@ -45,7 +60,20 @@ Supports behavior akin to prepend & append.
 cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
   element_id: "string", # required    - the DOM element id of the referenced element
   position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  html:       "string"  # [null]      - the HTML to assign
+  html:       "string"  # [null]      - the HTML to insert
+}]
+```
+
+### [insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
+
+Inserts text into the DOM relative to an element.
+Supports behavior akin to prepend & append.
+
+```ruby
+cable_ready_broadcast "MyChannel", insert_adjacent_text: [{
+  element_id: "string", # required    - the DOM element id of the referenced element
+  position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  text:       "string"  # [null]      - the text to insert
 }]
 ```
 
@@ -70,14 +98,66 @@ cable_ready_broadcast "MyChannel", replace: [{
 }]
 ```
 
-### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+### Attribute Mutations
 
-Sets the text content of a DOM element.
+#### [setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute)
+
+Sets an attribute on an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", text_content: [{
+cable_ready_broadcast "MyChannel", set_attribute: [{
   element_id: "string", # required - the DOM element id of the element to be mutated
-  text:       "string"  # [null]   - the text to assign
+  name:       "string", # required - the attribute to set
+  value:      "string", # [null]   - the value to assign to the attribute
+}]
+```
+
+#### [removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute)
+
+Removes an attribute from an element.
+
+```ruby
+cable_ready_broadcast "MyChannel", remove_attribute: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  name:       "string"  # required - the attribute to remove
+}]
+```
+### CSS Class Mutations
+
+#### [addCssClass](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
+
+Adds a css class to an element.
+This is a `noop` if the css class is already assigned.
+
+```ruby
+cable_ready_broadcast "MyChannel", add_css_class: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  name:       "string"  # [null]   - the CSS class to add
+}]
+
+```
+#### [removeCssClass](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
+
+Removes a css class from an element.
+
+```ruby
+cable_ready_broadcast "MyChannel", add_css_class: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  name:       "string"  # [null]   - the CSS class to remove
+}]
+```
+
+### Dataset Mutations
+
+#### [setDatasetProperty](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)
+
+Sets an dataset property (data-* attribute) on an element.
+
+```ruby
+cable_ready_broadcast "MyChannel", set_dataset_property: [{
+  element_id: "string", # required - the DOM element id of the element to be mutated
+  name:       "string", # required - the property to set
+  value:      "string", # [null]   - the value to assign to the dataset
 }]
 ```
 

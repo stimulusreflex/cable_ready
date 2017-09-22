@@ -1,52 +1,81 @@
 (function () {
   "use strict";
 
-  function log (operation, config) {
-    if (window.CableReady.debug) {
-      console.log("CableReady", operation, config);
-    }
-  }
-
   var CableReadyOperations = {
+    // DOM Events .....................................................................................................
+
     dispatchEvent: function (config) {
-      log("dispatchEvent", config);
-      var event    = new Event(config.eventName);
+      console.log("CableReady.dispatchEvent", config);
       var target   = document.getElementById(config.elementId) || window;
       var event    = new Event(config.eventName);
       event.detail = config.detail;
       target.dispatchEvent(event);
     },
 
+    // Element Mutations ..............................................................................................
+
     innerHtml: function (config) {
-      log("innerHTML", config);
-      var element = document.getElementById(config.elementId);
-      element.innerHTML = config.html;
+      console.log("CableReady.innerHTML", config);
+      document.getElementById(config.elementId).innerHTML = config.html;
+    },
+
+    textContent: function (config) {
+      console.log("CableReady.textContent", config);
+      document.getElementById(config.elementId).textContent = config.content;
     },
 
     insertAdjacentHtml: function (config) {
-      log("insertAdjacentHTML", config);
-      var element = document.getElementById(config.elementId);
-      element.insertAdjacentHTML(config.position || "beforeend", config.html);
+      console.log("CableReady.insertAdjacentHTML", config);
+      document.getElementById(config.elementId).insertAdjacentHTML(config.position || "beforeend", config.html);
+    },
+
+    insertAdjacentText: function (config) {
+      console.log("CableReady.insertAdjacentText", config);
+      document.getElementById(config.elementId).insertAdjacentText(config.position || "beforeend", config.text);
     },
 
     remove: function (config) {
-      log("remove", config);
-      var element = document.getElementById(config.elementId);
-      element.remove(element);
+      console.log("CableReady.remove", config);
+      document.getElementById(config.elementId).remove(element);
     },
 
     replace: function (config) {
-      log("replace", config);
+      console.log("CableReady.replace", config);
       var element     = document.getElementById(config.elementId);
       var clone       = element.cloneNode(false);
       clone.innerHTML = config.html;
       element.parentNode.replaceChild(clone, element);
     },
 
-    textContent: function (config) {
-      log("textContent", config);
-      var element = document.getElementById(config.elementId);
-      element.textContent = config.content;
+    // Attribute Mutations ............................................................................................
+
+    setAttribute: function (config) {
+      console.log("CableReady.setAttribute", config);
+      document.getElementById(config.elementId).setAttribute(config.name, config.value);
+    },
+
+    removeAttribute: function (config) {
+      console.log("CableReady.removeAttribute", config);
+      document.getElementById(config.elementId).removeAttribute(config.name);
+    },
+
+    // CSS Class Mutations ............................................................................................
+
+    addCssClass: function (config) {
+      console.log("CableReady.addCssClass", config);
+      document.getElementById(config.elementId).classList.add(config.name);
+    },
+
+    removeCssClass: function (config) {
+      console.log("CableReady.removeCssClass", config);
+      document.getElementById(config.elementId).classList.remove(config.name);
+    },
+
+    // Dataset Mutations ..............................................................................................
+
+    setDatasetProperty: function (config) {
+      console.log("CableReady.setDatasetProperty", config);
+      document.getElementById(config.elementId).dataset[config.name] = config.value;
     }
   };
 
@@ -57,7 +86,11 @@
         if (operations.hasOwnProperty(name)) {
           var entries = operations[name];
           for (var i = 0; i < entries.length; i++) {
-            CableReadyOperations[name](entries[i]);
+            try {
+              CableReadyOperations[name](entries[i]);
+            } catch (e) {
+              console.log("CableReady detected an error! " + e.message);
+            }
           }
         }
       }
