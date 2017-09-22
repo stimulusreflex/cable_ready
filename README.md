@@ -40,7 +40,7 @@ cable_ready_broadcast "MyChannel", inner_html: [{
 }]
 ```
 
-### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+#### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
 Sets the text content of a DOM element.
 
@@ -51,7 +51,7 @@ cable_ready_broadcast "MyChannel", text_content: [{
 }]
 ```
 
-### [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+#### [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
 Inserts HTML into the DOM relative to an element.
 Supports behavior akin to prepend & append.
@@ -64,7 +64,7 @@ cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
 }]
 ```
 
-### [insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
+#### [insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
 
 Inserts text into the DOM relative to an element.
 Supports behavior akin to prepend & append.
@@ -77,7 +77,7 @@ cable_ready_broadcast "MyChannel", insert_adjacent_text: [{
 }]
 ```
 
-### [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+#### [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 
 Removes an element from the DOM.
 
@@ -87,7 +87,7 @@ cable_ready_broadcast "MyChannel", remove: [{
 }]
 ```
 
-### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+#### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
 
 Replaces a DOM element with new HTML.
 
@@ -122,6 +122,7 @@ cable_ready_broadcast "MyChannel", remove_attribute: [{
   name:       "string"  # required - the attribute to remove
 }]
 ```
+
 ### CSS Class Mutations
 
 #### [addCssClass](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
