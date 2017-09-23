@@ -5,7 +5,7 @@
     // DOM Events .....................................................................................................
 
     dispatchEvent: function (config) {
-      console.log("CableReady.dispatchEvent", config);
+      if (CableReady.debug) { console.log("CableReady.dispatchEvent", config); }
       var target   = document.getElementById(config.elementId) || window;
       var event    = new Event(config.eventName);
       event.detail = config.detail;
@@ -15,32 +15,32 @@
     // Element Mutations ..............................................................................................
 
     innerHtml: function (config) {
-      console.log("CableReady.innerHTML", config);
+      if (CableReady.debug) { console.log("CableReady.innerHTML", config); }
       document.getElementById(config.elementId).innerHTML = config.html;
     },
 
     textContent: function (config) {
-      console.log("CableReady.textContent", config);
+      if (CableReady.debug) { console.log("CableReady.textContent", config); }
       document.getElementById(config.elementId).textContent = config.content;
     },
 
     insertAdjacentHtml: function (config) {
-      console.log("CableReady.insertAdjacentHTML", config);
+      if (CableReady.debug) { console.log("CableReady.insertAdjacentHTML", config); }
       document.getElementById(config.elementId).insertAdjacentHTML(config.position || "beforeend", config.html);
     },
 
     insertAdjacentText: function (config) {
-      console.log("CableReady.insertAdjacentText", config);
+      if (CableReady.debug) { console.log("CableReady.insertAdjacentText", config); }
       document.getElementById(config.elementId).insertAdjacentText(config.position || "beforeend", config.text);
     },
 
     remove: function (config) {
-      console.log("CableReady.remove", config);
-      document.getElementById(config.elementId).remove(element);
+      if (CableReady.debug) { console.log("CableReady.remove", config); }
+      document.getElementById(config.elementId).remove();
     },
 
     replace: function (config) {
-      console.log("CableReady.replace", config);
+      if (CableReady.debug) { console.log("CableReady.replace", config); }
       var element     = document.getElementById(config.elementId);
       var clone       = element.cloneNode(false);
       clone.innerHTML = config.html;
@@ -50,31 +50,31 @@
     // Attribute Mutations ............................................................................................
 
     setAttribute: function (config) {
-      console.log("CableReady.setAttribute", config);
+      if (CableReady.debug) { console.log("CableReady.setAttribute", config); }
       document.getElementById(config.elementId).setAttribute(config.name, config.value);
     },
 
     removeAttribute: function (config) {
-      console.log("CableReady.removeAttribute", config);
+      if (CableReady.debug) { console.log("CableReady.removeAttribute", config); }
       document.getElementById(config.elementId).removeAttribute(config.name);
     },
 
     // CSS Class Mutations ............................................................................................
 
     addCssClass: function (config) {
-      console.log("CableReady.addCssClass", config);
+      if (CableReady.debug) { console.log("CableReady.addCssClass", config); }
       document.getElementById(config.elementId).classList.add(config.name);
     },
 
     removeCssClass: function (config) {
-      console.log("CableReady.removeCssClass", config);
+      if (CableReady.debug) { console.log("CableReady.removeCssClass", config); }
       document.getElementById(config.elementId).classList.remove(config.name);
     },
 
     // Dataset Mutations ..............................................................................................
 
     setDatasetProperty: function (config) {
-      console.log("CableReady.setDatasetProperty", config);
+      if (CableReady.debug) { console.log("CableReady.setDatasetProperty", config); }
       document.getElementById(config.elementId).dataset[config.name] = config.value;
     }
   };
