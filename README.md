@@ -230,6 +230,8 @@ cable_ready_broadcast "MyChannel", set_dataset_property: [{
 Consider using CableReady in concert with a gem like
 [SelfRenderer](https://github.com/hopsoft/self_renderer) to create a powerful SPA style user experience with the simplicity of server side rendering.
 
+---
+
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/QMSjMHrtPhvfmCnk5Hbikhhr/hopsoft/cable_ready'>
   <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/QMSjMHrtPhvfmCnk5Hbikhhr/hopsoft/cable_ready.svg' />
 </a>
