@@ -7,7 +7,7 @@
 CableReady provides a standard interface for invoking common client-side DOM operations
 from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
-Learn more about CableReady by reading through & running the [TodoMVC CableReady project](https://github.com/hopsoft/todomvc-cableready).
+For a deeper dive into CableReady check out the [TodoMVC CableReady project](https://github.com/hopsoft/todomvc-cableready).
 
 ## Quick Start
 
