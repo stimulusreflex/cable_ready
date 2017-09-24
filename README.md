@@ -44,18 +44,18 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 
 ## Supported DOM Operations
 
-- [dispatchEvent](#dispatchEvent)
-- [innerHTML](#innerHTML)
+- [dispatchEvent](#dispatchevent)
+- [innerHTML](#innerhtml)
 - [insertAdjacentHTML](#insertAdjacentHTML)
-- [insertAdjacentText](#insertAdjacentText)
+- [insertAdjacentText](#insertadjacenttext)
 - [remove](#remove)
 - [replace](#replace)
-- [setValue](#setValue)
-- [setAttribute](#setAttribute)
-- [removeAttribute](#removeAttribute)
-- [addCssClass](#addCssClass)
-- [removeCssClass](#removeCssClass)
-- [setDatasetProperty](#setDatasetProperty)
+- [setValue](#setvalue)
+- [setAttribute](#setattribute)
+- [removeAttribute](#removeattribute)
+- [addCssClass](#addcssclass)
+- [removeCssClass](#removecssclass)
+- [setDatasetProperty](#setdatasetproperty)
 
 > The `selector` options use [Document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find elements.
 
