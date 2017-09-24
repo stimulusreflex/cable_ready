@@ -17,6 +17,7 @@
     innerHtml: function (config) {
       if (CableReady.debug) { console.log("CableReady.innerHTML", config); }
       document.querySelector(config.selector).innerHTML = config.html;
+      if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
     textContent: function (config) {
@@ -27,6 +28,7 @@
     insertAdjacentHtml: function (config) {
       if (CableReady.debug) { console.log("CableReady.insertAdjacentHTML", config); }
       document.querySelector(config.selector).insertAdjacentHTML(config.position || "beforeend", config.html);
+      if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
     insertAdjacentText: function (config) {
@@ -37,6 +39,7 @@
     remove: function (config) {
       if (CableReady.debug) { console.log("CableReady.remove", config); }
       document.querySelector(config.selector).remove();
+      if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
     replace: function (config) {
@@ -45,6 +48,7 @@
       var clone       = element.cloneNode(false);
       clone.innerHTML = config.html;
       element.parentNode.replaceChild(clone, element);
+      if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
     // Attribute Mutations ............................................................................................

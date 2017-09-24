@@ -37,8 +37,9 @@ Sets the innerHTML of a DOM element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", inner_html: [{
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
-  html:     "string"  # [null]   - the HTML to assign
+  selector:      "string", # required - string containing one or more CSS selectors separated by commas
+  focusSelector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  html:          "string"  # [null]   - the HTML to assign
 }]
 ```
 
@@ -60,9 +61,10 @@ Supports behavior akin to prepend & append.
 
 ```ruby
 cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
-  selector: "string", # required    - string containing one or more CSS selectors separated by commas
-  position: "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  html:     "string"  # [null]      - the HTML to insert
+  selector:      "string", # required    - string containing one or more CSS selectors separated by commas
+  focusSelector: "string", # [null]      - string containing one or more CSS selectors separated by commas
+  position:      "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  html:          "string"  # [null]      - the HTML to insert
 }]
 ```
 
@@ -85,7 +87,8 @@ Removes an element from the DOM.
 
 ```ruby
 cable_ready_broadcast "MyChannel", remove: [{
-  selector: "string" # required - string containing one or more CSS selectors separated by commas
+  selector:      "string", # required - string containing one or more CSS selectors separated by commas
+  focusSelector: "string"  # [null]   - string containing one or more CSS selectors separated by commas
 }]
 ```
 
@@ -95,8 +98,9 @@ Replaces a DOM element with new HTML.
 
 ```ruby
 cable_ready_broadcast "MyChannel", replace: [{
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
-  html:     "string"  # [null]   - the HTML to use as replacement
+  selector:      "string", # required - string containing one or more CSS selectors separated by commas
+  focusSelector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  html:          "string"  # [null]   - the HTML to use as replacement
 }]
 ```
 

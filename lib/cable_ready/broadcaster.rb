@@ -17,6 +17,7 @@ module CableReady
     #
     #   inner_html: [{
     #     selector: "string",
+    #     focusSelector: "string",
     #     html:     "string"
     #   }, ...],
     #
@@ -27,6 +28,7 @@ module CableReady
     #
     #   insert_adjacent_html: [{
     #     selector: "string",
+    #     focusSelector: "string",
     #     position: "string",
     #     html:     "string"
     #   }, ...],
@@ -38,11 +40,13 @@ module CableReady
     #   }, ...],
     #
     #   remove: [{
-    #     selector: "string"
+    #     selector: "string",
+    #     focusSelector: "string,
     #   }, ...],
     #
     #   replace: [{
     #     selector: "string",
+    #     focusSelector: "string",
     #     html:     "string"
     #   }, ...],
     #
