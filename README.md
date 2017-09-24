@@ -11,7 +11,9 @@ Learn more about CableReady by reading through & running the [CableReady Test](h
 
 ## Supported DOM Operations
 
-_NOTE: It's possible to invoke multiple DOM operations with a single ActionCable broadcast._
+> The `selector` options use [Document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find elements.
+
+> It's possible to invoke multiple DOM operations with a single ActionCable broadcast.
 
 ### DOM Events
 
@@ -21,9 +23,9 @@ Dispatches a DOM event in the browser.
 
 ```ruby
 cable_ready_broadcast "MyChannel", dispatch_event: [{
-  event_name: "string", # required - the name of the DOM event to dispatch (can be custom)
-  element_id: "string", # [window] - the DOM element id of the desired event target
-  detail:     "object"  # [null]   - assigned to event.detail
+  name:     "string", # required - the name of the DOM event to dispatch (can be custom)
+  detail:   "object", # [null]   - assigned to event.detail
+  selector: "string"  # [window] - string containing one or more CSS selectors separated by commas
 }]
 ```
 
@@ -35,8 +37,8 @@ Sets the innerHTML of a DOM element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", inner_html: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  html:       "string"  # [null]   - the HTML to assign
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  html:     "string"  # [null]   - the HTML to assign
 }]
 ```
 
@@ -46,8 +48,8 @@ Sets the text content of a DOM element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", text_content: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  text:       "string"  # [null]   - the text to assign
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  text:     "string"  # [null]   - the text to assign
 }]
 ```
 
@@ -58,9 +60,9 @@ Supports behavior akin to prepend & append.
 
 ```ruby
 cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
-  element_id: "string", # required    - the DOM element id of the referenced element
-  position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  html:       "string"  # [null]      - the HTML to insert
+  selector: "string", # required    - string containing one or more CSS selectors separated by commas
+  position: "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  html:     "string"  # [null]      - the HTML to insert
 }]
 ```
 
@@ -71,9 +73,9 @@ Supports behavior akin to prepend & append.
 
 ```ruby
 cable_ready_broadcast "MyChannel", insert_adjacent_text: [{
-  element_id: "string", # required    - the DOM element id of the referenced element
-  position:   "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  text:       "string"  # [null]      - the text to insert
+  selector: "string", # required    - string containing one or more CSS selectors separated by commas
+  position: "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  text:     "string"  # [null]      - the text to insert
 }]
 ```
 
@@ -83,7 +85,7 @@ Removes an element from the DOM.
 
 ```ruby
 cable_ready_broadcast "MyChannel", remove: [{
-  element_id: "string" # required - the DOM element id of the element to be removed
+  selector: "string" # required - string containing one or more CSS selectors separated by commas
 }]
 ```
 
@@ -93,8 +95,8 @@ Replaces a DOM element with new HTML.
 
 ```ruby
 cable_ready_broadcast "MyChannel", replace: [{
-  element_id: "string", # required - the DOM element id of the element to be replaced
-  html:       "string"  # [null]   - the HTML to use as replacement
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  html:     "string"  # [null]   - the HTML to use as replacement
 }]
 ```
 
@@ -106,9 +108,9 @@ Sets an attribute on an element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", set_attribute: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  name:       "string", # required - the attribute to set
-  value:      "string", # [null]   - the value to assign to the attribute
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  name:     "string", # required - the attribute to set
+  value:    "string", # [null]   - the value to assign to the attribute
 }]
 ```
 
@@ -118,8 +120,8 @@ Removes an attribute from an element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", remove_attribute: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  name:       "string"  # required - the attribute to remove
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  name:     "string"  # required - the attribute to remove
 }]
 ```
 
@@ -132,8 +134,8 @@ This is a `noop` if the css class is already assigned.
 
 ```ruby
 cable_ready_broadcast "MyChannel", add_css_class: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  name:       "string"  # [null]   - the CSS class to add
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  name:     "string"  # [null]   - the CSS class to add
 }]
 
 ```
@@ -143,8 +145,8 @@ Removes a css class from an element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", add_css_class: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  name:       "string"  # [null]   - the CSS class to remove
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  name:     "string"  # [null]   - the CSS class to remove
 }]
 ```
 
@@ -156,9 +158,9 @@ Sets an dataset property (data-* attribute) on an element.
 
 ```ruby
 cable_ready_broadcast "MyChannel", set_dataset_property: [{
-  element_id: "string", # required - the DOM element id of the element to be mutated
-  name:       "string", # required - the property to set
-  value:      "string", # [null]   - the value to assign to the dataset
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  name:     "string", # required - the property to set
+  value:    "string"  # [null]   - the value to assign to the dataset
 }]
 ```
 
@@ -172,7 +174,7 @@ class User < ApplicationRecord
   include CableReady::Broadcaster
 
   def broadcast_name_change
-    cable_ready_broadcast "UserChannel", text_content: [{ element_id: "user-name", text: name }]
+    cable_ready_broadcast "UserChannel", text_content: [{ selector: "#user-name", text: name }]
   end
 end
 ```

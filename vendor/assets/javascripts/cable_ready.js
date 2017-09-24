@@ -6,8 +6,8 @@
 
     dispatchEvent: function (config) {
       if (CableReady.debug) { console.log("CableReady.dispatchEvent", config); }
-      var target   = document.getElementById(config.elementId) || window;
-      var event    = new Event(config.eventName);
+      var target   = document.querySelector(config.selector) || window;
+      var event    = new Event(config.name);
       event.detail = config.detail;
       target.dispatchEvent(event);
     },
@@ -16,32 +16,32 @@
 
     innerHtml: function (config) {
       if (CableReady.debug) { console.log("CableReady.innerHTML", config); }
-      document.getElementById(config.elementId).innerHTML = config.html;
+      document.querySelector(config.selector).innerHTML = config.html;
     },
 
     textContent: function (config) {
       if (CableReady.debug) { console.log("CableReady.textContent", config); }
-      document.getElementById(config.elementId).textContent = config.content;
+      document.querySelector(config.selector).textContent = config.text;
     },
 
     insertAdjacentHtml: function (config) {
       if (CableReady.debug) { console.log("CableReady.insertAdjacentHTML", config); }
-      document.getElementById(config.elementId).insertAdjacentHTML(config.position || "beforeend", config.html);
+      document.querySelector(config.selector).insertAdjacentHTML(config.position || "beforeend", config.html);
     },
 
     insertAdjacentText: function (config) {
       if (CableReady.debug) { console.log("CableReady.insertAdjacentText", config); }
-      document.getElementById(config.elementId).insertAdjacentText(config.position || "beforeend", config.text);
+      document.querySelector(config.querySelector).insertAdjacentText(config.position || "beforeend", config.text);
     },
 
     remove: function (config) {
       if (CableReady.debug) { console.log("CableReady.remove", config); }
-      document.getElementById(config.elementId).remove();
+      document.querySelector(config.selector).remove();
     },
 
     replace: function (config) {
       if (CableReady.debug) { console.log("CableReady.replace", config); }
-      var element     = document.getElementById(config.elementId);
+      var element     = document.querySelector(config.selector);
       var clone       = element.cloneNode(false);
       clone.innerHTML = config.html;
       element.parentNode.replaceChild(clone, element);
@@ -51,31 +51,31 @@
 
     setAttribute: function (config) {
       if (CableReady.debug) { console.log("CableReady.setAttribute", config); }
-      document.getElementById(config.elementId).setAttribute(config.name, config.value);
+      document.querySelector(config.selector).setAttribute(config.name, config.value);
     },
 
     removeAttribute: function (config) {
       if (CableReady.debug) { console.log("CableReady.removeAttribute", config); }
-      document.getElementById(config.elementId).removeAttribute(config.name);
+      document.querySelector(config.selector).removeAttribute(config.name);
     },
 
     // CSS Class Mutations ............................................................................................
 
     addCssClass: function (config) {
       if (CableReady.debug) { console.log("CableReady.addCssClass", config); }
-      document.getElementById(config.elementId).classList.add(config.name);
+      document.querySelector(config.selector).classList.add(config.name);
     },
 
     removeCssClass: function (config) {
       if (CableReady.debug) { console.log("CableReady.removeCssClass", config); }
-      document.getElementById(config.elementId).classList.remove(config.name);
+      document.querySelector(config.selector).classList.remove(config.name);
     },
 
     // Dataset Mutations ..............................................................................................
 
     setDatasetProperty: function (config) {
       if (CableReady.debug) { console.log("CableReady.setDatasetProperty", config); }
-      document.getElementById(config.elementId).dataset[config.name] = config.value;
+      document.querySelector(config.selector).dataset[config.name] = config.value;
     }
   };
 
