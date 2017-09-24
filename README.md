@@ -4,6 +4,8 @@
 
 # CableReady
 
+## Server Rendered SPAs :joy:
+
 CableReady provides a standard interface for invoking common client-side DOM operations
 from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
