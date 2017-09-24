@@ -50,6 +50,11 @@ module CableReady
     #     html:     "string"
     #   }, ...],
     #
+    #   set_value: [{
+    #     selector: "string",
+    #     value:    "string"
+    #   }, ...],
+    #
     #   # Attribute Mutations .........................................................................................
     #
     #   set_attribute: [{

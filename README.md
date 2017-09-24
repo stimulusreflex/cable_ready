@@ -104,6 +104,17 @@ cable_ready_broadcast "MyChannel", replace: [{
 }]
 ```
 
+#### [setValue](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
+
+Sets the value of an element.
+
+```ruby
+cable_ready_broadcast "MyChannel", set_value: [{
+  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  value:    "string"  # [null]   - the value to assign to the attribute
+}]
+```
+
 ### Attribute Mutations
 
 #### [setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute)
@@ -114,7 +125,7 @@ Sets an attribute on an element.
 cable_ready_broadcast "MyChannel", set_attribute: [{
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string", # required - the attribute to set
-  value:    "string", # [null]   - the value to assign to the attribute
+  value:    "string"  # [null]   - the value to assign to the attribute
 }]
 ```
 

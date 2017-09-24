@@ -51,6 +51,11 @@
       if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
+    setValue: function (config) {
+      if (CableReady.debug) { console.log("CableReady.setValue", config); }
+      document.querySelector(config.selector).value = config.value;
+    },
+
     // Attribute Mutations ............................................................................................
 
     setAttribute: function (config) {
