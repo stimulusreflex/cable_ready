@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-98-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-106-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](http://img.shields.io/codeclimate/github/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 [![Dependency Status](http://img.shields.io/gemnasium/hopsoft/cable_ready.svg?style=flat)](https://gemnasium.com/hopsoft/cable_ready)
 
@@ -7,9 +7,55 @@
 CableReady provides a standard interface for invoking common client-side DOM operations
 from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
-Learn more about CableReady by reading through & running the [CableReady Test](https://github.com/hopsoft/cable_ready_test) project.
+Learn more about CableReady by reading through & running the [TodoMVC CableReady project](https://github.com/hopsoft/todomvc-cableready).
+
+## Quick Start
+
+> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
+
+```ruby
+# app/models/user.rb
+class User < ApplicationRecord
+  include CableReady::Broadcaster
+
+  def broadcast_name_change
+    cable_ready_broadcast "UserChannel", text_content: [{ selector: "#user-name", text: name }]
+  end
+end
+```
+
+```javascript
+// app/assets/javascripts/application.js
+/*
+ *= require cable_ready
+ */
+```
+
+```javascript
+// app/assets/javascripts/channels/user.js
+App.cable.subscriptions.create({ channel: "UserChannel" }, {
+  received: function (data) {
+    if (data.cableReady) {
+      CableReady.perform(data.operations);
+    }
+  }
+});
+```
 
 ## Supported DOM Operations
+
+- [dispatchEvent](#dispatchEvent)
+- [innerHTML](#innerHTML)
+- [insertAdjacentHTML](#insertAdjacentHTML)
+- [insertAdjacentText](#insertAdjacentText)
+- [remove](#remove)
+- [replace](#replace)
+- [setValue](#setValue)
+- [setAttribute](#setAttribute)
+- [removeAttribute](#removeAttribute)
+- [addCssClass](#addCssClass)
+- [removeCssClass](#removeCssClass)
+- [setDatasetProperty](#setDatasetProperty)
 
 > The `selector` options use [Document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find elements.
 
@@ -177,41 +223,6 @@ cable_ready_broadcast "MyChannel", set_dataset_property: [{
   name:     "string", # required - the property to set
   value:    "string"  # [null]   - the value to assign to the dataset
 }]
-```
-
-## Quick Start
-
-> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
-
-```ruby
-# app/models/user.rb
-class User < ApplicationRecord
-  include CableReady::Broadcaster
-
-  def broadcast_name_change
-    cable_ready_broadcast "UserChannel", text_content: [{ selector: "#user-name", text: name }]
-  end
-end
-```
-
-```javascript
-// app/assets/javascripts/application.js
-/*
- * ...
- *= require cable_ready
- * ...
- */
-```
-
-```javascript
-// app/assets/javascripts/channels/user.js
-App.cable.subscriptions.create({ channel: "UserChannel" }, {
-  received: function (data) {
-    if (data.cableReady) {
-      CableReady.perform(data.operations);
-    }
-  }
-});
 ```
 
 ## Advanced Usage
