@@ -44,10 +44,10 @@
 
     replace: function (config) {
       if (CableReady.debug) { console.log("CableReady.replace", config); }
-      var element     = document.querySelector(config.selector);
-      var clone       = element.cloneNode(false);
-      clone.innerHTML = config.html;
-      element.parentNode.replaceChild(clone, element);
+      var element   = document.querySelector(config.selector);
+      var div       = document.createElement("div");
+      div.innerHTML = config.html;
+      element.parentNode.replaceChild(div.firstElementChild, element);
       if (config.focusSelector) { document.querySelector(config.focusSelector).focus(); }
     },
 
