@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-106-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-112-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](http://img.shields.io/codeclimate/github/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 [![Dependency Status](http://img.shields.io/gemnasium/hopsoft/cable_ready.svg?style=flat)](https://gemnasium.com/hopsoft/cable_ready)
 
@@ -21,7 +21,8 @@ class User < ApplicationRecord
   include CableReady::Broadcaster
 
   def broadcast_name_change
-    cable_ready_broadcast "UserChannel", text_content: [{ selector: "#user-name", text: name }]
+    cable_ready["UserChannel"].text_content selector: "#user-name", text: name
+    cable_ready.broadcast
   end
 end
 ```
@@ -70,11 +71,11 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 Dispatches a DOM event in the browser.
 
 ```ruby
-cable_ready_broadcast "MyChannel", dispatch_event: [{
+cable_ready["MyChannel"].dispatch_event(
   name:     "string", # required - the name of the DOM event to dispatch (can be custom)
   detail:   "object", # [null]   - assigned to event.detail
   selector: "string"  # [window] - string containing one or more CSS selectors separated by commas
-}]
+)
 ```
 
 ### Element Mutations
@@ -84,11 +85,11 @@ cable_ready_broadcast "MyChannel", dispatch_event: [{
 Sets the innerHTML of a DOM element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", inner_html: [{
+cable_ready["MyChannel"].inner_html(
   selector:      "string", # required - string containing one or more CSS selectors separated by commas
   focusSelector: "string", # [null]   - string containing one or more CSS selectors separated by commas
   html:          "string"  # [null]   - the HTML to assign
-}]
+)
 ```
 
 #### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
@@ -96,10 +97,10 @@ cable_ready_broadcast "MyChannel", inner_html: [{
 Sets the text content of a DOM element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", text_content: [{
+cable_ready["MyChannel"].text_content(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   text:     "string"  # [null]   - the text to assign
-}]
+)
 ```
 
 #### [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
@@ -108,12 +109,12 @@ Inserts HTML into the DOM relative to an element.
 Supports behavior akin to prepend & append.
 
 ```ruby
-cable_ready_broadcast "MyChannel", insert_adjacent_html: [{
+cable_ready["MyChannel"].insert_adjacent_html(
   selector:      "string", # required    - string containing one or more CSS selectors separated by commas
   focusSelector: "string", # [null]      - string containing one or more CSS selectors separated by commas
   position:      "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
   html:          "string"  # [null]      - the HTML to insert
-}]
+)
 ```
 
 #### [insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
@@ -122,11 +123,11 @@ Inserts text into the DOM relative to an element.
 Supports behavior akin to prepend & append.
 
 ```ruby
-cable_ready_broadcast "MyChannel", insert_adjacent_text: [{
+cable_ready["MyChannel"].insert_adjacent_text(
   selector: "string", # required    - string containing one or more CSS selectors separated by commas
   position: "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
   text:     "string"  # [null]      - the text to insert
-}]
+)
 ```
 
 #### [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
@@ -134,10 +135,10 @@ cable_ready_broadcast "MyChannel", insert_adjacent_text: [{
 Removes an element from the DOM.
 
 ```ruby
-cable_ready_broadcast "MyChannel", remove: [{
+cable_ready["MyChannel"].remove(
   selector:      "string", # required - string containing one or more CSS selectors separated by commas
   focusSelector: "string"  # [null]   - string containing one or more CSS selectors separated by commas
-}]
+)
 ```
 
 #### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
@@ -145,11 +146,11 @@ cable_ready_broadcast "MyChannel", remove: [{
 Replaces a DOM element with new HTML.
 
 ```ruby
-cable_ready_broadcast "MyChannel", replace: [{
+cable_ready["MyChannel"].replace(
   selector:      "string", # required - string containing one or more CSS selectors separated by commas
   focusSelector: "string", # [null]   - string containing one or more CSS selectors separated by commas
   html:          "string"  # [null]   - the HTML to use as replacement
-}]
+)
 ```
 
 #### [setValue](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
@@ -157,10 +158,10 @@ cable_ready_broadcast "MyChannel", replace: [{
 Sets the value of an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", set_value: [{
+cable_ready["MyChannel"].set_value(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   value:    "string"  # [null]   - the value to assign to the attribute
-}]
+)
 ```
 
 ### Attribute Mutations
@@ -170,11 +171,11 @@ cable_ready_broadcast "MyChannel", set_value: [{
 Sets an attribute on an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", set_attribute: [{
+cable_ready["MyChannel"].set_attribute(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string", # required - the attribute to set
   value:    "string"  # [null]   - the value to assign to the attribute
-}]
+)
 ```
 
 #### [removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute)
@@ -182,10 +183,10 @@ cable_ready_broadcast "MyChannel", set_attribute: [{
 Removes an attribute from an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", remove_attribute: [{
+cable_ready["MyChannel"].remove_attribute(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string"  # required - the attribute to remove
-}]
+)
 ```
 
 ### CSS Class Mutations
@@ -196,10 +197,10 @@ Adds a css class to an element.
 This is a `noop` if the css class is already assigned.
 
 ```ruby
-cable_ready_broadcast "MyChannel", add_css_class: [{
+cable_ready["MyChannel"].add_css_class(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string"  # [null]   - the CSS class to add
-}]
+)
 
 ```
 #### [removeCssClass](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
@@ -207,10 +208,10 @@ cable_ready_broadcast "MyChannel", add_css_class: [{
 Removes a css class from an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", add_css_class: [{
+cable_ready["MyChannel"].add_css_class(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string"  # [null]   - the CSS class to remove
-}]
+)
 ```
 
 ### Dataset Mutations
@@ -220,17 +221,12 @@ cable_ready_broadcast "MyChannel", add_css_class: [{
 Sets an dataset property (data-* attribute) on an element.
 
 ```ruby
-cable_ready_broadcast "MyChannel", set_dataset_property: [{
+cable_ready["MyChannel"].set_dataset_property(
   selector: "string", # required - string containing one or more CSS selectors separated by commas
   name:     "string", # required - the property to set
   value:    "string"  # [null]   - the value to assign to the dataset
-}]
+)
 ```
-
-## Advanced Usage
-
-Consider using CableReady in concert with a gem like
-[SelfRenderer](https://github.com/hopsoft/self_renderer) to create a powerful SPA style user experience with the simplicity of server side rendering.
 
 ---
 
