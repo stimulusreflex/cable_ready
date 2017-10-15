@@ -97,6 +97,13 @@ module CableReady
       @operations = stub
     end
 
+    def broadcast
+      operations.select! { |_, list| list.present? }
+      operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
+      ActionCable.server.broadcast name, "cableReady" => true, "operations" => operations
+      clear
+    end
+
     def dispatch_event(options={})
       operations[:dispatch_event] << options
     end

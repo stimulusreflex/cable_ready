@@ -15,11 +15,7 @@ module CableReady
     end
 
     def broadcast
-      @channels.each do |channel_name, channel|
-        ActionCable.server.broadcast channel_name,
-          "cableReady" => true,
-          "operations" => channel.operations.deep_transform_keys { |key| key.to_s.camelize(:lower) }
-      end
+      @channels.values.map(&:broadcast)
       clear
     end
   end
