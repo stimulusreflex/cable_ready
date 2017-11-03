@@ -74,6 +74,7 @@ var CableReady =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.perform = undefined;
 
 var _morphdom = __webpack_require__(1);
 
@@ -93,8 +94,15 @@ var DOMOperations = {
 
   // Element Mutations .......................................................................................
 
-  innerHtml: function innerHtml(config) {
+  morph: function morph(config) {
     (0, _morphdom2.default)(document.querySelector(config.selector), config.html);
+    if (config.focusSelector) {
+      document.querySelector(config.focusSelector).focus();
+    }
+  },
+
+  innerHtml: function innerHtml(config) {
+    document.querySelector(config.selector).innerHTML = config.html;
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -126,7 +134,6 @@ var DOMOperations = {
     var element = document.querySelector(config.selector);
     var div = document.createElement("div");
     div.innerHTML = config.html;
-    element.parentNode.replaceChild(div.firstElementChild, element);
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -163,18 +170,15 @@ var DOMOperations = {
   }
 };
 
-exports.default = {
-  debug: false,
-  perform: function perform(operations) {
-    for (var name in operations) {
-      if (operations.hasOwnProperty(name)) {
-        var entries = operations[name];
-        for (var i = 0; i < entries.length; i++) {
-          try {
-            DOMOperations[name](entries[i]);
-          } catch (e) {
-            console.log("CableReady detected an error! " + e.message);
-          }
+var perform = exports.perform = function perform(operations) {
+  for (var name in operations) {
+    if (operations.hasOwnProperty(name)) {
+      var entries = operations[name];
+      for (var i = 0; i < entries.length; i++) {
+        try {
+          DOMOperations[name](entries[i]);
+        } catch (e) {
+          console.log("CableReady detected an error in " + name + "! " + e.message);
         }
       }
     }

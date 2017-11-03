@@ -1,4 +1,4 @@
-import morphdom from 'morphdom';
+import morphdom from "morphdom";
 
 const DOMOperations = {
   // DOM Events ..............................................................................................
@@ -12,8 +12,15 @@ const DOMOperations = {
 
   // Element Mutations .......................................................................................
 
-  innerHtml: config => {
+  morph: config => {
     morphdom(document.querySelector(config.selector), config.html);
+    if (config.focusSelector) {
+      document.querySelector(config.focusSelector).focus();
+    }
+  },
+
+  innerHtml: config => {
+    document.querySelector(config.selector).innerHTML = config.html;
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -49,7 +56,6 @@ const DOMOperations = {
     const element = document.querySelector(config.selector);
     const div = document.createElement("div");
     div.innerHTML = config.html;
-    element.parentNode.replaceChild(div.firstElementChild, element);
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -88,18 +94,15 @@ const DOMOperations = {
   }
 };
 
-export default {
-  debug: false,
-  perform: operations => {
-    for (let name in operations) {
-      if (operations.hasOwnProperty(name)) {
-        const entries = operations[name];
-        for (let i = 0; i < entries.length; i++) {
-          try {
-            DOMOperations[name](entries[i]);
-          } catch (e) {
-            console.log("CableReady detected an error! " + e.message);
-          }
+export const perform = operations => {
+  for (let name in operations) {
+    if (operations.hasOwnProperty(name)) {
+      const entries = operations[name];
+      for (let i = 0; i < entries.length; i++) {
+        try {
+          DOMOperations[name](entries[i]);
+        } catch (e) {
+          console.log(`CableReady detected an error in ${name}! ${e.message}`);
         }
       }
     }

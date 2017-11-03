@@ -108,6 +108,10 @@ module CableReady
       operations[:dispatch_event] << options
     end
 
+    def morph(options={})
+      operations[:morph] << options
+    end
+
     def inner_html(options={})
       operations[:inner_html] << options
     end
@@ -161,6 +165,7 @@ module CableReady
       def stub
         {
           dispatch_event: [],
+          morph: [],
           inner_html: [],
           text_content: [],
           insert_adjacent_html: [],
