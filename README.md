@@ -226,6 +226,16 @@ cable_ready["MyChannel"].set_dataset_property(
 )
 ```
 
+## JavaScript Development
+
+The JavaScript source is located in `vendor/assets/javascripts/cable_ready/src`
+& transpiles to `vendor/assets/javascripts/cable_ready/cable_ready.js` via Webpack.
+
+```sh
+cd vendor/assets/javascripts/cable_ready/src
+webpack
+```
+
 ---
 
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/QMSjMHrtPhvfmCnk5Hbikhhr/hopsoft/cable_ready'>

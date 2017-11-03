@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.homepage    = "https://github.com/hopsoft/cable_ready"
   gem.summary     = "put something here"
 
-  gem.files       = Dir["lib/**/*.rb", "vendor/**/*", "bin/*", "[A-Z]*"]
+  gem.files       = Dir["lib/**/*.rb", "vendor/assets/javascripts/cable_ready.js", "bin/*", "[A-Z]*"]
   gem.test_files  = Dir["test/**/*.rb"]
 
   gem.add_dependency "activesupport", ">= 5.0.0"

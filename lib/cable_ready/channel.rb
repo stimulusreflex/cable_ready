@@ -158,22 +158,22 @@ module CableReady
 
     private
 
-     def stub
-       {
-         dispatch_event: [],
-         inner_html: [],
-         text_content: [],
-         insert_adjacent_html: [],
-         insert_adjacent_text: [],
-         remove: [],
-         replace: [],
-         set_value: [],
-         set_attribute: [],
-         remove_attribute: [],
-         add_css_class: [],
-         remove_css_class: [],
-         set_dataset_property: []
-       }
-     end
+      def stub
+        {
+          dispatch_event: [],
+          inner_html: [],
+          text_content: [],
+          insert_adjacent_html: [],
+          insert_adjacent_text: [],
+          remove: [],
+          replace: [],
+          set_value: [],
+          set_attribute: [],
+          remove_attribute: [],
+          add_css_class: [],
+          remove_css_class: [],
+          set_dataset_property: []
+        }
+      end
   end
 end
