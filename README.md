@@ -78,6 +78,18 @@ cable_ready["MyChannel"].dispatch_event(
 
 ### Element Mutations
 
+#### [morph](https://github.com/patrick-steele-idem/morphdom)
+
+Fast lightweight DOM diffing/patching without a virtual DOM.
+
+```ruby
+cable_ready["MyChannel"].morph(
+  selector:      "string", # required - string containing one or more CSS selectors separated by commas
+  focusSelector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  html:          "string"  # [null]   - the HTML to assign
+)
+```
+
 #### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
 Sets the innerHTML of a DOM element.
