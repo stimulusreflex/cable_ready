@@ -84,7 +84,7 @@ cable_ready["MyChannel"].dispatch_event(
 
 #### [morph](https://github.com/patrick-steele-idem/morphdom)
 
-Fast lightweight DOM diffing/patching without a virtual DOM.
+[Fast lightweight DOM diffing/patching](https://github.com/patrick-steele-idem/morphdom) without a virtual DOM.
 
 ```ruby
 cable_ready["MyChannel"].morph(
