@@ -43,7 +43,7 @@ class User < ApplicationRecord
 end
 ```
 
-See [CableReady TodoMVC](https://github.com/hopsoft/cable_ready_todomvc/compare/112b4ebe0bd86ff029f5d1865eeed71d8f9aacc9...master)
+See [CableReady TodoMVC](https://github.com/hopsoft/cable_ready_todomvc)
 for a more complete reference implementation.
 
 ## Supported DOM Operations
