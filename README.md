@@ -13,18 +13,6 @@ from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_ove
 
 > Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
 
-```ruby
-# app/models/user.rb
-class User < ApplicationRecord
-  include CableReady::Broadcaster
-
-  def broadcast_name_change
-    cable_ready["UserChannel"].text_content selector: "#user-name", text: name
-    cable_ready.broadcast
-  end
-end
-```
-
 ```javascript
 // app/assets/javascripts/application.js
 /*
@@ -43,9 +31,25 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 });
 ```
 
+```ruby
+# app/models/user.rb
+class User < ApplicationRecord
+  include CableReady::Broadcaster
+
+  def broadcast_name_change
+    cable_ready["UserChannel"].text_content selector: "#user-name", text: name
+    cable_ready.broadcast
+  end
+end
+```
+
+See [CableReady TodoMVC](https://github.com/hopsoft/cable_ready_todomvc/compare/112b4ebe0bd86ff029f5d1865eeed71d8f9aacc9...master)
+for a more complete reference implementation.
+
 ## Supported DOM Operations
 
 - [dispatchEvent](#dispatchevent)
+- [morph](#morph)
 - [innerHTML](#innerhtml)
 - [insertAdjacentHTML](#insertAdjacentHTML)
 - [insertAdjacentText](#insertadjacenttext)
