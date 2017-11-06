@@ -196,7 +196,7 @@ module CableReady
       end
 
       def html_compressor
-        HtmlCompressor::Compressor.new(
+        @html_compressor ||= HtmlCompressor::Compressor.new(
           enabled: true,
           remove_multi_spaces: true,
           remove_comments: true,
