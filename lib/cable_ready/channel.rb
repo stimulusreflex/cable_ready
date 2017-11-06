@@ -1,6 +1,9 @@
+require "htmlcompressor"
+
 module CableReady
   class Channel
     attr_reader :name, :operations
+    attr_accessor :compress_html
 
     # Example Operations Payload:
     #
@@ -15,10 +18,16 @@ module CableReady
     #
     #   # Element Mutations ...........................................................................................
     #
-    #   inner_html: [{
-    #     selector: "string",
+    #   morph: [{
+    #     selector:      "string",
     #     focusSelector: "string",
-    #     html:     "string"
+    #     html:          "string"
+    #   }, ...],
+    #
+    #   inner_html: [{
+    #     selector:      "string",
+    #     focusSelector: "string",
+    #     html:          "string"
     #   }, ...],
     #
     #   text_content: [{
@@ -27,10 +36,10 @@ module CableReady
     #   }, ...]
     #
     #   insert_adjacent_html: [{
-    #     selector: "string",
+    #     selector:      "string",
     #     focusSelector: "string",
-    #     position: "string",
-    #     html:     "string"
+    #     position:      "string",
+    #     html:          "string"
     #   }, ...],
     #
     #   insert_adjacent_text: [{
@@ -40,14 +49,14 @@ module CableReady
     #   }, ...],
     #
     #   remove: [{
-    #     selector: "string",
+    #     selector:      "string",
     #     focusSelector: "string,
     #   }, ...],
     #
     #   replace: [{
-    #     selector: "string",
+    #     selector:      "string",
     #     focusSelector: "string",
-    #     html:     "string"
+    #     html:          "string"
     #   }, ...],
     #
     #   set_value: [{
@@ -91,6 +100,7 @@ module CableReady
     def initialize(name)
       @name = name
       @operations = stub
+      @compress_html = true
     end
 
     def clear
@@ -109,10 +119,12 @@ module CableReady
     end
 
     def morph(options={})
+      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
       operations[:morph] << options
     end
 
     def inner_html(options={})
+      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
       operations[:inner_html] << options
     end
 
@@ -121,6 +133,7 @@ module CableReady
     end
 
     def insert_adjacent_html(options={})
+      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
       operations[:insert_adjacent_html] << options
     end
 
@@ -133,6 +146,7 @@ module CableReady
     end
 
     def replace(options={})
+      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
       operations[:replace] << options
     end
 
@@ -179,6 +193,29 @@ module CableReady
           remove_css_class: [],
           set_dataset_property: []
         }
+      end
+
+      def html_compressor
+        HtmlCompressor::Compressor.new(
+          enabled: true,
+          remove_multi_spaces: true,
+          remove_comments: true,
+          remove_intertag_spaces: false,
+          remove_quotes: true,
+          compress_css: false,
+          compress_javascript: false,
+          simple_doctype: false,
+          remove_script_attributes: true,
+          remove_style_attributes: true,
+          remove_link_attributes: true,
+          remove_form_attributes: false,
+          remove_input_attributes: true,
+          remove_javascript_protocol: true,
+          remove_http_protocol: false,
+          remove_https_protocol: false,
+          preserve_line_breaks: false,
+          simple_boolean_attributes: true
+        )
       end
   end
 end
