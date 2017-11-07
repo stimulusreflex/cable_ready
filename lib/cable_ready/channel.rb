@@ -119,13 +119,11 @@ module CableReady
     end
 
     def morph(options={})
-      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
-      operations[:morph] << options
+      operations[:morph] << compress_options(options)
     end
 
     def inner_html(options={})
-      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
-      operations[:inner_html] << options
+      operations[:inner_html] << compress_options(options)
     end
 
     def text_content(options={})
@@ -133,8 +131,7 @@ module CableReady
     end
 
     def insert_adjacent_html(options={})
-      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
-      operations[:insert_adjacent_html] << options
+      operations[:insert_adjacent_html] << compress_options(options)
     end
 
     def insert_adjacent_text(options={})
@@ -146,8 +143,7 @@ module CableReady
     end
 
     def replace(options={})
-      options[:html] = html_compressor.compress(options[:html].to_s) if compress_html
-      operations[:replace] << options
+      operations[:replace] << compress_options(options)
     end
 
     def set_value(options={})
@@ -216,6 +212,12 @@ module CableReady
           preserve_line_breaks: false,
           simple_boolean_attributes: true
         )
+      end
+
+      def compress_options(options={})
+        return options unless options.has_key?(:html)
+        return options unless compress_html
+        options.merge html: html_compressor.compress(options[:html].to_s)
       end
   end
 end
