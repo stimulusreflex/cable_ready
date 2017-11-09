@@ -176,7 +176,8 @@ var perform = exports.perform = function perform(operations) {
       var entries = operations[name];
       for (var i = 0; i < entries.length; i++) {
         try {
-          DOMOperations[name](entries[i]);
+          var config = entries[i];
+          DOMOperations[name](config);
         } catch (e) {
           console.log("CableReady detected an error in " + name + "! " + e.message);
         }

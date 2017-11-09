@@ -14,7 +14,6 @@ Gem::Specification.new do |gem|
   gem.test_files  = Dir["test/**/*.rb"]
 
   gem.add_dependency "activesupport", ">= 5.0.0"
-  gem.add_dependency "htmlcompressor", "~> 0.3.1"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "pry-test"

@@ -1,9 +1,6 @@
-require "htmlcompressor"
-
 module CableReady
   class Channel
     attr_reader :name, :operations
-    attr_accessor :compress_html
 
     # Example Operations Payload:
     #
@@ -100,7 +97,6 @@ module CableReady
     def initialize(name)
       @name = name
       @operations = stub
-      @compress_html = true
     end
 
     def clear
@@ -119,11 +115,11 @@ module CableReady
     end
 
     def morph(options={})
-      operations[:morph] << compress_options(options)
+      operations[:morph] << options
     end
 
     def inner_html(options={})
-      operations[:inner_html] << compress_options(options)
+      operations[:inner_html] << options
     end
 
     def text_content(options={})
@@ -131,7 +127,7 @@ module CableReady
     end
 
     def insert_adjacent_html(options={})
-      operations[:insert_adjacent_html] << compress_options(options)
+      operations[:insert_adjacent_html] << options
     end
 
     def insert_adjacent_text(options={})
@@ -143,7 +139,7 @@ module CableReady
     end
 
     def replace(options={})
-      operations[:replace] << compress_options(options)
+      operations[:replace] << options
     end
 
     def set_value(options={})
@@ -189,35 +185,6 @@ module CableReady
           remove_css_class: [],
           set_dataset_property: []
         }
-      end
-
-      def html_compressor
-        @html_compressor ||= HtmlCompressor::Compressor.new(
-          enabled: true,
-          remove_multi_spaces: true,
-          remove_comments: true,
-          remove_intertag_spaces: false,
-          remove_quotes: true,
-          compress_css: false,
-          compress_javascript: false,
-          simple_doctype: false,
-          remove_script_attributes: true,
-          remove_style_attributes: true,
-          remove_link_attributes: true,
-          remove_form_attributes: false,
-          remove_input_attributes: true,
-          remove_javascript_protocol: true,
-          remove_http_protocol: false,
-          remove_https_protocol: false,
-          preserve_line_breaks: false,
-          simple_boolean_attributes: true
-        )
-      end
-
-      def compress_options(options={})
-        return options unless options.has_key?(:html)
-        return options unless compress_html
-        options.merge html: html_compressor.compress(options[:html].to_s)
       end
   end
 end

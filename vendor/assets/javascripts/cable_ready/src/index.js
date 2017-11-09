@@ -100,7 +100,8 @@ export const perform = operations => {
       const entries = operations[name];
       for (let i = 0; i < entries.length; i++) {
         try {
-          DOMOperations[name](entries[i]);
+          const config = entries[i];
+          DOMOperations[name](config);
         } catch (e) {
           console.log(`CableReady detected an error in ${name}! ${e.message}`);
         }
