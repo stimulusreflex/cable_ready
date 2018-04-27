@@ -251,9 +251,3 @@ The JavaScript source is located in `vendor/assets/javascripts/cable_ready/src`
 cd vendor/assets/javascripts/cable_ready/src
 webpack
 ```
-
----
-
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/QMSjMHrtPhvfmCnk5Hbikhhr/hopsoft/cable_ready'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/QMSjMHrtPhvfmCnk5Hbikhhr/hopsoft/cable_ready.svg' />
-</a>
