@@ -12,11 +12,15 @@ from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_ove
 
 > Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
 
+```ruby
+# Gemfile
+gem "cable_ready"
+```
+
 ```javascript
-// app/assets/javascripts/application.js
-/*
- *= require cable_ready
- */
+// app/assets/javascripts/cable.js
+//= require action_cable
+//= require cable_ready
 ```
 
 ```javascript
