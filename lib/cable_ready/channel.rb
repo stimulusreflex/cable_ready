@@ -17,13 +17,14 @@ module CableReady
     #
     #   morph: [{
     #     selector:      "string",
-    #     focusSelector: "string",
     #     html:          "string"
+    #     children_only:  true|false,
+    #     focus_selector: "string",
     #   }, ...],
     #
     #   inner_html: [{
     #     selector:      "string",
-    #     focusSelector: "string",
+    #     focus_selector: "string",
     #     html:          "string"
     #   }, ...],
     #
@@ -34,7 +35,7 @@ module CableReady
     #
     #   insert_adjacent_html: [{
     #     selector:      "string",
-    #     focusSelector: "string",
+    #     focus_selector: "string",
     #     position:      "string",
     #     html:          "string"
     #   }, ...],
@@ -47,12 +48,12 @@ module CableReady
     #
     #   remove: [{
     #     selector:      "string",
-    #     focusSelector: "string,
+    #     focus_selector: "string,
     #   }, ...],
     #
     #   replace: [{
     #     selector:      "string",
-    #     focusSelector: "string",
+    #     focus_selector: "string",
     #     html:          "string"
     #   }, ...],
     #

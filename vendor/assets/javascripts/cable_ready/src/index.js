@@ -1,4 +1,4 @@
-import morphdom from "morphdom";
+import morphdom from 'morphdom';
 
 const DOMOperations = {
   // DOM Events ..............................................................................................
@@ -13,7 +13,10 @@ const DOMOperations = {
   // Element Mutations .......................................................................................
 
   morph: config => {
-    morphdom(document.querySelector(config.selector), config.html);
+    let template = document.createElement('template');
+    template.innerHTML = String(config.html).trim();
+    morphdom(document.querySelector(config.selector), template.content, { childrenOnly: !!config.childrenOnly });
+
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }

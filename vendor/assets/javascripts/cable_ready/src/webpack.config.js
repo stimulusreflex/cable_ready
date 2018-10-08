@@ -1,22 +1,23 @@
 module.exports = {
+  mode: 'production',
   target: 'web',
   entry: './index.js',
-  plugins: [
-  ],
+  plugins: [],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['es2015']
+          presets: ['@babel/preset-env']
         }
       }
     ],
   },
   output: {
-    filename: '../../cable_ready.js',
-    library: ['CableReady']
+    filename: '../../../cable_ready.js',
+    library: 'CableReady',
+    libraryTarget: "global"
   }
 };
