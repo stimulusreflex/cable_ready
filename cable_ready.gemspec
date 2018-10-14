@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.authors     = ["Nathan Hopkins"]
   gem.email       = ["natehop@gmail.com"]
   gem.homepage    = "https://github.com/hopsoft/cable_ready"
-  gem.summary     = "put something here"
+  gem.summary     = "Out-of-Band Server Triggered DOM Operations"
 
   gem.files       = Dir["lib/**/*.rb", "vendor/assets/javascripts/cable_ready.js", "bin/*", "[A-Z]*"]
   gem.test_files  = Dir["test/**/*.rb"]
