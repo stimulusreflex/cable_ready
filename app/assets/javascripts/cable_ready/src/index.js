@@ -4,7 +4,9 @@ const DOMOperations = {
   // DOM Events ..............................................................................................
 
   dispatchEvent: config => {
-    const target = document.querySelector(config.selector) || window;
+    let target = document;
+    if (config.selector)
+      target = document.querySelector(config.selector) || document;
     const event = new Event(config.name);
     event.detail = config.detail;
     target.dispatchEvent(event);
@@ -15,7 +17,16 @@ const DOMOperations = {
   morph: config => {
     let template = document.createElement('template');
     template.innerHTML = String(config.html).trim();
-    morphdom(document.querySelector(config.selector), template.content, { childrenOnly: !!config.childrenOnly });
+    DOMOperations.dispatchEvent({
+      name: 'cable-ready:before-morph',
+      detail: { content: template.content },
+    });
+    morphdom(document.querySelector(config.selector), template.content, {
+      childrenOnly: !!config.childrenOnly,
+    });
+    DOMOperations.dispatchEvent({
+      name: 'cable-ready:after-morph',
+    });
 
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
@@ -36,7 +47,7 @@ const DOMOperations = {
   insertAdjacentHtml: config => {
     document
       .querySelector(config.selector)
-      .insertAdjacentHTML(config.position || "beforeend", config.html);
+      .insertAdjacentHTML(config.position || 'beforeend', config.html);
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -45,7 +56,7 @@ const DOMOperations = {
   insertAdjacentText: config => {
     document
       .querySelector(config.querySelector)
-      .insertAdjacentText(config.position || "beforeend", config.text);
+      .insertAdjacentText(config.position || 'beforeend', config.text);
   },
 
   remove: config => {
@@ -57,7 +68,7 @@ const DOMOperations = {
 
   replace: config => {
     const element = document.querySelector(config.selector);
-    const div = document.createElement("div");
+    const div = document.createElement('div');
     div.innerHTML = config.html;
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
@@ -94,7 +105,7 @@ const DOMOperations = {
 
   setDatasetProperty: config => {
     document.querySelector(config.selector).dataset[config.name] = config.value;
-  }
+  },
 };
 
 export const perform = operations => {

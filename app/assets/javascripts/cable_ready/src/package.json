@@ -1,11 +1,6 @@
 {
   "name": "CableReady",
-  "version": "2.0.6",
-  "description": "Out-of-Band Server Triggered DOM Operations",
   "main": "index.js",
-  "repository": "https://github.com/hopsoft/cable_ready",
-  "author": "Nathan Hopkins",
-  "license": "MIT",
   "private": true,
   "dependencies": {
     "morphdom": "^2.3.3"

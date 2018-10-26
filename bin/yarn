@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd ./app/assets/javascripts/cable_ready/src
+yarn "$@"
