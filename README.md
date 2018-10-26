@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-204-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-217-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](https://img.shields.io/codeclimate/maintainability/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 
 # CableReady
@@ -249,7 +249,7 @@ cable_ready["MyChannel"].set_dataset_property(
 ## JavaScript Development
 
 The JavaScript source is located in `app/assets/javascripts/cable_ready/src`
-& transpiles to `app/assets/javascripts/cable_ready/cable_ready.js` via Webpack.
+& transpiles to `app/assets/javascripts/cable_ready.js` via Webpack.
 
 ```sh
 # build javascript
