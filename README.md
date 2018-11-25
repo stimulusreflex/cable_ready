@@ -117,13 +117,13 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   connect() {
     this.name = this.element.dataset.controller;
-    document.addEventListener(
-      'cable-ready:after-morph',
-      (() => {
-        setTimeout(() => this.element.setAttribute('data-controller', this.name), 1);
-        this.element.setAttribute('data-controller', '');
-      }).bind(this)
+    document.addEventListener('cable-ready:after-morph', this.reconnect.bind(this));
     );
+  }
+
+  reconnect() {
+    setTimeout(() => this.element.setAttribute('data-controller', this.name), 1);
+    this.element.setAttribute('data-controller', '');
   }
 }
 ```
