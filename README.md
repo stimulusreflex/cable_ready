@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-217-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-239-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](https://img.shields.io/codeclimate/maintainability/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 
 # CableReady
@@ -69,6 +69,9 @@ for a more complete reference implementation.
 
 > It's possible to invoke multiple DOM operations with a single ActionCable broadcast.
 
+> All DOM mutations have corresponding `before/after` events triggered on `document`.
+> These events expose `detail.config` set to the arguments from the server.
+
 ### DOM Events
 
 #### [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
@@ -100,14 +103,8 @@ cable_ready["MyChannel"].morph(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-morph`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
-  - `event.detail.content` _a DocumentFragment representing the new content_
 - `cable-ready:after-morph`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
-  - `event.detail.content` _a DocumentFragment representing the new content_
 
 #### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
@@ -123,12 +120,8 @@ cable_ready["MyChannel"].inner_html(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-inner-html`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-inner-html`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
@@ -143,12 +136,8 @@ cable_ready["MyChannel"].text_content(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-text-content`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-text-content`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
@@ -166,12 +155,8 @@ cable_ready["MyChannel"].insert_adjacent_html(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-insert-adjacent-html`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-insert-adjacent-html`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
 
@@ -188,12 +173,8 @@ cable_ready["MyChannel"].insert_adjacent_text(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-insert-adjacent-text`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-insert-adjacent-text`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 
@@ -208,12 +189,8 @@ cable_ready["MyChannel"].remove(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-remove`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-remove`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
 
@@ -229,12 +206,8 @@ cable_ready["MyChannel"].replace(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-replace`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-replace`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [setValue](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
 
@@ -249,12 +222,8 @@ cable_ready["MyChannel"].set_value(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-set-value`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-set-value`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 ### Attribute Mutations
 
@@ -272,12 +241,8 @@ cable_ready["MyChannel"].set_attribute(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-set-attribute`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-set-attribute`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute)
 
@@ -292,12 +257,8 @@ cable_ready["MyChannel"].remove_attribute(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-remove-attribute`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-remove-attribute`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 ### CSS Class Mutations
 
@@ -316,12 +277,8 @@ cable_ready["MyChannel"].add_css_class(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-add-css-class`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-add-css-class`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 #### [removeCssClass](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
@@ -336,12 +293,8 @@ cable_ready["MyChannel"].add_css_class(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-remove-css-class`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-remove-css-class`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 ### Dataset Mutations
 
@@ -359,12 +312,8 @@ cable_ready["MyChannel"].set_dataset_property(
 
 ##### JavaScript Events
 
-The following events are dispatched on `document`.
-
 - `cable-ready:before-set-dataset-property`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 - `cable-ready:after-set-dataset-property`
-  - `event.detail.config` _the config passed to the CableReady handler from the server_
 
 ## JavaScript Development
 
