@@ -106,22 +106,7 @@ cable_ready["MyChannel"].morph(
 - `cable-ready:before-morph`
 - `cable-ready:after-morph`
 
-#### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
-
-Sets the innerHTML of a DOM element.
-
-```ruby
-cable_ready["MyChannel"].inner_html(
-  selector:       "string", # required - string containing one or more CSS selectors separated by commas
-  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
-  html:           "string"  # [null]   - the HTML to assign
-)
-```
-
-##### JavaScript Events
-
-- `cable-ready:before-inner-html`
-- `cable-ready:after-inner-html`
+##### Stimulus Gotchas
 
 For some reason [Stimulus](https://github.com/stimulusjs/stimulus) controllers don't reconnect after DOM mutations triggered by [Morphdom](https://github.com/patrick-steele-idem/morphdom).
 You can force your controllers to reconnect with the following code.
@@ -142,6 +127,23 @@ export default class extends Controller {
   }
 }
 ```
+
+#### [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+
+Sets the innerHTML of a DOM element.
+
+```ruby
+cable_ready["MyChannel"].inner_html(
+  selector:       "string", # required - string containing one or more CSS selectors separated by commas
+  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  html:           "string"  # [null]   - the HTML to assign
+)
+```
+
+##### JavaScript Events
+
+- `cable-ready:before-inner-html`
+- `cable-ready:after-inner-html`
 
 #### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
