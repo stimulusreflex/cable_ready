@@ -123,6 +123,26 @@ cable_ready["MyChannel"].inner_html(
 - `cable-ready:before-inner-html`
 - `cable-ready:after-inner-html`
 
+For some reason [Stimulus](https://github.com/stimulusjs/stimulus) controllers don't reconnect after DOM mutations triggered by [Morphdom](https://github.com/patrick-steele-idem/morphdom).
+You can force your controllers to reconnect with the following code.
+
+```javascript
+import { Controller } from "stimulus"
+
+export default class extends Controller {
+  connect() {
+    this.name = this.element.dataset.controller;
+    document.addEventListener(
+      'cable-ready:after-morph',
+      (() => {
+        setTimeout(() => this.element.setAttribute('data-controller', this.name), 1);
+        this.element.setAttribute('data-controller', '');
+      }).bind(this)
+    );
+  }
+}
+```
+
 #### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
 Sets the text content of a DOM element.
