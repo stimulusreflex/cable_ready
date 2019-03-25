@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bundle exec standardrb --fix
-prettier --no-config --single-quote --write app/assets/javascripts/cable_ready/src/*.js
+prettier --no-config --single-quote --trailing-comma es5 --write app/assets/javascripts/cable_ready/src/*.js

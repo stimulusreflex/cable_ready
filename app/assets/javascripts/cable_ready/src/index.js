@@ -23,7 +23,7 @@ const DOMOperations = {
     template.innerHTML = String(config.html).trim();
     dispatch('cable-ready:before-morph', { config, content: template.content });
     morphdom(document.querySelector(config.selector), template.content, {
-      childrenOnly: !!config.childrenOnly
+      childrenOnly: !!config.childrenOnly,
     });
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
@@ -126,7 +126,7 @@ const DOMOperations = {
     dispatch('cable-ready:before-set-dataset-property', config);
     document.querySelector(config.selector).dataset[config.name] = config.value;
     dispatch('cable-ready:after-set-dataset-property', config);
-  }
+  },
 };
 
 export const perform = operations => {
