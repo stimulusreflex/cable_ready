@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bundle exec standardrb --fix
+prettier --write app/assets/javascripts/cable_ready/src/*.js
