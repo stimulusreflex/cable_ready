@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-239-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-238-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](https://img.shields.io/codeclimate/maintainability/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 
 # CableReady
@@ -54,10 +54,10 @@ for a more complete reference implementation.
 - [dispatchEvent](#dispatchevent)
 - [morph](#morph)
 - [innerHTML](#innerhtml)
+- [outerHTML](#outerhtml)
 - [insertAdjacentHTML](#insertAdjacentHTML)
 - [insertAdjacentText](#insertadjacenttext)
 - [remove](#remove)
-- [replace](#replace)
 - [setValue](#setvalue)
 - [setAttribute](#setattribute)
 - [removeAttribute](#removeattribute)
@@ -145,6 +145,23 @@ cable_ready["MyChannel"].inner_html(
 - `cable-ready:before-inner-html`
 - `cable-ready:after-inner-html`
 
+#### [outerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML)
+
+Replaces a DOM element with new HTML.
+
+```ruby
+cable_ready["MyChannel"].outerHTML(
+  selector:       "string", # required - string containing one or more CSS selectors separated by commas
+  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  html:           "string"  # [null]   - the HTML to use as replacement
+)
+```
+
+##### JavaScript Events
+
+- `cable-ready:before-outer-html`
+- `cable-ready:after-outer-html`
+
 #### [textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
 
 Sets the text content of a DOM element.
@@ -213,23 +230,6 @@ cable_ready["MyChannel"].remove(
 
 - `cable-ready:before-remove`
 - `cable-ready:after-remove`
-
-#### [replace](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
-
-Replaces a DOM element with new HTML.
-
-```ruby
-cable_ready["MyChannel"].replace(
-  selector:       "string", # required - string containing one or more CSS selectors separated by commas
-  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
-  html:           "string"  # [null]   - the HTML to use as replacement
-)
-```
-
-##### JavaScript Events
-
-- `cable-ready:before-replace`
-- `cable-ready:after-replace`
 
 #### [setValue](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
 
@@ -344,5 +344,6 @@ The JavaScript source is located in `app/assets/javascripts/cable_ready/src`
 
 ```sh
 # build javascript
+./bin/yarn
 ./bin/webpack
 ```

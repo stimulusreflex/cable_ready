@@ -1,4 +1,3 @@
-# coding: utf-8
 require File.expand_path("../lib/cable_ready/version", __FILE__)
 
 Gem::Specification.new do |gem|
@@ -16,4 +15,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activesupport", ">= 5.0.0"
 
   gem.add_development_dependency "rake"
+  gem.add_development_dependency "standardrb"
 end

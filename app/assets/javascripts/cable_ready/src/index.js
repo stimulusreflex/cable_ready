@@ -40,6 +40,16 @@ const DOMOperations = {
     dispatch('cable-ready:after-inner-html', config);
   },
 
+  outerHtml: config => {
+    dispatch('cable-ready:before-outer-html', config);
+    const element = document.querySelector(config.selector);
+    element.outerHTML = config.html;
+    if (config.focusSelector) {
+      document.querySelector(config.focusSelector).focus();
+    }
+    dispatch('cable-ready:after-outer-html', config);
+  },
+
   textContent: config => {
     dispatch('cable-ready:before-text-content', config);
     document.querySelector(config.selector).textContent = config.text;
@@ -72,17 +82,6 @@ const DOMOperations = {
       document.querySelector(config.focusSelector).focus();
     }
     dispatch('cable-ready:after-remove', config);
-  },
-
-  replace: config => {
-    dispatch('cable-ready:before-replace', config);
-    const element = document.querySelector(config.selector);
-    const div = document.createElement('div');
-    div.innerHTML = config.html;
-    if (config.focusSelector) {
-      document.querySelector(config.focusSelector).focus();
-    }
-    dispatch('cable-ready:after-replace', config);
   },
 
   setValue: config => {
