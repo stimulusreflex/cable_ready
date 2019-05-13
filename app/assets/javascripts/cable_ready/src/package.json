@@ -3,7 +3,7 @@
   "main": "index.js",
   "private": true,
   "dependencies": {
-    "morphdom": "^2.3.3"
+    "morphdom": "^2.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

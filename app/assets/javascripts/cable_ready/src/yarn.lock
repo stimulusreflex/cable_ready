@@ -2363,10 +2363,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   dependencies:
     minimist "0.0.8"
 
-morphdom@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.3.3.tgz#70b0aec3db0832688f7fcbde2a8921cf508c4f16"
-  integrity sha512-z+/GEulEfhrSFPOJSum8o5lZNv63cAGBPeFHO2WgpGo636Ln67ZuVydp2q0iTaZIXdf5FDNP2ZY6uhtg+LjlsA==
+morphdom@^2.5.4:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.5.4.tgz#f653ce4e1ea80e0820594ebe3a64404558ee8cc4"
+  integrity sha512-vM2obMO7CUQ6ocF81Gd1nVDu4ovpZV71ib1/AzmxBI5oN9oUjQcVaxgFOJvJUSyeTJoDCWJCp/GAQJLmT7R+nQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
