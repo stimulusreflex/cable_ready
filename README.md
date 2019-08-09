@@ -10,6 +10,9 @@
 CableReady provides a simple interface for triggering client-side DOM operations
 from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
+Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html)
+to learn more about ActionCable before proceeding.
+
 ## Setup
 
 ### JavaScript
@@ -25,8 +28,6 @@ gem "cable_ready"
 ```
 
 ## Usage
-
-> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
 
 ### app/assets/javascripts/channels/user.js
 
