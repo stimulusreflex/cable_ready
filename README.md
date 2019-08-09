@@ -1,4 +1,4 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-238-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-118-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Code Status](https://img.shields.io/codeclimate/maintainability/hopsoft/cable_ready.svg?style=flat)](https://codeclimate.com/github/hopsoft/cable_ready)
 [![Ruby Dependency Graph](https://img.shields.io/badge/deps-ruby-informational.svg?style=flat)](https://github.com/hopsoft/cable_ready/blob/master/gem_graph.svg)
 [![JavaScript Dependency Graph](https://img.shields.io/badge/deps-javascript-informational.svg?style=flat)](https://github.com/hopsoft/cable_ready/blob/master/javascript_graph.txt)
@@ -10,23 +10,29 @@
 CableReady provides a simple interface for triggering client-side DOM operations
 from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
-## Quick Start
+## Setup
 
-> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
+### JavaScript
+
+```
+yarn install cable_ready
+```
+
+### Gemfile
 
 ```ruby
-# Gemfile
 gem "cable_ready"
 ```
 
-```javascript
-// app/assets/javascripts/cable.js
-//= require action_cable
-//= require cable_ready
-```
+## Usage
+
+> Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
+
+### app/assets/javascripts/channels/user.js
 
 ```javascript
-// app/assets/javascripts/channels/user.js
+import CableReady from 'cable_ready';
+
 App.cable.subscriptions.create({ channel: "UserChannel" }, {
   received: function (data) {
     if (data.cableReady) {
@@ -36,8 +42,9 @@ App.cable.subscriptions.create({ channel: "UserChannel" }, {
 });
 ```
 
+### app/models/user.rb
+
 ```ruby
-# app/models/user.rb
 class User < ApplicationRecord
   include CableReady::Broadcaster
 
@@ -47,9 +54,6 @@ class User < ApplicationRecord
   end
 end
 ```
-
-See [CableReady TodoMVC](https://github.com/hopsoft/cable_ready_todomvc)
-for a more complete reference implementation.
 
 ## Supported DOM Operations
 
@@ -341,11 +345,4 @@ cable_ready["MyChannel"].set_dataset_property(
 
 ## JavaScript Development
 
-The JavaScript source is located in `app/assets/javascripts/cable_ready/src`
-& transpiles to `app/assets/javascripts/cable_ready.js` via Webpack.
-
-```sh
-# build javascript
-./bin/yarn
-./bin/webpack
-```
+The JavaScript library is hosted at: https://github.com/hopsoft/cable_ready
