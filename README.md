@@ -1,7 +1,5 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-118-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
+[![Lines of Code](http://img.shields.io/badge/lines_of_code-239-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/83ddf1fee4af7e51a681/maintainability)](https://codeclimate.com/github/hopsoft/cable_ready/maintainability)
-[![Ruby Dependency Graph](https://img.shields.io/badge/deps-ruby-informational.svg?style=flat)](https://github.com/hopsoft/cable_ready/blob/master/gem_graph.svg)
-[![JavaScript Dependency Graph](https://img.shields.io/badge/deps-javascript-informational.svg?style=flat)](https://github.com/hopsoft/cable_ready/blob/master/javascript_graph.txt)
 
 # CableReady
 
