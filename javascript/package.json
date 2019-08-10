@@ -1,0 +1,14 @@
+{
+  "name": "cable_ready",
+  "version": "4.0.0",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:hopsoft/cable_ready.git"
+  },
+  "author": "Nathan Hopkins",
+  "license": "MIT",
+  "dependencies": {
+    "morphdom": "^2.5.6"
+  }
+}
