@@ -1,7 +1,7 @@
 {
   "name": "cable_ready",
   "version": "4.0.1",
-  "main": "./src/index.js",
+  "main": "./cable_ready.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com:hopsoft/cable_ready.git"
