@@ -344,4 +344,8 @@ cable_ready["MyChannel"].set_dataset_property(
 
 ## JavaScript Development
 
-The JavaScript library is hosted at: https://github.com/hopsoft/cable_ready
+```sh
+cd /path/to/cable_ready/javascript
+vim ./cable_ready.js
+yarn publish
+```
