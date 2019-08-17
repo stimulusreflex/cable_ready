@@ -1,6 +1,6 @@
 {
   "name": "cable_ready",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "main": "./cable_ready.js",
   "repository": {
     "type": "git",
