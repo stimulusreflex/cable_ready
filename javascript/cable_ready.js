@@ -153,7 +153,6 @@ const perform = operations => {
         try {
           const config = entries[i]
           config.rootElement = getRootElement(config)
-          console.log(config.selector)
           DOMOperations[name](config)
         } catch (e) {
           console.log(`CableReady detected an error in ${name}! ${e.message}`)
