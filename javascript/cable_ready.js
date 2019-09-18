@@ -9,8 +9,7 @@ const DOMOperations = {
 
   dispatchEvent: config => {
     let target = document;
-    if (config.selector)
-      target = document.querySelector(config.selector) || document;
+    if (config.selector) target = document.querySelector(config.selector) || document;
     const event = new Event(config.name);
     event.detail = config.detail;
     target.dispatchEvent(event);
@@ -58,9 +57,7 @@ const DOMOperations = {
 
   insertAdjacentHtml: config => {
     dispatch('cable-ready:before-insert-adjacent-html', config);
-    document
-      .querySelector(config.selector)
-      .insertAdjacentHTML(config.position || 'beforeend', config.html);
+    document.querySelector(config.selector).insertAdjacentHTML(config.position || 'beforeend', config.html);
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -94,9 +91,7 @@ const DOMOperations = {
 
   setAttribute: config => {
     dispatch('cable-ready:before-set-attribute', config);
-    document
-      .querySelector(config.selector)
-      .setAttribute(config.name, config.value);
+    document.querySelector(config.selector).setAttribute(config.name, config.value);
     dispatch('cable-ready:after-set-attribute', config);
   },
 
