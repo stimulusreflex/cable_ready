@@ -70,12 +70,27 @@ end
 - [removeCssClass](#removecssclass)
 - [setDatasetProperty](#setdatasetproperty)
 
-> The `selector` options use [Document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find elements.
+> The `selector` options use [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find an element by default. [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath) expressions can also be used if the `xpath` option is set to `true`. As with CSS selectors, the XPath expression must resolve to a single element and not a collection.
 
 > It's possible to invoke multiple DOM operations with a single ActionCable broadcast.
 
 > All DOM mutations have corresponding `before/after` events triggered on `document`.
 > These events expose `detail.config` set to the arguments from the server.
+
+## Xpath Example
+
+### app/models/user.rb
+
+```ruby
+class User < ApplicationRecord
+  include CableReady::Broadcaster
+
+  def broadcast_name_change
+    cable_ready["UserChannel"].text_content selector: "/html/body/div[1]/form/input[1]", text: name, xpath: true
+    cable_ready.broadcast
+  end
+end
+```
 
 ### DOM Events
 
@@ -87,7 +102,7 @@ Dispatches a DOM event in the browser.
 cable_ready["MyChannel"].dispatch_event(
   name:     "string", # required - the name of the DOM event to dispatch (can be custom)
   detail:   "object", # [null]   - assigned to event.detail
-  selector: "string"  # [window] - string containing one or more CSS selectors separated by commas
+  selector: "string"  # [window] - string containing a CSS selector or XPath expression
 )
 ```
 
@@ -99,10 +114,10 @@ cable_ready["MyChannel"].dispatch_event(
 
 ```ruby
 cable_ready["MyChannel"].morph(
-  selector:       "string",  # required - string containing one or more CSS selectors separated by commas
+  selector:       "string",  # required - string containing a CSS selector or XPath expression
   html:           "string"   # [null]   - the HTML to assign
   children_only:  true|false # [null]   - indicates if only child nodes should be morphed... skipping the parent element
-  focus_selector: "string",  # [null]   - string containing one or more CSS selectors separated by commas
+  focus_selector: "string",  # [null]   - string containing a CSS selector
 )
 ```
 
@@ -139,8 +154,8 @@ Sets the innerHTML of a DOM element.
 
 ```ruby
 cable_ready["MyChannel"].inner_html(
-  selector:       "string", # required - string containing one or more CSS selectors separated by commas
-  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  selector:       "string", # required - string containing a CSS selector or XPath expression
+  focus_selector: "string", # [null]   - string containing a CSS selector
   html:           "string"  # [null]   - the HTML to assign
 )
 ```
@@ -156,8 +171,8 @@ Replaces a DOM element with new HTML.
 
 ```ruby
 cable_ready["MyChannel"].outerHTML(
-  selector:       "string", # required - string containing one or more CSS selectors separated by commas
-  focus_selector: "string", # [null]   - string containing one or more CSS selectors separated by commas
+  selector:       "string", # required - string containing a CSS selector or XPath expression
+  focus_selector: "string", # [null]   - string containing a CSS selector
   html:           "string"  # [null]   - the HTML to use as replacement
 )
 ```
@@ -173,7 +188,7 @@ Sets the text content of a DOM element.
 
 ```ruby
 cable_ready["MyChannel"].text_content(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   text:     "string"  # [null]   - the text to assign
 )
 ```
@@ -190,8 +205,8 @@ Supports behavior akin to prepend & append.
 
 ```ruby
 cable_ready["MyChannel"].insert_adjacent_html(
-  selector:       "string", # required    - string containing one or more CSS selectors separated by commas
-  focus_selector: "string", # [null]      - string containing one or more CSS selectors separated by commas
+  selector:       "string", # required    - string containing a CSS selector or XPath expression
+  focus_selector: "string", # [null]      - string containing a CSS selector
   position:       "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
   html:           "string"  # [null]      - the HTML to insert
 )
@@ -209,7 +224,7 @@ Supports behavior akin to prepend & append.
 
 ```ruby
 cable_ready["MyChannel"].insert_adjacent_text(
-  selector: "string", # required    - string containing one or more CSS selectors separated by commas
+  selector: "string", # required    - string containing a CSS selector or XPath expression
   position: "string", # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
   text:     "string"  # [null]      - the text to insert
 )
@@ -226,8 +241,8 @@ Removes an element from the DOM.
 
 ```ruby
 cable_ready["MyChannel"].remove(
-  selector:       "string", # required - string containing one or more CSS selectors separated by commas
-  focus_selector: "string"  # [null]   - string containing one or more CSS selectors separated by commas
+  selector:       "string", # required - string containing a CSS selector or XPath expression
+  focus_selector: "string"  # [null]   - string containing a CSS selector
 )
 ```
 
@@ -242,7 +257,7 @@ Sets the value of an element.
 
 ```ruby
 cable_ready["MyChannel"].set_value(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   value:    "string"  # [null]   - the value to assign to the attribute
 )
 ```
@@ -260,7 +275,7 @@ Sets an attribute on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_attribute(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string", # required - the attribute to set
   value:    "string"  # [null]   - the value to assign to the attribute
 )
@@ -277,7 +292,7 @@ Removes an attribute from an element.
 
 ```ruby
 cable_ready["MyChannel"].remove_attribute(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string"  # required - the attribute to remove
 )
 ```
@@ -296,7 +311,7 @@ This is a `noop` if the css class is already assigned.
 
 ```ruby
 cable_ready["MyChannel"].add_css_class(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string"  # [null]   - the CSS class to add
 )
 
@@ -313,7 +328,7 @@ Removes a css class from an element.
 
 ```ruby
 cable_ready["MyChannel"].add_css_class(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string"  # [null]   - the CSS class to remove
 )
 ```
@@ -331,7 +346,7 @@ Sets an dataset property (data-* attribute) on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_dataset_property(
-  selector: "string", # required - string containing one or more CSS selectors separated by commas
+  selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string", # required - the property to set
   value:    "string"  # [null]   - the value to assign to the dataset
 )
@@ -344,8 +359,4 @@ cable_ready["MyChannel"].set_dataset_property(
 
 ## JavaScript Development
 
-```sh
-cd /path/to/cable_ready/javascript
-vim ./cable_ready.js
-yarn publish
-```
+Please run `bin/standardize` on your codebase before submitting commits.

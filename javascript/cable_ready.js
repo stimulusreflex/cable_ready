@@ -4,15 +4,17 @@ const dispatch = (name, detail = {}) => {
   DOMOperations.dispatchEvent({ name, detail });
 };
 
+const xpathToElement = xpath => {
+  return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+};
+
 const DOMOperations = {
   // DOM Events ..............................................................................................
 
   dispatchEvent: config => {
-    let target = document;
-    if (config.selector) target = document.querySelector(config.selector) || document;
     const event = new Event(config.name);
     event.detail = config.detail;
-    target.dispatchEvent(event);
+    config.rootElement.dispatchEvent(event);
   },
 
   // Element Mutations .......................................................................................
@@ -21,7 +23,7 @@ const DOMOperations = {
     let template = document.createElement('template');
     template.innerHTML = String(config.html).trim();
     dispatch('cable-ready:before-morph', { config, content: template.content });
-    morphdom(document.querySelector(config.selector), template.content, {
+    morphdom(config.rootElement, template.content, {
       childrenOnly: !!config.childrenOnly,
     });
     if (config.focusSelector) {
@@ -32,7 +34,7 @@ const DOMOperations = {
 
   innerHtml: config => {
     dispatch('cable-ready:before-inner-html', config);
-    document.querySelector(config.selector).innerHTML = config.html;
+    config.rootElement.innerHTML = config.html;
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -41,8 +43,7 @@ const DOMOperations = {
 
   outerHtml: config => {
     dispatch('cable-ready:before-outer-html', config);
-    const element = document.querySelector(config.selector);
-    element.outerHTML = config.html;
+    config.rootElement.outerHTML = config.html;
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -51,13 +52,13 @@ const DOMOperations = {
 
   textContent: config => {
     dispatch('cable-ready:before-text-content', config);
-    document.querySelector(config.selector).textContent = config.text;
+    config.rootElement.textContent = config.text;
     dispatch('cable-ready:after-text-content', config);
   },
 
   insertAdjacentHtml: config => {
     dispatch('cable-ready:before-insert-adjacent-html', config);
-    document.querySelector(config.selector).insertAdjacentHTML(config.position || 'beforeend', config.html);
+    config.rootElement.insertAdjacentHTML(config.position || 'beforeend', config.html);
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -66,15 +67,13 @@ const DOMOperations = {
 
   insertAdjacentText: config => {
     dispatch('cable-ready:before-insert-adjacent-text', config);
-    document
-      .querySelector(config.querySelector)
-      .insertAdjacentText(config.position || 'beforeend', config.text);
+    config.rootElement.insertAdjacentText(config.position || 'beforeend', config.text);
     dispatch('cable-ready:after-insert-adjacent-text', config);
   },
 
   remove: config => {
     dispatch('cable-ready:before-remove', config);
-    document.querySelector(config.selector).remove();
+    config.rootElement.remove();
     if (config.focusSelector) {
       document.querySelector(config.focusSelector).focus();
     }
@@ -83,7 +82,7 @@ const DOMOperations = {
 
   setValue: config => {
     dispatch('cable-ready:before-set-value', config);
-    document.querySelector(config.selector).value = config.value;
+    config.rootElement.value = config.value;
     dispatch('cable-ready:after-set-value', config);
   },
 
@@ -91,13 +90,13 @@ const DOMOperations = {
 
   setAttribute: config => {
     dispatch('cable-ready:before-set-attribute', config);
-    document.querySelector(config.selector).setAttribute(config.name, config.value);
+    config.rootElement.setAttribute(config.name, config.value);
     dispatch('cable-ready:after-set-attribute', config);
   },
 
   removeAttribute: config => {
     dispatch('cable-ready:before-remove-attribute', config);
-    document.querySelector(config.selector).removeAttribute(config.name);
+    config.rootElement.removeAttribute(config.name);
     dispatch('cable-ready:after-remove-attribute', config);
   },
 
@@ -105,13 +104,13 @@ const DOMOperations = {
 
   addCssClass: config => {
     dispatch('cable-ready:before-add-css-class', config);
-    document.querySelector(config.selector).classList.add(config.name);
+    config.rootElement.classList.add(config.name);
     dispatch('cable-ready:after-add-css-class', config);
   },
 
   removeCssClass: config => {
     dispatch('cable-ready:before-remove-css-class', config);
-    document.querySelector(config.selector).classList.remove(config.name);
+    config.rootElement.classList.remove(config.name);
     dispatch('cable-ready:after-remove-css-class', config);
   },
 
@@ -119,7 +118,7 @@ const DOMOperations = {
 
   setDatasetProperty: config => {
     dispatch('cable-ready:before-set-dataset-property', config);
-    document.querySelector(config.selector).dataset[config.name] = config.value;
+    config.rootElement.dataset[config.name] = config.value;
     dispatch('cable-ready:after-set-dataset-property', config);
   },
 };
@@ -131,6 +130,13 @@ const perform = operations => {
       for (let i = 0; i < entries.length; i++) {
         try {
           const config = entries[i];
+          if (config.selector) {
+            config.rootElement = config.xpath
+              ? xpathToElement(config.selector)
+              : document.querySelector(config.selector);
+          } else {
+            config.rootElement = document;
+          }
           DOMOperations[name](config);
         } catch (e) {
           console.log(`CableReady detected an error in ${name}! ${e.message}`);
