@@ -75,7 +75,7 @@ end
 > It's possible to invoke multiple DOM operations with a single ActionCable broadcast.
 
 > All DOM mutations have corresponding `before/after` events triggered on `document`.
-> These events expose `detail.config` set to the arguments from the server.
+> These events expose `event.detail` set to the arguments from the server.
 
 ## Xpath Example
 
