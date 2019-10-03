@@ -11,6 +11,13 @@ const xpathToElement = xpath => {
   return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 };
 
+// Morphdom Callbacks ........................................................................................
+
+const onBeforeElChildrenUpdated = (fromEl, toEl) => {
+  const permanent = !!fromEl.dataset && fromEl.dataset.reflexPermanent !== undefined;
+  return !permanent;
+};
+
 const DOMOperations = {
   // DOM Events ..............................................................................................
 
@@ -26,7 +33,7 @@ const DOMOperations = {
     const template = document.createElement('template');
     template.innerHTML = String(html).trim();
     dispatch(element, 'cable-ready:before-morph', { ...detail, content: template.content });
-    morphdom(element, template.content, { childrenOnly: !!childrenOnly });
+    morphdom(element, template.content, { childrenOnly: !!childrenOnly, onBeforeElChildrenUpdated });
     if (focusSelector) document.querySelector(focusSelector).focus();
     dispatch(element, 'cable-ready:after-morph', { ...detail, content: template.content });
   },
