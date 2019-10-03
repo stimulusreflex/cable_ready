@@ -19,6 +19,7 @@ module CableReady
     #     selector:      "string",
     #     html:          "string"
     #     children_only:  true|false,
+    #     permanent_attribute_name: "string",
     #     focus_selector: "string",
     #   }, ...],
     #

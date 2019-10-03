@@ -114,10 +114,11 @@ cable_ready["MyChannel"].dispatch_event(
 
 ```ruby
 cable_ready["MyChannel"].morph(
-  selector:       "string",  # required - string containing a CSS selector or XPath expression
-  html:           "string"   # [null]   - the HTML to assign
-  children_only:  true|false # [null]   - indicates if only child nodes should be morphed... skipping the parent element
-  focus_selector: "string",  # [null]   - string containing a CSS selector
+  selector:       "string",           # required - string containing a CSS selector or XPath expression
+  html:           "string",           # [null]   - the HTML to assign
+  children_only:  true|false,         # [null]   - indicates if only child nodes should be morphed... skipping the parent element
+  permanent_attribute_name: "string", # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
+  focus_selector: "string",           # [null]   - string containing a CSS selector
 )
 ```
 
