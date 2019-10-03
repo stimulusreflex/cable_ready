@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 bundle exec standardrb --fix
 cd ./javascript && yarn run prettier-standard cable_ready.js

@@ -3,7 +3,7 @@
   "version": "4.0.5",
   "main": "./cable_ready.js",
   "scripts": {
-    "prettier-check": "yarn run prettier --check ./cable_ready.js"
+    "prettier-check": "yarn run prettier-standard --check ./cable_ready.js"
   },
   "repository": {
     "type": "git",
