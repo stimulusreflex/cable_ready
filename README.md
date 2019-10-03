@@ -16,7 +16,7 @@ to learn more about ActionCable before proceeding.
 ### JavaScript
 
 ```
-yarn install cable_ready
+yarn add cable_ready
 ```
 
 ### Gemfile
