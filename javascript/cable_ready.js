@@ -14,6 +14,10 @@ const xpathToElement = xpath => {
 // Morphdom Callbacks ........................................................................................
 
 const onBeforeElUpdated = permanentAttributeName => (fromEl, toEl) => {
+  // Skip nodes that are equal:
+  // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
+  if (fromEl.isEqualNode(toEl)) return false;
+
   const permanent = !!fromEl.dataset && fromEl.dataset[permanentAttributeName] !== undefined;
   return !permanent;
 };
