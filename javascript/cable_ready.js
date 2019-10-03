@@ -11,6 +11,17 @@ const xpathToElement = xpath => {
   return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 };
 
+// Morphdom Callbacks ........................................................................................
+
+const onBeforeElUpdated = permanentAttributeName => (fromEl, toEl) => {
+  // Skip nodes that are equal:
+  // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
+  if (fromEl.isEqualNode(toEl)) return false;
+
+  const permanent = !!fromEl.dataset && fromEl.dataset[permanentAttributeName] !== undefined;
+  return !permanent;
+};
+
 const DOMOperations = {
   // DOM Events ..............................................................................................
 
@@ -22,11 +33,14 @@ const DOMOperations = {
   // Element Mutations .......................................................................................
 
   morph: detail => {
-    const { element, html, childrenOnly, focusSelector } = detail;
+    const { element, html, childrenOnly, focusSelector, permanentAttributeName } = detail;
     const template = document.createElement('template');
     template.innerHTML = String(html).trim();
     dispatch(element, 'cable-ready:before-morph', { ...detail, content: template.content });
-    morphdom(element, template.content, { childrenOnly: !!childrenOnly });
+    morphdom(element, template.content, {
+      childrenOnly: !!childrenOnly,
+      onBeforeElUpdated: onBeforeElUpdated(permanentAttributeName),
+    });
     if (focusSelector) document.querySelector(focusSelector).focus();
     dispatch(element, 'cable-ready:after-morph', { ...detail, content: template.content });
   },
