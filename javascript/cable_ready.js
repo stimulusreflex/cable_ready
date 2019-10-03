@@ -13,8 +13,8 @@ const xpathToElement = xpath => {
 
 // Morphdom Callbacks ........................................................................................
 
-const onBeforeElChildrenUpdated = (fromEl, toEl) => {
-  const permanent = !!fromEl.dataset && fromEl.dataset.reflexPermanent !== undefined;
+const onBeforeElUpdated = permanentAttributeName => (fromEl, toEl) => {
+  const permanent = !!fromEl.dataset && fromEl.dataset[permanentAttributeName] !== undefined;
   return !permanent;
 };
 
@@ -29,11 +29,14 @@ const DOMOperations = {
   // Element Mutations .......................................................................................
 
   morph: detail => {
-    const { element, html, childrenOnly, focusSelector } = detail;
+    const { element, html, childrenOnly, focusSelector, permanentAttributeName } = detail;
     const template = document.createElement('template');
     template.innerHTML = String(html).trim();
     dispatch(element, 'cable-ready:before-morph', { ...detail, content: template.content });
-    morphdom(element, template.content, { childrenOnly: !!childrenOnly, onBeforeElChildrenUpdated });
+    morphdom(element, template.content, {
+      childrenOnly: !!childrenOnly,
+      onBeforeElUpdated: onBeforeElUpdated(permanentAttributeName),
+    });
     if (focusSelector) document.querySelector(focusSelector).focus();
     dispatch(element, 'cable-ready:after-morph', { ...detail, content: template.content });
   },
