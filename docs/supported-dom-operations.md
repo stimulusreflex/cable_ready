@@ -4,7 +4,10 @@ description: DOM operations you can leverage with CableReady
 
 ## Supported DOM Operations
 
+### [DOM Events](dom-operations/dom-events.md)
 - [dispatchEvent](dom-operations/dom-events.md#dispatchevent)
+
+### [Element Mutations](dom-operations/element-mutations.md)
 - [morph](dom-operations/element-mutations.md#morph)
 - [innerHTML](dom-operations/element-mutations.md#innerhtml)
 - [outerHTML](dom-operations/element-mutations.md#outerhtml)
@@ -12,10 +15,16 @@ description: DOM operations you can leverage with CableReady
 - [insertAdjacentText](dom-operations/element-mutations.md#insertadjacenttext)
 - [remove](dom-operations/element-mutations.md#remove)
 - [setValue](dom-operations/element-mutations.md#setvalue)
+
+### [Attribute Mutations](dom-operations/attribute-mutations.md)
 - [setAttribute](dom-operations/attribute-mutations.md#setattribute)
 - [removeAttribute](dom-operations/attribute-mutations.md#removeattribute)
+
+### [CSS Class Mutations](dom-operations/css-class-mutations.md)
 - [addCssClass](dom-operations/css-class-mutations.md#addcssclass)
 - [removeCssClass](dom-operations/css-class-mutations.md#removecssclass)
+
+### [Dataset Mutations](dom-operations/dataset-mutations.md)
 - [setDatasetProperty](dom-operations/dataset-mutations.md#setdatasetproperty)
 
 {% hint style="info" %}
