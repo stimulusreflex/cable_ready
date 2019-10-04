@@ -2,7 +2,6 @@
 
 ## Getting Started
 
-* [CableReady](README.md)
 * [Setup](setup.md)
 * [Usage](usage.md)
 
