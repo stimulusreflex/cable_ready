@@ -1,6 +1,5 @@
 ---
-description: A simple interface for triggering client-side DOM operations
-from the server via ActionCable
+description: A simple interface for triggering client-side DOM operations from the server via ActionCable
 ---
 
 # CableReady
