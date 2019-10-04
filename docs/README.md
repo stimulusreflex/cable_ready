@@ -1,7 +1,11 @@
-[![Lines of Code](http://img.shields.io/badge/lines_of_code-268-brightgreen.svg?style=flat)](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/)
-[![Maintainability](https://api.codeclimate.com/v1/badges/83ddf1fee4af7e51a681/maintainability)](https://codeclimate.com/github/hopsoft/cable_ready/maintainability)
+---
+description: A simple interface for triggering client-side DOM operations
+from the server via ActionCable
+---
 
 # CableReady
+
+[![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
 
 ## Out-of-Band Server Triggered DOM Operations
 
@@ -11,21 +15,11 @@ from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_ove
 Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html)
 to learn more about ActionCable before proceeding.
 
-## Docs
-
-- [Official Documentation](https://docs.cableready.com)
-- [Documentation Source Code](https://github.com/hopsoft/cable_ready/tree/master/docs)
 
 ## Contributing
 
-### Code of Conduct
-
-Everyone interacting with StimulusReflex is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md)
-
-### Coding Standards
-
 This project uses [Standard](https://github.com/testdouble/standard)
-and [prettier-standard](https://github.com/sheerun/prettier-standard) to minimize bike shedding related to code formatting.
+and [Prettier](https://github.com/prettier/prettier) to minimize bike shedding related to code formatting.
 
 Please run `./bin/standardize` prior submitting pull requests.
 
