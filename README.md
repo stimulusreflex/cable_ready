@@ -20,7 +20,7 @@ to learn more about ActionCable before proceeding.
 
 ### Code of Conduct
 
-Everyone interacting with StimulusReflex is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md)
+Everyone interacting with CableReady is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ### Coding Standards
 
