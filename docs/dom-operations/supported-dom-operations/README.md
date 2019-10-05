@@ -1,5 +1,5 @@
 ---
-description: DOM operations you can leverage with CableReady
+description: All DOM operations that can be triggered from the server with CableReady
 ---
 
 # Supported DOM Operations

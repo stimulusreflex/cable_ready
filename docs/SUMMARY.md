@@ -5,7 +5,7 @@
 ## Getting Started
 
 * [Setup](getting-started/setup.md)
-* [Usage](getting-started/usage.md)
+* [Quick Start](getting-started/usage.md)
 
 ## DOM Operations
 

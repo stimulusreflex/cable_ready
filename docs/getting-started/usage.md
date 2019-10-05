@@ -1,8 +1,8 @@
 ---
-description: How to use CableReady
+description: Brief example of how to use CableReady
 ---
 
-# Usage
+# Quick Start
 
 {% code-tabs %}
 {% code-tabs-item title="app/assets/javascripts/channels/user.js" %}
