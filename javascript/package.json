@@ -1,6 +1,6 @@
 {
   "name": "cable_ready",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "main": "./cable_ready.js",
   "scripts": {
     "prettier-standard-check": "yarn run prettier-standard --check ./cable_ready.js"
