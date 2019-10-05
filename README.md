@@ -13,7 +13,7 @@ to learn more about ActionCable before proceeding.
 
 ## Docs
 
-- [Official Documentation](https://docs.cableready.com)
+- [Official Documentation](https://cableready.stimulusreflex.com)
 - [Documentation Source Code](https://github.com/hopsoft/cable_ready/tree/master/docs)
 
 ## Contributing
