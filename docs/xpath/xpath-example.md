@@ -2,7 +2,7 @@
 description: Example of using Xpath with CableReady
 ---
 
-## Xpath Example
+# XPath Example
 
 {% code-tabs %}
 {% code-tabs-item title="app/models/user.rb" %}
@@ -18,3 +18,4 @@ end
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
+

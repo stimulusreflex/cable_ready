@@ -6,8 +6,6 @@
 Dispatches a DOM event in the browser.
 {% endhint %}
 
-{% code-tabs %}
-{% code-tabs-item %}
 ```ruby
 cable_ready["MyChannel"].dispatch_event(
   name:     "string", # required - the name of the DOM event to dispatch (can be custom)
@@ -15,5 +13,4 @@ cable_ready["MyChannel"].dispatch_event(
   selector: "string"  # [window] - string containing a CSS selector or XPath expression
 )
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+

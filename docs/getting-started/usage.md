@@ -2,7 +2,7 @@
 description: How to use CableReady
 ---
 
-## Usage
+# Usage
 
 {% code-tabs %}
 {% code-tabs-item title="app/assets/javascripts/channels/user.js" %}
@@ -34,3 +34,4 @@ end
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
+

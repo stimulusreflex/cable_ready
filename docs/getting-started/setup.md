@@ -2,7 +2,7 @@
 description: How to get setup with CableReady
 ---
 
-## Setup
+# Setup
 
 ```bash
 yarn add cable_ready
@@ -15,3 +15,4 @@ gem "cable_ready"
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
+
