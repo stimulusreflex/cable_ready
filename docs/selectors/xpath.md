@@ -2,7 +2,7 @@
 description: Example of using an XPath selector with CableReady
 ---
 
-# XPath Example
+# XPath
 
 {% code-tabs %}
 {% code-tabs-item title="app/models/user.rb" %}

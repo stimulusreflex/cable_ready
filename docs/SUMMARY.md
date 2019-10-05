@@ -18,5 +18,5 @@
 
 ## Selectors
 
-* [XPath Example](selectors/xpath-example.md)
+* [XPath](selectors/xpath.md)
 
