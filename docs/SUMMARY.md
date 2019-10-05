@@ -7,10 +7,6 @@
 * [Setup](getting-started/setup.md)
 * [Usage](getting-started/usage.md)
 
-## XPath
-
-* [XPath Example](xpath/xpath-example.md)
-
 ## DOM Operations
 
 * [Supported DOM Operations](dom-operations/supported-dom-operations/README.md)
@@ -19,4 +15,8 @@
   * [CSS Class Mutations](dom-operations/supported-dom-operations/css-class-mutations.md)
   * [Dataset Mutations](dom-operations/supported-dom-operations/dataset-mutations.md)
   * [Element Mutations](dom-operations/supported-dom-operations/element-mutations.md)
+
+## Selectors
+
+* [XPath Example](selectors/xpath-example.md)
 

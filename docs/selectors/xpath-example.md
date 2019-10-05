@@ -1,5 +1,5 @@
 ---
-description: Example of using Xpath with CableReady
+description: Example of using an XPath selector with CableReady
 ---
 
 # XPath Example
