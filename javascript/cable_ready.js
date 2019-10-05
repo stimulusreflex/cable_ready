@@ -22,8 +22,8 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   // Skip nodes that are equal:
   // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
   if (fromEl.isEqualNode(toEl)) return false
-  if (!permanentAttributeName) return false
-  if (fromEl.closest(`[${permanentAttributeName}]`)) return false
+  if (permanentAttributeName && fromEl.closest(`[${permanentAttributeName}]`))
+    return false
   return true
 }
 
