@@ -8,11 +8,11 @@
 
 ```ruby
 cable_ready["MyChannel"].morph(
-  selector:       "string",           # required - string containing a CSS selector or XPath expression
-  html:           "string",           # [null]   - the HTML to assign
-  children_only:  true|false,         # [null]   - indicates if only child nodes should be morphed... skipping the parent element
-  permanent_attribute_name: "string", # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
-  focus_selector: "string",           # [null]   - string containing a CSS selector
+  selector:                 "string",   # required - string containing a CSS selector or XPath expression
+  html:                     "string",   # [null]   - the HTML to assign
+  children_only:            true|false, # [null]   - indicates if only child nodes should be morphed... skipping the parent element
+  permanent_attribute_name: "string",   # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
+  focus_selector:           "string",   # [null]   - string containing a CSS selector
 )
 ```
 
@@ -20,31 +20,6 @@ cable_ready["MyChannel"].morph(
 
 * `cable-ready:before-morph`
 * `cable-ready:after-morph`
-
-### Stimulus Gotchas
-
-{% hint style="warning" %}
-For some reason [Stimulus](https://github.com/stimulusjs/stimulus) controllers don't reconnect after DOM mutations triggered by [Morphdom](https://github.com/patrick-steele-idem/morphdom).
-{% endhint %}
-
-You can force your controllers to reconnect with the following code.
-
-```javascript
-import { Controller } from "stimulus"
-
-export default class extends Controller {
-  connect() {
-    this.name = this.element.dataset.controller;
-    document.addEventListener('cable-ready:after-morph', this.reconnect.bind(this));
-    );
-  }
-
-  reconnect() {
-    setTimeout(() => this.element.setAttribute('data-controller', this.name), 1);
-    this.element.setAttribute('data-controller', '');
-  }
-}
-```
 
 ## [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
