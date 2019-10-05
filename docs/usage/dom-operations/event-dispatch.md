@@ -1,4 +1,4 @@
-# DOM Events
+# Event Dispatch
 
 ## [dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 

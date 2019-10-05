@@ -1,22 +1,14 @@
 # Table of contents
 
 * [Introduction](README.md)
+* [Setup](setup.md)
 
-## Getting Started
+## Usage
 
-* [Setup](getting-started/setup.md)
-* [Quick Start](getting-started/usage.md)
-
-## DOM Operations
-
-* [Supported DOM Operations](dom-operations/supported-dom-operations/README.md)
-  * [DOM Events](dom-operations/supported-dom-operations/dom-events.md)
-  * [Attribute Mutations](dom-operations/supported-dom-operations/attribute-mutations.md)
-  * [CSS Class Mutations](dom-operations/supported-dom-operations/css-class-mutations.md)
-  * [Dataset Mutations](dom-operations/supported-dom-operations/dataset-mutations.md)
-  * [Element Mutations](dom-operations/supported-dom-operations/element-mutations.md)
-
-## Selectors
-
-* [XPath](selectors/xpath.md)
+* [DOM Operations](usage/dom-operations/README.md)
+  * [Event Dispatch](usage/dom-operations/event-dispatch.md)
+  * [Attribute Mutations](usage/dom-operations/attribute-mutations.md)
+  * [CSS Class Mutations](usage/dom-operations/css-class-mutations.md)
+  * [Dataset Mutations](usage/dom-operations/dataset-mutations.md)
+  * [Element Mutations](usage/dom-operations/element-mutations.md)
 

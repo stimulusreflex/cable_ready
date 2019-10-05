@@ -12,5 +12,7 @@ description: >-
 
 CableReady provides a simple interface for triggering client-side DOM operations from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
 
+{% hint style="info" %}
 Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html) to learn more about ActionCable before proceeding.
+{% endhint %}
 
