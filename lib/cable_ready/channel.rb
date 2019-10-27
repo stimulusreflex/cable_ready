@@ -20,6 +20,8 @@ module CableReady
     #     html:          "string"
     #     children_only:  true|false,
     #     permanent_attribute_name: "string",
+    #     append_attribute_name: "string",
+    #     prepend_attribute_name: "string",
     #     focus_selector: "string",
     #   }, ...],
     #
