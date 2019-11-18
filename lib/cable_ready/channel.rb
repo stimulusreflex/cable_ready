@@ -113,62 +113,67 @@ module CableReady
     end
 
     def dispatch_event(options = {})
-      operations[:dispatch_event] << options
+      add_operation(:dispatch_event, options)
     end
 
     def morph(options = {})
-      operations[:morph] << options
+      add_operation(:morph, options)
     end
 
     def inner_html(options = {})
-      operations[:inner_html] << options
+      add_operation(:inner_html, options)
     end
 
     def outer_html(options = {})
-      operations[:outer_html] << options
+      add_operation(:outer_html, options)
     end
 
     def text_content(options = {})
-      operations[:text_content] << options
+      add_operation(:text_content, options)
     end
 
     def insert_adjacent_html(options = {})
-      operations[:insert_adjacent_html] << options
+      add_operation(:insert_adjacent_html, options)
     end
 
     def insert_adjacent_text(options = {})
-      operations[:insert_adjacent_text] << options
+      add_operation(:insert_adjacent_text, options)
     end
 
     def remove(options = {})
-      operations[:remove] << options
+      add_operation(:remove, options)
     end
 
     def set_value(options = {})
-      operations[:set_value] << options
+      add_operation(:set_value, options)
     end
 
     def set_attribute(options = {})
-      operations[:set_attribute] << options
+      add_operation(:set_attribute, options)
     end
 
     def remove_attribute(options = {})
-      operations[:remove_attribute] << options
+      add_operation(:remove_attribute, options)
     end
 
     def add_css_class(options = {})
-      operations[:add_css_class] << options
+      add_operation(:add_css_class, options)
     end
 
     def remove_css_class(options = {})
-      operations[:remove_css_class] << options
+      add_operation(:remove_css_class, options)
     end
 
     def set_dataset_property(options = {})
-      operations[:set_dataset_property] << options
+      add_operation(:set_dataset_property, options)
     end
 
     private
+
+    def add_operation(key, options)
+      operations[key] ||= []
+      operations[key] << options
+    end
 
     def stub
       {
