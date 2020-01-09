@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.homepage = "https://github.com/hopsoft/cable_ready"
   gem.summary = "Out-of-Band Server Triggered DOM Operations"
 
-  gem.files = Dir["lib/**/*.rb", "app/assets/javascripts/cable_ready.js", "bin/*", "[A-Z]*"]
+  gem.files = Dir["lib/**/*.rb", "app/assets/package/dist/cable_ready.js", "bin/*", "[A-Z]*"]
   gem.test_files = Dir["test/**/*.rb"]
 
   gem.add_dependency "rails", ">= 5.2"

@@ -3,7 +3,7 @@ name: StandardRB
 on:
   pull_request:
     branches:
-      - '*'
+      - "*"
   push:
     branches:
       - master
@@ -13,8 +13,8 @@ jobs:
     name: StandardRB Check Action
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Standard
-      uses: CultureHQ/actions-bundler@master
-      with:
-        args: install && bundle exec standardrb --format progress
+      - uses: actions/checkout@master
+      - name: Standard
+        uses: CultureHQ/actions-bundler@master
+        with:
+          args: install && bundle exec standardrb --format progress

@@ -77,7 +77,12 @@
   dependencies:
     morphdom "*"
 
-"@types/node@*", "@types/node@^13.1.5":
+"@types/node@*":
+  version "12.7.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.10.tgz#942c128c37b5d780aff5441fd457cd7ffdc18b36"
+  integrity sha512-ObiPa43kJCkgjG+7usRCoxWhqKCmT5JWvi+8bg54KMkP2CvTliYLmKR9uHLaz+51JDOX/8MjWc6Xz18xHTs7XQ==
+
+"@types/node@^13.1.5":
   version "13.1.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.5.tgz#4d5efc52a1d3e45d13e5ec9f911cbc5b089ccaec"
   integrity sha512-wupvfmtbqRJzjCm1H2diy7wo31Gn1OzvqoxCfQuKM9eSecogzP0WTlrjdq7cf7jgSO2ZX6hxwgRPR8Wt7FA22g==
@@ -397,10 +402,15 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-morphdom@*, morphdom@^2.5.9:
+morphdom@*:
   version "2.5.12"
   resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.5.12.tgz#92394bcb8884e94fde097f6ab3e76cf94cd3291f"
   integrity sha512-KAAMs5yBv5of2HJv1vKfOdpdSXrptFEmS7RdWQDvz8jPQawNu7lVFERUvwePSPVdhigFp3XOsUc1anpPARbSOA==
+
+morphdom@^2.5.9:
+  version "2.5.10"
+  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.5.10.tgz#12534d81794277c65b11fca8e132aeceeff354e1"
+  integrity sha512-pSTQQjICC6LEFHMAD19u8oTRE+P4DTkmw4c0NzfePcuvw663TZVYw/YKXemOfLsgUrDVmnYRf+kJmIAzaqIfIA==
 
 neo-async@^2.6.0:
   version "2.6.1"
