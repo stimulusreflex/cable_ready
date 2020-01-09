@@ -7,16 +7,6 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
-    "build:doc": "typedoc --out docs/api --name CableReady --mode file --readme none --excludePrivate --excludeProtected --excludeNotExported --hideGenerator --tsconfig tsconfig.json src",
-    "watch": "tsc -b -w packages/tsconfig.build.json && lerna run --parallel watch",
-    "start": "rollup -c rollup.config.ts -w",
-    "prerelease": "yarn build",
-    "release:beta": "yarn release --npm-tag=beta",
-    "clean": "rimraf dist *.tsbuildinfo"
-  },
   "prettier": {
     "semi": false,
     "singleQuote": false,
@@ -37,21 +27,15 @@
   "dependencies": {
     "morphdom": "^2.5.9"
   },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^11.0.1",
-    "@rollup/plugin-node-resolve": "^7.0.0",
-    "@rollup/plugin-typescript": "^2.1.0",
-    "@types/morphdom": "^2.4.2",
-    "@types/node": "^13.1.5",
-    "@types/uglify-js": "^3.0.4",
-    "rollup": "^1.29.0",
-    "rollup-plugin-sourcemaps": "^0.5.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "tslib": "^1.10.0",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^9.0.0",
-    "typedoc": "^0.15.6",
-    "typescript": "^3.7.4"
+  "scripts": {
+    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts'",
+    "lint:fix": "tslint --project tsconfig.json -t codeFrame --fix 'src/**/*.ts'",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build:doc": "typedoc --out docs/api --name CableReady --mode file --readme none --excludePrivate --excludeProtected --excludeNotExported --hideGenerator --tsconfig tsconfig.json src",
+    "watch": "tsc -b -w packages/tsconfig.build.json && lerna run --parallel watch",
+    "start": "rollup -c rollup.config.ts -w",
+    "prerelease": "yarn build",
+    "release:beta": "yarn release --npm-tag=beta",
+    "clean": "rimraf dist *.tsbuildinfo"
   }
 }

@@ -1,8 +1,8 @@
+// import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
-import uglify from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
 
 const pkg = require("./package.json")
 const year = new Date().getFullYear()
@@ -19,24 +19,24 @@ const uglifyOptions = {
 }
 
 export default {
-  input: "src/index.ts",
+  input: "./src/index.ts",
   output: [
     {
-      file: pkg.main,
+      file: "dist/stimulus.umd.js",
       name: "CableReady",
       format: "umd",
       sourcemap: true,
       banner,
-    },
-    { file: pkg.module, format: "es", sourcemap: true },
+    }
+    // { file: pkg.module, format: "es", sourcemap: true },
   ],
   watch: {
     include: "src/**",
   },
   context: "window",
   plugins: [
-    typescript({ module: "CommonJS" }),
-    commonjs({ extensions: [".js", ".ts"] }),
+    typescript(),
+    // commonjs({ extensions: [".js", ".ts"] }),
     resolve(),
     sourceMaps(),
     uglify(uglifyOptions),
