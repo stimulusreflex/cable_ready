@@ -1,7 +1,7 @@
 ---
 description: >-
-  CableReady finishes the story started by ActionCable and takes it from message
-  bus to magic
+  CableReady completes the ActionCable story and expands the utility of web
+  sockets in your Rails app
 ---
 
 # Welcome
@@ -10,15 +10,19 @@ description: >-
 
 ## Why CableReady?
 
-CableReady enables triggering **client-side DOM operations from server-side Ruby** code. Imagine updating progress bars, setting visual counters, or displaying messages - all from the server. **No need for custom JavaScript.** 
+CableReady helps you **create great real-time user experiences** by making it simple to trigger client-side DOM changes from server-side Ruby. It establishes a standard for interacting with the client via [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. **No need for custom JavaScript.** 
 
-It's simple. We leverage [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) to emit instructions from the server that are then executed on the client. The possibilities are endless. _You'll be finishing features before your peers have updated their Webpack config._
+Possible interactions range from updating a single element's value to replacing entire sections of content. You can even dispatch client-side DOM events from the server. And, unlike traditional Ajax or reactive SPAs, updates don't need to be initiated by the user. For example, CableReady can update your UI in response to things happening on the server.
+
+## How does it work?
+
+CableReady builds on top of ActionCable and allows you to emit DOM instructions from the server that are automatically executed on the client. It expands the role of web sockets in the Rails ecosystem and elevates Rails as a viable highly performant **alternative to the Single Page App**. 
 
 {% hint style="info" %}
 Lean more about [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html) to help you get the most out of CableReady.
 {% endhint %}
 
-## What Can I do with it?
+## What can I do with it?
 
 CableReady supports the following DOM operations that can be triggered from server-side Ruby code. 
 
@@ -37,4 +41,20 @@ CableReady supports the following DOM operations that can be triggered from serv
 13. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 
 The potential use cases are unlimited. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
+
+## Can I see an example?
+
+This is a simple example that demonstrates how to set an element's value. 
+
+```ruby
+cable_ready["MyChannel"].set_value(
+  selector: "#my-element", 
+  value: "A new value from the server"
+)
+cable_ready.broadcast
+```
+
+{% hint style="warning" %}
+In this example, all clients connected to `MyChannel` will receive the broadcast and will update the DOM element to the new value. 
+{% endhint %}
 
