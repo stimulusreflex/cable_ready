@@ -12,7 +12,7 @@ description: >-
 
 CableReady helps you **create great real-time user experiences** by making it simple to trigger client-side DOM changes from server-side Ruby. It establishes a standard for interacting with the client via [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. **No need for custom JavaScript.** 
 
-Possible interactions range from updating a single element's value to replacing entire sections of content. You can even dispatch client-side DOM events from the server. And, unlike traditional Ajax or reactive SPAs, updates don't need to be initiated by the user. For example, CableReady can update your UI in response to things happening on the server.
+Possible interactions range from updating a single element's value to replacing entire sections of content. You can even dispatch client-side DOM events from the server. Also, updates don't need to be initiated by the user. For example, CableReady can update your UI in response to things happening on the server, such as long running ActiveJobs or activity from API calls and webhooks. It's never been easier to notify users of site wide activity.
 
 ## How does it work?
 
@@ -40,7 +40,7 @@ CableReady supports the following DOM operations that can be triggered from serv
 12. [removeCssClass](usage/dom-operations/css-class-mutations.md#removecssclass)
 13. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 
-The potential use cases are unlimited. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
+As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
 ## Can I see an example?
 
