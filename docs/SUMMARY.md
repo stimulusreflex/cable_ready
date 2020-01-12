@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Introduction](README.md)
+* [Welcome](README.md)
 * [Setup](setup.md)
 
 ## Usage
