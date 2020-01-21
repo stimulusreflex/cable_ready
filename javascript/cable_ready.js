@@ -158,7 +158,7 @@ const DOMOperations = {
   }
 }
 
-const perform = operations => {
+const perform = (operations, options = { processMissing: true }) => {
   for (let name in operations) {
     if (operations.hasOwnProperty(name)) {
       const entries = operations[name]
@@ -172,9 +172,13 @@ const perform = operations => {
           } else {
             detail.element = document
           }
-          DOMOperations[name](detail)
+          if (detail.element || options.processMissing)
+            DOMOperations[name](detail)
         } catch (e) {
-          console.log(`CableReady detected an error in ${name}! ${e.message}`)
+          if (entries[i].element)
+            console.log(`CableReady detected an error in ${name}! ${e.message}`)
+          else
+            console.log(`CableReady ${name} failed due to missing DOM element.`)
         }
       }
     }
