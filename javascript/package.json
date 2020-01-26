@@ -12,9 +12,9 @@
   "author": "Nathan Hopkins",
   "license": "MIT",
   "dependencies": {
-    "morphdom": "^2.5.9"
+    "morphdom": "^2.5.12"
   },
   "devDependencies": {
-    "prettier-standard": "^15.0.1"
+    "prettier-standard": "^16.1.0"
   }
 }
