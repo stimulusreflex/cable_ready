@@ -158,7 +158,10 @@ const DOMOperations = {
   }
 }
 
-const perform = (operations, options = { processMissing: true }) => {
+const perform = (
+  operations,
+  options = { emitMissingElementWarnings: true }
+) => {
   for (let name in operations) {
     if (operations.hasOwnProperty(name)) {
       const entries = operations[name]
@@ -172,7 +175,7 @@ const perform = (operations, options = { processMissing: true }) => {
           } else {
             detail.element = document
           }
-          if (detail.element || options.processMissing)
+          if (detail.element || options.emitMissingElementWarnings)
             DOMOperations[name](detail)
         } catch (e) {
           if (entries[i].element)
