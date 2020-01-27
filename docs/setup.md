@@ -40,5 +40,5 @@ App.cable.subscriptions.create(
 {% endcode-tabs %}
 
 {% hint style="info" %}
-By default, CableReady will emit a warning to the console log if it cannot find a DOM element matching the specified selector. If you would prefer to silently ignore operations on elements that don't exist, CableReady.perform accepts an options object as a second parameter: `CableReady.perform(data.operations, { processMissing: false })`
+By default, CableReady will emit a warning to the console log if it cannot find a DOM element matching the specified selector. If you would prefer to silently ignore operations on elements that don't exist, CableReady.perform accepts an options object as a second parameter: `CableReady.perform(data.operations, { emitMissingElementWarnings: false })`
 {% endhint %}
