@@ -5,10 +5,7 @@
 
 # CableReady
 
-## Out-of-Band Server Triggered DOM Operations
-
-CableReady provides a simple interface for triggering client-side DOM operations
-from the server via [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html).
+CableReady helps you create great real-time user experiences by making it simple to trigger client-side DOM changes from server-side Ruby. It establishes a standard for interacting with the client via ActionCable web sockets. No need for custom JavaScript. 
 
 Please read the official [ActionCable docs](http://guides.rubyonrails.org/action_cable_overview.html)
 to learn more about ActionCable before proceeding.
