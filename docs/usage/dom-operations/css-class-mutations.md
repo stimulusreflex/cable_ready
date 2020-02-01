@@ -21,7 +21,7 @@ cable_ready["MyChannel"].add_css_class(
 Removes a CSS class from an element.
 
 ```ruby
-cable_ready["MyChannel"].add_css_class(
+cable_ready["MyChannel"].remove_css_class(
   selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string"  # [null]   - the CSS class to remove
 )
