@@ -10,7 +10,7 @@ Dispatches a DOM event in the browser.
 cable_ready["MyChannel"].dispatch_event(
   name:     "string", # required - the name of the DOM event to dispatch (can be custom)
   detail:   "object", # [null]   - assigned to event.detail
-  selector: "string"  # [window] - string containing a CSS selector or XPath expression
+  selector: "string"  # [document] - string containing a CSS selector or XPath expression
 )
 ```
 
