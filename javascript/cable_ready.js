@@ -32,8 +32,8 @@ const DOMOperations = {
   // DOM Events ..............................................................................................
 
   dispatchEvent: config => {
-    const { element, name, detail } = config
-    dispatch(element, name, detail)
+    const { element, event, detail } = config
+    dispatch(element, event, detail)
   },
 
   // Element Mutations .......................................................................................
