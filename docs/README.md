@@ -19,7 +19,7 @@ Possible interactions range from updating a single element's value to replacing 
 CableReady builds on top of ActionCable and allows you to emit DOM instructions from the server that are automatically executed on the client. It expands the role of web sockets in the Rails ecosystem and elevates Rails as a viable highly performant **alternative to the Single Page App**. 
 
 {% hint style="info" %}
-Lean more about [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html) to help you get the most out of CableReady.
+Learn more about [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html) to help you get the most out of CableReady.
 {% endhint %}
 
 ## What can I do with it?
