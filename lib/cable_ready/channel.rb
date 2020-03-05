@@ -5,6 +5,13 @@ module CableReady
     # Example Operations Payload:
     #
     # {
+    #   # Cookies .....................................................................................................
+    #
+    #   set_cookie: [
+    #     {cookie: "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"},
+    #     ...
+    #   ]
+    #
     #   # DOM Events ..................................................................................................
     #
     #   dispatch_event: [{
@@ -112,6 +119,10 @@ module CableReady
       clear
     end
 
+    def set_cookie(value)
+      add_operation(:set_cookie, {cookie: value})
+    end
+
     def dispatch_event(options = {})
       add_operation(:dispatch_event, options)
     end
@@ -177,20 +188,21 @@ module CableReady
 
     def stub
       {
+        add_css_class: [],
         dispatch_event: [],
-        morph: [],
         inner_html: [],
-        outer_html: [],
-        text_content: [],
         insert_adjacent_html: [],
         insert_adjacent_text: [],
+        morph: [],
+        outer_html: [],
         remove: [],
-        set_value: [],
-        set_attribute: [],
         remove_attribute: [],
-        add_css_class: [],
         remove_css_class: [],
+        set_attribute: [],
+        set_cookie: [],
         set_dataset_property: [],
+        set_value: [],
+        text_content: []
       }
     end
   end

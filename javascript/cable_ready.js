@@ -29,6 +29,12 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
 // Morphdom Callbacks ........................................................................................
 
 const DOMOperations = {
+  // Cookies .................................................................................................
+
+  setCookie: config => {
+    document.cookie = config.cookie
+  },
+
   // DOM Events ..............................................................................................
 
   dispatchEvent: config => {
