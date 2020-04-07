@@ -1,16 +1,32 @@
 {
   "name": "cable_ready",
   "version": "4.1.0",
-  "main": "./cable_ready.js",
-  "scripts": {
-    "prettier-standard-check": "yarn run prettier-standard --check ./cable_ready.js"
+  "description": "CableReady helps you create great real-time user experiences by making it simple to trigger client-side DOM changes from server-side Ruby.",
+  "keywords": [
+    "ruby",
+    "rails",
+    "websockets",
+    "actioncable",
+    "cable",
+    "ssr",
+    "stimulus_reflex",
+    "client-side",
+    "dom"
+  ],
+  "homepage": "https://cableready.stimulusreflex.com/",
+  "bugs": {
+    "url": "https://github.com/hopsoft/cable_ready/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com:hopsoft/cable_ready.git"
   },
-  "author": "Nathan Hopkins",
   "license": "MIT",
+  "author": "Nathan Hopkins <natehop@gmail.com>",
+  "main": "./cable_ready.js",
+  "scripts": {
+    "prettier-standard-check": "yarn run prettier-standard --check ./cable_ready.js"
+  },
   "dependencies": {
     "morphdom": "^2.5.12"
   },
