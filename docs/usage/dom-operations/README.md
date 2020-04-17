@@ -36,6 +36,10 @@ All DOM mutations have corresponding `before/after` events triggered on `documen
 * [addCssClass](css-class-mutations.md#addcssclass)
 * [removeCssClass](css-class-mutations.md#removecssclass)
 
+## [Style Mutations](style-mutations.md)
+
+* [setStyle](style-mutations.md#setstyle)
+
 ## [Dataset Mutations](dataset-mutations.md)
 
 * [setDatasetProperty](dataset-mutations.md#setdatasetproperty)
