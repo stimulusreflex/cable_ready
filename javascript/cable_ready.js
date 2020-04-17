@@ -154,6 +154,15 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-remove-css-class', detail)
   },
 
+  // Style Mutations .......................................................................................
+
+  setStyle: detail => {
+    const { element, name, value } = detail
+    dispatch(element, 'cable-ready:before-set-style', detail)
+    element.style[name] = value
+    dispatch(element, 'cable-ready:after-set-style', detail)
+  },
+
   // Dataset Mutations .......................................................................................
 
   setDatasetProperty: detail => {

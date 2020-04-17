@@ -95,6 +95,14 @@ module CableReady
     #     name:     "string"
     #   }, ...],
     #
+    #   # Style Mutations ...........................................................................................
+    #
+    #   set_style: [{
+    #     selector: "string",
+    #     name:     "string",
+    #     value:    "string"
+    #   }, ...],
+    #
     #   # Dataset Mutations ...........................................................................................
     #
     #   set_dataset_property: [{
@@ -175,6 +183,10 @@ module CableReady
       add_operation(:remove_css_class, options)
     end
 
+    def set_style(options = {})
+      add_operation(:set_style, options)
+    end
+
     def set_dataset_property(options = {})
       add_operation(:set_dataset_property, options)
     end
@@ -201,6 +213,7 @@ module CableReady
         set_attribute: [],
         set_cookie: [],
         set_dataset_property: [],
+        set_style: [],
         set_value: [],
         text_content: []
       }
