@@ -1,5 +1,60 @@
 import morphdom from 'morphdom'
 
+// Indicates if the passed element is considered a text input.
+//
+export const isTextInput = element => {
+  return (
+    ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName) &&
+    [
+      'color',
+      'date',
+      'datetime',
+      'datetime-local',
+      'email',
+      'month',
+      'number',
+      'password',
+      'range',
+      'search',
+      'select-one',
+      'select-multiple',
+      'tel',
+      'text',
+      'textarea',
+      'time',
+      'url',
+      'week'
+    ].includes(element.type)
+  )
+}
+
+// Assigns focus to the appropriate element... preferring the explicitly passed focusSelector
+//
+// * activeElement - the most recent active element
+// * focusSelector - a CSS selector for the element that should have focus
+//
+const assignFocus = (activeElement, focusSelector) => {
+  let focusElement = focusSelector
+    ? document.querySelector(focusSelector)
+    : activeElement
+
+  if (!focusElement) return
+
+  focusElement.focus()
+  if (isTextInput(focusElement)) {
+    // shenanigans to ensure that the cursor is placed at the end of the existing value
+    const value = focusElement.value
+    focusElement.value = ''
+    focusElement.value = value
+  }
+}
+
+// Dispatches an event on the passed element
+//
+// * element - the element
+// * name - the name of the event
+// * detail - the event detail
+//
 const dispatch = (element, name, detail = {}) => {
   const init = { bubbles: true, cancelable: true }
   const evt = new Event(name, init)
@@ -17,22 +72,15 @@ const xpathToElement = xpath => {
   ).singleNodeValue
 }
 
+// Indicates whether or not we should morph an element
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
+//
 const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   // Skip nodes that are equal:
   // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
   if (fromEl.isEqualNode(toEl)) return false
   if (!permanentAttributeName) return true
   return !fromEl.closest(`[${permanentAttributeName}]`)
-}
-
-const assignFocus = (activeElement, focusSelector) => {
-  const focusElement = focusSelector
-    ? document.querySelector(focusSelector)
-    : null
-  if (focusElement) return focusElement.focus()
-  if (activeElement && activeElement !== document.activeElement)
-    activeElement.focus()
 }
 
 // Morphdom Callbacks ........................................................................................
