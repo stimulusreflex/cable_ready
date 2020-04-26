@@ -39,19 +39,10 @@ const isTextInput = element => {
 // * focusSelector - a CSS selector for the element that should have focus
 //
 const assignFocus = (activeElement, focusSelector) => {
-  let focusElement = focusSelector
+  const focusElement = focusSelector
     ? document.querySelector(focusSelector)
     : activeElement
-
-  if (!focusElement) return
-
-  focusElement.focus()
-  if (isTextInput(focusElement)) {
-    // shenanigans to ensure that the cursor is placed at the end of the existing value
-    const value = focusElement.value
-    focusElement.value = ''
-    focusElement.value = value
-  }
+  if (focusElement) focusElement.focus()
 }
 
 // Dispatches an event on the passed element
@@ -85,7 +76,16 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
   if (fromEl.isEqualNode(toEl)) return false
   if (!permanentAttributeName) return true
-  return !fromEl.closest(`[${permanentAttributeName}]`)
+
+  const permanent = fromEl.closest(`[${permanentAttributeName}]`)
+  if (!permanent && isTextInput(fromEl)) {
+    Object.values(toEl.attributes).forEach(attribute =>
+      fromEl.setAttribute(attribute.name, attribute.value)
+    )
+    return false
+  }
+
+  return !permanent
 }
 
 // Morphdom Callbacks ........................................................................................
