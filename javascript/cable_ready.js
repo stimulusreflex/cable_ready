@@ -1,31 +1,36 @@
 import morphdom from 'morphdom'
 
+const textInputTagNames = {
+  INPUT: true,
+  TEXTAREA: true,
+  SELECT: true
+}
+
+const textInputTypes = {
+  'datetime-local': true,
+  'select-multiple': true,
+  'select-one': true,
+  color: true,
+  date: true,
+  datetime: true,
+  email: true,
+  month: true,
+  number: true,
+  password: true,
+  range: true,
+  search: true,
+  tel: true,
+  text: true,
+  textarea: true,
+  time: true,
+  url: true,
+  week: true
+}
+
 // Indicates if the passed element is considered a text input.
 //
 export const isTextInput = element => {
-  return (
-    ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName) &&
-    [
-      'color',
-      'date',
-      'datetime',
-      'datetime-local',
-      'email',
-      'month',
-      'number',
-      'password',
-      'range',
-      'search',
-      'select-one',
-      'select-multiple',
-      'tel',
-      'text',
-      'textarea',
-      'time',
-      'url',
-      'week'
-    ].includes(element.type)
-  )
+  return textInputTagNames[element.tagName] && textInputTypes[element.type]
 }
 
 // Assigns focus to the appropriate element... preferring the explicitly passed focusSelector
