@@ -82,9 +82,11 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
 
   // only morph attributes on the active non-permanent text input
   if (!permanent && isTextInput(fromEl) && fromEl === activeElement) {
-    Object.values(toEl.attributes).forEach(attribute =>
-      fromEl.setAttribute(attribute.name, attribute.value)
-    )
+    const ignore = { value: true }
+    Array.from(toEl.attributes).forEach(attribute => {
+      if (!ignore[attribute.name])
+        fromEl.setAttribute(attribute.name, attribute.value)
+    })
     return false
   }
 
