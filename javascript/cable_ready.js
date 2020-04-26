@@ -29,7 +29,7 @@ const textInputTypes = {
 
 // Indicates if the passed element is considered a text input.
 //
-export const isTextInput = element => {
+const isTextInput = element => {
   return textInputTagNames[element.tagName] && textInputTypes[element.type]
 }
 
@@ -270,4 +270,4 @@ const perform = (
   }
 }
 
-export default { perform }
+export default { perform, isTextInput }
