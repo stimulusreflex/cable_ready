@@ -1,5 +1,7 @@
 import morphdom from 'morphdom'
 
+let activeElement
+
 const textInputTagNames = {
   INPUT: true,
   TEXTAREA: true,
@@ -35,10 +37,9 @@ const isTextInput = element => {
 
 // Assigns focus to the appropriate element... preferring the explicitly passed focusSelector
 //
-// * activeElement - the most recent active element
 // * focusSelector - a CSS selector for the element that should have focus
 //
-const assignFocus = (activeElement, focusSelector) => {
+const assignFocus = focusSelector => {
   const focusElement = focusSelector
     ? document.querySelector(focusSelector)
     : activeElement
@@ -78,7 +79,9 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   if (!permanentAttributeName) return true
 
   const permanent = fromEl.closest(`[${permanentAttributeName}]`)
-  if (!permanent && isTextInput(fromEl)) {
+
+  // only morph attributes on the active non-permanent text input
+  if (!permanent && isTextInput(fromEl) && fromEl === activeElement) {
     Object.values(toEl.attributes).forEach(attribute =>
       fromEl.setAttribute(attribute.name, attribute.value)
     )
@@ -107,7 +110,7 @@ const DOMOperations = {
   // Element Mutations .......................................................................................
 
   morph: detail => {
-    const activeElement = document.activeElement
+    activeElement = document.activeElement
     const {
       element,
       html,
@@ -125,7 +128,7 @@ const DOMOperations = {
       childrenOnly: !!childrenOnly,
       onBeforeElUpdated: shouldMorph(permanentAttributeName)
     })
-    assignFocus(activeElement, focusSelector)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-morph', {
       ...detail,
       content: template.content
@@ -133,20 +136,20 @@ const DOMOperations = {
   },
 
   innerHtml: detail => {
-    const activeElement = document.activeElement
+    activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-inner-html', detail)
     element.innerHTML = html
-    assignFocus(activeElement, focusSelector)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-inner-html', detail)
   },
 
   outerHtml: detail => {
-    const activeElement = document.activeElement
+    activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-outer-html', detail)
     element.outerHTML = html
-    assignFocus(activeElement, focusSelector)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-outer-html', detail)
   },
 
@@ -158,11 +161,11 @@ const DOMOperations = {
   },
 
   insertAdjacentHtml: detail => {
-    const activeElement = document.activeElement
+    activeElement = document.activeElement
     const { element, html, position, focusSelector } = detail
     dispatch(element, 'cable-ready:before-insert-adjacent-html', detail)
     element.insertAdjacentHTML(position || 'beforeend', html)
-    assignFocus(activeElement, focusSelector)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-insert-adjacent-html', detail)
   },
 
@@ -174,11 +177,11 @@ const DOMOperations = {
   },
 
   remove: detail => {
-    const activeElement = document.activeElement
+    activeElement = document.activeElement
     const { element, focusSelector } = detail
     dispatch(element, 'cable-ready:before-remove', detail)
     element.remove()
-    assignFocus(activeElement, focusSelector)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-remove', detail)
   },
 
