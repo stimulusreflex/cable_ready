@@ -54,8 +54,8 @@ The `selector` option uses [document.querySelector\(\)](https://developer.mozill
 [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath) expressions can also be used if the `xpath` option is set to `true`. As with CSS selectors, the XPath expression must resolve to a single element and not a collection.
 {% endhint %}
 
-{% code-tabs %}
-{% code-tabs-item title="app/models/user.rb" %}
+{% tabs %}
+{% tab title="app/models/user.rb" %}
 ```ruby
 class User < ApplicationRecord
   include CableReady::Broadcaster
@@ -70,6 +70,6 @@ class User < ApplicationRecord
   end
 end
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 

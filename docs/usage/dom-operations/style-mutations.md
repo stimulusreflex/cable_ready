@@ -16,3 +16,4 @@ cable_ready["MyChannel"].set_style(
 
 * `cable-ready:before-set-style`
 * `cable-ready:after-set-style`
+
