@@ -65,6 +65,12 @@ module CableReady
     #     focus_selector: "string,
     #   }, ...],
     #
+    #   set_property: [{
+    #     name:     "string",
+    #     selector: "string",
+    #     value:    "string"
+    #   }, ...],
+    #
     #   set_value: [{
     #     selector: "string",
     #     value:    "string"
@@ -163,6 +169,10 @@ module CableReady
       add_operation(:remove, options)
     end
 
+    def set_property(options = {})
+      add_operation(:set_property, options)
+    end
+
     def set_value(options = {})
       add_operation(:set_value, options)
     end
@@ -214,6 +224,7 @@ module CableReady
         set_cookie: [],
         set_dataset_property: [],
         set_style: [],
+        set_property: [],
         set_value: [],
         text_content: []
       }

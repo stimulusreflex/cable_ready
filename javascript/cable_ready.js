@@ -187,6 +187,13 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-remove', detail)
   },
 
+  setProperty: detail => {
+    const { element, name, value } = detail
+    dispatch(element, 'cable-ready:before-set-property', detail)
+    if (name in element) element[name] = value
+    dispatch(element, 'cable-ready:after-set-property', detail)
+  },
+
   setValue: detail => {
     const { element, value } = detail
     dispatch(element, 'cable-ready:before-set-value', detail)
