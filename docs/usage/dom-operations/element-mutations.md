@@ -43,7 +43,7 @@ cable_ready["MyChannel"].inner_html(
 Replaces a DOM element with new HTML.
 
 ```ruby
-cable_ready["MyChannel"].outerHTML(
+cable_ready["MyChannel"].outer_html(
   selector:       "string", # required - string containing a CSS selector or XPath expression
   focus_selector: "string", # [null]   - string containing a CSS selector
   html:           "string"  # [null]   - the HTML to use as replacement
