@@ -268,7 +268,9 @@ const perform = (
           if (detail.element)
             console.log(`CableReady detected an error in ${name}! ${e.message}`)
           else
-            console.log(`CableReady ${name} failed due to missing DOM element for selector: '${detail.selector}'`)
+            console.log(
+              `CableReady ${name} failed due to missing DOM element for selector: '${detail.selector}'`
+            )
         }
       }
     }
