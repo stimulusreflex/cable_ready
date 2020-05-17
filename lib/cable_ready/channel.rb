@@ -127,6 +127,13 @@ module CableReady
       clear
     end
 
+    def broadcast_to(channel, model)
+      operations.select! { |_, list| list.present? }
+      operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
+      channel.constantize.broadcast_to model, "cableReady" => true, "operations" => operations
+      clear
+    end
+
     def set_cookie(value)
       add_operation(:set_cookie, {cookie: value})
     end
