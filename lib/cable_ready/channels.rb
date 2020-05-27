@@ -6,8 +6,8 @@ module CableReady
       @channels = {}
     end
 
-    def [](channel_name)
-      @channels[channel_name] ||= CableReady::Channel.new(channel_name)
+    def [](channel_name, options = {})
+      @channels[channel_name] ||= CableReady::Channel.new(channel_name, options)
     end
 
     def clear

@@ -1,6 +1,6 @@
 module CableReady
   class Channel
-    attr_reader :name, :operations
+    attr_reader :name, :operations, :options
 
     # Example Operations Payload:
     #
@@ -111,16 +111,17 @@ module CableReady
     #     value:    "string"
     #   }, ...],
     # }
-    def initialize(name)
+    def initialize(name, options = {})
       @name = name
       @operations = stub
+      @options = options
     end
 
     def clear
       @operations = stub
     end
 
-    def broadcast(options = {})
+    def broadcast
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       ActionCable.server.broadcast name, "cableReady" => true, "operations" => operations, "options" => options
