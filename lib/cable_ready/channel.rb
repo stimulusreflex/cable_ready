@@ -111,10 +111,10 @@ module CableReady
     #     value:    "string"
     #   }, ...],
     # }
-    def initialize(name)
+    def initialize(name, options = {})
       @name = name
       @operations = stub
-      @options = {}
+      @options = options
     end
 
     def clear
@@ -190,10 +190,6 @@ module CableReady
 
     def set_dataset_property(options = {})
       add_operation(:set_dataset_property, options)
-    end
-
-    def add_option(key, value)
-      @options[key] = value
     end
 
     private
