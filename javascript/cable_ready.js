@@ -275,4 +275,4 @@ const perform = (
   }
 }
 
-export default { perform, isTextInput }
+export default { perform, isTextInput, DOMOperations }
