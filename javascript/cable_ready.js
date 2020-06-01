@@ -155,7 +155,7 @@ const DOMOperations = {
     element.outerHTML = html
     assignFocus(focusSelector)
     dispatch(
-      element.parentElement.children[ordinal],
+      parent.children[ordinal],
       'cable-ready:after-outer-html',
       detail
     )
