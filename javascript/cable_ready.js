@@ -154,11 +154,7 @@ const DOMOperations = {
     const ordinal = Array.from(parent.children).indexOf(element)
     element.outerHTML = html
     assignFocus(focusSelector)
-    dispatch(
-      parent.children[ordinal],
-      'cable-ready:after-outer-html',
-      detail
-    )
+    dispatch(parent.children[ordinal], 'cable-ready:after-outer-html', detail)
   },
 
   textContent: detail => {
