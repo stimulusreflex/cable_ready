@@ -150,9 +150,14 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-outer-html', detail)
+    const ordinal = Array.from(element.parentElement.children).indexOf(element)
     element.outerHTML = html
     assignFocus(focusSelector)
-    dispatch(element, 'cable-ready:after-outer-html', detail)
+    dispatch(
+      element.parentElement.children[ordinal],
+      'cable-ready:after-outer-html',
+      detail
+    )
   },
 
   textContent: detail => {
