@@ -150,7 +150,8 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-outer-html', detail)
-    const ordinal = Array.from(element.parentElement.children).indexOf(element)
+    const parent = element.parentElement
+    const ordinal = Array.from(parent.children).indexOf(element)
     element.outerHTML = html
     assignFocus(focusSelector)
     dispatch(
