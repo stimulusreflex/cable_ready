@@ -255,8 +255,8 @@ const perform = (
     if (operations.hasOwnProperty(name)) {
       const entries = operations[name]
       for (let i = 0; i < entries.length; i++) {
+        const detail = entries[i]
         try {
-          const detail = entries[i]
           if (detail.selector) {
             detail.element = detail.xpath
               ? xpathToElement(detail.selector)
@@ -267,10 +267,12 @@ const perform = (
           if (detail.element || options.emitMissingElementWarnings)
             DOMOperations[name](detail)
         } catch (e) {
-          if (entries[i].element)
+          if (detail.element)
             console.log(`CableReady detected an error in ${name}! ${e.message}`)
           else
-            console.log(`CableReady ${name} failed due to missing DOM element.`)
+            console.log(
+              `CableReady ${name} failed due to missing DOM element for selector: '${detail.selector}'`
+            )
         }
       }
     }
