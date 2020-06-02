@@ -28,7 +28,7 @@
     "prettier-standard-check": "yarn run prettier-standard --check ./cable_ready.js"
   },
   "dependencies": {
-    "morphdom": "^2.5.12"
+    "morphdom": "^2.6.1"
   },
   "devDependencies": {
     "prettier-standard": "^16.1.0"

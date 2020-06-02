@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CableReady
   class Channel
     attr_reader :name, :operations
