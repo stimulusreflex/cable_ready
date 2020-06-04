@@ -237,11 +237,11 @@ const DOMOperations = {
 
   setStyles: detail => {
     const { element, styles } = detail
-    for (const property in styles) {
-      const name = property,
-        value = styles[property]
-      DOMOperations['setStyle']({ element: element, name: name, value: value })
+    dispatch(element, 'cable-ready:before-set-styles', detail)
+    for (let [name, value] of Object.entries(styles)) {
+      element.style[name] = value
     }
+    dispatch(element, 'cable-ready:after-set-styles', detail)
   },
 
   // Dataset Mutations .......................................................................................
