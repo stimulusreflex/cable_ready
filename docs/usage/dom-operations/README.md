@@ -24,6 +24,7 @@ All DOM mutations have corresponding `before/after` events triggered on `documen
 * [insertAdjacentHTML](element-mutations.md#insertAdjacentHTML)
 * [insertAdjacentText](element-mutations.md#insertadjacenttext)
 * [remove](element-mutations.md#remove)
+* [setProperty](element-mutations.md#setproperty)
 * [setValue](element-mutations.md#setvalue)
 
 ## [Attribute Mutations](attribute-mutations.md)

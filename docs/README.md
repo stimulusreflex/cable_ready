@@ -33,14 +33,15 @@ CableReady supports the following DOM operations that can be triggered from serv
 5. [insertAdjacentHTML](usage/dom-operations/element-mutations.md#insertAdjacentHTML)
 6. [insertAdjacentText](usage/dom-operations/element-mutations.md#insertadjacenttext)
 7. [remove](usage/dom-operations/element-mutations.md#remove)
-8. [setValue](usage/dom-operations/element-mutations.md#setvalue)
-9. [setAttribute](usage/dom-operations/attribute-mutations.md#setattribute)
-10. [removeAttribute](usage/dom-operations/attribute-mutations.md#removeattribute)
-11. [addCssClass](usage/dom-operations/css-class-mutations.md#addcssclass)
-12. [removeCssClass](usage/dom-operations/css-class-mutations.md#removecssclass)
-13. [setStyle](usage/dom-operations/css-class-mutations.md#setstyle)
-13. [setStyles](usage/dom-operations/css-class-mutations.md#setstyles)
-14. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
+8. [setProperty](usage/dom-operations/element-mutations.md#setproperty)
+9. [setValue](usage/dom-operations/element-mutations.md#setvalue)
+10. [setAttribute](usage/dom-operations/attribute-mutations.md#setattribute)
+11. [removeAttribute](usage/dom-operations/attribute-mutations.md#removeattribute)
+12. [addCssClass](usage/dom-operations/css-class-mutations.md#addcssclass)
+13. [removeCssClass](usage/dom-operations/css-class-mutations.md#removecssclass)
+14. [setStyle](usage/dom-operations/css-class-mutations.md#setstyle)
+15. [setStyles](usage/dom-operations/css-class-mutations.md#setstyles)
+16. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
