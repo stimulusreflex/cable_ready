@@ -40,7 +40,8 @@ CableReady supports the following DOM operations that can be triggered from serv
 12. [addCssClass](usage/dom-operations/css-class-mutations.md#addcssclass)
 13. [removeCssClass](usage/dom-operations/css-class-mutations.md#removecssclass)
 14. [setStyle](usage/dom-operations/css-class-mutations.md#setstyle)
-15. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
+15. [setStyles](usage/dom-operations/css-class-mutations.md#setstyles)
+16. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 

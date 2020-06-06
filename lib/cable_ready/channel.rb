@@ -199,6 +199,10 @@ module CableReady
       add_operation(:set_style, options)
     end
 
+    def set_styles(options = {})
+      add_operation(:set_styles, options)
+    end
+
     def set_dataset_property(options = {})
       add_operation(:set_dataset_property, options)
     end

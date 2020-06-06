@@ -244,6 +244,15 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-set-style', detail)
   },
 
+  setStyles: detail => {
+    const { element, styles } = detail
+    dispatch(element, 'cable-ready:before-set-styles', detail)
+    for (let [name, value] of Object.entries(styles)) {
+      element.style[name] = value
+    }
+    dispatch(element, 'cable-ready:after-set-styles', detail)
+  },
+
   // Dataset Mutations .......................................................................................
 
   setDatasetProperty: detail => {
