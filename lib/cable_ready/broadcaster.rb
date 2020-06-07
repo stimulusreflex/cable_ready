@@ -7,7 +7,7 @@ module CableReady
     extend ::ActiveSupport::Concern
 
     def cable_ready
-      @cable_ready_channels ||= CableReady::Channels.new
+      CableReady::Channels.instance
     end
   end
 end
