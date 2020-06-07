@@ -150,9 +150,11 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-outer-html', detail)
+    const parent = element.parentElement
+    const ordinal = Array.from(parent.children).indexOf(element)
     element.outerHTML = html
     assignFocus(focusSelector)
-    dispatch(element, 'cable-ready:after-outer-html', detail)
+    dispatch(parent.children[ordinal], 'cable-ready:after-outer-html', detail)
   },
 
   textContent: detail => {
@@ -185,6 +187,13 @@ const DOMOperations = {
     element.remove()
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-remove', detail)
+  },
+
+  setProperty: detail => {
+    const { element, name, value } = detail
+    dispatch(element, 'cable-ready:before-set-property', detail)
+    if (name in element) element[name] = value
+    dispatch(element, 'cable-ready:after-set-property', detail)
   },
 
   setValue: detail => {
@@ -235,6 +244,15 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-set-style', detail)
   },
 
+  setStyles: detail => {
+    const { element, styles } = detail
+    dispatch(element, 'cable-ready:before-set-styles', detail)
+    for (let [name, value] of Object.entries(styles)) {
+      element.style[name] = value
+    }
+    dispatch(element, 'cable-ready:after-set-styles', detail)
+  },
+
   // Dataset Mutations .......................................................................................
 
   setDatasetProperty: detail => {
@@ -253,8 +271,8 @@ const perform = (
     if (operations.hasOwnProperty(name)) {
       const entries = operations[name]
       for (let i = 0; i < entries.length; i++) {
+        const detail = entries[i]
         try {
-          const detail = entries[i]
           if (detail.selector) {
             detail.element = detail.xpath
               ? xpathToElement(detail.selector)
@@ -265,14 +283,16 @@ const perform = (
           if (detail.element || options.emitMissingElementWarnings)
             DOMOperations[name](detail)
         } catch (e) {
-          if (entries[i].element)
+          if (detail.element)
             console.log(`CableReady detected an error in ${name}! ${e.message}`)
           else
-            console.log(`CableReady ${name} failed due to missing DOM element.`)
+            console.log(
+              `CableReady ${name} failed due to missing DOM element for selector: '${detail.selector}'`
+            )
         }
       }
     }
   }
 }
 
-export default { perform, isTextInput }
+export default { perform, isTextInput, DOMOperations }
