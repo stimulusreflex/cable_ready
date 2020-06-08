@@ -21,7 +21,7 @@ module CableReady
     end
 
     def [](channel_name)
-      @channels[channel_name] ||= CableReady::Channel.new(channel_name, tools)
+      @channels[channel_name] ||= CableReady::Channel.new(channel_name, tools.uniq)
     end
 
     def clear
