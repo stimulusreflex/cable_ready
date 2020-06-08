@@ -69,6 +69,26 @@ const xpathToElement = xpath => {
   ).singleNodeValue
 }
 
+// Assigns one or multiple classes to the appropriate element...
+//
+// * element - the element
+// * name - could be a string or an array of strings to add one or multiple classes.
+//
+const addClass = (element, name) => {
+  const { classList } = element;
+  Array.isArray(name) ? classList.add(...name) : classList.add(name)
+}
+
+// Removes one or multiple classes from the appropriate element...
+//
+// * element - the element
+// * name - could be a string or an array of strings to remove one or multiple classes.
+//
+const removeClass = (element, name) => {
+  const { classList } = element;
+  Array.isArray(name) ? classList.remove(...name) : classList.remove(name)
+}
+
 // Indicates whether or not we should morph an element
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
@@ -224,22 +244,14 @@ const DOMOperations = {
   addCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-add-css-class', detail)
-    if (Array.isArray(name)) {
-      element.classList.add(...name)
-    } else {
-      element.classList.add(name)
-    }
+    addClass(element, name)
     dispatch(element, 'cable-ready:after-add-css-class', detail)
   },
 
   removeCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-remove-css-class', detail)
-    if (Array.isArray(name)) {
-      element.classList.remove(...name)
-    } else {
-      element.classList.remove(name)
-    }
+    removeClass(element, name)
     dispatch(element, 'cable-ready:after-remove-css-class', detail)
   },
 
