@@ -9,10 +9,8 @@ module CableReady
       @available_operations = available_operations
       @operations = stub
 
-      available_operations.each do |available_operation|
-        define_singleton_method available_operation do |options = {}|
-          add_operation available_operation, options
-        end
+      available_operations.each do |available_operation, implementation|
+        define_singleton_method available_operation, &implementation
       end
     end
 
