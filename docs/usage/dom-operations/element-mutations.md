@@ -122,6 +122,23 @@ cable_ready["MyChannel"].remove(
 * `cable-ready:before-remove`
 * `cable-ready:after-remove`
 
+## [setProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+
+Sets a valid property on an element to a new value.
+
+```ruby
+cable_ready["MyChannel"].set_property(
+  name:     "string", # required - string containing a valid property
+  selector: "string", # required - string containing a CSS selector or XPath expression
+  value:    "string"  # [null]   - the value to assign to the property
+)
+```
+
+### JavaScript Events
+
+* `cable-ready:before-set-property`
+* `cable-ready:after-set-property`
+
 ## [setValue](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
 
 Sets the value of an element.
@@ -137,4 +154,3 @@ cable_ready["MyChannel"].set_value(
 
 * `cable-ready:before-set-value`
 * `cable-ready:after-set-value`
-
