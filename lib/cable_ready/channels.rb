@@ -8,25 +8,29 @@ module CableReady
       @channels = {}
     end
 
-    def [](channel_name)
-      @channels[channel_name] ||= CableReady::Channel.new(channel_name)
+    def [](identifier)
+      @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 
     def clear
       @channels = {}
     end
 
-    def broadcast(channel = nil)
-      channel ? @channels[channel].send(:broadcast) : @channels.values.each(&:broadcast)
+    def broadcast(identifier = nil)
+      if identifier
+        @channels[identifier].send(:broadcast)
+      else
+        @channels.values.select { |channel| channel.identifier.is_a?(String) }.each(&:broadcast)
+      end
       clear
     end
 
-    def broadcast_to(model, channel = nil)
-      if channel
-        @channels[channel].send(:broadcast_to, channel, model)
+    def broadcast_to(model, identifier = nil)
+      if identifier
+        @channels[identifier].send(:broadcast_to, model)
       else
-        @channels.keys.each do |key|
-          @channels[key].send(:broadcast_to, key, model)
+        @channels.values.reject { |channel| channel.identifier.is_a?(String) }.each do |channel|
+          @channels[channel.identifier].send(:broadcast_to, model)
         end
       end
       clear
