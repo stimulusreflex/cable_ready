@@ -75,7 +75,7 @@ const xpathToElement = xpath => {
 // * name - could be a string or an array of strings to add one or multiple classes.
 //
 const addClass = (element, name) => {
-  const { classList } = element;
+  const { classList } = element
   Array.isArray(name) ? classList.add(...name) : classList.add(name)
 }
 
@@ -85,7 +85,7 @@ const addClass = (element, name) => {
 // * name - could be a string or an array of strings to remove one or multiple classes.
 //
 const removeClass = (element, name) => {
-  const { classList } = element;
+  const { classList } = element
   Array.isArray(name) ? classList.remove(...name) : classList.remove(name)
 }
 
