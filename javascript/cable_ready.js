@@ -224,14 +224,22 @@ const DOMOperations = {
   addCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-add-css-class', detail)
-    element.classList.add(name)
+    if (Array.isArray(name)) {
+      element.classList.add(...name)
+    } else {
+      element.classList.add(name)
+    }
     dispatch(element, 'cable-ready:after-add-css-class', detail)
   },
 
   removeCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-remove-css-class', detail)
-    element.classList.remove(name)
+    if (Array.isArray(name)) {
+      element.classList.remove(...name)
+    } else {
+      element.classList.remove(name)
+    }
     dispatch(element, 'cable-ready:after-remove-css-class', detail)
   },
 

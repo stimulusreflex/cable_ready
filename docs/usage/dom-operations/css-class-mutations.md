@@ -11,6 +11,15 @@ cable_ready["MyChannel"].add_css_class(
 )
 ```
 
+Use an array to sets multiple classes to an element.
+
+```ruby
+cable_ready["MyChannel"].add_css_class(
+  selector: "string", # required - string containing a CSS selector or XPath expression
+  name:     ["string", "string2"]  # [null]   - the CSS class to add
+)
+```
+
 ### JavaScript Events
 
 * `cable-ready:before-add-css-class`
@@ -24,6 +33,15 @@ Removes a CSS class from an element.
 cable_ready["MyChannel"].remove_css_class(
   selector: "string", # required - string containing a CSS selector or XPath expression
   name:     "string"  # [null]   - the CSS class to remove
+)
+```
+
+Use an array to removes multiple classes from an element.
+
+```ruby
+cable_ready["MyChannel"].remove_css_class(
+  selector: "string", # required - string containing a CSS selector or XPath expression
+  name:     ["string", "string2"]  # [null]   - the CSS class to add
 )
 ```
 
