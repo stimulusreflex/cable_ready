@@ -126,12 +126,14 @@ const DOMOperations = {
       ...detail,
       content: template.content
     })
+    const parent = element.parentElement
+    const ordinal = Array.from(parent.children).indexOf(element)
     morphdom(element, template.content, {
       childrenOnly: !!childrenOnly,
       onBeforeElUpdated: shouldMorph(permanentAttributeName)
     })
     assignFocus(focusSelector)
-    dispatch(element, 'cable-ready:after-morph', {
+    dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
       ...detail,
       content: template.content
     })
