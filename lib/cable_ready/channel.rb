@@ -2,16 +2,16 @@
 
 module CableReady
   class Channel
-    attr_reader :name, :operations, :tools
+    attr_reader :name, :operations, :available_operations
 
-    def initialize(name, tools)
+    def initialize(name, available_operations)
       @name = name
-      @tools = tools
+      @available_operations = available_operations
       @operations = stub
 
-      tools.each do |tool|
-        define_singleton_method tool do |options = {}|
-          add_operation tool, options
+      available_operations.each do |available_operation|
+        define_singleton_method available_operation do |options = {}|
+          add_operation available_operation, options
         end
       end
     end
@@ -31,8 +31,8 @@ module CableReady
     end
 
     def stub
-      tools.each_with_object({}) do |tool, hash|
-        hash[tool] = []
+      available_operations.each_with_object({}) do |available_operation, hash|
+        hash[available_operations] = []
       end
     end
   end
