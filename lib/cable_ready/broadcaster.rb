@@ -9,5 +9,9 @@ module CableReady
     def cable_ready
       @cable_ready_channels ||= CableReady::Channels.new
     end
+
+    def dom_id(resource)
+      "##{ActionView::RecordIdentifier.dom_id(resource)}"
+    end
   end
 end
