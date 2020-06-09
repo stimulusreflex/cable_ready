@@ -124,22 +124,22 @@ module CableReady
       @operations = stub
     end
 
-    def clear
+    def reset
       @operations = stub
     end
 
-    def broadcast
+    def broadcast(clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       ActionCable.server.broadcast identifier, "cableReady" => true, "operations" => operations
-      clear
+      reset if clear
     end
 
-    def broadcast_to(model)
+    def broadcast_to(model, clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       identifier.broadcast_to model, "cableReady" => true, "operations" => operations
-      clear
+      reset if clear
     end
 
     def set_cookie(value)
