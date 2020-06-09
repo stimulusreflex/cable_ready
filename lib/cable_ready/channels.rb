@@ -18,7 +18,7 @@ module CableReady
 
     def broadcast(identifier = nil)
       if identifier
-        @channels[identifier].send(:broadcast)
+        @channels[identifier].broadcast
       else
         @channels.values.select { |channel| channel.identifier.is_a?(String) }.each(&:broadcast)
       end
@@ -27,10 +27,10 @@ module CableReady
 
     def broadcast_to(model, identifier = nil)
       if identifier
-        @channels[identifier].send(:broadcast_to, model)
+        @channels[identifier].broadcast_to model
       else
         @channels.values.reject { |channel| channel.identifier.is_a?(String) }.each do |channel|
-          @channels[channel.identifier].send(:broadcast_to, model)
+          @channels[channel.identifier].broadcast_to model
         end
       end
       clear
