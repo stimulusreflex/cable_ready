@@ -16,23 +16,19 @@ module CableReady
       @channels = {}
     end
 
-    def broadcast(identifier = nil)
-      if identifier
-        @channels[identifier].broadcast
-      else
-        @channels.values.select { |channel| channel.identifier.is_a?(String) }.each(&:broadcast)
-      end
+    def broadcast(*identifiers)
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .select { |channel| channel.identifier.is_a?(String) }
+        .each(&:broadcast)
       clear
     end
 
-    def broadcast_to(model, identifier = nil)
-      if identifier
-        @channels[identifier].broadcast_to model
-      else
-        @channels.values.reject { |channel| channel.identifier.is_a?(String) }.each do |channel|
-          @channels[channel.identifier].broadcast_to model
-        end
-      end
+    def broadcast_to(model, *identifiers)
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .reject { |channel| channel.identifier.is_a?(String) }
+        .each { |channel| @channels[channel.identifier].broadcast_to model }
       clear
     end
   end
