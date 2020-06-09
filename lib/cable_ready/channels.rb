@@ -12,24 +12,24 @@ module CableReady
       @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 
-    def clear
-      @channels = {}
-    end
-
     def broadcast(*identifiers)
       @channels.values
         .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
         .select { |channel| channel.identifier.is_a?(String) }
-        .each(&:broadcast)
-      clear
+        .tap do |channels|
+          channels.each(&:broadcast)
+          channels.each { |channel| @channels.except!(channel.identifier) }
+        end
     end
 
     def broadcast_to(model, *identifiers)
       @channels.values
         .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
         .reject { |channel| channel.identifier.is_a?(String) }
-        .each { |channel| @channels[channel.identifier].broadcast_to model }
-      clear
+        .tap do |channels|
+          channels.each { |channel| @channels[channel.identifier].broadcast_to(model) }
+          channels.each { |channel| @channels.except!(channel.identifier) }
+        end
     end
   end
 end
