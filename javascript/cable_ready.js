@@ -99,7 +99,10 @@ const DOMOperations = {
   // Cookies .................................................................................................
 
   setCookie: config => {
-    document.cookie = config.cookie
+    const { element, cookie } = config
+    dispatch(element, 'cable-ready:before-set-cookie', config)
+    document.cookie = cookie
+    dispatch(element, 'cable-ready:after-set-cookie', config)
   },
 
   // DOM Events ..............................................................................................
