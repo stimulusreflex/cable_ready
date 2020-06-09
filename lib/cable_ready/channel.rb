@@ -30,7 +30,7 @@ module CableReady
 
     def stub
       available_operations.each_with_object({}) do |available_operation, hash|
-        hash[available_operations] = []
+        hash[available_operation] = []
       end
     end
   end
