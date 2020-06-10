@@ -64,6 +64,10 @@ end
 ```
 {% endcode %}
 
+{% hint style="warning" %}
+Note that you cannot broadcast inside of a controller action directly, as the data will be sent immediately - that is, before the page is rendered and delivered - so the message will be missed.
+{% endhint %}
+
 {% code title="app/jobs/example\_job.rb" %}
 ```ruby
 class ExampleJob < ApplicationJob
