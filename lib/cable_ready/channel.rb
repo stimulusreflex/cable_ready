@@ -23,7 +23,6 @@ module CableReady
     private
 
     def add_operation(key, options)
-      operations[key] ||= []
       operations[key] << options
     end
   end
