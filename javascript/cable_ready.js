@@ -69,6 +69,12 @@ const xpathToElement = xpath => {
   ).singleNodeValue
 }
 
+// Return an array with the class names to be used
+//
+// * names - could be a string or an array of strings for multiple classes.
+//
+const getClassNames = names => Array(names).flat()
+
 // Indicates whether or not we should morph an element
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
@@ -129,12 +135,14 @@ const DOMOperations = {
       ...detail,
       content: template.content
     })
+    const parent = element.parentElement
+    const ordinal = Array.from(parent.children).indexOf(element)
     morphdom(element, template.content, {
       childrenOnly: !!childrenOnly,
       onBeforeElUpdated: shouldMorph(permanentAttributeName)
     })
     assignFocus(focusSelector)
-    dispatch(element, 'cable-ready:after-morph', {
+    dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
       ...detail,
       content: template.content
     })
@@ -227,14 +235,14 @@ const DOMOperations = {
   addCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-add-css-class', detail)
-    element.classList.add(name)
+    element.classList.add(...getClassNames(name))
     dispatch(element, 'cable-ready:after-add-css-class', detail)
   },
 
   removeCssClass: detail => {
     const { element, name } = detail
     dispatch(element, 'cable-ready:before-remove-css-class', detail)
-    element.classList.remove(name)
+    element.classList.remove(...getClassNames(name))
     dispatch(element, 'cable-ready:after-remove-css-class', detail)
   },
 

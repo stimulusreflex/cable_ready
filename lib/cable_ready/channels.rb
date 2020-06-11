@@ -23,17 +23,28 @@ module CableReady
       @operations[operation] = implementation || ->(options = {}) { add_operation(operation, options) }
     end
 
-    def [](channel_name)
-      @channels[channel_name] ||= CableReady::Channel.new(channel_name, operations)
+    def [](identifier)
+      @channels[identifier] ||= CableReady::Channel.new(identifier, operations)
     end
 
-    def clear
-      @channels = {}
+    def broadcast(*identifiers, clear: true)
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .select { |channel| channel.identifier.is_a?(String) }
+        .tap do |channels|
+          channels.each { |channel| @channels[channel.identifier].broadcast(clear) }
+          channels.each { |channel| @channels.except!(channel.identifier) if clear }
+        end
     end
 
-    def broadcast
-      @channels.values.map(&:broadcast)
-      clear
+    def broadcast_to(model, *identifiers, clear: true)
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .reject { |channel| channel.identifier.is_a?(String) }
+        .tap do |channels|
+          channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear) }
+          channels.each { |channel| @channels.except!(channel.identifier) if clear }
+        end
     end
   end
 end

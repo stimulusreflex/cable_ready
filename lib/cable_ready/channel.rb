@@ -2,10 +2,10 @@
 
 module CableReady
   class Channel
-    attr_reader :name, :operations, :available_operations
+    attr_reader :identifier, :operations, :available_operations
 
-    def initialize(name, available_operations)
-      @name = name
+    def initialize(identifier, available_operations)
+      @identifier = identifier
       @available_operations = available_operations
       @operations = Hash.new { |hash, operation| hash[operation] = [] }
       available_operations.each do |available_operation, implementation|
@@ -13,11 +13,18 @@ module CableReady
       end
     end
 
-    def broadcast
+    def broadcast(clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-      ActionCable.server.broadcast name, "cableReady" => true, "operations" => operations
-      @operations = Hash.new { |hash, operation| hash[operation] = [] }
+      ActionCable.server.broadcast identifier, "cableReady" => true, "operations" => operations
+      @operations = Hash.new { |hash, operation| hash[operation] = [] } if clear
+    end
+
+    def broadcast_to(model, clear)
+      operations.select! { |_, list| list.present? }
+      operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
+      identifier.broadcast_to model, "cableReady" => true, "operations" => operations
+      @operations = Hash.new { |hash, operation| hash[operation] = [] } if clear
     end
 
     private

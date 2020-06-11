@@ -154,3 +154,4 @@ cable_ready["MyChannel"].set_value(
 
 * `cable-ready:before-set-value`
 * `cable-ready:after-set-value`
+
