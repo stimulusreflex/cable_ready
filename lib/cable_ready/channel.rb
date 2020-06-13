@@ -7,7 +7,7 @@ module CableReady
     def initialize(identifier, available_operations)
       @identifier = identifier
       @available_operations = available_operations
-      @operations = Hash.new { |hash, operation| hash[operation] = [] }
+      reset
       available_operations.each do |available_operation, implementation|
         define_singleton_method available_operation, &implementation
       end
@@ -17,20 +17,24 @@ module CableReady
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       ActionCable.server.broadcast identifier, "cableReady" => true, "operations" => operations
-      @operations = Hash.new { |hash, operation| hash[operation] = [] } if clear
+      reset if clear
     end
 
     def broadcast_to(model, clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       identifier.broadcast_to model, "cableReady" => true, "operations" => operations
-      @operations = Hash.new { |hash, operation| hash[operation] = [] } if clear
+      reset if clear
     end
 
     private
 
     def add_operation(key, options)
       operations[key] << options
+    end
+
+    def reset
+      @operations = Hash.new { |hash, operation| hash[operation] = [] }
     end
   end
 end
