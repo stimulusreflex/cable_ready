@@ -32,6 +32,7 @@ module CableReady
         set_style
         set_styles
         set_value
+        text_content
       ].each do |operation|
         add_operation operation
       end

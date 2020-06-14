@@ -21,6 +21,7 @@ All DOM mutations have corresponding `before/after` events triggered on `documen
 * [morph](element-mutations.md#morph)
 * [innerHTML](element-mutations.md#innerhtml)
 * [outerHTML](element-mutations.md#outerhtml)
+* [textContent](element-mutations.md#textcontent)
 * [insertAdjacentHTML](element-mutations.md#insertAdjacentHTML)
 * [insertAdjacentText](element-mutations.md#insertadjacenttext)
 * [remove](element-mutations.md#remove)
