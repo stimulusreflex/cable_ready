@@ -1,6 +1,5 @@
 /.bundle/
 /.yardoc
-/Gemfile.lock
 /_yardoc/
 /coverage/
 /doc/
@@ -8,3 +7,4 @@
 /spec/reports/
 /tmp/
 node_modules/
+.vscode
