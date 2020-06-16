@@ -102,13 +102,63 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
 // Morphdom Callbacks ........................................................................................
 
 const DOMOperations = {
+  // Notifications
+
+  consoleLog: config => {
+    const { message, level } = config
+    level && ['warn', 'info', 'error'].includes(level)
+      ? console[level](message)
+      : console.log(message)
+  },
+
+  dispatchAlert: config => {
+    const { message } = config
+    dispatch(document, 'cable-ready:before-dispatch-alert', config)
+    alert(message)
+    dispatch(document, 'cable-ready:after-dispatch-alert', config)
+  },
+
+  dispatchConfirm: config => {
+    const { message } = config
+    dispatch(document, 'cable-ready:before-dispatch-confirm', config)
+    const result = confirm(message)
+    dispatch(document, 'cable-ready:after-dispatch-confirm', {
+      ...config,
+      result
+    })
+  },
+
+  dispatchPrompt: config => {
+    const { message, defaultValue } = config
+    dispatch(document, 'cable-ready:before-dispatch-prompt', config)
+    const result = prompt(message, defaultValue)
+    dispatch(document, 'cable-ready:after-dispatch-prompt', {
+      ...config,
+      result
+    })
+  },
+
+  notification: config => {
+    const { title, options } = config
+    dispatch(document, 'cable-ready:before-notification', config)
+    let permission
+    Notification.requestPermission().then(result => {
+      permission = result
+      if (result === 'granted') new Notification(title || '', options)
+      dispatch(document, 'cable-ready:after-notification', {
+        ...config,
+        permission
+      })
+    })
+  },
+
   // Cookies .................................................................................................
 
   setCookie: config => {
-    const { element, cookie } = config
-    dispatch(element, 'cable-ready:before-set-cookie', config)
+    const { cookie } = config
+    dispatch(document, 'cable-ready:before-set-cookie', config)
     document.cookie = cookie
-    dispatch(element, 'cable-ready:after-set-cookie', config)
+    dispatch(document, 'cable-ready:after-set-cookie', config)
   },
 
   // DOM Events ..............................................................................................
