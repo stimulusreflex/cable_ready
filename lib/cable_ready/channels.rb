@@ -17,10 +17,7 @@ module CableReady
       %i[
         add_css_class
         console_log
-        dispatch_alert
-        dispatch_confirm
         dispatch_event
-        dispatch_prompt
         inner_html
         insert_adjacent_html
         insert_adjacent_text

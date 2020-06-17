@@ -111,33 +111,6 @@ const DOMOperations = {
       : console.log(message)
   },
 
-  dispatchAlert: config => {
-    const { message } = config
-    dispatch(document, 'cable-ready:before-dispatch-alert', config)
-    alert(message)
-    dispatch(document, 'cable-ready:after-dispatch-alert', config)
-  },
-
-  dispatchConfirm: config => {
-    const { message } = config
-    dispatch(document, 'cable-ready:before-dispatch-confirm', config)
-    const result = confirm(message)
-    dispatch(document, 'cable-ready:after-dispatch-confirm', {
-      ...config,
-      result
-    })
-  },
-
-  dispatchPrompt: config => {
-    const { message, defaultValue } = config
-    dispatch(document, 'cable-ready:before-dispatch-prompt', config)
-    const result = prompt(message, defaultValue)
-    dispatch(document, 'cable-ready:after-dispatch-prompt', {
-      ...config,
-      result
-    })
-  },
-
   notification: config => {
     const { title, options } = config
     dispatch(document, 'cable-ready:before-notification', config)
