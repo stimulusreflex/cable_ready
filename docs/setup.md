@@ -55,8 +55,6 @@ You can call ActionCable from an ActiveJob, an ActiveRecord callback, a rake tas
 {% code title="app/controllers/home\_controller.rb" %}
 ```ruby
 class HomeController < ApplicationController
-  include CableReady::Broadcaster
-
   def index
     ExampleJob.set(wait: 5.seconds).perform_later
   end
