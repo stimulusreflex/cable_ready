@@ -16,11 +16,13 @@ module CableReady
       @operations = {}
       %i[
         add_css_class
+        console_log
         dispatch_event
         inner_html
         insert_adjacent_html
         insert_adjacent_text
         morph
+        notification
         outer_html
         remove
         remove_attribute
