@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cable_ready (4.3.0.pre2)
+    cable_ready (4.3.0)
       rails (>= 5.2)
 
 GEM
