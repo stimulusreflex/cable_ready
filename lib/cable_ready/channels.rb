@@ -44,6 +44,10 @@ module CableReady
       @operations[operation] = implementation || ->(options = {}) { add_operation(operation, options) }
     end
 
+    def config
+      CableReady.config
+    end
+
     def [](identifier)
       @channels[identifier] ||= CableReady::Channel.new(identifier, operations)
     end

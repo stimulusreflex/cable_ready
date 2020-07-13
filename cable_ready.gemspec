@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files = Dir["test/**/*.rb"]
 
   gem.add_dependency "rails", ">= 5.2"
+  gem.add_dependency "anyway_config", ">= 2.0.0"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "standardrb"
