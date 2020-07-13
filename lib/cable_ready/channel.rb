@@ -71,6 +71,5 @@ module CableReady
     def config
       CableReady.config
     end
-
   end
 end

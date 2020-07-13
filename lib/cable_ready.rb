@@ -6,7 +6,6 @@ require "cable_ready/version"
 require "cable_ready/broadcaster"
 require "cable_ready/config"
 
-
 module CableReady
   class Engine < Rails::Engine
   end
