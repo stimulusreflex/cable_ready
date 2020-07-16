@@ -16,14 +16,14 @@ module CableReady
     def broadcast(clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-      ActionCable.server.broadcast identifier, "cableReady" => true, "operations" => operations
+      ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => operations}
       reset if clear
     end
 
     def broadcast_to(model, clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-      identifier.broadcast_to model, "cableReady" => true, "operations" => operations
+      identifier.broadcast_to model, {"cableReady" => true, "operations" => operations}
       reset if clear
     end
 
