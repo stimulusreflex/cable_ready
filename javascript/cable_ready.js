@@ -329,4 +329,17 @@ const perform = (
   }
 }
 
-export default { perform, isTextInput, DOMOperations }
+const performAsync = (
+  operations,
+  options = { emitMissingElementWarnings: true }
+) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve(perform(operations, options))
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+export default { perform, performAsync, isTextInput, DOMOperations }
