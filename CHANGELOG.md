@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.3.0...HEAD)
 
+**Implemented enhancements:**
+
+- Add a shared mutex to avoid concurrency issues in Channels [\#65](https://github.com/hopsoft/cable_ready/pull/65) ([barrywoolgar](https://github.com/barrywoolgar))
+
 **Closed issues:**
 
 - Using morph with a document fragment appears to do a full replace instead of a morph [\#67](https://github.com/hopsoft/cable_ready/issues/67)
