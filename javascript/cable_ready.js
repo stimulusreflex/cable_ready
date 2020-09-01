@@ -160,7 +160,7 @@ const DOMOperations = {
     })
     const parent = element.parentElement
     const ordinal = Array.from(parent.children).indexOf(element)
-    morphdom(element, template.content, {
+    morphdom(element, childrenOnly ? template.content : template.innerHTML, {
       childrenOnly: !!childrenOnly,
       onBeforeElUpdated: shouldMorph(permanentAttributeName)
     })
