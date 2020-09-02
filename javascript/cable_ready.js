@@ -99,10 +99,16 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   return !permanent
 }
 
-// Morphdom Callbacks ........................................................................................
-
 const DOMOperations = {
-  // Notifications
+  // Navigation ..............................................................................................
+  pushState: config => {
+    const { state, title, url } = config
+    dispatch(document, 'cable-ready:before-push-state', config)
+    history.pushState(state || {}, title, url)
+    dispatch(document, 'cable-ready:after-push-state', config)
+  },
+
+  // Notifications ...........................................................................................
 
   consoleLog: config => {
     const { message, level } = config
@@ -314,8 +320,9 @@ const perform = (
           } else {
             detail.element = document
           }
-          if (detail.element || options.emitMissingElementWarnings)
+          if (detail.element || options.emitMissingElementWarnings) {
             DOMOperations[name](detail)
+          }
         } catch (e) {
           if (detail.element)
             console.log(`CableReady detected an error in ${name}! ${e.message}`)

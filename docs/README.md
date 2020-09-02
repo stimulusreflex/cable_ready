@@ -43,7 +43,8 @@ CableReady supports the following DOM operations that can be triggered from serv
 15. [setStyles](usage/dom-operations/css-class-mutations.md#setstyles)
 16. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 17. [textContent](usage/dom-operations/element-mutations.md#textcontent)
-18. [setCookie](https://github.com/hopsoft/cable_ready/tree/fc8fdab909ea5f61a49fb6bd704217c6dcaf6f0d/docs/usage/dom-operations/cookies.md#setcookie)
+18. [setCookie](usage/dom-operations/cookies.md#setcookie)
+19. [pushState](usage/dom-operations/navigation.md#pushstate)
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
@@ -53,7 +54,7 @@ This is a simple example that demonstrates how to set an element's value.
 
 ```ruby
 cable_ready["MyChannel"].set_value(
-  selector: "#my-element", 
+  selector: "#my-element",
   value: "A new value from the server"
 )
 cable_ready.broadcast
