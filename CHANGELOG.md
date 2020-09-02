@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/hopsoft/cable_ready/tree/HEAD)
+## [v4.4.0.pre0](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre0) (2020-09-02)
 
-[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.3.0...HEAD)
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.3.0...v4.4.0.pre0)
 
 **Implemented enhancements:**
 
