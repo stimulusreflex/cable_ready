@@ -10,7 +10,7 @@ Adds a state to the browser's session history stack.
 cable_ready["MyChannel"].push_state(
   url:   "string", # required - The URL to assign
   state: {},       # [null] - An object representing the new state
-  title: "string"  # [null] A title for the new state
+  title: "string"  # [''] A title for the new state
 )
 ```
 

@@ -104,7 +104,7 @@ const DOMOperations = {
   pushState: config => {
     const { state, title, url } = config
     dispatch(document, 'cable-ready:before-push-state', config)
-    history.pushState(state || {}, title, url)
+    history.pushState(state || {}, title || '', url)
     dispatch(document, 'cable-ready:after-push-state', config)
   },
 
