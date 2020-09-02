@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rails", ">= 5.2"
 
   gem.add_development_dependency "github_changelog_generator"
+  gem.add_development_dependency "magic_frozen_string_literal"
   gem.add_development_dependency "pry"
   gem.add_development_dependency "pry-nav"
   gem.add_development_dependency "rake"

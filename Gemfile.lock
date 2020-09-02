@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cable_ready (4.3.0)
+    cable_ready (4.4.0.pre0)
       rails (>= 5.2)
 
 GEM
@@ -89,6 +89,7 @@ GEM
     loofah (2.7.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
+    magic_frozen_string_literal (1.1.0)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -194,6 +195,7 @@ PLATFORMS
 DEPENDENCIES
   cable_ready!
   github_changelog_generator
+  magic_frozen_string_literal
   pry
   pry-nav
   rake
