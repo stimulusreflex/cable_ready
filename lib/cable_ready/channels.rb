@@ -30,6 +30,7 @@ module CableReady
         set_attribute
         set_cookie
         set_dataset_property
+        set_focus
         set_property
         set_style
         set_styles
