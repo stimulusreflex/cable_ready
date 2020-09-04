@@ -12,4 +12,6 @@
   * [Dataset Mutations](usage/dom-operations/dataset-mutations.md)
   * [Element Mutations](usage/dom-operations/element-mutations.md)
   * [Style Mutations](usage/dom-operations/style-mutations.md)
+  * [Cookies](usage/dom-operations/cookies.md)
+  * [Notifications](usage/dom-operations/notifications.md)
 

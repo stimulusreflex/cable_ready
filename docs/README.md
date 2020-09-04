@@ -26,24 +26,26 @@ Learn more about [ActionCable](http://guides.rubyonrails.org/action_cable_overvi
 
 CableReady supports the following DOM operations that can be triggered from server-side Ruby code.
 
-1. [dispatchEvent](usage/dom-operations/event-dispatch.md#dispatchevent)
+1. [dispatch\_event](usage/dom-operations/event-dispatch.md#dispatchevent)
 2. [morph](usage/dom-operations/element-mutations.md#morph)
-3. [innerHTML](usage/dom-operations/element-mutations.md#innerhtml)
-4. [outerHTML](usage/dom-operations/element-mutations.md#outerhtml)
-5. [insertAdjacentHTML](usage/dom-operations/element-mutations.md#insertAdjacentHTML)
-6. [insertAdjacentText](usage/dom-operations/element-mutations.md#insertadjacenttext)
+3. [inner\_html](usage/dom-operations/element-mutations.md#innerhtml)
+4. [outer\_html](usage/dom-operations/element-mutations.md#outerhtml)
+5. [insert\_adjacent\_html](usage/dom-operations/element-mutations.md#insertAdjacentHTML)
+6. [insert\_adjacent\_text](usage/dom-operations/element-mutations.md#insertadjacenttext)
 7. [remove](usage/dom-operations/element-mutations.md#remove)
-8. [setProperty](usage/dom-operations/element-mutations.md#setproperty)
-9. [setValue](usage/dom-operations/element-mutations.md#setvalue)
-10. [setAttribute](usage/dom-operations/attribute-mutations.md#setattribute)
-11. [removeAttribute](usage/dom-operations/attribute-mutations.md#removeattribute)
-12. [addCssClass](usage/dom-operations/css-class-mutations.md#addcssclass)
-13. [removeCssClass](usage/dom-operations/css-class-mutations.md#removecssclass)
-14. [setStyle](usage/dom-operations/css-class-mutations.md#setstyle)
-15. [setStyles](usage/dom-operations/css-class-mutations.md#setstyles)
-16. [setDatasetProperty](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
-17. [textContent](usage/dom-operations/element-mutations.md#textcontent)
-18. [setCookie](https://github.com/hopsoft/cable_ready/tree/fc8fdab909ea5f61a49fb6bd704217c6dcaf6f0d/docs/usage/dom-operations/cookies.md#setcookie)
+8. [set\_property](usage/dom-operations/element-mutations.md#setproperty)
+9. [set\_value](usage/dom-operations/element-mutations.md#setvalue)
+10. [set\_attribute](usage/dom-operations/attribute-mutations.md#setattribute)
+11. [remove\_attribute](usage/dom-operations/attribute-mutations.md#removeattribute)
+12. [add\_css\_class](usage/dom-operations/css-class-mutations.md#addcssclass)
+13. [remove\_css\_class](usage/dom-operations/css-class-mutations.md#removecssclass)
+14. [set\_style](usage/dom-operations/css-class-mutations.md#setstyle)
+15. [set\_styles](usage/dom-operations/css-class-mutations.md#setstyles)
+16. [set\_dataset\_property](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
+17. [text\_content](usage/dom-operations/element-mutations.md#textcontent)
+18. set\_cookie
+19. console\_log
+20. notification
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
