@@ -43,9 +43,9 @@ CableReady supports the following DOM operations that can be triggered from serv
 15. [set\_styles](usage/dom-operations/css-class-mutations.md#setstyles)
 16. [set\_dataset\_property](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
 17. [text\_content](usage/dom-operations/element-mutations.md#textcontent)
-18. [set\_cookie](usage/dom-operations/cookies#setcookie)
-19. [console\_log](usage/dom-operations/notifications#consolelog)
-20. [notification](usage/dom-operations/notifications#notification)
+18. [set\_cookie](usage/dom-operations/cookies.md#setcookie)
+19. [console\_log](usage/dom-operations/notifications.md#consolelog)
+20. [notification](usage/dom-operations/notifications.md#notification)
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
