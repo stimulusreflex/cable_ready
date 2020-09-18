@@ -223,6 +223,14 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-remove', detail)
   },
 
+  setFocus: detail => {
+    activeElement = document.activeElement
+    const { element, focusSelector } = detail
+    dispatch(element, 'cable-ready:before-set-focus', detail)
+    assignFocus(focusSelector)
+    dispatch(element, 'cable-ready:after-set-focus', detail)
+  },
+
   setProperty: detail => {
     const { element, name, value } = detail
     dispatch(element, 'cable-ready:before-set-property', detail)
