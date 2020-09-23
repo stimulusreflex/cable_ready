@@ -11,7 +11,7 @@
       <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen.svg" target="_blank" />
     </a>
     <a href="http://blog.codinghorror.com/the-best-code-is-no-code-at-all/" target="_blank">
-      <img alt="Lines of Code" src="https://img.shields.io/badge/lines_of_code-375-brightgreen.svg?style=flat" />
+      <img alt="Lines of Code" src="https://img.shields.io/badge/lines_of_code-403-brightgreen.svg?style=flat" />
     </a>
     <a href="https://cableready.stimulusreflex.com" target="_blank">
       <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -27,6 +27,9 @@
       <img alt="JavaScript Code Style" src="https://img.shields.io/badge/JavaScript_Code_Style-prettier_standard-ff69b4.svg" />
     </a>
     <br />
+    <a href="https://www.codacy.com/manual/hopsoft/cable_ready/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hopsoft/cable_ready&amp;utm_campaign=Badge_Grade" target="_blank">
+      <img alt="Code Quality" src="https://app.codacy.com/project/badge/Grade/8e6971e3410347eaaa16be2555160b9c"/>
+    </a>
     <a href="https://codeclimate.com/github/hopsoft/cable_ready/maintainability" target="_blank">
       <img alt="Maintainability" src="https://api.codeclimate.com/v1/badges/83ddf1fee4af7e51a681/maintainability" />
     </a>
