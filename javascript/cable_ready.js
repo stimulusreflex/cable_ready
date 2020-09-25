@@ -102,7 +102,16 @@ const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
 // Morphdom Callbacks ........................................................................................
 
 const DOMOperations = {
-  // Notifications
+  // Navigation ..............................................................................................
+
+  pushState: config => {
+    const { state, title, url } = config
+    dispatch(document, 'cable-ready:before-push-state', config)
+    history.pushState(state || {}, title || '', url)
+    dispatch(document, 'cable-ready:after-push-state', config)
+  },
+
+  // Notifications ...........................................................................................
 
   consoleLog: config => {
     const { message, level } = config

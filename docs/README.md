@@ -27,25 +27,26 @@ Learn more about [ActionCable](http://guides.rubyonrails.org/action_cable_overvi
 CableReady supports the following DOM operations that can be triggered from server-side Ruby code.
 
 1. [dispatch\_event](usage/dom-operations/event-dispatch.md#dispatchevent)
-2. [morph](usage/dom-operations/element-mutations.md#morph)
-3. [inner\_html](usage/dom-operations/element-mutations.md#innerhtml)
-4. [outer\_html](usage/dom-operations/element-mutations.md#outerhtml)
-5. [insert\_adjacent\_html](usage/dom-operations/element-mutations.md#insertAdjacentHTML)
-6. [insert\_adjacent\_text](usage/dom-operations/element-mutations.md#insertadjacenttext)
-7. [remove](usage/dom-operations/element-mutations.md#remove)
-8. [set\_property](usage/dom-operations/element-mutations.md#setproperty)
-9. [set\_value](usage/dom-operations/element-mutations.md#setvalue)
-10. [set\_attribute](usage/dom-operations/attribute-mutations.md#setattribute)
-11. [remove\_attribute](usage/dom-operations/attribute-mutations.md#removeattribute)
-12. [add\_css\_class](usage/dom-operations/css-class-mutations.md#addcssclass)
-13. [remove\_css\_class](usage/dom-operations/css-class-mutations.md#removecssclass)
-14. [set\_style](usage/dom-operations/css-class-mutations.md#setstyle)
-15. [set\_styles](usage/dom-operations/css-class-mutations.md#setstyles)
-16. [set\_dataset\_property](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
-17. [text\_content](usage/dom-operations/element-mutations.md#textcontent)
-18. [set\_cookie](usage/dom-operations/cookies.md#setcookie)
-19. [console\_log](usage/dom-operations/notifications.md#consolelog)
-20. [notification](usage/dom-operations/notifications.md#notification)
+1. [morph](usage/dom-operations/element-mutations.md#morph)
+1. [inner\_html](usage/dom-operations/element-mutations.md#innerhtml)
+1. [outer\_html](usage/dom-operations/element-mutations.md#outerhtml)
+1. [insert\_adjacent\_html](usage/dom-operations/element-mutations.md#insertAdjacentHTML)
+1. [insert\_adjacent\_text](usage/dom-operations/element-mutations.md#insertadjacenttext)
+1. [remove](usage/dom-operations/element-mutations.md#remove)
+1. [set\_property](usage/dom-operations/element-mutations.md#setproperty)
+1. [set\_value](usage/dom-operations/element-mutations.md#setvalue)
+1. [set\_attribute](usage/dom-operations/attribute-mutations.md#setattribute)
+1. [remove\_attribute](usage/dom-operations/attribute-mutations.md#removeattribute)
+1. [add\_css\_class](usage/dom-operations/css-class-mutations.md#addcssclass)
+1. [remove\_css\_class](usage/dom-operations/css-class-mutations.md#removecssclass)
+1. [set\_style](usage/dom-operations/css-class-mutations.md#setstyle)
+1. [set\_styles](usage/dom-operations/css-class-mutations.md#setstyles)
+1. [set\_dataset\_property](usage/dom-operations/dataset-mutations.md#setdatasetproperty)
+1. [text\_content](usage/dom-operations/element-mutations.md#textcontent)
+1. [set\_cookie](usage/dom-operations/cookies.md#setcookie)
+1. [push\_state](usage/dom-operations/navigation.md#pushstate)
+1. [console\_log](usage/dom-operations/notifications.md#consolelog)
+1. [notification](usage/dom-operations/notifications.md#notification)
 
 As with other new tools, the potential use cases are only limited by your imagination. For example, CableReady provides the foundation for incredible libraries like [StimulusReflex](https://docs.stimulusreflex.com).
 
@@ -55,7 +56,7 @@ This is a simple example that demonstrates how to set an element's value.
 
 ```ruby
 cable_ready["MyChannel"].set_value(
-  selector: "#my-element", 
+  selector: "#my-element",
   value: "A new value from the server"
 )
 cable_ready.broadcast

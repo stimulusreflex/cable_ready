@@ -13,5 +13,6 @@
   * [Element Mutations](usage/dom-operations/element-mutations.md)
   * [Style Mutations](usage/dom-operations/style-mutations.md)
   * [Cookies](usage/dom-operations/cookies.md)
+  * [Navigation](usage/dom-operations/navigation.md)
   * [Notifications](usage/dom-operations/notifications.md)
 
