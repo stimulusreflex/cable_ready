@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
+bundle exec magic_frozen_string_literal
 bundle exec standardrb --fix
 cd ./javascript && yarn run prettier-standard cable_ready.js

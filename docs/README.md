@@ -55,7 +55,7 @@ This is a simple example that demonstrates how to set an element's value.
 
 ```ruby
 cable_ready["MyChannel"].set_value(
-  selector: "#my-element", 
+  selector: "#my-element",
   value: "A new value from the server"
 )
 cable_ready.broadcast
