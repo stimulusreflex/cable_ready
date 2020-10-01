@@ -48,5 +48,20 @@ cable_ready["MyChannel"].notification(
 )
 ```
 
+For reasons unclear, the Notification API doesn't make it easy to attach a click handler to your notifications. It could just be that they cannot guarantee it will work across all devices. If you have determined that you need to define a click handler, the recommended solution is to use a [dispatch\_event](https://cableready.stimulusreflex.com/usage/dom-operations/event-dispatch) operation to send an event to the client. Your event handler can then build up a Notification instance molded to your specific tastes.
 
+```ruby
+document.addEventListener('my-app:notify', e => {
+  let permission
+  Notification.requestPermission().then(result => {
+    permission = result
+    const { title, options, clickUrl } = e.detail
+    if (result === 'granted') {
+      const notification = new Notification
+      notification.onclick = args => window.open(clickUrl)
+      notification(title || '', options)
+    }
+  })
+})
+```
 
