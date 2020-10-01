@@ -60,7 +60,7 @@ document.addEventListener('my-app:notify', e => {
     const { title, options, clickUrl } = e.detail
     if (result === 'granted') {
       const notification = new Notification
-      notification.onclick = args => window.open(clickUrl)
+      notification.onclick = () => window.open(clickUrl)
       notification(title || '', options)
     }
   })
