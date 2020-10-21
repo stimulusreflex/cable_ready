@@ -53,9 +53,8 @@ const assignFocus = focusSelector => {
 // * detail - the event detail
 //
 const dispatch = (element, name, detail = {}) => {
-  const init = { bubbles: true, cancelable: true }
-  const evt = new Event(name, init)
-  evt.detail = detail
+  const init = { bubbles: true, cancelable: true, detail: detail }
+  const evt = new CustomEvent(name, init)
   element.dispatchEvent(evt)
 }
 
