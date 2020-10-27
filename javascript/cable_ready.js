@@ -56,6 +56,7 @@ const dispatch = (element, name, detail = {}) => {
   const init = { bubbles: true, cancelable: true, detail: detail }
   const evt = new CustomEvent(name, init)
   element.dispatchEvent(evt)
+  if (window.jQuery) window.jQuery(element).trigger(name, detail)
 }
 
 const xpathToElement = xpath => {
