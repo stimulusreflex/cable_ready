@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased](https://github.com/hopsoft/cable_ready/tree/HEAD)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre1...HEAD)
+
+**Merged pull requests:**
+
+- use CustomEvent to get IE11 working [\#74](https://github.com/hopsoft/cable_ready/pull/74) ([existentialmutt](https://github.com/existentialmutt))
+
+## [v4.4.0.pre1](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre1) (2020-09-25)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre0...v4.4.0.pre1)
+
+**Merged pull requests:**
+
+- Add support for pushState [\#73](https://github.com/hopsoft/cable_ready/pull/73) ([hopsoft](https://github.com/hopsoft))
+- Bump actionview from 6.0.3.2 to 6.0.3.3 [\#72](https://github.com/hopsoft/cable_ready/pull/72) ([dependabot[bot]](https://github.com/apps/dependabot))
+- set\_focus operation [\#69](https://github.com/hopsoft/cable_ready/pull/69) ([leastbad](https://github.com/leastbad))
+
 ## [v4.4.0.pre0](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre0) (2020-09-02)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.3.0...v4.4.0.pre0)
