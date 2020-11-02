@@ -12,7 +12,11 @@ CableReady helps you **create great real-time user experiences** by making it si
 
 Possible interactions range from updating a single element's value to replacing entire sections of content. You can even dispatch client-side DOM events from the server. Also, updates don't need to be initiated by the user. For example, CableReady can update your UI in response to things happening on the server, such as long running ActiveJobs or activity from API calls and webhooks. It's never been easier to notify users of site wide activity.
 
+{% hint style="success" %}
+**Get Involved.** We are stronger together! Please join us on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/XveN625)
+
 [![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
+{% endhint %}
 
 ## How does it work?
 
