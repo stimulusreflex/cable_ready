@@ -1,18 +1,18 @@
 ---
-description: >-
-  CableReady completes the ActionCable story and expands the utility of web
-  sockets in your Rails app
+description: 'Your server-side Ruby can make magic happen on the client, in real-time'
 ---
 
 # Welcome
 
-[![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
+![](.gitbook/assets/fantasia.gif)
 
-## Why CableReady?
+## What is CableReady?
 
 CableReady helps you **create great real-time user experiences** by making it simple to trigger client-side DOM changes from server-side Ruby. It establishes a standard for interacting with the client via [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. **No need for custom JavaScript.**
 
 Possible interactions range from updating a single element's value to replacing entire sections of content. You can even dispatch client-side DOM events from the server. Also, updates don't need to be initiated by the user. For example, CableReady can update your UI in response to things happening on the server, such as long running ActiveJobs or activity from API calls and webhooks. It's never been easier to notify users of site wide activity.
+
+[![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
 
 ## How does it work?
 
