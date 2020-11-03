@@ -47,6 +47,10 @@ CableReady builds on top of ActionCable and allows you to emit DOM instructions 
 Learn more about [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html) to help you get the most out of CableReady.
 {% endhint %}
 
+## Build the next Twitter in just 9 minutes \(or less\) 😉
+
+{% embed url="https://www.youtube.com/watch?v=F5hA79vKE\_E" caption="" %}
+
 ## What can I do with it?
 
 CableReady supports the following DOM operations that can be triggered from server-side Ruby code.
