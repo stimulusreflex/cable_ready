@@ -4,7 +4,7 @@ description: 'Your server-side Ruby can make magic happen on the client, in real
 
 # Welcome
 
-![](.gitbook/assets/fantasia%20%281%29%20%281%29.gif)
+![](.gitbook/assets/fantasia.gif)
 
 ## What is CableReady?
 
