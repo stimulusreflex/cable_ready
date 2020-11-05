@@ -37,7 +37,7 @@ module CableReady
 
     private
 
-    def add_operation(key, options)
+    def enqueue_operation(key, options)
       operations[key] << options
       self
     end

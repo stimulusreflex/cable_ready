@@ -43,7 +43,7 @@ module CableReady
     end
 
     def add_operation(operation, &implementation)
-      @operations[operation] = implementation || ->(options = {}) { add_operation(operation, options) }
+      @operations[operation] = implementation || ->(options = {}) { enqueue_operation(operation, options) }
     end
 
     def [](identifier)
