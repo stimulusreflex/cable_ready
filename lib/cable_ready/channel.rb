@@ -13,24 +13,33 @@ module CableReady
       end
     end
 
-    def broadcast(clear)
+    def channel_broadcast(clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => operations}
       reset if clear
     end
 
-    def broadcast_to(model, clear)
+    def channel_broadcast_to(model, clear)
       operations.select! { |_, list| list.present? }
       operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
       identifier.broadcast_to model, {"cableReady" => true, "operations" => operations}
       reset if clear
     end
 
+    def broadcast(clear = true)
+      cable_ready.broadcast(identifier, clear)
+    end
+
+    def broadcast_to(model, clear = true)
+      cable_ready.broadcast_to(model, clear)
+    end
+
     private
 
     def add_operation(key, options)
       operations[key] << options
+      self
     end
 
     def reset

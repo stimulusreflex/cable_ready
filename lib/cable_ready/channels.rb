@@ -56,7 +56,7 @@ module CableReady
           .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
           .select { |channel| channel.identifier.is_a?(String) }
           .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].broadcast(clear) }
+            channels.each { |channel| @channels[channel.identifier].channel_broadcast(clear) }
             channels.each { |channel| @channels.except!(channel.identifier) if clear }
           end
       end
@@ -68,7 +68,7 @@ module CableReady
           .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
           .reject { |channel| channel.identifier.is_a?(String) }
           .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear) }
+            channels.each { |channel| @channels[channel.identifier].channel_broadcast_to(model, clear) }
             channels.each { |channel| @channels.except!(channel.identifier) if clear }
           end
       end
