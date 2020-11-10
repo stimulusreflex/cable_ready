@@ -79,9 +79,6 @@ const getClassNames = names => Array(names).flat()
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
 const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
-  // Skip nodes that are equal:
-  // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
-  if (fromEl.isEqualNode(toEl)) return false
   if (!permanentAttributeName) return true
 
   const permanent = fromEl.closest(`[${permanentAttributeName}]`)
