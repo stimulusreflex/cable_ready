@@ -233,9 +233,9 @@ const DOMOperations = {
 
   setFocus: detail => {
     activeElement = document.activeElement
-    const { element, focusSelector } = detail
+    const { element } = detail
     dispatch(element, 'cable-ready:before-set-focus', detail)
-    assignFocus(focusSelector)
+    assignFocus(element)
     dispatch(element, 'cable-ready:after-set-focus', detail)
   },
 
