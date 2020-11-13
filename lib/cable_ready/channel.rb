@@ -28,11 +28,11 @@ module CableReady
     end
 
     def broadcast(clear = true)
-      cable_ready.broadcast(identifier, clear)
+      CableReady::Channels.instance.broadcast(identifier, clear)
     end
 
     def broadcast_to(model, clear = true)
-      cable_ready.broadcast_to(model, identifier, clear)
+      CableReady::Channels.instance.broadcast_to(model, identifier, clear)
     end
 
     private
