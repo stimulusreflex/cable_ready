@@ -1,0 +1,13 @@
+*.gemspec
+*.rb
+.gitbook
+.gitbook.yml
+.github
+.tool-versions
+Gemfile*
+Rakefile
+assets
+bin
+docs
+lib
+pkg
