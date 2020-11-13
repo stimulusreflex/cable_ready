@@ -32,7 +32,7 @@ module CableReady
     end
 
     def broadcast_to(model, clear = true)
-      cable_ready.broadcast_to(model, clear)
+      cable_ready.broadcast_to(model, identifier, clear)
     end
 
     private
