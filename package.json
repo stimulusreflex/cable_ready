@@ -25,7 +25,7 @@
   "author": "Nathan Hopkins <natehop@gmail.com>",
   "main": "./javascript/cable_ready.js",
   "scripts": {
-    "prettier-standard-check": "yarn run prettier-standard --check ./javascript/*.js"
+    "prettier-standard-check": "yarn run prettier-standard --check ./javascript/**/*.js"
   },
   "dependencies": {
     "morphdom": "^2.6.1"
