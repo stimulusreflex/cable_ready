@@ -1,3 +1,4 @@
+.vscode
 /.bundle/
 /.yardoc
 /_yardoc/
@@ -7,4 +8,3 @@
 /spec/reports/
 /tmp/
 node_modules/
-.vscode
