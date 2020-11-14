@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/cable-ready-logo-with-copy.svg" width="360" />
+  <img src="https://gitcdn.link/repo/hopsoft/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
     <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
