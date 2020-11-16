@@ -2,10 +2,16 @@ import morphdom from 'morphdom'
 
 let activeElement
 
-const inputTagNames = {
+const inputTags = {
   INPUT: true,
   TEXTAREA: true,
   SELECT: true
+}
+
+const mutableTags = {
+  INPUT: true,
+  TEXTAREA: true,
+  OPTION: true
 }
 
 const textInputTypes = {
@@ -32,7 +38,7 @@ const textInputTypes = {
 // Indicates if the passed element is considered a text input.
 //
 const isTextInput = element => {
-  return inputTagNames[element.tagName] && textInputTypes[element.type]
+  return inputTags[element.tagName] && textInputTypes[element.type]
 }
 
 // Assigns focus to the appropriate element... preferring the explicitly passed focusSelector
@@ -81,7 +87,7 @@ const getClassNames = names => Array(names).flat()
 const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
   // Skip nodes that are equal:
   // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
-  if (!inputTagNames[fromEl.tagName] && fromEl.isEqualNode(toEl)) return false
+  if (!mutableTags[fromEl.tagName] && fromEl.isEqualNode(toEl)) return false
   if (!permanentAttributeName) return true
 
   const permanent = fromEl.closest(`[${permanentAttributeName}]`)
