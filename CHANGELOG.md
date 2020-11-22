@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/hopsoft/cable_ready/tree/HEAD)
+## [v4.4.0.pre4](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre4) (2020-11-22)
 
-[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre3...HEAD)
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre3...v4.4.0.pre4)
 
 **Fixed bugs:**
 
@@ -192,6 +192,7 @@
 **Merged pull requests:**
 
 - Add gh actions [\#17](https://github.com/hopsoft/cable_ready/pull/17) ([andrewmcodes](https://github.com/andrewmcodes))
+- Add Gitbook integration [\#16](https://github.com/hopsoft/cable_ready/pull/16) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.0.6](https://github.com/hopsoft/cable_ready/tree/v4.0.6) (2019-10-03)
 
@@ -203,7 +204,6 @@
 
 **Merged pull requests:**
 
-- Add Gitbook integration [\#16](https://github.com/hopsoft/cable_ready/pull/16) ([andrewmcodes](https://github.com/andrewmcodes))
 - Update to format with prettier-standard [\#15](https://github.com/hopsoft/cable_ready/pull/15) ([hopsoft](https://github.com/hopsoft))
 - Add support for permanent nodes [\#14](https://github.com/hopsoft/cable_ready/pull/14) ([andreaslillebo](https://github.com/andreaslillebo))
 
