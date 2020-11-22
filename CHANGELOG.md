@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/hopsoft/cable_ready/tree/HEAD)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre3...HEAD)
+
+**Fixed bugs:**
+
+- only compare isEqualNode for non-inputs [\#80](https://github.com/hopsoft/cable_ready/pull/80) ([leastbad](https://github.com/leastbad))
+
 ## [v4.4.0.pre3](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre3) (2020-11-13)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre2...v4.4.0.pre3)
@@ -184,7 +192,6 @@
 **Merged pull requests:**
 
 - Add gh actions [\#17](https://github.com/hopsoft/cable_ready/pull/17) ([andrewmcodes](https://github.com/andrewmcodes))
-- Add Gitbook integration [\#16](https://github.com/hopsoft/cable_ready/pull/16) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.0.6](https://github.com/hopsoft/cable_ready/tree/v4.0.6) (2019-10-03)
 
@@ -196,6 +203,7 @@
 
 **Merged pull requests:**
 
+- Add Gitbook integration [\#16](https://github.com/hopsoft/cable_ready/pull/16) ([andrewmcodes](https://github.com/andrewmcodes))
 - Update to format with prettier-standard [\#15](https://github.com/hopsoft/cable_ready/pull/15) ([hopsoft](https://github.com/hopsoft))
 - Add support for permanent nodes [\#14](https://github.com/hopsoft/cable_ready/pull/14) ([andreaslillebo](https://github.com/andreaslillebo))
 
@@ -228,6 +236,10 @@
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.0.0...v4.0.1)
 
+**Merged pull requests:**
+
+- Merge JavaScript NPM package into this repo [\#9](https://github.com/hopsoft/cable_ready/pull/9) ([hopsoft](https://github.com/hopsoft))
+
 ## [v4.0.0](https://github.com/hopsoft/cable_ready/tree/v4.0.0) (2019-08-09)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v3.0.1...v4.0.0)
@@ -250,7 +262,6 @@
 
 **Merged pull requests:**
 
-- Merge JavaScript NPM package into this repo [\#9](https://github.com/hopsoft/cable_ready/pull/9) ([hopsoft](https://github.com/hopsoft))
 - Dispatch before/after events for DOM activity [\#7](https://github.com/hopsoft/cable_ready/pull/7) ([hopsoft](https://github.com/hopsoft))
 
 ## [v2.0.7](https://github.com/hopsoft/cable_ready/tree/v2.0.7) (2018-10-26)
