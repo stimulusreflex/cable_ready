@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.4.1](https://github.com/hopsoft/cable_ready/tree/v4.4.1) (2020-11-28)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0...v4.4.1)
+
+**Merged pull requests:**
+
+- Apply setFocus behavior to more element mutations [\#81](https://github.com/hopsoft/cable_ready/pull/81) ([hopsoft](https://github.com/hopsoft))
+
 ## [v4.4.0](https://github.com/hopsoft/cable_ready/tree/v4.4.0) (2020-11-24)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre4...v4.4.0)
@@ -122,6 +130,7 @@
 - Customize operations via initializer [\#47](https://github.com/hopsoft/cable_ready/pull/47) ([leastbad](https://github.com/leastbad))
 - Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/hopsoft/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
 - Add setStyles [\#37](https://github.com/hopsoft/cable_ready/pull/37) ([excid3](https://github.com/excid3))
+- Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/hopsoft/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 
 ## [v4.2.0](https://github.com/hopsoft/cable_ready/tree/v4.2.0) (2020-06-02)
 
@@ -156,7 +165,6 @@
 
 **Merged pull requests:**
 
-- Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/hopsoft/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 -  Add funding file [\#31](https://github.com/hopsoft/cable_ready/pull/31) ([andrewmcodes](https://github.com/andrewmcodes))
 - update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
