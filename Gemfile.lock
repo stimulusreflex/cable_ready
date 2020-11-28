@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cable_ready (4.4.0)
+    cable_ready (4.4.1)
       rails (>= 5.2)
 
 GEM
@@ -87,7 +87,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    loofah (2.7.0)
+    loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     magic_frozen_string_literal (1.2.0)
@@ -148,7 +148,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rainbow (3.0.0)
     rake (13.0.1)
-    regexp_parser (1.8.2)
+    regexp_parser (2.0.0)
     retriable (3.1.2)
     rexml (3.2.4)
     rubocop (1.2.0)
@@ -160,7 +160,7 @@ GEM
       rubocop-ast (>= 1.0.1)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (1.1.1)
+    rubocop-ast (1.2.0)
       parser (>= 2.7.1.5)
     rubocop-performance (1.8.1)
       rubocop (>= 0.87.0)
@@ -190,7 +190,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.4.1)
+    zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
