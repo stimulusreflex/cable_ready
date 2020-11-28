@@ -50,7 +50,7 @@ const assignFocus = selector => {
     selector.nodeType === Node.ELEMENT_NODE
       ? selector
       : document.querySelector(selector)
-  const focusElement = element ? element : activeElement
+  const focusElement = element || activeElement
   if (focusElement) focusElement.focus()
 }
 
