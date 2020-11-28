@@ -41,14 +41,16 @@ const isTextInput = element => {
   return inputTags[element.tagName] && textInputTypes[element.type]
 }
 
-// Assigns focus to the appropriate element... preferring the explicitly passed focusSelector
+// Assigns focus to the appropriate element... preferring the explicitly passed selector
 //
-// * focusSelector - a CSS selector for the element that should have focus
+// * selector - a CSS selector for the element that should have focus
 //
-const assignFocus = focusSelector => {
-  const focusElement = focusSelector
-    ? document.querySelector(focusSelector)
-    : activeElement
+const assignFocus = selector => {
+  const element =
+    selector.nodeType === Node.ELEMENT_NODE
+      ? selector
+      : document.querySelector(selector)
+  const focusElement = element ? element : activeElement
   if (focusElement) focusElement.focus()
 }
 
@@ -210,6 +212,7 @@ const DOMOperations = {
     const { element, text } = detail
     dispatch(element, 'cable-ready:before-text-content', detail)
     element.textContent = text
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-text-content', detail)
   },
 
@@ -226,6 +229,7 @@ const DOMOperations = {
     const { element, text, position } = detail
     dispatch(element, 'cable-ready:before-insert-adjacent-text', detail)
     element.insertAdjacentText(position || 'beforeend', text)
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-insert-adjacent-text', detail)
   },
 
@@ -257,6 +261,7 @@ const DOMOperations = {
     const { element, value } = detail
     dispatch(element, 'cable-ready:before-set-value', detail)
     element.value = value
+    assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-set-value', detail)
   },
 
