@@ -47,11 +47,11 @@ const isTextInput = element => {
 //
 const assignFocus = selector => {
   const element =
-    selector.nodeType === Node.ELEMENT_NODE
+    selector && selector.nodeType === Node.ELEMENT_NODE
       ? selector
       : document.querySelector(selector)
   const focusElement = element || activeElement
-  if (focusElement) focusElement.focus()
+  if (focusElement && focusElement.focus) focusElement.focus()
 }
 
 // Dispatches an event on the passed element
