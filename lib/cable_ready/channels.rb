@@ -36,6 +36,8 @@ module CableReady
         set_style
         set_styles
         set_value
+        storage_remove_item
+        storage_set_item
         text_content
       ].each do |operation|
         add_operation operation

@@ -119,6 +119,24 @@ const DOMOperations = {
     dispatch(document, 'cable-ready:after-push-state', config)
   },
 
+  // Storage .................................................................................................
+
+  storageSetItem: config => {
+    const { key, value, storageType } = config
+    dispatch(document, 'cable-ready:before-storage-set-item', config)
+    storage = storageType === 'session' ? sessionStorage : localStorage
+    storage.setItem(key, value)
+    dispatch(document, 'cable-ready:after-storage-set-item', config)
+  },
+
+  storageRemoveItem: config => {
+    const { key, storageType } = config
+    dispatch(document, 'cable-ready:before-storage-remove-item', config)
+    storage = storageType === 'session' ? sessionStorage : localStorage
+    storage.removeItem(key)
+    dispatch(document, 'cable-ready:after-storage-remove-item', config)
+  },
+
   // Notifications ...........................................................................................
 
   consoleLog: config => {
