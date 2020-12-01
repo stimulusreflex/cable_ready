@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/hopsoft/cable_ready/tree/HEAD)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.2...HEAD)
+
+**Merged pull requests:**
+
+- Fix bug related to channel calling broadcast on the singleton [\#82](https://github.com/hopsoft/cable_ready/pull/82) ([hopsoft](https://github.com/hopsoft))
+
+## [v4.4.2](https://github.com/hopsoft/cable_ready/tree/v4.4.2) (2020-11-30)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.1...v4.4.2)
+
 ## [v4.4.1](https://github.com/hopsoft/cable_ready/tree/v4.4.1) (2020-11-28)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0...v4.4.1)
@@ -129,8 +141,6 @@
 - Make morph emit after event [\#48](https://github.com/hopsoft/cable_ready/pull/48) ([julianrubisch](https://github.com/julianrubisch))
 - Customize operations via initializer [\#47](https://github.com/hopsoft/cable_ready/pull/47) ([leastbad](https://github.com/leastbad))
 - Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/hopsoft/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
-- Add setStyles [\#37](https://github.com/hopsoft/cable_ready/pull/37) ([excid3](https://github.com/excid3))
-- Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/hopsoft/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 
 ## [v4.2.0](https://github.com/hopsoft/cable_ready/tree/v4.2.0) (2020-06-02)
 
@@ -165,6 +175,7 @@
 
 **Merged pull requests:**
 
+- Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/hopsoft/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 -  Add funding file [\#31](https://github.com/hopsoft/cable_ready/pull/31) ([andrewmcodes](https://github.com/andrewmcodes))
 - update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
@@ -174,6 +185,7 @@
 
 **Merged pull requests:**
 
+- Add setStyles [\#37](https://github.com/hopsoft/cable_ready/pull/37) ([excid3](https://github.com/excid3))
 - Bump acorn from 7.1.0 to 7.1.1 in /javascript [\#29](https://github.com/hopsoft/cable_ready/pull/29) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Set cookie support [\#28](https://github.com/hopsoft/cable_ready/pull/28) ([hopsoft](https://github.com/hopsoft))
 - README.md: Fix typo [\#27](https://github.com/hopsoft/cable_ready/pull/27) ([henrik](https://github.com/henrik))
