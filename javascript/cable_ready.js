@@ -124,7 +124,7 @@ const DOMOperations = {
   storageSetItem: config => {
     const { key, value, type } = config
     dispatch(document, 'cable-ready:before-storage-set-item', config)
-    storage = type === 'session' ? sessionStorage : localStorage
+    const storage = type === 'session' ? sessionStorage : localStorage
     storage.setItem(key, value)
     dispatch(document, 'cable-ready:after-storage-set-item', config)
   },
@@ -132,7 +132,7 @@ const DOMOperations = {
   storageRemoveItem: config => {
     const { key, type } = config
     dispatch(document, 'cable-ready:before-storage-remove-item', config)
-    storage = type === 'session' ? sessionStorage : localStorage
+    const storage = type === 'session' ? sessionStorage : localStorage
     storage.removeItem(key)
     dispatch(document, 'cable-ready:after-storage-remove-item', config)
   },
