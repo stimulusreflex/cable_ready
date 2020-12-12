@@ -11,8 +11,3 @@ import './polyfills/custom-event/custom-event'
 
 import 'element-closest'
 import '@webcomponents/template'
-
-// To clarify:
-// * Notifications
-// * element.style
-// * XPathResult

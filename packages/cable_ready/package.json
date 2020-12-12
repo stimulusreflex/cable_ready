@@ -1,6 +1,6 @@
 {
   "name": "cable_ready",
-  "version": "4.4.0-pre2",
+  "version": "4.4.4",
   "description": "CableReady helps you create great real-time user experiences by making it simple to trigger client-side DOM changes from server-side Ruby.",
   "keywords": [
     "ruby",
@@ -18,25 +18,17 @@
   "bugs": "https://github.com/hopsoft/cable_ready/issues",
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",
-  "source": "index.js",
-  "main": "dist/cable_ready.js",
-  "module": "dist/cable_ready.module.js",
-  "esmodule": "dist/cable_ready.modern.js",
+  "source": "./index.js",
+  "main": "./index.js",
   "scripts": {
-    "prepare": "yarn build",
     "prettier-standard:check": "yarn run prettier-standard --check *.js **/*.js",
-    "prettier-standard:format": "yarn run prettier-standard *.js **/*.js",
-    "build": "microbundle --target browser --format modern,es,cjs --no-strict",
-    "dev": "microbundle watch --target browser --format modern,es,cjs --no-strict",
-    "clean": "rimraf dist"
+    "prettier-standard:format": "yarn run prettier-standard *.js **/*.js"
   },
   "dependencies": {
-    "@cable_ready/core": "4.4.0-pre2"
+    "@cable_ready/core": "4.4.4"
   },
   "devDependencies": {
-    "microbundle": "^0.12.4",
-    "prettier-standard": "^16.4.1",
-    "rimraf": "^3.0.2"
+    "prettier-standard": "^16.4.1"
   },
   "publishConfig": {
     "access": "public"
