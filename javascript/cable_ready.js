@@ -364,7 +364,9 @@ const perform = (
             DOMOperations[name](detail)
         } catch (e) {
           if (detail.element) {
-            console.error(`CableReady detected an error in ${name}! ${e.message}`)
+            console.error(
+              `CableReady detected an error in ${name}! ${e.message}`
+            )
             console.error(e)
           } else {
             console.log(
