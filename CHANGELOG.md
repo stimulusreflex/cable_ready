@@ -1,5 +1,62 @@
 # Changelog
 
+## [v4.4.4](https://github.com/hopsoft/cable_ready/tree/v4.4.4) (2020-12-11)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.3...v4.4.4)
+
+**Merged pull requests:**
+
+- Add support for sessionStorage and localStorage [\#83](https://github.com/hopsoft/cable_ready/pull/83) ([hopsoft](https://github.com/hopsoft))
+
+## [v4.4.3](https://github.com/hopsoft/cable_ready/tree/v4.4.3) (2020-12-01)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.2...v4.4.3)
+
+**Merged pull requests:**
+
+- Fix bug related to channel calling broadcast on the singleton [\#82](https://github.com/hopsoft/cable_ready/pull/82) ([hopsoft](https://github.com/hopsoft))
+
+## [v4.4.2](https://github.com/hopsoft/cable_ready/tree/v4.4.2) (2020-11-30)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.1...v4.4.2)
+
+## [v4.4.1](https://github.com/hopsoft/cable_ready/tree/v4.4.1) (2020-11-28)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0...v4.4.1)
+
+**Merged pull requests:**
+
+- Apply setFocus behavior to more element mutations [\#81](https://github.com/hopsoft/cable_ready/pull/81) ([hopsoft](https://github.com/hopsoft))
+
+## [v4.4.0](https://github.com/hopsoft/cable_ready/tree/v4.4.0) (2020-11-24)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre4...v4.4.0)
+
+## [v4.4.0.pre4](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre4) (2020-11-22)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre3...v4.4.0.pre4)
+
+**Fixed bugs:**
+
+- only compare isEqualNode for non-inputs [\#80](https://github.com/hopsoft/cable_ready/pull/80) ([leastbad](https://github.com/leastbad))
+
+## [v4.4.0.pre3](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre3) (2020-11-13)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre2...v4.4.0.pre3)
+
+**Closed issues:**
+
+- CableReady detected an error in insertAdjacentHtml. Object doesn't support this action - IE11 only [\#76](https://github.com/hopsoft/cable_ready/issues/76)
+- shouldMorph doesn't work well with some form elements [\#70](https://github.com/hopsoft/cable_ready/issues/70)
+- Operations go missing before broadcasting [\#64](https://github.com/hopsoft/cable_ready/issues/64)
+
+**Merged pull requests:**
+
+- Move package.json to root and prepare for v4.4.0.pre3 [\#79](https://github.com/hopsoft/cable_ready/pull/79) ([hopsoft](https://github.com/hopsoft))
+- method chaining [\#78](https://github.com/hopsoft/cable_ready/pull/78) ([leastbad](https://github.com/leastbad))
+- jquery support [\#75](https://github.com/hopsoft/cable_ready/pull/75) ([leastbad](https://github.com/leastbad))
+- Removed isEqualNode comparison [\#71](https://github.com/hopsoft/cable_ready/pull/71) ([adank92](https://github.com/adank92))
+
 ## [v4.4.0.pre2](https://github.com/hopsoft/cable_ready/tree/v4.4.0.pre2) (2020-11-02)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.0.pre1...v4.4.0.pre2)
@@ -108,7 +165,6 @@
 - after-outer-html emitted from new element [\#46](https://github.com/hopsoft/cable_ready/pull/46) ([leastbad](https://github.com/leastbad))
 - Fix `outer\_html` notation [\#45](https://github.com/hopsoft/cable_ready/pull/45) ([julianrubisch](https://github.com/julianrubisch))
 - Print out the selector for easier debugging perform errors [\#36](https://github.com/hopsoft/cable_ready/pull/36) ([excid3](https://github.com/excid3))
-- add set\_property method to library [\#34](https://github.com/hopsoft/cable_ready/pull/34) ([leastbad](https://github.com/leastbad))
 
 ## [v4.1.2](https://github.com/hopsoft/cable_ready/tree/v4.1.2) (2020-04-27)
 
@@ -117,6 +173,10 @@
 **Fixed bugs:**
 
 - Ensure the active text input retains its value and focus after DOM mutations [\#33](https://github.com/hopsoft/cable_ready/pull/33) ([hopsoft](https://github.com/hopsoft))
+
+**Merged pull requests:**
+
+- update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.1.1](https://github.com/hopsoft/cable_ready/tree/v4.1.1) (2020-04-20)
 
@@ -129,7 +189,6 @@
 **Merged pull requests:**
 
 -  Add funding file [\#31](https://github.com/hopsoft/cable_ready/pull/31) ([andrewmcodes](https://github.com/andrewmcodes))
-- update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.1.0](https://github.com/hopsoft/cable_ready/tree/v4.1.0) (2020-04-05)
 
@@ -137,11 +196,12 @@
 
 **Merged pull requests:**
 
+- add set\_property method to library [\#34](https://github.com/hopsoft/cable_ready/pull/34) ([leastbad](https://github.com/leastbad))
 - Bump acorn from 7.1.0 to 7.1.1 in /javascript [\#29](https://github.com/hopsoft/cable_ready/pull/29) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Set cookie support [\#28](https://github.com/hopsoft/cable_ready/pull/28) ([hopsoft](https://github.com/hopsoft))
 - README.md: Fix typo [\#27](https://github.com/hopsoft/cable_ready/pull/27) ([henrik](https://github.com/henrik))
 - Update event-dispatch.md [\#25](https://github.com/hopsoft/cable_ready/pull/25) ([leastbad](https://github.com/leastbad))
-- Fix typo on Remove Css Class methods [\#24](https://github.com/hopsoft/cable_ready/pull/24) ([darkrubyist](https://github.com/darkrubyist))
+- Fix typo on Remove Css Class methods [\#24](https://github.com/hopsoft/cable_ready/pull/24) ([dark88888](https://github.com/dark88888))
 
 ## [v4.0.9](https://github.com/hopsoft/cable_ready/tree/v4.0.9) (2020-01-27)
 

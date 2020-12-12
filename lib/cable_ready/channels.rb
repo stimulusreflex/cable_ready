@@ -36,6 +36,8 @@ module CableReady
         set_style
         set_styles
         set_value
+        storage_remove_item
+        storage_set_item
         text_content
       ].each do |operation|
         add_operation operation
@@ -43,7 +45,7 @@ module CableReady
     end
 
     def add_operation(operation, &implementation)
-      @operations[operation] = implementation || ->(options = {}) { add_operation(operation, options) }
+      @operations[operation] = implementation || ->(options = {}) { enqueue_operation(operation, options) }
     end
 
     def [](identifier)
@@ -56,7 +58,7 @@ module CableReady
           .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
           .select { |channel| channel.identifier.is_a?(String) }
           .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].broadcast(clear) }
+            channels.each { |channel| @channels[channel.identifier].channel_broadcast(clear) }
             channels.each { |channel| @channels.except!(channel.identifier) if clear }
           end
       end
@@ -68,7 +70,7 @@ module CableReady
           .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
           .reject { |channel| channel.identifier.is_a?(String) }
           .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear) }
+            channels.each { |channel| @channels[channel.identifier].channel_broadcast_to(model, clear) }
             channels.each { |channel| @channels.except!(channel.identifier) if clear }
           end
       end
