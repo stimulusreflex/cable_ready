@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.4.5](https://github.com/hopsoft/cable_ready/tree/v4.4.5) (2020-12-13)
+
+[Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.4...v4.4.5)
+
+**Merged pull requests:**
+
+- changed storage method names, added clear flag [\#86](https://github.com/hopsoft/cable_ready/pull/86) ([leastbad](https://github.com/leastbad))
+
 ## [v4.4.4](https://github.com/hopsoft/cable_ready/tree/v4.4.4) (2020-12-11)
 
 [Full Changelog](https://github.com/hopsoft/cable_ready/compare/v4.4.3...v4.4.4)
@@ -148,8 +156,6 @@
 - Support for multiple CSS classes. [\#49](https://github.com/hopsoft/cable_ready/pull/49) ([sarriagada](https://github.com/sarriagada))
 - Make morph emit after event [\#48](https://github.com/hopsoft/cable_ready/pull/48) ([julianrubisch](https://github.com/julianrubisch))
 - Customize operations via initializer [\#47](https://github.com/hopsoft/cable_ready/pull/47) ([leastbad](https://github.com/leastbad))
-- Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/hopsoft/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
-- Add setStyles [\#37](https://github.com/hopsoft/cable_ready/pull/37) ([excid3](https://github.com/excid3))
 - Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/hopsoft/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 
 ## [v4.2.0](https://github.com/hopsoft/cable_ready/tree/v4.2.0) (2020-06-02)
@@ -164,7 +170,10 @@
 
 - after-outer-html emitted from new element [\#46](https://github.com/hopsoft/cable_ready/pull/46) ([leastbad](https://github.com/leastbad))
 - Fix `outer\_html` notation [\#45](https://github.com/hopsoft/cable_ready/pull/45) ([julianrubisch](https://github.com/julianrubisch))
+- Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/hopsoft/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
+- Add setStyles [\#37](https://github.com/hopsoft/cable_ready/pull/37) ([excid3](https://github.com/excid3))
 - Print out the selector for easier debugging perform errors [\#36](https://github.com/hopsoft/cable_ready/pull/36) ([excid3](https://github.com/excid3))
+- add set\_property method to library [\#34](https://github.com/hopsoft/cable_ready/pull/34) ([leastbad](https://github.com/leastbad))
 
 ## [v4.1.2](https://github.com/hopsoft/cable_ready/tree/v4.1.2) (2020-04-27)
 
@@ -173,10 +182,6 @@
 **Fixed bugs:**
 
 - Ensure the active text input retains its value and focus after DOM mutations [\#33](https://github.com/hopsoft/cable_ready/pull/33) ([hopsoft](https://github.com/hopsoft))
-
-**Merged pull requests:**
-
-- update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.1.1](https://github.com/hopsoft/cable_ready/tree/v4.1.1) (2020-04-20)
 
@@ -189,6 +194,7 @@
 **Merged pull requests:**
 
 -  Add funding file [\#31](https://github.com/hopsoft/cable_ready/pull/31) ([andrewmcodes](https://github.com/andrewmcodes))
+- update README and package.json [\#30](https://github.com/hopsoft/cable_ready/pull/30) ([andrewmcodes](https://github.com/andrewmcodes))
 
 ## [v4.1.0](https://github.com/hopsoft/cable_ready/tree/v4.1.0) (2020-04-05)
 
@@ -196,7 +202,6 @@
 
 **Merged pull requests:**
 
-- add set\_property method to library [\#34](https://github.com/hopsoft/cable_ready/pull/34) ([leastbad](https://github.com/leastbad))
 - Bump acorn from 7.1.0 to 7.1.1 in /javascript [\#29](https://github.com/hopsoft/cable_ready/pull/29) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Set cookie support [\#28](https://github.com/hopsoft/cable_ready/pull/28) ([hopsoft](https://github.com/hopsoft))
 - README.md: Fix typo [\#27](https://github.com/hopsoft/cable_ready/pull/27) ([henrik](https://github.com/henrik))
