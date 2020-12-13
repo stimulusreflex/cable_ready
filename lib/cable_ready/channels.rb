@@ -28,16 +28,16 @@ module CableReady
         remove
         remove_attribute
         remove_css_class
+        remove_storage
         set_attribute
         set_cookie
         set_dataset_property
         set_focus
         set_property
+        set_storage
         set_style
         set_styles
         set_value
-        storage_remove_item
-        storage_set_item
         text_content
       ].each do |operation|
         add_operation operation
