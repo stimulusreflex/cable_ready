@@ -16,6 +16,7 @@ module CableReady
       @operations = {}
       %i[
         add_css_class
+        clear_storage
         console_log
         dispatch_event
         inner_html
