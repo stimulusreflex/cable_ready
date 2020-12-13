@@ -28,13 +28,13 @@ module CableReady
         remove
         remove_attribute
         remove_css_class
-        remove_storage
+        remove_storage_item
         set_attribute
         set_cookie
         set_dataset_property
         set_focus
         set_property
-        set_storage
+        set_storage_item
         set_style
         set_styles
         set_value
