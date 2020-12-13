@@ -121,20 +121,28 @@ const DOMOperations = {
 
   // Storage .................................................................................................
 
-  setStorage: config => {
+  setStorageItem: config => {
     const { key, value, type } = config
-    dispatch(document, 'cable-ready:before-set-storage', config)
     const storage = type === 'session' ? sessionStorage : localStorage
+    dispatch(document, 'cable-ready:before-set-storage-item', config)
     storage.setItem(key, value)
-    dispatch(document, 'cable-ready:after-set-storage', config)
+    dispatch(document, 'cable-ready:after-set-storage-item', config)
   },
 
-  removeStorage: config => {
-    const { key, type, clear } = config
-    dispatch(document, 'cable-ready:before-remove-storage', config)
+  removeStorageItem: config => {
+    const { key, type } = config
     const storage = type === 'session' ? sessionStorage : localStorage
-    clear ? storage.clear() : storage.removeItem(key)
-    dispatch(document, 'cable-ready:after-remove-storage', config)
+    dispatch(document, 'cable-ready:before-remove-storage-item', config)
+    storage.removeItem(key)
+    dispatch(document, 'cable-ready:after-remove-storage-item', config)
+  },
+
+  clearStorage: config => {
+    const { type } = config
+    const storage = type === 'session' ? sessionStorage : localStorage
+    dispatch(document, 'cable-ready:before-clear-storage', config)
+    storage.clear()
+    dispatch(document, 'cable-ready:after-clear-storage', config)
   },
 
   // Notifications ...........................................................................................
