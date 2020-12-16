@@ -13,7 +13,9 @@ const afterEffects = []
 const shouldMorph = detail => (fromEl, toEl) => {
   return !beforeConditions
     .map(condition => {
-      return condition(detail, fromEl, toEl)
+      return typeof condition === 'function'
+        ? condition(detail, fromEl, toEl)
+        : true
     })
     .includes(false)
 }
@@ -21,7 +23,9 @@ const shouldMorph = detail => (fromEl, toEl) => {
 // Execute any pluggable functions that modify elements after morphing via onElUpdated callback
 //
 const didMorph = detail => el => {
-  afterEffects.forEach(effect => effect(detail, el))
+  afterEffects.forEach(effect => {
+    if (typeof effect === 'function') effect(detail, el)
+  })
 }
 
 // Morphdom Callbacks ........................................................................................
