@@ -1,110 +1,27 @@
 import morphdom from 'morphdom'
+import { verifyNotMutable, verifyNotPermanent } from './conditions'
+import { assignFocus, dispatch, xpathToElement, getClassNames } from './utils'
 
-let activeElement
+export let activeElement
 
-const inputTags = {
-  INPUT: true,
-  TEXTAREA: true,
-  SELECT: true
-}
+const beforeConditions = [verifyNotMutable, verifyNotPermanent]
+const afterEffects = []
 
-const mutableTags = {
-  INPUT: true,
-  TEXTAREA: true,
-  OPTION: true
-}
-
-const textInputTypes = {
-  'datetime-local': true,
-  'select-multiple': true,
-  'select-one': true,
-  color: true,
-  date: true,
-  datetime: true,
-  email: true,
-  month: true,
-  number: true,
-  password: true,
-  range: true,
-  search: true,
-  tel: true,
-  text: true,
-  textarea: true,
-  time: true,
-  url: true,
-  week: true
-}
-
-// Indicates if the passed element is considered a text input.
-//
-const isTextInput = element => {
-  return inputTags[element.tagName] && textInputTypes[element.type]
-}
-
-// Assigns focus to the appropriate element... preferring the explicitly passed selector
-//
-// * selector - a CSS selector for the element that should have focus
-//
-const assignFocus = selector => {
-  const element =
-    selector && selector.nodeType === Node.ELEMENT_NODE
-      ? selector
-      : document.querySelector(selector)
-  const focusElement = element || activeElement
-  if (focusElement && focusElement.focus) focusElement.focus()
-}
-
-// Dispatches an event on the passed element
-//
-// * element - the element
-// * name - the name of the event
-// * detail - the event detail
-//
-const dispatch = (element, name, detail = {}) => {
-  const init = { bubbles: true, cancelable: true, detail: detail }
-  const evt = new CustomEvent(name, init)
-  element.dispatchEvent(evt)
-  if (window.jQuery) window.jQuery(element).trigger(name, detail)
-}
-
-const xpathToElement = xpath => {
-  return document.evaluate(
-    xpath,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue
-}
-
-// Return an array with the class names to be used
-//
-// * names - could be a string or an array of strings for multiple classes.
-//
-const getClassNames = names => Array(names).flat()
-
-// Indicates whether or not we should morph an element
+// Indicates whether or not we should morph an element via onBeforeElUpdated callback
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
-const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
-  // Skip nodes that are equal:
-  // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
-  if (!mutableTags[fromEl.tagName] && fromEl.isEqualNode(toEl)) return false
-  if (!permanentAttributeName) return true
-
-  const permanent = fromEl.closest(`[${permanentAttributeName}]`)
-
-  // only morph attributes on the active non-permanent text input
-  if (!permanent && isTextInput(fromEl) && fromEl === activeElement) {
-    const ignore = { value: true }
-    Array.from(toEl.attributes).forEach(attribute => {
-      if (!ignore[attribute.name])
-        fromEl.setAttribute(attribute.name, attribute.value)
+const shouldMorph = detail => (fromEl, toEl) => {
+  return !beforeConditions
+    .map(condition => {
+      return condition(detail, fromEl, toEl)
     })
-    return false
-  }
+    .includes(false)
+}
 
-  return !permanent
+// Execute any pluggable functions that modify elements after morphing via onElUpdated callback
+//
+const didMorph = detail => el => {
+  afterEffects.forEach(effect => effect(detail, el))
 }
 
 // Morphdom Callbacks ........................................................................................
@@ -188,13 +105,7 @@ const DOMOperations = {
 
   morph: detail => {
     activeElement = document.activeElement
-    const {
-      element,
-      html,
-      childrenOnly,
-      focusSelector,
-      permanentAttributeName
-    } = detail
+    const { element, html, childrenOnly, focusSelector } = detail
     const template = document.createElement('template')
     template.innerHTML = String(html).trim()
     dispatch(element, 'cable-ready:before-morph', {
@@ -205,7 +116,8 @@ const DOMOperations = {
     const ordinal = Array.from(parent.children).indexOf(element)
     morphdom(element, childrenOnly ? template.content : template.innerHTML, {
       childrenOnly: !!childrenOnly,
-      onBeforeElUpdated: shouldMorph(permanentAttributeName)
+      onBeforeElUpdated: shouldMorph(detail),
+      onElUpdated: didMorph(detail)
     })
     assignFocus(focusSelector)
     dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
@@ -396,4 +308,10 @@ const performAsync = (
   })
 }
 
-export default { perform, performAsync, isTextInput, DOMOperations }
+export default {
+  perform,
+  performAsync,
+  DOMOperations,
+  beforeConditions,
+  afterEffects
+}
