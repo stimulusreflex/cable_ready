@@ -4,17 +4,17 @@ import { assignFocus, dispatch, xpathToElement, getClassNames } from './utils'
 
 export let activeElement
 
-const beforeConditions = [verifyNotMutable, verifyNotPermanent]
-const afterEffects = []
+const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
+const didMorphCallbacks = []
 
 // Indicates whether or not we should morph an element via onBeforeElUpdated callback
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
 const shouldMorph = detail => (fromEl, toEl) => {
-  return !beforeConditions
-    .map(condition => {
-      return typeof condition === 'function'
-        ? condition(detail, fromEl, toEl)
+  return !shouldMorphCallbacks
+    .map(callback => {
+      return typeof callback === 'function'
+        ? callback(detail, fromEl, toEl)
         : true
     })
     .includes(false)
@@ -23,8 +23,8 @@ const shouldMorph = detail => (fromEl, toEl) => {
 // Execute any pluggable functions that modify elements after morphing via onElUpdated callback
 //
 const didMorph = detail => el => {
-  afterEffects.forEach(effect => {
-    if (typeof effect === 'function') effect(detail, el)
+  didMorphCallbacks.forEach(callback => {
+    if (typeof callback === 'function') callback(detail, el)
   })
 }
 
@@ -316,6 +316,6 @@ export default {
   perform,
   performAsync,
   DOMOperations,
-  beforeConditions,
-  afterEffects
+  shouldMorphCallbacks,
+  didMorphCallbacks
 }
