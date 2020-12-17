@@ -1,5 +1,5 @@
 import morphdom from 'morphdom'
-import { verifyNotMutable, verifyNotPermanent } from './conditions'
+import { verifyNotMutable, verifyNotPermanent } from './callbacks'
 import { assignFocus, dispatch, xpathToElement, getClassNames } from './utils'
 
 export let activeElement
