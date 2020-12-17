@@ -365,7 +365,7 @@ const perform = (
         } catch (e) {
           if (detail.element) {
             console.error(
-              `CableReady detected an error in ${name}! ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. Check this out for more details: https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
+              `CableReady detected an error in ${name}! ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
             )
             console.error(e)
           } else {
