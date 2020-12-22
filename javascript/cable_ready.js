@@ -151,6 +151,7 @@ const DOMOperations = {
   },
 
   textContent: detail => {
+    activeElement = document.activeElement
     const { element, text, focusSelector } = detail
     dispatch(element, 'cable-ready:before-text-content', detail)
     element.textContent = text
@@ -168,6 +169,7 @@ const DOMOperations = {
   },
 
   insertAdjacentText: detail => {
+    activeElement = document.activeElement
     const { element, text, position, focusSelector } = detail
     dispatch(element, 'cable-ready:before-insert-adjacent-text', detail)
     element.insertAdjacentText(position || 'beforeend', text)
