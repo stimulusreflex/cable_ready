@@ -200,6 +200,7 @@ const DOMOperations = {
   },
 
   setValue: detail => {
+    activeElement = document.activeElement
     const { element, value, focusSelector } = detail
     dispatch(element, 'cable-ready:before-set-value', detail)
     element.value = value
