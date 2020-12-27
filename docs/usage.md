@@ -74,7 +74,7 @@ To interpret a selector as an XPath query, you need to do two things:
 1. Pass `xpath: true` as a parameter argument when enqueueing the operation.
 2. Provide an XPath query that matches the desired element, and then ensure its validity until the operation has completed.
 
-It's oddly difficult to find a quality implementation of a function that can produce an XPath expression for any DOM element. At least _you're_ not going to have this problem:
+Here's a function that can produce an XPath expression for any DOM element:
 
 ```javascript
 const elementToXPath = element => {
