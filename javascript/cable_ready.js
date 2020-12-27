@@ -37,6 +37,18 @@ const didMorph = operation => el => {
 const DOMOperations = {
   // DOM Mutations
 
+  append: operation => {
+    processElements(operation, element => {
+      dispatch(element, 'cable-ready:before-append', operation)
+      const { html, focusSelector } = operation
+      if (!operation.cancel) {
+        element.insertAdjacentHTML('beforeend', html)
+        assignFocus(focusSelector)
+      }
+      dispatch(element, 'cable-ready:after-append', operation)
+    })
+  },
+
   innerHtml: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-inner-html', operation)
@@ -116,6 +128,18 @@ const DOMOperations = {
     })
   },
 
+  prepend: operation => {
+    processElements(operation, element => {
+      dispatch(element, 'cable-ready:before-prepend', operation)
+      const { html, focusSelector } = operation
+      if (!operation.cancel) {
+        element.insertAdjacentHTML('afterbegin', html)
+        assignFocus(focusSelector)
+      }
+      dispatch(element, 'cable-ready:after-prepend', operation)
+    })
+  },
+
   remove: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-remove', operation)
@@ -125,6 +149,20 @@ const DOMOperations = {
         assignFocus(focusSelector)
       }
       dispatch(document, 'cable-ready:after-remove', operation)
+    })
+  },
+
+  replace: operation => {
+    processElements(operation, element => {
+      dispatch(element, 'cable-ready:before-replace', operation)
+      const { html, focusSelector } = operation
+      const parent = element.parentElement
+      const ordinal = Array.from(parent.children).indexOf(element)
+      if (!operation.cancel) {
+        element.outerHTML = html
+        assignFocus(focusSelector)
+      }
+      dispatch(parent.children[ordinal], 'cable-ready:after-replace', operation)
     })
   },
 
