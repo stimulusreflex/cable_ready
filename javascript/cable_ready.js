@@ -181,9 +181,9 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-append', detail)
-    const temp = document.createElement('div')
-    temp.innerHTML = html
-    element.append(temp.firstChild)
+    const template = document.createElement('template')
+    template.innerHTML = String(html).trim()
+    element.append(template.content)
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-append', detail)
   },
@@ -192,9 +192,9 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-prepend', detail)
-    const temp = document.createElement('div')
-    temp.innerHTML = html
-    element.prepend(temp.firstChild)
+    const template = document.createElement('template')
+    template.innerHTML = String(html).trim()
+    element.prepend(template.content)
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-prepend', detail)
   },
@@ -203,9 +203,9 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-replace-with', detail)
-    const temp = document.createElement('div')
-    temp.innerHTML = html
-    element.replaceWith(temp.firstChild)
+    const template = document.createElement('template')
+    template.innerHTML = String(html).trim()
+    element.replaceWith(template.content)
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-replace-with', detail)
   },
