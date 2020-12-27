@@ -55,7 +55,7 @@ CableReady was created with a deep and informed belief that web[ applications th
 
 However, one of the stranger edge-cases that must be handled in a websockets-enabled world is the potential for a server update to overwrite the value of a text input _while the user is typing into it_. It's a jarring example because it's an end-result that was almost completely impossible to achieve in the Ajax era. Despite our wildest brainstorms, we have yet to identify even a single scenario where a user would consider having their effort undone to be positive.
 
-As a result, CableReady comes pre-installed with a [shouldMorph callback](customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active \(have focus\).
+As a result, CableReady's popular [morph](reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active \(have focus\).
 
 Since forms are rarely designed to be edited by multiple concurrent users 😱 it's unlikely that you'll have to spend time thinking about this issue. If you're one of the lucky ones, you can use CableReady and StimulusReflex to establish a field-level locking system, or at the very least, update CSS or nearby indicators to show that a particular input is locked, contested or potentially out of date.
 
