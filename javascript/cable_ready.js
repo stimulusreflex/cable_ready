@@ -177,6 +177,39 @@ const DOMOperations = {
     dispatch(element, 'cable-ready:after-insert-adjacent-text', detail)
   },
 
+  append: detail => {
+    activeElement = document.activeElement
+    const { element, html, focusSelector } = detail
+    dispatch(element, 'cable-ready:before-append', detail)
+    const temp = document.createElement('div')
+    temp.innerHTML = html
+    element.append(temp.firstChild)
+    assignFocus(focusSelector)
+    dispatch(element, 'cable-ready:after-append', detail)
+  },
+
+  prepend: detail => {
+    activeElement = document.activeElement
+    const { element, html, focusSelector } = detail
+    dispatch(element, 'cable-ready:before-prepend', detail)
+    const temp = document.createElement('div')
+    temp.innerHTML = html
+    element.prepend(temp.firstChild)
+    assignFocus(focusSelector)
+    dispatch(element, 'cable-ready:after-prepend', detail)
+  },
+
+  replaceWith: detail => {
+    activeElement = document.activeElement
+    const { element, html, focusSelector } = detail
+    dispatch(element, 'cable-ready:before-replace-with', detail)
+    const temp = document.createElement('div')
+    temp.innerHTML = html
+    element.replaceWith(temp.firstChild)
+    assignFocus(focusSelector)
+    dispatch(element, 'cable-ready:after-replace-with', detail)
+  },
+
   remove: detail => {
     activeElement = document.activeElement
     const { element, focusSelector } = detail
