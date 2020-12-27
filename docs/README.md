@@ -1,16 +1,18 @@
 ---
-description: 'Your server-side Ruby can make magic happen on the client, in real-time'
+description: 'Server-side Ruby making magic happen on the client, in real-time'
 ---
 
 # Welcome
 
-![](.gitbook/assets/fantasia.gif)
-
 ## What is CableReady?
 
-CableReady is a Ruby gem that lets you **create great real-time user experiences** by triggering client-side DOM changes, events and notifications over [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. These commands are called **operations**.
+CableReady is a Ruby gem that was first released in May 2017. It lets you **create great real-time user experiences** by triggering client-side DOM changes, events and notifications over [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. These commands are called **operations**.
 
-Unlike Ajax calls, operations are not always initiated by user activity. You can broadcast one or **many operations at once** from inside a [Reflex](https://docs.stimulusreflex.com/morph-modes#activejob-example), as well as ActiveRecord callbacks, ActiveJobs, controller actions, rake tasks and in response to API calls and webhooks.
+![](.gitbook/assets/fantasia.gif)
+
+Unlike Ajax requests, operations are not always initiated by user activity - or even the user's browser.
+
+You can broadcast one or **many operations at once** from inside a [Reflex](https://docs.stimulusreflex.com/morph-modes#activejob-example), as well as ActiveRecord callbacks, ActiveJobs, ActionCable Channels, controller actions, rake tasks and in response to API calls and webhooks.
 
 Operations can be broadcast to one person, every person online, or ad hoc groups of people - making real-time notifications, live comments on a blog post, [form validations](https://optimism.leastbad.com/), collaborative editing, shared media viewing, endless page scrolling and [lazy asset loading](https://github.com/julianrubisch/futurism) laughably trivial.
 
@@ -39,43 +41,27 @@ CableReady enables a radical new style of development, and **it can make you lit
 * [x] Increase functionality, not complexity 🪁
 * [x] Act as a force multiplier for StimulusJS 🔨
 
-## Just how fast are we talking about?
-
 {% embed url="https://www.youtube.com/watch?v=F5hA79vKE\_E" caption="" %}
 
-## What can I do with it?
+### Upgrade from Hotwire Turbo Streams
 
-CableReady currently boasts **22 different operations** that can be triggered from server-side Ruby code:
+We welcome [Hotwire](https://hotwire.dev) to the \#resistance. Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex.
+
+While any answer will be nuanced and biases controlled for, we see the Turbo eventually providing an excellent successor for Rails UJS and acting as a launchboard to Reactive Rails UI design.
+
+We're confident calling CableReady an upgrade path from [Turbo Streams](https://turbo.hotwire.dev/handbook/streams). CableReady supports 5x more operations and is designed for extreme flexibility; it can be used almost anywhere in your app.
+
+Moreover, developers can use CableReady to broadcast operations to ad hoc groups of both people and resources [in a way that enables developers to build applications not easily possible](broadcasting-to-resources.md#fewer-promises-more-consciousness-expanding-code-samples-plz) with other tools.
+
+## What can I do with CableReady?
+
+CableReady currently boasts **25 different operations** that can be triggered from server-side Ruby code:
 
 |  | Operations Available |
 | :--- | :--- |
-| [Element Mutation](https://cableready.stimulusreflex.com/usage/dom-operations/element-mutations) | morph, inner\_html, outer\_html, text\_content, insert\_adjacent\_html, insert\_adjacent\_text, remove, set\_property, set\_value |
-| [CSS Mutation](https://cableready.stimulusreflex.com/usage/dom-operations/css-class-mutations) | add\_css\_class, remove\_css\_class |
-| [Style Mutation](https://cableready.stimulusreflex.com/usage/dom-operations/style-mutations) | set\_style, set\_styles |
-| [Dataset Mutation](https://cableready.stimulusreflex.com/usage/dom-operations/dataset-mutations) | set\_dataset\_property |
-| [Attribute Mutation](https://cableready.stimulusreflex.com/usage/dom-operations/attribute-mutations) | set\_attribute, remove\_attribute |
-| [DOM Events](https://cableready.stimulusreflex.com/usage/dom-operations/event-dispatch) | dispatch\_event |
-| [Cookies](https://cableready.stimulusreflex.com/usage/dom-operations/cookies) | set\_cookie |
-| [Notifications](https://cableready.stimulusreflex.com/usage/dom-operations/notifications) | console\_log, notification |
-| Navigation | push\_state, set\_focus |
-
-{% hint style="info" %}
-Learn more about [ActionCable](http://guides.rubyonrails.org/action_cable_overview.html) to help you get the most out of CableReady.
-{% endhint %}
-
-## Can I see an example?
-
-This is a simple example that demonstrates how to set an element's value.
-
-```ruby
-cable_ready["MyChannel"].set_value(
-  selector: "#my-element",
-  value: "A new value from the server"
-)
-cable_ready.broadcast
-```
-
-{% hint style="warning" %}
-In this example, all clients connected to `MyChannel` will receive the broadcast and will update the DOM element to the new value.
-{% endhint %}
+| [DOM Mutations](reference/operations/dom-mutations.md) | [inner\_html](reference/operations/dom-mutations.md#inner_html), [insert\_adjacent\_html](reference/operations/dom-mutations.md#insert_adjacent_html), [insert\_adjacent\_text](reference/operations/dom-mutations.md#insert_adjacent_text), [morph](reference/operations/dom-mutations.md#morph), [outer\_html](reference/operations/dom-mutations.md#outer_html), [remove](reference/operations/dom-mutations.md#remove), [text\_content](reference/operations/dom-mutations.md#text_content) |
+| [Element Mutations](reference/operations/element-mutations.md) | [add\_css\_class](reference/operations/element-mutations.md#add_css_class), [remove\_attribute](reference/operations/element-mutations.md#remove_attribute), [remove\_css\_class](reference/operations/element-mutations.md#remove_css_class), [set\_attribute](reference/operations/element-mutations.md#set_attribute), [set\_dataset\_property](reference/operations/element-mutations.md#set_dataset_property), [set\_property](reference/operations/element-mutations.md#set_property), [set\_style](reference/operations/element-mutations.md#set_style), [set\_styles](reference/operations/element-mutations.md#set_styles), [set\_value](reference/operations/element-mutations.md#set_value) |
+| [DOM Events](reference/operations/event-dispatch.md) | [dispatch\_event](reference/operations/event-dispatch.md#dispatch_event) |
+| [Browser Manipulations](reference/operations/browser-manipulations.md) | [clear\_storage](reference/operations/browser-manipulations.md#clear_storage), [push\_state](reference/operations/browser-manipulations.md#push_state), [remove\_storage\_item](reference/operations/browser-manipulations.md#remove_storage_item), [set\_cookie](reference/operations/browser-manipulations.md#set_cookie), [set\_focus](reference/operations/browser-manipulations.md#set_focus), [set\_storage\_item](reference/operations/browser-manipulations.md#set_storage_item) |
+| [Notifications](reference/operations/notifications.md) | [console\_log](reference/operations/notifications.md#console_log), [notification](reference/operations/notifications.md#notification) |
 

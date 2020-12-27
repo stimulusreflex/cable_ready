@@ -1,38 +1,47 @@
 # Notifications
 
-## [consoleLog](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)
+## console\_log
 
-{% hint style="info" %}
-Output a message to the web console.
-{% endhint %}
+Output a message to the browser console.
 
 ```ruby
 cable_ready["MyChannel"].console_log(
   message: "string", # required, although it can be empty
-  level: "string" # optionally specify one of "warn", "info" or "error"
+  level:   "string"  # optionally specify one of "warn", "info" or "error"
 )
 ```
 
-## [notification](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API)
+#### Reference
 
-{% hint style="info" %}
+* [https://developer.mozilla.org/en-US/docs/Web/API/Console/log](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)
+
+## notification
+
 Display a native system notification to the end user. This will happen outside the top-level browsing context viewport, so therefore can be displayed even when the user has switched tabs or moved to a different app. Native notifications are designed to be compatible with existing notification systems, across different platforms.
 
 You can learn about [all of the possible options](https://developer.mozilla.org/en-US/docs/Web/API/Notification) on MDN.
 
-The most obviously useful is `body` which is the message below the title. You might also want to specify `icon` which takes a URL to an image. You can even `vibrate` their phone or mark your message as `silent`.
-{% endhint %}
+The most obviously useful is body which is the message below the title. You might also want to specify `icon` which takes a URL to an image. You can even `vibrate` their phone or mark your message as `silent`.
 
-{% hint style="warning" %}
+{% hint style="danger" %}
 The user will be asked to Allow or Block notifications. You cannot force them to accept.
 {% endhint %}
 
 ```ruby
 cable_ready["MyChannel"].notification(
-  title: "string", # required, although it can be empty
-  options: {} # see options such as body, icon, vibrate, silent
+  title:   "string", # required, although it can be empty
+  options: {}        # see options such as body, icon, vibrate, silent
 )
 ```
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-notification`
+* `cable-ready:after-notification`
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/Notifications\_API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API)
 
 #### Example:
 

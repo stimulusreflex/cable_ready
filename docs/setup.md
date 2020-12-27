@@ -1,31 +1,32 @@
 ---
-description: How to get setup with CableReady
+description: Bootstrap a minimum viable CableReady install without bikeshedding
 ---
 
 # Setup
 
-### Installation
+{% hint style="success" %}
+If your goals can be achieved by broadcasting operations to the current user from inside of a Reflex action method, you're already [good to go](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action) and can skip to [Working with CableReady](usage.md).
+{% endhint %}
 
-```bash
-bundle add cable_ready
-yarn add cable_ready
-```
-
-### ActionCable Setup
+To demonstrate a basic setup, we're going to use the built-in Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
 
 ```bash
 bundle exec rails generate channel example
 ```
 
+In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to a stream called `visitors`. We'll talk more about streams soon. For now, `visitors` is for operations that will be sent to everyone currently looking at your site.
+
 {% code title="app/channels/example\_channel.rb" %}
 ```ruby
 class ExampleChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "example-stream"
+    stream_from "visitors"
   end
 end
 ```
 {% endcode %}
+
+The generator also creates a JavaScript channel subscriber. Import `CableReady` and modify the `received` method to check incoming data for CableReady broadcasts.
 
 {% code title="app/javascript/channels/example\_channel.js" %}
 ```javascript
@@ -40,54 +41,5 @@ consumer.subscriptions.create('ExampleChannel', {
 ```
 {% endcode %}
 
-### Application Setup
-
-{% code title="app/views/home/index.html.erb" %}
-```markup
-<h1>What will happen?</h1>
-
-<div id="content"></div>
-```
-{% endcode %}
-
-You can call ActionCable from an ActiveJob, an ActiveRecord callback, a rake task, inside of a StimulusReflex action method. Here we'll launch an ActiveJob from our controller. Five seconds after the page loads, you will see an update.
-
-{% code title="app/controllers/home\_controller.rb" %}
-```ruby
-class HomeController < ApplicationController
-  def index
-    ExampleJob.set(wait: 5.seconds).perform_later
-  end
-end
-```
-{% endcode %}
-
-{% hint style="warning" %}
-Note that you cannot broadcast inside of a controller action directly, as the data will be sent immediately - that is, before the page is rendered and delivered - so the message will be missed.
-{% endhint %}
-
-{% code title="app/jobs/example\_job.rb" %}
-```ruby
-class ExampleJob < ApplicationJob
-  include CableReady::Broadcaster
-  queue_as :default
-
-  def perform(*args)
-    cable_ready["example-stream"].inner_html(
-      selector: "#content",
-      html: "Hello World this is the background job."
-    )
-    cable_ready.broadcast
-  end
-end
-```
-{% endcode %}
-
-**CableReady supports quite a few DOM operations that can be broadcast to connected clients.** [View the full list here](usage/dom-operations/).
-
-### Misc
-
-{% hint style="info" %}
-By default, CableReady will emit a warning to the console log if it cannot find a DOM element matching the specified selector. If you would prefer to silently ignore operations on elements that don't exist, CableReady.perform accepts an options object as a second parameter: `CableReady.perform(data.operations, { emitMissingElementWarnings: false })`
-{% endhint %}
+That's it! Let's get this party started and learn how to broadcast operations.
 
