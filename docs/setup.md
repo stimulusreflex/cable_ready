@@ -5,7 +5,7 @@ description: Bootstrap a minimum viable CableReady install without bikeshedding
 # Setup
 
 {% hint style="success" %}
-If your goals can be achieved by broadcasting operations to the current user from inside of a Reflex action method, you're already [good to go](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action) and can skip to [Working with CableReady](usage.md).
+If your goals can be achieved by broadcasting operations to the current user from inside of a Reflex action method, you're already [good to go](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action) and can skip to [CableReady 101](cableready-101.md).
 {% endhint %}
 
 To demonstrate a basic setup, we're going to use the built-in Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
