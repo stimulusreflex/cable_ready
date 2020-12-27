@@ -45,7 +45,9 @@ CableReady enables a radical new style of development, and **it can make you lit
 
 ### Upgrade from Hotwire Turbo Streams
 
-We welcome [Hotwire](https://hotwire.dev) to the \#resistance. Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex.
+We welcome [Hotwire](https://hotwire.dev) to the \#resistance, albeit a bit more than stylishly late to the party.
+
+Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex.
 
 While any answer will be nuanced and biases controlled for, we see the Turbo eventually providing an excellent successor for Rails UJS and acting as a launchboard to Reactive Rails UI design.
 
