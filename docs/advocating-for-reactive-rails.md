@@ -16,7 +16,7 @@ These numbers are real, and they check out; you can't beat an incumbent by being
 
 Next: we win.
 
-\*jQuery loyalists are by now used to people pointing out their gray hairs, long-winded anecdotes about punch card debugging, dated cultural references and inability to appreciate the "modern JS ecosystem". However, most React developers are not yet ready to hear that the only tool they were taught in their code bootcamp might already be locked into a trending roll towards obsolescence... so be kind.
+\*jQuery loyalists are by now used to people pointing out their gray hairs, long-winded anecdotes about punch card debugging, dated cultural references and inability to appreciate the "modern JS ecosystem". However, most React developers are not yet ready to hear that React might already be locked into a trending roll towards obsolescence... so be kind.
 
 ![](.gitbook/assets/what_a_racket.jpg)
 
