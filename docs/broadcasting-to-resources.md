@@ -6,7 +6,7 @@ description: "\U0001F469‍\U0001F469‍\U0001F467\U0001F469‍\U0001F469‍\U00
 
 ## stream\_for and broadcast\_to
 
-Up until now, we've been [broadcasting](reference/methods.md#broadcast-identifiers-clear-true) CableReady operations to Channels using string-based stream identifiers like "sailors". [30 Helens agree](https://www.youtube.com/watch?v=INi4r2z7yGg): "sailors" with get you to your chosen port of call.
+Up until now, we've been [broadcasting](reference/methods.md#broadcast-identifiers-clear-true) CableReady operations to Channels using string-based stream identifiers like "sailors". [30 Helens agree](https://www.youtube.com/watch?v=INi4r2z7yGg): "sailors" will get you to your chosen port of call.
 
 ActionCable - and by extension, CableReady - also [support](https://guides.rubyonrails.org/action_cable_overview.html#streams) broadcasting to a Rails resource, like `Helen.find(30)` or `current_user`. It does this using the [Global ID](https://github.com/rails/globalid) functionality in Rails, which allows you to create a unique string that can identify an ActiveRecord model.
 
