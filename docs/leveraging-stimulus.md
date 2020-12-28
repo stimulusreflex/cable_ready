@@ -52,7 +52,7 @@ It's normal to `import` CableReady into multiple ActionCable Channel classes and
 
 ## Introducing the Stimulus CableReady controller
 
-![Stefon Meyers](.gitbook/assets/stefon.webp)
+![Stefon Meyers](.gitbook/assets/stefon.jpg)
 
 There's... a lot to unpack, here:
 
