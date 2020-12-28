@@ -5,6 +5,7 @@
 * [Setup](setup.md)
 * [CableReady 101](cableready-101.md)
 * [Working with CableReady](usage.md)
+* [CableReady Everywhere](cableready-everywhere.md)
 * [Leveraging Stimulus](leveraging-stimulus.md)
 * [Stream Identifiers](identifiers.md)
 * [Broadcasting to Resources](broadcasting-to-resources.md)

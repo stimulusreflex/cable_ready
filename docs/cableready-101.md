@@ -2,25 +2,9 @@
 
 Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
 
-## Include the Broadcaster
+You can send CableReady broadcasts from [just about anywhere](cableready-everywhere.md) in your application: ActiveJobs, controller actions, ActiveRecord model callbacks, rake tasks, pub/sub workers, webhooks, you name it.
 
-You can send CableReady broadcasts from just about anywhere in your application: ActiveJobs, controller actions, ActiveRecord model callbacks or state machine transitions, rake tasks, pub/sub workers, webhooks, you name it. The only thing you have to do to use the `cable_ready` method is include `CableReady::Broadcaster` in the class you're working in.
-
-We can add CableReady support to all of your controllers:
-
-```ruby
-class ApplicationController < ActionController::Base
-  include CableReady::Broadcaster
-end
-```
-
-The one notable exception is that you must **not** include `CableReady::Broadcaster` in your Reflex classes, as StimulusReflex makes special versions of the CableReady methods available.
-
-{% hint style="info" %}
-If you perform a CableReady broadcast during a controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to people becoming convinced \(incorrectly\) that the broadcast did not work.
-
-If you need the user executing the controller action to see the broadcast, you should use an [ActiveJob](https://guides.rubyonrails.org/active_job_basics.html) that has been delayed for a few seconds using the [`set`](https://edgeguides.rubyonrails.org/active_job_basics.html#enqueue-the-job) method.
-{% endhint %}
+We're going to use an ActiveRecord `after_create` callback to demonstrate welcoming a new user.
 
 ## Broadcasting operations
 
@@ -31,11 +15,19 @@ There are three distinct aspects of every CableReady invocation:
 3. Broadcast: broadcast all queued operations immediately
 
 ```ruby
-cable_ready["visitors"].console_log(message: "I hope you brought a towel.")
-cable_ready.broadcast # send queued console_log operation to all ExampleChannel subscribers
+class User < ApplicationRecord
+  include CableReady::Broadcaster
+
+  after_create do
+    cable_ready["visitors"].console_log(message: "Welcome #{self.name} to the site!")
+    cable_ready.broadcast # send queued console_log operation to all ExampleChannel subscribers
+  end
+end
 ```
 
-Following the example started in the [Setup](setup.md#setup), the `ExampleChannel` will send any operations broadcasted to `visitors` to all currently subscribed clients.
+The `ExampleChannel` that we created in the [Setup](setup.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Log message welcoming the latest member.
+
+On the [Working with CableReady](usage.md#lets-get-comfortable) page, we'll see how we can set up CableReady so that you can access it from anywhere in your application, so that you don't have to include the module in every class.
 
 {% hint style="info" %}
 ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that resolution possibilities are defined across all of your Channel classes.

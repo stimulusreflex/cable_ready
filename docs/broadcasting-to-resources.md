@@ -254,16 +254,17 @@ For example, hitting "Publish" or flipping a resource from Public to Private wit
 
 `broadcast_to` allows the developer to queue up all required interface updates on their respective Channels before delivering them with a single, brutal command.
 
-## Using Global ID for lookups
+## Using Signed Global ID for lookups
 
-It's a solid practice to obscure potentially sensitive model `id` metadata in your views. For some applications, [slugs](https://github.com/norman/friendly_id) are a good approach. Other times, [Global ID](https://github.com/rails/globalid)s are a powerful choice because you cannot reverse engineer the model or id from the resulting string. You can even generate strings which are time-limited or use-limited.
+It's a solid practice to obscure potentially sensitive model `id` metadata in your views. For some applications, [slugs](https://github.com/norman/friendly_id) are a good approach. Other times, [Signed Global ID](https://github.com/rails/globalid)s \(aka sgid\) are a powerful choice because you cannot reverse engineer the model or id from the resulting string. You can even generate sgids which are use-limited.
 
-Generating a Secure Global ID aka sgid from a model instance is easy, but you must convert it to a string:
+If you set up your `ApplicationRecord` as we suggested in [CableReady Everywhere](cableready-everywhere.md#activerecord), you can just use the `sgid` method on your model:
 
 {% code title="app/views/helens/\_helen.html.erb" %}
 ```markup
 <div data-controller="helen" 
-     data-helen-sgid-value="<%= helen.to_sgid.to_s %>">
+     data-helen-sgid-value="<%= helen.sgid %>"
+     id="<%= helen.sgid %>">
 </div>
 ```
 {% endcode %}
@@ -309,8 +310,23 @@ end
 ```
 {% endcode %}
 
+We will have to provide our own selector string, with a `#` prepended to the `sgid`:
+
+{% code title="app/models/helen.rb" %}
+```ruby
+class Helen < ApplicationRecord
+  after_update do
+    cable_ready[HelensChannel].morph(
+      selector: "##{self.sgid}",
+      html: render(self)
+    ).broadcast_to(self)
+  end
+end
+```
+{% endcode %}
+
 {% hint style="warning" %}
-If you are using Global IDs to do lookups, use of the `dom_id` helper becomes impossible as it reveals the model and id. If you plan to send data to the element, you must work out a scheme to generate valid CSS ID selectors that don't compromise the security you get with Global ID.
+If you are using Signed Global IDs to do lookups, use of the `dom_id` helper becomes impossible as it reveals the model and id. Use the `sgid` as your `id` and you won't compromise the security you get with Signed Global IDs.
 {% endhint %}
 
 ## Broadcasting to new resources
