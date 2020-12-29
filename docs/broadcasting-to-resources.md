@@ -335,23 +335,29 @@ If you are using Signed Global IDs to do lookups, use of the `dom_id` helper bec
 
 Building on the "[Multiple Identifiers](identifiers.md#multiple-identifiers)" and "[Stream Identifiers with logic](identifiers.md#stream-identifiers-with-logic)" sections on the [Stream Identifiers](identifiers.md) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
 
-This technique is the best way to handle broadcasting to new, not-yet-persisted records:
+`broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome,  we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
+
+In many cases, the best solution would be to save the new resource before displaying it to the user\(s\). You can delete unused stub resources with a recurring cleanup job.
+
+If pre-saving is not feasible for your application, perhaps you could generate a UUID on the client and use that to create a temporarily subscription. If a UUID `param` arrives, establish the subscription and then create the model instance you need. Send the id of that model back to the client:
 
 {% code title="app/channels/helens\_channel.rb" %}
 ```ruby
 class HelensChannel < ApplicationCable::Channel
   def subscribed
-    params[:id] ? stream_for(Helen.find(params[:id])) : stream_from(params[:uuid])
+    if params[:id]
+      stream_for(Helen.find(params[:id]))
+    else
+      stream_from(params[:uuid])
+      helen = Helen.create # sure, why not
+      ActionCable.server.broadcast(params[:uuid], helen.id)
+    end
   end
 end
 ```
 {% endcode %}
 
-`broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. That means we have to find creative ways to work with resources that aren't fully baked yet.
-
-One solution could be to save the new resource before even displaying it to the user\(s\). This is a solid approach! You can always delete unused stub resources with a daily script or something.
-
-In the example above, we're assuming that - for whatever reason - saving an empty resource is not a workable strategy. Instead, you're going to rock out and create a temporary UUIDv4 for the new resource and send that to the server:
+Seeing that there is no initial `id` value, we create a temporary UUIDv4 for the new resource and send that to the server. When the server sends us an integer back, we can set the `idValue` before unsubscribing from the channel and forcing another controller `connect` method. After all, it really is _just a method:_
 
 {% code title="app/javascript/controllers/helen\_controller.js" %}
 ```javascript
@@ -383,7 +389,14 @@ export default class extends Controller {
         uuid: this.uuid
       },
       {
-        received (data) { if (data.cableReady) CableReady.perform(data.operations) }
+        received (data) {
+          if (data.cableReady) CableReady.perform(data.operations)
+          else {
+            this.idValue = data
+            this.channel.unsubscribe()
+            this.connect()
+          }
+        }
       }
     )
   }
@@ -395,7 +408,7 @@ export default class extends Controller {
 ```
 {% endcode %}
 
-You're going to need to come up with a way to hang on to that `params[:uuid]` so that you know where to send broadcasts to! That's left as an exercise for the reader, but hopefully it's a good start.
+This was a pretty wacky example but it's here to get you thinking about how to use the standard ActionCable primatives alongside the abstractions that Stimulus and CableReady make possible.
 
 Anyhow, let's wrap up with a few important details to keep in mind when combining `stream_from` and `stream_for` together:
 
