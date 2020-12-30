@@ -326,3 +326,4 @@ export default {
   shouldMorphCallbacks,
   didMorphCallbacks
 }
+export * from './registerController';

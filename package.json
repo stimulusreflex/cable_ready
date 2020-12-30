@@ -31,6 +31,10 @@
     "morphdom": "^2.6.1"
   },
   "devDependencies": {
-    "prettier-standard": "^16.1.0"
+    "prettier-standard": "^16.1.0",
+    "stimulus": "^2.0.0"
+  },
+  "peerDependencies": {
+    "stimulus": "^2.0.0"
   }
 }

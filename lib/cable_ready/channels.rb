@@ -4,7 +4,7 @@ require_relative "channel"
 
 module CableReady
   class Channels
-    include Singleton
+    include Singleton, CableReady::StreamName
     attr_accessor :operations
 
     def self.configure
@@ -50,7 +50,8 @@ module CableReady
     end
 
     def [](identifier)
-      @channels[identifier] ||= CableReady::Channel.new(identifier, operations)
+      stream_name = stream_name_from(identifier)
+      @channels[stream_name] ||= CableReady::Channel.new(stream_name, operations)
     end
 
     def broadcast(*identifiers, clear: true)
