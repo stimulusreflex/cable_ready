@@ -9,8 +9,6 @@ export default class CableReadyStreamFromController extends Controller {
   }
 
   connect () {
-    console.log('Connected', this.signedStreamNameValue)
-
     CableReadyStreamFromController.consumer.subscriptions.create(
       {
         channel: 'CableReadyChannel',
