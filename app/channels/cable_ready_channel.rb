@@ -1,3 +1,7 @@
+##
+# This was taken from turbo-rails
+# https://github.com/hotwired/turbo-rails/blob/cacc19666f075416976cafcb2ee8e58ff68fad0d/app/channels/turbo/streams_channel.rb
+
 class CableReadyChannel < ActionCable::Channel::Base
   include CableReady::StreamName
 
