@@ -4,7 +4,8 @@ require_relative "channel"
 
 module CableReady
   class Channels
-    include Singleton, CableReady::StreamName
+    include CableReady::StreamName
+    include Singleton
     attr_accessor :operations
 
     def self.configure

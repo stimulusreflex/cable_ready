@@ -16,7 +16,7 @@ module CableReady
 
     def stream_name_from(streamables)
       if streamables.is_a?(Array)
-        streamables.map  { |streamable| stream_name_from(streamable) }.join(":")
+        streamables.map { |streamable| stream_name_from(streamable) }.join(":")
       else
         streamables.then { |streamable| streamable.try(:to_gid_param) || streamable.to_param }
       end
