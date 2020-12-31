@@ -1,110 +1,31 @@
 import morphdom from 'morphdom'
+import { verifyNotMutable, verifyNotPermanent } from './callbacks'
+import { assignFocus, dispatch, xpathToElement, getClassNames } from './utils'
 
-let activeElement
+export let activeElement
 
-const inputTags = {
-  INPUT: true,
-  TEXTAREA: true,
-  SELECT: true
-}
+const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
+const didMorphCallbacks = []
 
-const mutableTags = {
-  INPUT: true,
-  TEXTAREA: true,
-  OPTION: true
-}
-
-const textInputTypes = {
-  'datetime-local': true,
-  'select-multiple': true,
-  'select-one': true,
-  color: true,
-  date: true,
-  datetime: true,
-  email: true,
-  month: true,
-  number: true,
-  password: true,
-  range: true,
-  search: true,
-  tel: true,
-  text: true,
-  textarea: true,
-  time: true,
-  url: true,
-  week: true
-}
-
-// Indicates if the passed element is considered a text input.
-//
-const isTextInput = element => {
-  return inputTags[element.tagName] && textInputTypes[element.type]
-}
-
-// Assigns focus to the appropriate element... preferring the explicitly passed selector
-//
-// * selector - a CSS selector for the element that should have focus
-//
-const assignFocus = selector => {
-  const element =
-    selector && selector.nodeType === Node.ELEMENT_NODE
-      ? selector
-      : document.querySelector(selector)
-  const focusElement = element || activeElement
-  if (focusElement && focusElement.focus) focusElement.focus()
-}
-
-// Dispatches an event on the passed element
-//
-// * element - the element
-// * name - the name of the event
-// * detail - the event detail
-//
-const dispatch = (element, name, detail = {}) => {
-  const init = { bubbles: true, cancelable: true, detail: detail }
-  const evt = new CustomEvent(name, init)
-  element.dispatchEvent(evt)
-  if (window.jQuery) window.jQuery(element).trigger(name, detail)
-}
-
-const xpathToElement = xpath => {
-  return document.evaluate(
-    xpath,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue
-}
-
-// Return an array with the class names to be used
-//
-// * names - could be a string or an array of strings for multiple classes.
-//
-const getClassNames = names => Array(names).flat()
-
-// Indicates whether or not we should morph an element
+// Indicates whether or not we should morph an element via onBeforeElUpdated callback
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
 //
-const shouldMorph = permanentAttributeName => (fromEl, toEl) => {
-  // Skip nodes that are equal:
-  // https://github.com/patrick-steele-idem/morphdom#can-i-make-morphdom-blaze-through-the-dom-tree-even-faster-yes
-  if (!mutableTags[fromEl.tagName] && fromEl.isEqualNode(toEl)) return false
-  if (!permanentAttributeName) return true
-
-  const permanent = fromEl.closest(`[${permanentAttributeName}]`)
-
-  // only morph attributes on the active non-permanent text input
-  if (!permanent && isTextInput(fromEl) && fromEl === activeElement) {
-    const ignore = { value: true }
-    Array.from(toEl.attributes).forEach(attribute => {
-      if (!ignore[attribute.name])
-        fromEl.setAttribute(attribute.name, attribute.value)
+const shouldMorph = detail => (fromEl, toEl) => {
+  return !shouldMorphCallbacks
+    .map(callback => {
+      return typeof callback === 'function'
+        ? callback(detail, fromEl, toEl)
+        : true
     })
-    return false
-  }
+    .includes(false)
+}
 
-  return !permanent
+// Execute any pluggable functions that modify elements after morphing via onElUpdated callback
+//
+const didMorph = detail => el => {
+  didMorphCallbacks.forEach(callback => {
+    if (typeof callback === 'function') callback(detail, el)
+  })
 }
 
 // Morphdom Callbacks ........................................................................................
@@ -121,20 +42,28 @@ const DOMOperations = {
 
   // Storage .................................................................................................
 
-  storageSetItem: config => {
+  setStorageItem: config => {
     const { key, value, type } = config
-    dispatch(document, 'cable-ready:before-storage-set-item', config)
     const storage = type === 'session' ? sessionStorage : localStorage
+    dispatch(document, 'cable-ready:before-set-storage-item', config)
     storage.setItem(key, value)
-    dispatch(document, 'cable-ready:after-storage-set-item', config)
+    dispatch(document, 'cable-ready:after-set-storage-item', config)
   },
 
-  storageRemoveItem: config => {
+  removeStorageItem: config => {
     const { key, type } = config
-    dispatch(document, 'cable-ready:before-storage-remove-item', config)
     const storage = type === 'session' ? sessionStorage : localStorage
+    dispatch(document, 'cable-ready:before-remove-storage-item', config)
     storage.removeItem(key)
-    dispatch(document, 'cable-ready:after-storage-remove-item', config)
+    dispatch(document, 'cable-ready:after-remove-storage-item', config)
+  },
+
+  clearStorage: config => {
+    const { type } = config
+    const storage = type === 'session' ? sessionStorage : localStorage
+    dispatch(document, 'cable-ready:before-clear-storage', config)
+    storage.clear()
+    dispatch(document, 'cable-ready:after-clear-storage', config)
   },
 
   // Notifications ...........................................................................................
@@ -180,13 +109,7 @@ const DOMOperations = {
 
   morph: detail => {
     activeElement = document.activeElement
-    const {
-      element,
-      html,
-      childrenOnly,
-      focusSelector,
-      permanentAttributeName
-    } = detail
+    const { element, html, childrenOnly, focusSelector } = detail
     const template = document.createElement('template')
     template.innerHTML = String(html).trim()
     dispatch(element, 'cable-ready:before-morph', {
@@ -197,7 +120,8 @@ const DOMOperations = {
     const ordinal = Array.from(parent.children).indexOf(element)
     morphdom(element, childrenOnly ? template.content : template.innerHTML, {
       childrenOnly: !!childrenOnly,
-      onBeforeElUpdated: shouldMorph(permanentAttributeName)
+      onBeforeElUpdated: shouldMorph(detail),
+      onElUpdated: didMorph(detail)
     })
     assignFocus(focusSelector)
     dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
@@ -227,6 +151,7 @@ const DOMOperations = {
   },
 
   textContent: detail => {
+    activeElement = document.activeElement
     const { element, text, focusSelector } = detail
     dispatch(element, 'cable-ready:before-text-content', detail)
     element.textContent = text
@@ -244,6 +169,7 @@ const DOMOperations = {
   },
 
   insertAdjacentText: detail => {
+    activeElement = document.activeElement
     const { element, text, position, focusSelector } = detail
     dispatch(element, 'cable-ready:before-insert-adjacent-text', detail)
     element.insertAdjacentText(position || 'beforeend', text)
@@ -276,6 +202,7 @@ const DOMOperations = {
   },
 
   setValue: detail => {
+    activeElement = document.activeElement
     const { element, value, focusSelector } = detail
     dispatch(element, 'cable-ready:before-set-value', detail)
     element.value = value
@@ -363,12 +290,16 @@ const perform = (
           if (detail.element || options.emitMissingElementWarnings)
             DOMOperations[name](detail)
         } catch (e) {
-          if (detail.element)
-            console.log(`CableReady detected an error in ${name}! ${e.message}`)
-          else
+          if (detail.element) {
+            console.error(
+              `CableReady detected an error in ${name}! ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
+            )
+            console.error(e)
+          } else {
             console.log(
               `CableReady ${name} failed due to missing DOM element for selector: '${detail.selector}'`
             )
+          }
         }
       }
     }
@@ -388,4 +319,10 @@ const performAsync = (
   })
 }
 
-export default { perform, performAsync, isTextInput, DOMOperations }
+export default {
+  perform,
+  performAsync,
+  DOMOperations,
+  shouldMorphCallbacks,
+  didMorphCallbacks
+}
