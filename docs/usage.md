@@ -161,6 +161,27 @@ ActionCable.server.remote_connections.where(current_user: User.find(1)).disconne
 
 The ActionCable Channel subscriber will immediately start attempting to reconnect to the server, with the usual connection retry rate fall-off curve, just as if you restarted your Puma process.
 
+### Disconnecting when you have multiple identifiers
+
+It's not clear whether this is a bug or a feature, but ActionCable will not allow you to disconnect a user if your Connection has any identifiers which haven't been assigned. Specifically, if you have configured your Connection to be `identified_by` both `current_user` and `session_id`, it will raise an error if your user hasn't authenticated yet. That's no good!
+
+Our suggestion is that you **fix ActionCable** with this initializer, which changes line 6 from `all?` to `any?`
+
+{% code title="config/initializers/action\_cable.rb" %}
+```ruby
+module ActionCable
+  class RemoteConnections
+    class RemoteConnection
+      def valid_identifiers?(ids)
+        keys = ids.keys
+        identifiers.any? { |id| keys.include?(id) }
+      end
+    end
+  end
+end
+```
+{% endcode %}
+
 ## Integrating with StimulusReflex
 
 StimulusReflex is the sister library to CableReady. It's... really great, actually.
