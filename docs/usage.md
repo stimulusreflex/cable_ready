@@ -147,6 +147,14 @@ ActionCable.server.broadcast("your-stream-identifier", data)
 
 You can see this technique used in "[Verify ActionCable](troubleshooting/#verify-actioncable)".
 
+If you need to send data to a constant-based stream, you just need to break down the fourth wall and construct your identifier manually. Here we will send data to `current_user` using the `UsersChannel`:
+
+```ruby
+ActionCable.server.broadcast("users:#{current_user.to_gid_param}", data)
+```
+
+`UsersChannel` becomes `users` while ActiveRecord has a `to_gid_param`.
+
 ## Disconnect a user from their ActionCable Connection
 
 As you can see in the upcoming section on [connection identifiers](identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
