@@ -50,3 +50,14 @@ export const xpathToElement = xpath => {
 // * names - could be a string or an array of strings for multiple classes.
 //
 export const getClassNames = names => Array(names).flat()
+
+// Perform operation for either the first or all of the elements returned by CSS selector
+//
+// * operation - the instruction payload from perform
+// * callback - the operation function to run for each element
+//
+export const processElements = (operation, callback) => {
+  Array.from(operation.element)
+    .slice(0, operation.selectAll ? operation.element.length : 1)
+    .forEach(callback)
+}
