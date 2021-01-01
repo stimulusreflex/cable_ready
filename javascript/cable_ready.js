@@ -181,9 +181,7 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-append', detail)
-    const template = document.createElement('template')
-    template.innerHTML = String(html).trim()
-    element.append(template.content)
+    element.insertAdjacentHTML('beforeend', html)
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-append', detail)
   },
@@ -192,22 +190,20 @@ const DOMOperations = {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
     dispatch(element, 'cable-ready:before-prepend', detail)
-    const template = document.createElement('template')
-    template.innerHTML = String(html).trim()
-    element.prepend(template.content)
+    element.insertAdjacentHTML('afterbegin', html)
     assignFocus(focusSelector)
     dispatch(element, 'cable-ready:after-prepend', detail)
   },
 
-  replaceWith: detail => {
+  replace: detail => {
     activeElement = document.activeElement
     const { element, html, focusSelector } = detail
-    dispatch(element, 'cable-ready:before-replace-with', detail)
-    const template = document.createElement('template')
-    template.innerHTML = String(html).trim()
-    element.replaceWith(template.content)
+    dispatch(element, 'cable-ready:before-replace', detail)
+    const parent = element.parentElement
+    const ordinal = Array.from(parent.children).indexOf(element)
+    element.outerHTML = html
     assignFocus(focusSelector)
-    dispatch(element, 'cable-ready:after-replace-with', detail)
+    dispatch(parent.children[ordinal], 'cable-ready:after-replace', detail)
   },
 
   remove: detail => {
