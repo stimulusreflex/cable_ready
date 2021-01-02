@@ -307,10 +307,12 @@ const perform = (
         try {
           if (operation.selector) {
             operation.element = operation.xpath
-              ? [xpathToElement(operation.selector)]
-              : document.querySelectorAll(operation.selector)
+              ? xpathToElement(operation.selector)
+              : document[
+                  operation.selectAll ? 'querySelectorAll' : 'querySelector'
+                ](operation.selector)
           } else {
-            operation.element = [document]
+            operation.element = document
           }
           if (operation.element || options.emitMissingElementWarnings) {
             activeElement = document.activeElement

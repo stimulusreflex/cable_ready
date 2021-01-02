@@ -57,7 +57,7 @@ export const getClassNames = names => Array(names).flat()
 // * callback - the operation function to run for each element
 //
 export const processElements = (operation, callback) => {
-  Array.from(operation.element)
-    .slice(0, operation.selectAll ? operation.element.length : 1)
-    .forEach(callback)
+  Array.from(
+    operation.selectAll ? operation.element : [operation.element]
+  ).forEach(callback)
 }
