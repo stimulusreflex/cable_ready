@@ -51,11 +51,8 @@ module CableReady
     end
 
     def [](identifier)
-      @channels[identifier] ||= CableReady::Channel.new(identifier, operations)
-    end
-
-    def stream_to(identifier)
-      self[stream_name_from(identifier)]
+      stream_name = stream_name_from(identifier)
+      @channels[stream_name] ||= CableReady::Channel.new(stream_name, operations)
     end
 
     def broadcast(*identifiers, clear: true)
