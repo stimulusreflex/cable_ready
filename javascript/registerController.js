@@ -6,8 +6,8 @@ export const registerController = consumer => {
         './controllers/cable_ready_stream_from_controller'
       )
       const application = Application.start()
+      application.consumer = consumer;
 
-      cable_ready_stream_from_controller.default.consumer = consumer
       application.register(
         'cable-ready-stream-from',
         cable_ready_stream_from_controller.default
