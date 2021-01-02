@@ -2,13 +2,12 @@ import { Controller } from 'stimulus'
 import CableReady from 'cable_ready'
 
 export default class CableReadyStreamFromController extends Controller {
-
   static values = {
     signedStreamName: String
   }
 
   connect () {
-    if(this.application.consumer) {
+    if (this.application.consumer) {
       this.application.consumer.subscriptions.create(
         {
           channel: 'CableReady::CableReadyChannel',
@@ -21,8 +20,9 @@ export default class CableReadyStreamFromController extends Controller {
         }
       )
     } else {
-      console.error("cable-ready-stream-from-controller cannot connect due to missing consumer");
+      console.error(
+        'cable-ready-stream-from-controller cannot connect due to missing consumer'
+      )
     }
-
   }
 }
