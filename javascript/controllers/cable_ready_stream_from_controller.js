@@ -11,7 +11,7 @@ export default class CableReadyStreamFromController extends Controller {
     if(this.application.consumer) {
       this.application.consumer.subscriptions.create(
         {
-          channel: 'CableReadyChannel',
+          channel: 'CableReady::CableReadyChannel',
           signed_stream_name: this.signedStreamNameValue
         },
         {
