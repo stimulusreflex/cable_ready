@@ -155,7 +155,7 @@ class DirtyJob < ApplicationJob
         id: id,
         cost: "dirt cheap"
       }
-    ).broadcast
+    )
   end
 end
 ```
