@@ -1,0 +1,8 @@
+Description:
+    Create an ActionCable channel ready for usage with CableReady
+
+Example:
+    bin/rails generate cable_ready_channel Thing
+
+    This will create:
+        what/will/it/create
