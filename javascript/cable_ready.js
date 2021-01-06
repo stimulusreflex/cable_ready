@@ -80,11 +80,16 @@ const DOMOperations = {
       })
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      morphdom(element, childrenOnly ? template.content : template.innerHTML, {
-        childrenOnly: !!childrenOnly,
-        onBeforeElUpdated: shouldMorph(operation),
-        onElUpdated: didMorph(operation)
-      })
+      if (!operation.cancel)
+        morphdom(
+          element,
+          childrenOnly ? template.content : template.innerHTML,
+          {
+            childrenOnly: !!childrenOnly,
+            onBeforeElUpdated: shouldMorph(operation),
+            onElUpdated: didMorph(operation)
+          }
+        )
       assignFocus(focusSelector)
       dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
         ...operation,
@@ -115,7 +120,7 @@ const DOMOperations = {
       const { focusSelector } = operation
       if (!operation.cancel) element.remove()
       assignFocus(focusSelector)
-      dispatch(element, 'cable-ready:after-remove', operation)
+      dispatch(document, 'cable-ready:after-remove', operation)
     })
   },
 
@@ -129,7 +134,7 @@ const DOMOperations = {
     })
   },
 
-  // Element Mutations
+  // Element Property Mutations
 
   addCssClass: operation => {
     processElements(operation, element => {
@@ -229,14 +234,14 @@ const DOMOperations = {
     const { type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
     dispatch(document, 'cable-ready:before-clear-storage', operation)
-    storage.clear()
+    if (!operation.cancel) storage.clear()
     dispatch(document, 'cable-ready:after-clear-storage', operation)
   },
 
   pushState: operation => {
     const { state, title, url } = operation
     dispatch(document, 'cable-ready:before-push-state', operation)
-    history.pushState(state || {}, title || '', url)
+    if (!operation.cancel) history.pushState(state || {}, title || '', url)
     dispatch(document, 'cable-ready:after-push-state', operation)
   },
 
@@ -244,21 +249,21 @@ const DOMOperations = {
     const { key, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
     dispatch(document, 'cable-ready:before-remove-storage-item', operation)
-    storage.removeItem(key)
+    if (!operation.cancel) storage.removeItem(key)
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
   setCookie: operation => {
     const { cookie } = operation
     dispatch(document, 'cable-ready:before-set-cookie', operation)
-    document.cookie = cookie
+    if (!operation.cancel) document.cookie = cookie
     dispatch(document, 'cable-ready:after-set-cookie', operation)
   },
 
   setFocus: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-focus', operation)
-      assignFocus(element)
+      if (!operation.cancel) assignFocus(element)
       dispatch(element, 'cable-ready:after-set-focus', operation)
     })
   },
@@ -267,7 +272,7 @@ const DOMOperations = {
     const { key, value, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
     dispatch(document, 'cable-ready:before-set-storage-item', operation)
-    storage.setItem(key, value)
+    if (!operation.cancel) storage.setItem(key, value)
     dispatch(document, 'cable-ready:after-set-storage-item', operation)
   },
 
@@ -284,14 +289,15 @@ const DOMOperations = {
     const { title, options } = operation
     dispatch(document, 'cable-ready:before-notification', operation)
     let permission
-    Notification.requestPermission().then(result => {
-      permission = result
-      if (result === 'granted') new Notification(title || '', options)
-      dispatch(document, 'cable-ready:after-notification', {
-        ...operation,
-        permission
+    if (!operation.cancel)
+      Notification.requestPermission().then(result => {
+        permission = result
+        if (result === 'granted') new Notification(title || '', options)
+        dispatch(document, 'cable-ready:after-notification', {
+          ...operation,
+          permission
+        })
       })
-    })
   }
 }
 
