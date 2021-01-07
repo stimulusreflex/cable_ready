@@ -2,13 +2,13 @@ require "test_helper"
 require "generators/cable_ready_channel/cable_ready_channel_generator"
 
 class CableReadyChannelGeneratorTest < Rails::Generators::TestCase
-  tests CableReadyChannelGenerator
-  destination Rails.root.join('tmp/generators')
+  destination File.expand_path("../tmp", __dir__)
   setup :prepare_destination
+  tests CableReadyChannelGenerator
 
   # test "generator runs without errors" do
-  #   assert_nothing_raised do
-  #     run_generator ["arguments"]
-  #   end
+  #   run_generator ["Foo"]
+
+  #   assert_file "app/channels/foo_channel.rb"
   # end
 end
