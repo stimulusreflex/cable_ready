@@ -5,4 +5,5 @@ Example:
     bin/rails generate cable_ready_channel Thing
 
     This will create:
-        what/will/it/create
+        app/channels/thing_channel.rb
+        app/javascript/channels/thing_channel.js
