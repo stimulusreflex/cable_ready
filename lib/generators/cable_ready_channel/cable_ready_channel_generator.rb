@@ -4,12 +4,16 @@ class CableReadyChannelGenerator < Rails::Generators::NamedBase
   def create_channel
     generate "channel", name
 
-    if yes?("Are you streaming to a resource (are you using broadcast_to?")
+    if yes?("Are you streaming to a resource (are you using broadcast_to?)")
       resource = ask("Which resource are you streaming to (e.g. Post)?")
       resource_name = resource.underscore
-      template "app/javascript/controllers/resource_controller.js", "app/javascript/controllers/#{resource_name}_controller.js"
 
       gsub_file "app/channels/#{file_name}_channel.rb", %r{# stream_from.*\n}, "stream_to #{resource}.find(params[:id])\n"
+
+      # only copy the Stimulus controller template if we're actually using Stimulus
+      if Dir.exist? "app/javascript/controllers"
+        template "app/javascript/controllers/resource_controller.js", "app/javascript/controllers/#{resource_name}_controller.js"
+      end
     else
       identifier = ask("What is your stream identifier (what goes into stream_from)?")
 
