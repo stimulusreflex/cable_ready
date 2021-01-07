@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 require "generators/cable_ready_channel/cable_ready_channel_generator"
 
