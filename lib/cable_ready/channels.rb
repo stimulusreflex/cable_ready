@@ -45,8 +45,11 @@ module CableReady
       end
     end
 
-    def add_operation(operation, &implementation)
-      @operations[operation] = implementation || ->(options = {}) { enqueue_operation(operation, options) }
+    def add_operation(operation)
+      @operations[operation] = ->(options = {}) do
+        yield(options) if block_given?
+        enqueue_operation(operation, options)
+      end
     end
 
     def [](identifier)
