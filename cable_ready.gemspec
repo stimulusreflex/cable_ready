@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.test_files = Dir["test/**/*.rb"]
 
   gem.add_dependency "rails", ">= 5.2"
+  gem.add_dependency "thread-local", ">= 1.1.0"
 
   gem.add_development_dependency "github_changelog_generator"
   gem.add_development_dependency "magic_frozen_string_literal"
