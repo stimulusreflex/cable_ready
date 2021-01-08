@@ -20,8 +20,8 @@ Then you need to add your operation's implementation to the CableReady client, i
 ```javascript
 import CableReady from 'cable_ready'
 
-CableReady.DOMOperations['jazzHands'] = detail => {
-  console.log('Jazz hands!', detail)
+CableReady.DOMOperations['jazzHands'] = operation => {
+  console.log('Jazz hands!', operation)
 }
 ```
 {% endcode %}
