@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "thread/local"
 require "rails/engine"
 require "active_support/all"
 require "cable_ready/version"
