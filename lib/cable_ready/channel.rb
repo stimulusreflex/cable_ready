@@ -3,7 +3,6 @@
 module CableReady
   class Channel
     attr_reader :identifier, :enqueued_operations
-    alias_method :operations, :enqueued_operations # for backwards compatibility TODO: deprecate
 
     def initialize(identifier)
       @identifier = identifier
@@ -18,19 +17,20 @@ module CableReady
     def broadcast(clear: true)
       ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
+      self
     end
-    alias_method :channel_broadcast, :broadcast # for backwards compatibility TODO: deprecate
 
     def broadcast_to(model, clear: true)
       identifier.broadcast_to model, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
+      self
     end
-    alias_method :channel_broadcast_to, :broadcast_to # for backwards compatibility TODO: deprecate
 
     def add_operation_method(name)
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(options = {}) {
         enqueued_operations[name.to_s] << options.stringify_keys
+        self # supports operation chaining
       }
     end
 

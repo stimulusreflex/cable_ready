@@ -12,26 +12,22 @@ module CableReady
 
     def initialize
       @lock = Monitor.new
-      @operation_definitions = {}
-      default_operation_names.each { |name| add_operation_definition name }
+      @operation_names = Set.new(default_operation_names)
     end
 
     def operation_names
-      operation_definitions.keys
+      @operation_names.to_a
     end
 
-    # TODO: NATE: what are we doing with the passed options???
-    #             perhaps we can omit and simply have a list of operation names?
-    def add_operation_definition(name, options = {})
+    def add_operation_name(name)
       @lock.synchronize do
-        yield options if block_given? # TODO: NATE: what are we doing with these options???
-        operation_definitions[name.to_sym] = options # TODO: NATE: what are we doing with these options???
+        @operation_names << name.to_sym
         notify_observers name.to_sym
       end
     end
 
     def default_operation_names
-      %i[
+      Set.new(%i[
         add_css_class
         clear_storage
         console_log
@@ -57,11 +53,7 @@ module CableReady
         set_styles
         set_value
         text_content
-      ].freeze
+      ]).freeze
     end
-
-    private
-
-    attr_reader :operation_definitions
   end
 end
