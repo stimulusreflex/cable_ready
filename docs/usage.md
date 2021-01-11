@@ -123,8 +123,6 @@ In general, it's easier to track related concepts transactionally in one broadca
 
 CableReady does not \(and could not\) wait for event listeners to finish running before launching the primary function of any particular operation. This means that **if you do something slow in your event handler callback, it will likely finish running** _**after**_ **the operation is completed**. Depending on your expectations, this could cause chaos for inexperienced developers.
 
-## 
-
 ## Focus assignment
 
 The [DOM Mutation](reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.
@@ -154,6 +152,22 @@ ActionCable.server.broadcast("users:#{current_user.to_gid_param}", data)
 ```
 
 `UsersChannel` becomes `users` while ActiveRecord has a `to_gid_param`.
+
+## Poking a subscriber
+
+Sometimes you just need to tell a subscriber that it's time to _do the thing_. You can send a `broadcast` with no operations and still take advantage of the `received` handler:
+
+```ruby
+cable_ready["stream"].broadcast
+```
+
+```javascript
+consumer.subscriptions.create('ChewiesChannel', {
+  received (data) {
+    console.log('Data was received!')
+  }
+})
+```
 
 ## Disconnect a user from their ActionCable Connection
 
