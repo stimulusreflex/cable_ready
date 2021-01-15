@@ -41,8 +41,10 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-inner-html', operation)
       const { html, focusSelector } = operation
-      if (!operation.cancel) element.innerHTML = html
-      assignFocus(focusSelector)
+      if (!operation.cancel) {
+        element.innerHTML = html
+        assignFocus(focusSelector)
+      }
       dispatch(element, 'cable-ready:after-inner-html', operation)
     })
   },
@@ -51,9 +53,10 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-insert-adjacent-html', operation)
       const { html, position, focusSelector } = operation
-      if (!operation.cancel)
+      if (!operation.cancel) {
         element.insertAdjacentHTML(position || 'beforeend', html)
-      assignFocus(focusSelector)
+        assignFocus(focusSelector)
+      }
       dispatch(element, 'cable-ready:after-insert-adjacent-html', operation)
     })
   },
@@ -62,9 +65,10 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-insert-adjacent-text', operation)
       const { text, position, focusSelector } = operation
-      if (!operation.cancel)
+      if (!operation.cancel) {
         element.insertAdjacentText(position || 'beforeend', text)
-      assignFocus(focusSelector)
+        assignFocus(focusSelector)
+      }
       dispatch(element, 'cable-ready:after-insert-adjacent-text', operation)
     })
   },
@@ -80,7 +84,7 @@ const DOMOperations = {
       })
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      if (!operation.cancel)
+      if (!operation.cancel) {
         morphdom(
           element,
           childrenOnly ? template.content : template.innerHTML,
@@ -90,7 +94,8 @@ const DOMOperations = {
             onElUpdated: didMorph(operation)
           }
         )
-      assignFocus(focusSelector)
+        assignFocus(focusSelector)
+      }
       dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
         ...operation,
         content: template.content
@@ -104,8 +109,10 @@ const DOMOperations = {
       const { html, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      if (!operation.cancel) element.outerHTML = html
-      assignFocus(focusSelector)
+      if (!operation.cancel) {
+        element.outerHTML = html
+        assignFocus(focusSelector)
+      }
       dispatch(
         parent.children[ordinal],
         'cable-ready:after-outer-html',
@@ -118,8 +125,10 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-remove', operation)
       const { focusSelector } = operation
-      if (!operation.cancel) element.remove()
-      assignFocus(focusSelector)
+      if (!operation.cancel) {
+        element.remove()
+        assignFocus(focusSelector)
+      }
       dispatch(document, 'cable-ready:after-remove', operation)
     })
   },
@@ -128,8 +137,10 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-text-content', operation)
       const { text, focusSelector } = operation
-      if (!operation.cancel) element.textContent = text
-      assignFocus(focusSelector)
+      if (!operation.cancel) {
+        element.textContent = text
+        assignFocus(focusSelector)
+      }
       dispatch(element, 'cable-ready:after-text-content', operation)
     })
   },
@@ -293,11 +304,11 @@ const DOMOperations = {
       Notification.requestPermission().then(result => {
         permission = result
         if (result === 'granted') new Notification(title || '', options)
-        dispatch(document, 'cable-ready:after-notification', {
-          ...operation,
-          permission
-        })
       })
+    dispatch(document, 'cable-ready:after-notification', {
+      ...operation,
+      permission
+    })
   }
 }
 
