@@ -15,6 +15,7 @@ module CableReady
       @channels = {}
       @operations = {}
       %i[
+        append
         add_css_class
         clear_storage
         console_log
@@ -25,11 +26,13 @@ module CableReady
         morph
         notification
         outer_html
+        prepend
         push_state
         remove
         remove_attribute
         remove_css_class
         remove_storage_item
+        replace
         set_attribute
         set_cookie
         set_dataset_property
