@@ -37,18 +37,6 @@ const didMorph = operation => el => {
 const DOMOperations = {
   // DOM Mutations
 
-  append: operation => {
-    processElements(operation, element => {
-      dispatch(element, 'cable-ready:before-append', operation)
-      const { html, focusSelector } = operation
-      if (!operation.cancel) {
-        element.insertAdjacentHTML('beforeend', html)
-        assignFocus(focusSelector)
-      }
-      dispatch(element, 'cable-ready:after-append', operation)
-    })
-  },
-
   innerHtml: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-inner-html', operation)
@@ -87,11 +75,12 @@ const DOMOperations = {
 
   morph: operation => {
     processElements(operation, element => {
-      const { html, childrenOnly, focusSelector } = operation
+      const { html } = operation
       const template = document.createElement('template')
       template.innerHTML = String(html).trim()
       operation.content = template.content
       dispatch(element, 'cable-ready:before-morph', operation)
+      const { childrenOnly, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
@@ -128,18 +117,6 @@ const DOMOperations = {
     })
   },
 
-  prepend: operation => {
-    processElements(operation, element => {
-      dispatch(element, 'cable-ready:before-prepend', operation)
-      const { html, focusSelector } = operation
-      if (!operation.cancel) {
-        element.insertAdjacentHTML('afterbegin', html)
-        assignFocus(focusSelector)
-      }
-      dispatch(element, 'cable-ready:after-prepend', operation)
-    })
-  },
-
   remove: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-remove', operation)
@@ -149,20 +126,6 @@ const DOMOperations = {
         assignFocus(focusSelector)
       }
       dispatch(document, 'cable-ready:after-remove', operation)
-    })
-  },
-
-  replace: operation => {
-    processElements(operation, element => {
-      dispatch(element, 'cable-ready:before-replace', operation)
-      const { html, focusSelector } = operation
-      const parent = element.parentElement
-      const ordinal = Array.from(parent.children).indexOf(element)
-      if (!operation.cancel) {
-        element.outerHTML = html
-        assignFocus(focusSelector)
-      }
-      dispatch(parent.children[ordinal], 'cable-ready:after-replace', operation)
     })
   },
 
@@ -275,31 +238,31 @@ const DOMOperations = {
   // Browser Manipulations
 
   clearStorage: operation => {
+    dispatch(document, 'cable-ready:before-clear-storage', operation)
     const { type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-clear-storage', operation)
     if (!operation.cancel) storage.clear()
     dispatch(document, 'cable-ready:after-clear-storage', operation)
   },
 
   pushState: operation => {
-    const { state, title, url } = operation
     dispatch(document, 'cable-ready:before-push-state', operation)
+    const { state, title, url } = operation
     if (!operation.cancel) history.pushState(state || {}, title || '', url)
     dispatch(document, 'cable-ready:after-push-state', operation)
   },
 
   removeStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     const { key, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     if (!operation.cancel) storage.removeItem(key)
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
   setCookie: operation => {
-    const { cookie } = operation
     dispatch(document, 'cable-ready:before-set-cookie', operation)
+    const { cookie } = operation
     if (!operation.cancel) document.cookie = cookie
     dispatch(document, 'cable-ready:after-set-cookie', operation)
   },
@@ -313,9 +276,9 @@ const DOMOperations = {
   },
 
   setStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     const { key, value, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     if (!operation.cancel) storage.setItem(key, value)
     dispatch(document, 'cable-ready:after-set-storage-item', operation)
   },
@@ -330,18 +293,32 @@ const DOMOperations = {
   },
 
   notification: operation => {
-    const { title, options } = operation
     dispatch(document, 'cable-ready:before-notification', operation)
-    let permission
+    const { title, options } = operation
     if (!operation.cancel)
       Notification.requestPermission().then(result => {
-        permission = result
+        operation.permission = result
         if (result === 'granted') new Notification(title || '', options)
       })
-    dispatch(document, 'cable-ready:after-notification', {
-      ...operation,
-      permission
-    })
+    dispatch(document, 'cable-ready:after-notification', operation)
+  },
+
+  playSound: operation => {
+    dispatch(document, 'cable-ready:before-play-sound', operation)
+    const { src } = operation
+    if (!operation.cancel) {
+      const player = () => {
+        document.audio.removeEventListener('canplay', player)
+        document.audio.play()
+      }
+      const ended = () => {
+        document.audio.removeEventListener('ended', player)
+        dispatch(document, 'cable-ready:after-play-sound', operation)
+      }
+      document.audio.addEventListener('canplay', player)
+      document.audio.addEventListener('ended', ended)
+      document.audio.src = src
+    } else dispatch(document, 'cable-ready:after-play-sound', operation)
   }
 }
 
@@ -397,6 +374,28 @@ const performAsync = (
     }
   })
 }
+
+setTimeout(() => {
+  if (!document.audio) {
+    document.audio = new Audio(
+      'data:audio/mpeg;base64,//OExAAAAAAAAAAAAEluZm8AAAAHAAAABAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/P39/f39/f39/f39/f39/f39/f39/f39/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAJAa/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//MUxAAAAANIAAAAAExBTUUzLjk2LjFV//MUxAsAAANIAAAAAFVVVVVVVVVVVVVV//MUxBYAAANIAAAAAFVVVVVVVVVVVVVV//MUxCEAAANIAAAAAFVVVVVVVVVVVVVV'
+    )
+    const unlockAudio = () => {
+      document.body.removeEventListener('click', unlockAudio)
+      document.body.removeEventListener('touchstart', unlockAudio)
+      document.audio
+        .play()
+        .then(() => {})
+        .catch(() => {})
+    }
+    const documentAvailable = setInterval(() => {
+      if (!document.body) return
+      clearInterval(documentAvailable)
+      document.body.addEventListener('click', unlockAudio)
+      document.body.addEventListener('touchstart', unlockAudio)
+    })
+  }
+})
 
 export default {
   perform,
