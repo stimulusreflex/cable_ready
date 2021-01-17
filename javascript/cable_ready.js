@@ -241,7 +241,6 @@ const DOMOperations = {
       if (!operation.cancel) element.style[name] = value
       dispatch(element, 'cable-ready:after-set-style', operation)
     })
-
   },
 
   setStyles: operation => {
