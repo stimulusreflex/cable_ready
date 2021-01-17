@@ -78,10 +78,8 @@ const DOMOperations = {
       const { html, childrenOnly, focusSelector } = operation
       const template = document.createElement('template')
       template.innerHTML = String(html).trim()
-      dispatch(element, 'cable-ready:before-morph', {
-        ...operation,
-        content: template.content
-      })
+      operation.content = template.content
+      dispatch(element, 'cable-ready:before-morph', operation)
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
@@ -96,10 +94,7 @@ const DOMOperations = {
         )
         assignFocus(focusSelector)
       }
-      dispatch(parent.children[ordinal], 'cable-ready:after-morph', {
-        ...operation,
-        content: template.content
-      })
+      dispatch(parent.children[ordinal], 'cable-ready:after-morph', operation)
     })
   },
 
