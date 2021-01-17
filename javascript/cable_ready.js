@@ -233,7 +233,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:after-set-property', operation)
     })
   },
-
+  
   setStyle: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-style', operation)
@@ -241,6 +241,7 @@ const DOMOperations = {
       if (!operation.cancel) element.style[name] = value
       dispatch(element, 'cable-ready:after-set-style', operation)
     })
+
   },
 
   setStyles: operation => {
