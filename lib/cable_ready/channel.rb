@@ -35,6 +35,23 @@ module CableReady
       CableReady::Channels.instance.broadcast_to(model, identifier, clear: clear)
     end
 
+    # @param serialized_operations [String] a serialization string generated with
+    #   CableReady::OperationsSerializer
+    # @example apply(CableReady::OperationSerializer.new([morph: {selector: "#foo", ...}])
+    #   .verified)
+    # @raise [ActiveSupport::MessageVerifier::InvalidSignature] if the passed
+    #   serialized string is invalid
+    def apply(serialized_operations)
+      verified_operations = CableReady::MessageVerifier.message_verifier.verify(serialized_operations)
+
+      verified_operations.each do |operation|
+        key, options = operation.to_a.first
+        enqueue_operation(key, options)
+      end
+
+      self
+    end
+
     private
 
     def enqueue_operation(key, options)

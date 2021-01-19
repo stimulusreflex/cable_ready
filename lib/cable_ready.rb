@@ -3,6 +3,7 @@
 require "rails/engine"
 require "active_support/all"
 require "cable_ready/version"
+require "cable_ready/operations_serializer"
 require "cable_ready/broadcaster"
 
 module CableReady

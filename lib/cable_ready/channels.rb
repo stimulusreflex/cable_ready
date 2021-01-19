@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "channel"
+require_relative "message_verifier"
 
 module CableReady
   class Channels
