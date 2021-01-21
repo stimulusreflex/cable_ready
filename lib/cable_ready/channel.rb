@@ -17,13 +17,11 @@ module CableReady
     def broadcast(clear: true)
       ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
-      self
     end
 
     def broadcast_to(model, clear: true)
       identifier.broadcast_to model, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
-      self
     end
 
     def add_operation_method(name)

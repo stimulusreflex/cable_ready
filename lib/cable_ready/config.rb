@@ -7,11 +7,12 @@ require "singleton"
 module CableReady
   # This class is a process level singleton shared by all threads: CableReady::Config.instance
   class Config
-    include Singleton
+    include MonitorMixin
     include Observable
+    include Singleton
 
     def initialize
-      @lock = Monitor.new
+      super
       @operation_names = Set.new(default_operation_names)
     end
 
@@ -20,7 +21,7 @@ module CableReady
     end
 
     def add_operation_name(name)
-      @lock.synchronize do
+      synchronize do
         @operation_names << name.to_sym
         notify_observers name.to_sym
       end
