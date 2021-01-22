@@ -20,6 +20,7 @@ module CableReady
         clear_storage
         console_log
         dispatch_event
+        graft
         inner_html
         insert_adjacent_html
         insert_adjacent_text

@@ -49,6 +49,19 @@ const DOMOperations = {
     })
   },
 
+  graft: operation => {
+    processElements(operation, element => {
+      dispatch(element, 'cable-ready:before-graft', operation)
+      const { parent, focusSelector } = operation
+      const parentElement = document.querySelector(parent)
+      if (!operation.cancel && parentElement) {
+        parentElement.appendChild(element)
+        assignFocus(focusSelector)
+      }
+      dispatch(element, 'cable-ready:after-graft', operation)
+    })
+  },
+
   innerHtml: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-inner-html', operation)
