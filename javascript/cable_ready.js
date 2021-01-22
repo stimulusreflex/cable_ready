@@ -283,17 +283,17 @@ const DOMOperations = {
   },
 
   go: operation => {
-    dispatch(document, 'cable-ready:before-go', operation)
+    dispatch(window, 'cable-ready:before-go', operation)
     const { delta } = operation
     if (!operation.cancel) history.go(delta)
-    dispatch(document, 'cable-ready:after-go', operation)
+    dispatch(window, 'cable-ready:after-go', operation)
   },
 
   pushState: operation => {
-    dispatch(document, 'cable-ready:before-push-state', operation)
+    dispatch(window, 'cable-ready:before-push-state', operation)
     const { state, title, url } = operation
     if (!operation.cancel) history.pushState(state || {}, title || '', url)
-    dispatch(document, 'cable-ready:after-push-state', operation)
+    dispatch(window, 'cable-ready:after-push-state', operation)
   },
 
   removeStorageItem: operation => {
@@ -305,10 +305,10 @@ const DOMOperations = {
   },
 
   replaceState: operation => {
-    dispatch(document, 'cable-ready:before-replace-state', operation)
+    dispatch(window, 'cable-ready:before-replace-state', operation)
     const { state, title, url } = operation
     if (!operation.cancel) history.replaceState(state || {}, title || '', url)
-    dispatch(document, 'cable-ready:after-replace-state', operation)
+    dispatch(window, 'cable-ready:after-replace-state', operation)
   },
 
   setCookie: operation => {
