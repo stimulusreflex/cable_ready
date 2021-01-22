@@ -33,6 +33,7 @@ module CableReady
         remove_css_class
         remove_storage_item
         replace
+        scroll
         set_attribute
         set_cookie
         set_dataset_property

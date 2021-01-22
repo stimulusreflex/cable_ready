@@ -297,6 +297,13 @@ const DOMOperations = {
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
+  scroll: operation => {
+    const { element } = operation
+    dispatch(element, 'cable-ready:before-scroll', operation)
+    if (!operation.cancel) element.scrollIntoView(operation)
+    dispatch(element, 'cable-ready:after-scroll', operation)
+  },
+
   setCookie: operation => {
     const { cookie } = operation
     dispatch(document, 'cable-ready:before-set-cookie', operation)
