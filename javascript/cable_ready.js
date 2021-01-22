@@ -275,46 +275,60 @@ const DOMOperations = {
   // Browser Manipulations
 
   clearStorage: operation => {
+    dispatch(document, 'cable-ready:before-clear-storage', operation)
     const { type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-clear-storage', operation)
     if (!operation.cancel) storage.clear()
     dispatch(document, 'cable-ready:after-clear-storage', operation)
   },
 
+  go: operation => {
+    dispatch(document, 'cable-ready:before-go', operation)
+    const { delta } = operation
+    if (!operation.cancel) history.go(delta)
+    dispatch(document, 'cable-ready:after-go', operation)
+  },
+
   pushState: operation => {
-    const { state, title, url } = operation
     dispatch(document, 'cable-ready:before-push-state', operation)
+    const { state, title, url } = operation
     if (!operation.cancel) history.pushState(state || {}, title || '', url)
     dispatch(document, 'cable-ready:after-push-state', operation)
   },
 
   removeStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     const { key, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     if (!operation.cancel) storage.removeItem(key)
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
+  replaceState: operation => {
+    dispatch(document, 'cable-ready:before-replace-state', operation)
+    const { state, title, url } = operation
+    if (!operation.cancel) history.replaceState(state || {}, title || '', url)
+    dispatch(document, 'cable-ready:after-replace-state', operation)
+  },
+
   setCookie: operation => {
-    const { cookie } = operation
     dispatch(document, 'cable-ready:before-set-cookie', operation)
+    const { cookie } = operation
     if (!operation.cancel) document.cookie = cookie
     dispatch(document, 'cable-ready:after-set-cookie', operation)
   },
 
   setFocus: operation => {
-    const { element } = operation
     dispatch(element, 'cable-ready:before-set-focus', operation)
+    const { element } = operation
     if (!operation.cancel) assignFocus(element)
     dispatch(element, 'cable-ready:after-set-focus', operation)
   },
 
   setStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     const { key, value, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     if (!operation.cancel) storage.setItem(key, value)
     dispatch(document, 'cable-ready:after-set-storage-item', operation)
   },

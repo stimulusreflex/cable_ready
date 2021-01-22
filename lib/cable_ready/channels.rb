@@ -20,6 +20,7 @@ module CableReady
         clear_storage
         console_log
         dispatch_event
+        go
         inner_html
         insert_adjacent_html
         insert_adjacent_text
@@ -33,6 +34,7 @@ module CableReady
         remove_css_class
         remove_storage_item
         replace
+        replace_state
         set_attribute
         set_cookie
         set_dataset_property
