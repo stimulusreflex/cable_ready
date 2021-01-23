@@ -305,11 +305,10 @@ const DOMOperations = {
   },
 
   setFocus: operation => {
-    processElements(operation, element => {
-      dispatch(element, 'cable-ready:before-set-focus', operation)
-      if (!operation.cancel) assignFocus(element)
-      dispatch(element, 'cable-ready:after-set-focus', operation)
-    })
+    const { element } = operation
+    dispatch(element, 'cable-ready:before-set-focus', operation)
+    if (!operation.cancel) assignFocus(element)
+    dispatch(element, 'cable-ready:after-set-focus', operation)
   },
 
   setStorageItem: operation => {
