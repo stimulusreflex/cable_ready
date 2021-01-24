@@ -49,6 +49,19 @@ const DOMOperations = {
     })
   },
 
+  graft: operation => {
+    processElements(operation, element => {
+      dispatch(element, 'cable-ready:before-graft', operation)
+      const { parent, focusSelector } = operation
+      const parentElement = document.querySelector(parent)
+      if (!operation.cancel && parentElement) {
+        parentElement.appendChild(element)
+        assignFocus(focusSelector)
+      }
+      dispatch(element, 'cable-ready:after-graft', operation)
+    })
+  },
+
   innerHtml: operation => {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-inner-html', operation)
@@ -310,6 +323,13 @@ const DOMOperations = {
     const { state, title, url } = operation
     if (!operation.cancel) history.replaceState(state || {}, title || '', url)
     dispatch(window, 'cable-ready:after-replace-state', operation)
+  },
+
+  scrollIntoView: operation => {
+    const { element } = operation
+    dispatch(element, 'cable-ready:before-scroll-into-view', operation)
+    if (!operation.cancel) element.scrollIntoView(operation)
+    dispatch(element, 'cable-ready:after-scroll-into-view', operation)
   },
 
   setCookie: operation => {

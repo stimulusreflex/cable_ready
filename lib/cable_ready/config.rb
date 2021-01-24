@@ -35,6 +35,7 @@ module CableReady
         console_log
         dispatch_event
         go
+        graft
         inner_html
         insert_adjacent_html
         insert_adjacent_text
@@ -50,6 +51,7 @@ module CableReady
         remove_storage_item
         replace
         replace_state
+        scroll_into_view
         set_attribute
         set_cookie
         set_dataset_property
