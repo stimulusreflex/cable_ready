@@ -87,11 +87,12 @@ const DOMOperations = {
 
   morph: operation => {
     processElements(operation, element => {
-      const { html, childrenOnly, focusSelector } = operation
+      const { html } = operation
       const template = document.createElement('template')
       template.innerHTML = String(html).trim()
       operation.content = template.content
       dispatch(element, 'cable-ready:before-morph', operation)
+      const { childrenOnly, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
@@ -343,18 +344,33 @@ const DOMOperations = {
   },
 
   notification: operation => {
-    const { title, options } = operation
     dispatch(document, 'cable-ready:before-notification', operation)
-    let permission
+    const { title, options } = operation
     if (!operation.cancel)
       Notification.requestPermission().then(result => {
-        permission = result
+        operation.permission = result
         if (result === 'granted') new Notification(title || '', options)
       })
-    dispatch(document, 'cable-ready:after-notification', {
-      ...operation,
-      permission
-    })
+    dispatch(document, 'cable-ready:after-notification', operation)
+  },
+
+  playSound: operation => {
+    dispatch(document, 'cable-ready:before-play-sound', operation)
+    const { src } = operation
+    if (!operation.cancel) {
+      const canplaythrough = () => {
+        document.audio.removeEventListener('canplaythrough', canplaythrough)
+        document.audio.play()
+      }
+      const ended = () => {
+        document.audio.removeEventListener('ended', canplaythrough)
+        dispatch(document, 'cable-ready:after-play-sound', operation)
+      }
+      document.audio.addEventListener('canplaythrough', canplaythrough)
+      document.audio.addEventListener('ended', ended)
+      document.audio.src = src
+      document.audio.play()
+    } else dispatch(document, 'cable-ready:after-play-sound', operation)
   }
 }
 
@@ -384,7 +400,7 @@ const perform = (
         } catch (e) {
           if (operation.element) {
             console.error(
-              `CableReady detected an error in ${name}! ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
+              `CableReady detected an error in ${name}: ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
             )
             console.error(e)
           } else {
@@ -410,6 +426,24 @@ const performAsync = (
     }
   })
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (!document.audio) {
+    document.audio = new Audio(
+      'data:audio/mpeg;base64,//OExAAAAAAAAAAAAEluZm8AAAAHAAAABAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/P39/f39/f39/f39/f39/f39/f39/f39/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAJAa/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//MUxAAAAANIAAAAAExBTUUzLjk2LjFV//MUxAsAAANIAAAAAFVVVVVVVVVVVVVV//MUxBYAAANIAAAAAFVVVVVVVVVVVVVV//MUxCEAAANIAAAAAFVVVVVVVVVVVVVV'
+    )
+    const unlockAudio = () => {
+      document.body.removeEventListener('click', unlockAudio)
+      document.body.removeEventListener('touchstart', unlockAudio)
+      document.audio
+        .play()
+        .then(() => {})
+        .catch(() => {})
+    }
+    document.body.addEventListener('click', unlockAudio)
+    document.body.addEventListener('touchstart', unlockAudio)
+  }
+})
 
 export default {
   perform,
