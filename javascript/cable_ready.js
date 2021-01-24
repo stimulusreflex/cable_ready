@@ -296,11 +296,18 @@ const DOMOperations = {
     dispatch(document, 'cable-ready:after-clear-storage', operation)
   },
 
+  go: operation => {
+    dispatch(window, 'cable-ready:before-go', operation)
+    const { delta } = operation
+    if (!operation.cancel) history.go(delta)
+    dispatch(window, 'cable-ready:after-go', operation)
+  },
+
   pushState: operation => {
-    dispatch(document, 'cable-ready:before-push-state', operation)
+    dispatch(window, 'cable-ready:before-push-state', operation)
     const { state, title, url } = operation
     if (!operation.cancel) history.pushState(state || {}, title || '', url)
-    dispatch(document, 'cable-ready:after-push-state', operation)
+    dispatch(window, 'cable-ready:after-push-state', operation)
   },
 
   removeStorageItem: operation => {
@@ -309,6 +316,13 @@ const DOMOperations = {
     const storage = type === 'session' ? sessionStorage : localStorage
     if (!operation.cancel) storage.removeItem(key)
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
+  },
+
+  replaceState: operation => {
+    dispatch(window, 'cable-ready:before-replace-state', operation)
+    const { state, title, url } = operation
+    if (!operation.cancel) history.replaceState(state || {}, title || '', url)
+    dispatch(window, 'cable-ready:after-replace-state', operation)
   },
 
   scrollIntoView: operation => {
@@ -326,8 +340,8 @@ const DOMOperations = {
   },
 
   setFocus: operation => {
-    const { element } = operation
     dispatch(element, 'cable-ready:before-set-focus', operation)
+    const { element } = operation
     if (!operation.cancel) assignFocus(element)
     dispatch(element, 'cable-ready:after-set-focus', operation)
   },
