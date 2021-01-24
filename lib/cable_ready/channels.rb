@@ -14,49 +14,6 @@ module CableReady
     def initialize
       @channels = {}
       @operations = {}
-<<<<<<< HEAD
-      %i[
-        append
-        add_css_class
-        clear_storage
-        console_log
-        dispatch_event
-        inner_html
-        insert_adjacent_html
-        insert_adjacent_text
-        morph
-        notification
-        outer_html
-        play_sound
-        prepend
-        push_state
-        remove
-        remove_attribute
-        remove_css_class
-        remove_storage_item
-        replace
-        set_attribute
-        set_cookie
-        set_dataset_property
-        set_focus
-        set_property
-        set_storage_item
-        set_style
-        set_styles
-        set_value
-        text_content
-      ].each do |operation|
-        add_operation operation
-      end
-    end
-
-    def add_operation(operation)
-      @operations[operation] = ->(options = {}) do
-        yield(options) if block_given?
-        enqueue_operation(operation, options)
-      end
-=======
->>>>>>> master
     end
 
     def [](identifier)
