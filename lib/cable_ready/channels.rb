@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
+require "thread/local"
 require_relative "channel"
 
 module CableReady
+  # This class is a thread local singleton: CableReady::Channels.instance
+  # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started
   class Channels
-    include Singleton
-    attr_accessor :operations
+    extend Thread::Local
 
-    def self.configure
-      yield CableReady::Channels.instance if block_given?
-    end
+    attr_accessor :operations
 
     def initialize
       @channels = {}
       @operations = {}
+<<<<<<< HEAD
       %i[
         append
         add_css_class
@@ -54,40 +55,32 @@ module CableReady
         yield(options) if block_given?
         enqueue_operation(operation, options)
       end
+=======
+>>>>>>> master
     end
 
     def [](identifier)
-      @channels[identifier] ||= CableReady::Channel.new(identifier, operations)
+      @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 
     def broadcast(*identifiers, clear: true)
-      mutex.synchronize do
-        @channels.values
-          .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
-          .select { |channel| channel.identifier.is_a?(String) }
-          .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].channel_broadcast(clear) }
-            channels.each { |channel| @channels.except!(channel.identifier) if clear }
-          end
-      end
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .select { |channel| channel.identifier.is_a?(String) }
+        .tap do |channels|
+          channels.each { |channel| @channels[channel.identifier].broadcast(clear: clear) }
+          channels.each { |channel| @channels.except!(channel.identifier) if clear }
+        end
     end
 
     def broadcast_to(model, *identifiers, clear: true)
-      mutex.synchronize do
-        @channels.values
-          .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
-          .reject { |channel| channel.identifier.is_a?(String) }
-          .tap do |channels|
-            channels.each { |channel| @channels[channel.identifier].channel_broadcast_to(model, clear) }
-            channels.each { |channel| @channels.except!(channel.identifier) if clear }
-          end
-      end
-    end
-
-    private
-
-    def mutex
-      @mutex ||= Mutex.new
+      @channels.values
+        .reject { |channel| identifiers.any? && identifiers.exclude?(channel.identifier) }
+        .reject { |channel| channel.identifier.is_a?(String) }
+        .tap do |channels|
+          channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear: clear) }
+          channels.each { |channel| @channels.except!(channel.identifier) if clear }
+        end
     end
   end
 end

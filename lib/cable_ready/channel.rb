@@ -2,48 +2,46 @@
 
 module CableReady
   class Channel
-    attr_reader :identifier, :operations, :available_operations
+    attr_reader :identifier, :enqueued_operations
 
-    def initialize(identifier, available_operations)
+    def initialize(identifier)
       @identifier = identifier
-      @available_operations = available_operations
       reset
-      available_operations.each do |available_operation, implementation|
-        define_singleton_method available_operation, &implementation
-      end
+      CableReady.config.operation_names.each { |name| add_operation_method name }
+
+      config_observer = self
+      CableReady.config.add_observer config_observer, :add_operation_method
+      ObjectSpace.define_finalizer self, -> { CableReady.config.delete_observer config_observer }
     end
 
-    def channel_broadcast(clear)
-      operations.select! { |_, list| list.present? }
-      operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-      ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => operations}
+    def broadcast(clear: true)
+      ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
     end
 
-    def channel_broadcast_to(model, clear)
-      operations.select! { |_, list| list.present? }
-      operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-      identifier.broadcast_to model, {"cableReady" => true, "operations" => operations}
+    def broadcast_to(model, clear: true)
+      identifier.broadcast_to model, {"cableReady" => true, "operations" => broadcastable_operations}
       reset if clear
     end
 
-    def broadcast(clear = true)
-      CableReady::Channels.instance.broadcast(identifier, clear: clear)
-    end
-
-    def broadcast_to(model, clear = true)
-      CableReady::Channels.instance.broadcast_to(model, identifier, clear: clear)
+    def add_operation_method(name)
+      return if respond_to?(name)
+      singleton_class.public_send :define_method, name, ->(options = {}) {
+        enqueued_operations[name.to_s] << options.stringify_keys
+        self # supports operation chaining
+      }
     end
 
     private
 
-    def enqueue_operation(key, options)
-      operations[key] << options
-      self
+    def reset
+      @enqueued_operations = Hash.new { |hash, key| hash[key] = [] }
     end
 
-    def reset
-      @operations = Hash.new { |hash, operation| hash[operation] = [] }
+    def broadcastable_operations
+      enqueued_operations
+        .select { |_, list| list.present? }
+        .deep_transform_keys! { |key| key.to_s.camelize(:lower) }
     end
   end
 end
