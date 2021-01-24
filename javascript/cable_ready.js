@@ -87,11 +87,12 @@ const DOMOperations = {
 
   morph: operation => {
     processElements(operation, element => {
-      const { html, childrenOnly, focusSelector } = operation
+      const { html } = operation
       const template = document.createElement('template')
       template.innerHTML = String(html).trim()
       operation.content = template.content
       dispatch(element, 'cable-ready:before-morph', operation)
+      const { childrenOnly, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
@@ -275,31 +276,31 @@ const DOMOperations = {
   // Browser Manipulations
 
   clearStorage: operation => {
+    dispatch(document, 'cable-ready:before-clear-storage', operation)
     const { type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-clear-storage', operation)
     if (!operation.cancel) storage.clear()
     dispatch(document, 'cable-ready:after-clear-storage', operation)
   },
 
   pushState: operation => {
-    const { state, title, url } = operation
     dispatch(document, 'cable-ready:before-push-state', operation)
+    const { state, title, url } = operation
     if (!operation.cancel) history.pushState(state || {}, title || '', url)
     dispatch(document, 'cable-ready:after-push-state', operation)
   },
 
   removeStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     const { key, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-remove-storage-item', operation)
     if (!operation.cancel) storage.removeItem(key)
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
   setCookie: operation => {
-    const { cookie } = operation
     dispatch(document, 'cable-ready:before-set-cookie', operation)
+    const { cookie } = operation
     if (!operation.cancel) document.cookie = cookie
     dispatch(document, 'cable-ready:after-set-cookie', operation)
   },
@@ -312,9 +313,9 @@ const DOMOperations = {
   },
 
   setStorageItem: operation => {
+    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     const { key, value, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    dispatch(document, 'cable-ready:before-set-storage-item', operation)
     if (!operation.cancel) storage.setItem(key, value)
     dispatch(document, 'cable-ready:after-set-storage-item', operation)
   },
@@ -329,18 +330,33 @@ const DOMOperations = {
   },
 
   notification: operation => {
-    const { title, options } = operation
     dispatch(document, 'cable-ready:before-notification', operation)
-    let permission
+    const { title, options } = operation
     if (!operation.cancel)
       Notification.requestPermission().then(result => {
-        permission = result
+        operation.permission = result
         if (result === 'granted') new Notification(title || '', options)
       })
-    dispatch(document, 'cable-ready:after-notification', {
-      ...operation,
-      permission
-    })
+    dispatch(document, 'cable-ready:after-notification', operation)
+  },
+
+  playSound: operation => {
+    dispatch(document, 'cable-ready:before-play-sound', operation)
+    const { src } = operation
+    if (!operation.cancel) {
+      const canplaythrough = () => {
+        document.audio.removeEventListener('canplaythrough', canplaythrough)
+        document.audio.play()
+      }
+      const ended = () => {
+        document.audio.removeEventListener('ended', canplaythrough)
+        dispatch(document, 'cable-ready:after-play-sound', operation)
+      }
+      document.audio.addEventListener('canplaythrough', canplaythrough)
+      document.audio.addEventListener('ended', ended)
+      document.audio.src = src
+      document.audio.play()
+    } else dispatch(document, 'cable-ready:after-play-sound', operation)
   }
 }
 
@@ -396,6 +412,24 @@ const performAsync = (
     }
   })
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (!document.audio) {
+    document.audio = new Audio(
+      'data:audio/mpeg;base64,//OExAAAAAAAAAAAAEluZm8AAAAHAAAABAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/P39/f39/f39/f39/f39/f39/f39/f39/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAJAa/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//MUxAAAAANIAAAAAExBTUUzLjk2LjFV//MUxAsAAANIAAAAAFVVVVVVVVVVVVVV//MUxBYAAANIAAAAAFVVVVVVVVVVVVVV//MUxCEAAANIAAAAAFVVVVVVVVVVVVVV'
+    )
+    const unlockAudio = () => {
+      document.body.removeEventListener('click', unlockAudio)
+      document.body.removeEventListener('touchstart', unlockAudio)
+      document.audio
+        .play()
+        .then(() => {})
+        .catch(() => {})
+    }
+    document.body.addEventListener('click', unlockAudio)
+    document.body.addEventListener('touchstart', unlockAudio)
+  }
+})
 
 export default {
   perform,
