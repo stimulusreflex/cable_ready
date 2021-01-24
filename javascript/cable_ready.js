@@ -297,7 +297,7 @@ const DOMOperations = {
     dispatch(document, 'cable-ready:after-remove-storage-item', operation)
   },
 
-  scroll: operation => {
+  scrollIntoView: operation => {
     const { element } = operation
     dispatch(element, 'cable-ready:before-scroll', operation)
     if (!operation.cancel) element.scrollIntoView(operation)
