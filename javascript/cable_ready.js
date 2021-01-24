@@ -299,9 +299,9 @@ const DOMOperations = {
 
   scrollIntoView: operation => {
     const { element } = operation
-    dispatch(element, 'cable-ready:before-scroll', operation)
+    dispatch(element, 'cable-ready:before-scroll-into-view', operation)
     if (!operation.cancel) element.scrollIntoView(operation)
-    dispatch(element, 'cable-ready:after-scroll', operation)
+    dispatch(element, 'cable-ready:after-scroll-into-view', operation)
   },
 
   setCookie: operation => {
