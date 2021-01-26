@@ -8,7 +8,8 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 cable_ready["MyChannel"].clear_storage(
-  type: "session" # local storage vs session storage, defaults to local
+  cancel: true|false, # [false]   - cancel the operation (for use on client)
+  type:   "session"   # ["local"] - local storage vs session storage
 )
 ```
 
@@ -17,10 +18,39 @@ cable_ready["MyChannel"].clear_storage(
 * `cable-ready:before-clear-storage`
 * `cable-ready:after-clear-storage`
 
+Life-cycle events for `clear_storage` are raised on `document`.
+
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+
+## go
+
+Load a specific page from the session history. You can use it to move forwards and backwards through the history depending on the value of a parameter. 
+
+`delta` is the position in the history to which you want to move, relative to the current page. A negative value moves backwards, a positive value moves forwards. `delta: -1` is equivalent to pressing the browsers "Back" button.
+
+If no value is passed or if `delta` equals `0`, it has the same result as calling `location.reload()`.
+
+```ruby
+cable_ready["MyChannel"].go(
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  delta:  Integer     # optional integer
+)
+```
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-go`
+* `cable-ready:after-go`
+
+Life-cycle events for `go` are raised on `window`. Add a listener for the [`popstate`](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) event in order to determine when the navigation has completed.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/History/go](https://developer.mozilla.org/en-US/docs/Web/API/History/go)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
 ## push\_state
 
@@ -32,9 +62,10 @@ You can associate arbitrary data with your new history entry by passing a Hash t
 
 ```ruby
 cable_ready["MyChannel"].push_state(
-  url: "/",      # required - URL String
-  title: "Home", # optional String, default to ""
-  state: {}      # optional Hash, defaults to {}
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  url:    "/",        # required - URL String
+  title:  "Home",     # [""]     - optional String
+  state:  {}          # [{}]     - optional Hash
 )
 ```
 
@@ -47,9 +78,12 @@ cable_ready["MyChannel"].push_state(
 * `cable-ready:before-push-state`
 * `cable-ready:after-push-state`
 
+Life-cycle events for `push_state` are raised on `window`. Add a listener for the [`popstate`](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) event in order to determine when the navigation has completed.
+
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/History/pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
 ## remove\_storage\_item
 
@@ -59,8 +93,9 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 cable_ready["MyChannel"].remove_storage_item(
-  key: "string", # required
-  type: "session" # local storage vs session storage, defaults to local
+  cancel: true|false, # [false]   - cancel the operation (for use on client)
+  key:    "string",   # required
+  type:   "session"   # ["local"] - local storage vs session storage
 )
 ```
 
@@ -69,10 +104,77 @@ cable_ready["MyChannel"].remove_storage_item(
 * `cable-ready:before-remove-storage-item`
 * `cable-ready:after-remove-storage-item`
 
+Life-cycle events for `remove_storage_item` are raised on `document`.
+
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+
+## replace\_state
+
+Modify the current browser history entry. The browser will not load the page specified by the `url` and indeed, it doesn't actually have to exist.
+
+You can associate arbitrary data with the history entry by passing a Hash to the optional `state` parameter.
+
+{% hint style="info" %}
+Most of the time, you probably want to use `push_state`.
+{% endhint %}
+
+```ruby
+cable_ready["MyChannel"].replace_state(
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  url:    "/",        # required - URL String
+  title:  "Home",     # [""]     - optional String
+  state:  {}          # [{}]     - optional Hash
+)
+```
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-replace-state`
+* `cable-ready:after-replace-state`
+
+Life-cycle events for `replace_state` are raised on `window`. Add a listener for the [`popstate`](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) event in order to determine when the navigation has completed.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+
+## scroll\_into\_view
+
+Scroll the viewport so that the element with the specified anchor \(`id` attribute\) is in view.
+
+```markup
+<div id="i-am-an-anchor">⚓</div>
+```
+
+The default behavior is to instantly jump to the element such that the top of the element is touching the top of the browser viewport.
+
+{% hint style="success" %}
+If you're looking for a more _human_ experience, give `behavior: "smooth", block: "center"` a try.
+{% endhint %}
+
+```ruby
+cable_ready["MyChannel"].scroll_into_view(
+  behavior: "string",   # ["auto"]    - auto or smooth
+  block:    "string",   # ["start"]   - start, center, end, nearest
+  cancel:   true|false, # [false]     - cancel the operation (for use on client)
+  inline:   "string",   # ["nearest"] - start, center, end, nearest
+  selector: "string",   # required    - string containing a CSS selector or XPath expression
+  xpath:    true|false  # [false]     - process the selector as an XPath expression
+)
+```
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-scroll-into-view`
+* `cable-ready:after-scroll-into-view`
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView)
 
 ## set\_cookie
 
@@ -80,7 +182,8 @@ Writes a cookie to the document cookie store.
 
 ```ruby
 cable_ready["MyChannel"].set_cookie(
-  cookie: "string" # required - "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  cookie: "string"    # required - "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"
 )
 ```
 
@@ -93,6 +196,8 @@ Note that you can only set/update a single cookie at a time using this method.
 * `cable-ready:before-set-cookie`
 * `cable-ready:after-set-cookie`
 
+Life-cycle events for `set_cookie` are raised on `document`.
+
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
@@ -103,7 +208,9 @@ Set focus on the specified element, if it can be focused. The focused element is
 
 ```ruby
 cable_ready["MyChannel"].set_focus(
-  selector: "string" # required - string containing a CSS selector or XPath expression
+  cancel:   true|false, # [false]  - cancel the operation (for use on client)
+  selector: "string",   # required - string containing a CSS selector or XPath expression
+  xpath:    true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -124,9 +231,10 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 cable_ready["MyChannel"].set_storage_item(
-  key: "string", # required
-  value: "string", # required
-  type: "session" # local storage vs session storage, defaults to local
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  key:    "string",   # required
+  value:  "string",   # required
+  type:   "session"   # ["local"] - local storage vs session storage
 )
 ```
 
@@ -134,6 +242,8 @@ cable_ready["MyChannel"].set_storage_item(
 
 * `cable-ready:before-set-storage-item`
 * `cable-ready:after-set-storage-item`
+
+Life-cycle events for `set_storage_item` are raised on `document`.
 
 #### Reference
 
