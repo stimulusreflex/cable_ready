@@ -245,6 +245,10 @@ One question that comes up often on Discord is how to properly handle broadcasts
 
 Our proposed solution is that instead of modifying the DOM directly, send a `dispatch_event` that has the rendered HTML for **both** the current user and everyone else available in _different keys_ of the `detail` object, along with the `user_id` of the contributing user. This `user_id` can be compared against the current user's `id` which has already been stored in a `meta` tag in the document `head`. Upon receiving a new update, the Stimulus controller can append the correct HTML fragment to the correct DOM element and the project is saved.
 
+{% hint style="warning" %}
+This technique is not well-suited to scenarios where sensitive data is being transmitted. Since all data being sent is visible via Network Inspector, please assume that all everyone receiving a message can see its contents.
+{% endhint %}
+
 #### Example 4: The Stimulus value attribute setter
 
 The recent release of Stimulus v2 finally brought the [Values](https://stimulus.hotwire.dev/reference/values) API. Values maps a data attribute on the DOM element which holds the controller instance to a typed internal value. Updating the data attribute on the DOM element automatically fires a `ValueChanged` callback, if one is available. 👍
