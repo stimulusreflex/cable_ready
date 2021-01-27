@@ -32,7 +32,7 @@ module CableReady
 
       unless lines.find { |line| line.include?("application.consumer = consumer") }
         append_to_file filepath, "application.consumer = consumer"
-      end        
+      end
 
       copy_file "app/javascript/controllers/stream_from_controller.js"
     end

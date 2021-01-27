@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CableReady
   class Stream < ActionCable::Channel::Base
     def subscribed
