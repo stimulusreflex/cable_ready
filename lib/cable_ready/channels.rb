@@ -16,7 +16,9 @@ module CableReady
       @operations = {}
     end
 
-    def [](identifier)
+    def [](*keys)
+      keys.select! &:itself
+      identifier = keys.one? ? keys.pop : compound(keys)
       @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 
@@ -38,6 +40,14 @@ module CableReady
           channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear: clear) }
           channels.each { |channel| @channels.except!(channel.identifier) if clear }
         end
+    end
+
+    private
+
+    def compound(keys)
+      keys.map do |key|
+        key.class < ActiveRecord::Base ? key.to_sgid(expires_in: nil).to_s : key.to_s
+      end.join(":")
     end
   end
 end

@@ -2,15 +2,19 @@
 
 module CableReadyHelper
   def stream_from(*keys)
-    tags = []
-    keys.each do |key|
-      if [String, Symbol].include? key.class
-        tags << tag.div(data: {controller: "stream-from", stream_from_identifier_value: key})
-      end
-      if key.class < ActiveRecord::Base
-        tags << tag.div(data: {controller: "stream-from", stream_from_sgid_value: key.to_sgid(expires_in: nil).to_s})
-      end
+    keys.select! &:itself
+    identifier = keys.one? ? keys.pop : compound(keys)
+    if identifier.class < ActiveRecord::Base
+      return tag.div(data: {controller: "stream-from", stream_from_sgid_value: identifier.to_sgid(expires_in: nil).to_s})
     end
-    tags.join("\n").html_safe
+    tag.div(data: {controller: "stream-from", stream_from_identifier_value: identifier.to_s})
+  end
+
+  private
+
+  def compound(keys)
+    keys.map do |key|
+      key.class < ActiveRecord::Base ? key.to_sgid(expires_in: nil).to_s : key.to_s
+    end.join(":")
   end
 end
