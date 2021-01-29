@@ -2,7 +2,7 @@
 
 module CableReadyHelper
   def stream_from(*keys)
-    keys.select! &:itself
+    keys.select!(&:itself)
     identifier = keys.one? ? keys.pop : compound(keys)
     if identifier.class < ActiveRecord::Base
       return tag.div(data: {controller: "stream-from", stream_from_sgid_value: identifier.to_sgid(expires_in: nil).to_s})
@@ -13,8 +13,8 @@ module CableReadyHelper
   private
 
   def compound(keys)
-    keys.map do |key|
+    keys.map { |key|
       key.class < ActiveRecord::Base ? key.to_sgid(expires_in: nil).to_s : key.to_s
-    end.join(":")
+    }.join(":")
   end
 end
