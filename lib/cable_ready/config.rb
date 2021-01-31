@@ -11,9 +11,13 @@ module CableReady
     include Observable
     include Singleton
 
+    attr_accessor :on_failed_sanity_checks, :on_new_version_available
+
     def initialize
       super
       @operation_names = Set.new(default_operation_names)
+      @on_failed_sanity_checks = :exit
+      @on_new_version_available = :ignore
     end
 
     def operation_names
