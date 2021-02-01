@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "byebug"
-
 module GeneratorTestHelpers
   def self.included(base)
     base.extend ClassMethods
