@@ -272,7 +272,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-value', operation)
       const { value } = operation
-      if (!operation.cancel) element.value = value
+      if (!operation.cancel) element.value = value || ''
       dispatch(element, 'cable-ready:after-set-value', operation)
     })
   },
