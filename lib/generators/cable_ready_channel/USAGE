@@ -1,9 +1,0 @@
-Description:
-    Create an ActionCable channel ready for usage with CableReady
-
-Example:
-    bin/rails generate cable_ready_channel Thing
-
-    This will create:
-        app/channels/thing_channel.rb
-        app/javascript/channels/thing_channel.js
