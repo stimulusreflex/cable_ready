@@ -8,11 +8,15 @@ You can add your own operations to CableReady by creating an initializer:
 
 {% code title="config/initializers/cable\_ready.rb" %}
 ```ruby
-CableReady::Channels.configure do |config|
-  config.add_operation :jazz_hands
+CableReady.configure do |config|
+  config.add_operation_name :jazz_hands
 end
 ```
 {% endcode %}
+
+{% hint style="warning" %}
+The syntax for this process did change recently. We apologize for any inconvenience.
+{% endhint %}
 
 Then you need to add your operation's implementation to the CableReady client, ideally before you import your Stimulus controllers and/or ActionCable channel subscribers. Note that while the Ruby `add_operation` method expects a snake-cased Symbol, JavaScript methods are camelCased.
 
@@ -20,7 +24,7 @@ Then you need to add your operation's implementation to the CableReady client, i
 ```javascript
 import CableReady from 'cable_ready'
 
-CableReady.DOMOperations['jazzHands'] = operation => {
+CableReady.DOMOperations.jazzHands = operation => {
   console.log('Jazz hands!', operation)
 }
 ```
@@ -32,7 +36,30 @@ Now you can call your custom operation like any other. Any options passed to the
 cable_ready["visitors"].jazz_hands(thumbs: 2).broadcast
 ```
 
-You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/hopsoft/cable_ready/blob/eb1267b02d6e2a1967881012e09c0cafa8c4c197/javascript/cable_ready.js#L133). The `innerHtml` method is an excellent starting point.
+You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/hopsoft/cable_ready/blob/eb1267b02d6e2a1967881012e09c0cafa8c4c197/javascript/cable_ready.js#L133). The `setCookie` and `innerHtml` methods are an excellent starting point.
+
+### Multi-element custom operations
+
+If you need for your custom operation to support multi-element selectors, you will need to import the `processElements` function.
+
+{% code title="app/javascript/packs/application.js" %}
+```javascript
+import CableReady from 'cable_ready'
+import { processElements } from 'cable_ready/javascript/utils'
+
+CableReady.DOMOperations.jazzHands = operation => {
+  processElements(operation, element => {
+    console.log('Jazz hands!', element, operation)
+  })
+}
+```
+{% endcode %}
+
+You can now call your custom operation with `select_all: true` and you will see a console log message for every matching element.
+
+```ruby
+cable_ready["visitors"].jazz_hands(selector: ".hand", select_all: true, thumbs: 2).broadcast
+```
 
 ## shouldMorph and didMorph
 

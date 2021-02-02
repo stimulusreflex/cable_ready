@@ -1,4 +1,4 @@
-# Element Mutations
+# Element Property Mutations
 
 ## add\_css\_class
 
@@ -6,9 +6,11 @@ Adds a CSS class to an element. If the class already exists on the element, call
 
 ```ruby
 cable_ready["MyChannel"].add_css_class(
-  name:     "string",  # [null]   - string containing the CSS class name to add
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # [null]   - string containing the CSS class name to add
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -16,9 +18,11 @@ Use an array to add multiple classes to an element.
 
 ```ruby
 cable_ready["MyChannel"].add_css_class(
-  name:     ["string", "string2"], # [null]   - array with the CSS class names to add
-  selector: "string",              # required - string containing a CSS selector or XPath expression
-  xpath:    true|false             # [false]  - process the selector as an XPath expression
+  cancel:     true|false,            # [false]  - cancel the operation (for use on client)
+  name:       ["string", "string2"], # [null]   - array with the CSS class names to add
+  select_all: true|false,            # [false]  - operate on list of elements returned from selector
+  selector:   "string",              # required - string containing a CSS selector or XPath expression
+  xpath:      true|false             # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -37,9 +41,11 @@ Removes an attribute from an element.
 
 ```ruby
 cable_ready["MyChannel"].remove_attribute(
-  name:     "string",  # required - the attribute to remove
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # required - the attribute to remove
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -58,9 +64,11 @@ Removes a CSS class from an element.
 
 ```ruby
 cable_ready["MyChannel"].remove_css_class(
-  name:     "string",  # [null]   - string containing the CSS class name to remove
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # [null]   - string containing the CSS class name to remove
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -68,9 +76,11 @@ Use an array to removes multiple classes from an element.
 
 ```ruby
 cable_ready["MyChannel"].remove_css_class(
-  name:     ["string", "string2"], # [null]   - array with the CSS class names to remove
-  selector: "string",              # required - string containing a CSS selector or XPath expression
-  xpath:    true|false             # [false]  - process the selector as an XPath expression
+  cancel:     true|false,            # [false]  - cancel the operation (for use on client)
+  name:       ["string", "string2"], # [null]   - array with the CSS class names to remove
+  select_all: true|false,            # [false]  - operate on list of elements returned from selector
+  selector:   "string",              # required - string containing a CSS selector or XPath expression
+  xpath:      true|false             # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -89,10 +99,12 @@ Sets an attribute on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_attribute(
-  name:     "string",  # required - the attribute to set
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  value:    "string",  # [null]   - the value to assign to the attribute
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # required - the attribute to set
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  value:      "string",   # [null]   - the value to assign to the attribute
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -119,14 +131,16 @@ Sets an dataset property \(data-\* attribute\) on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_dataset_property(
-  name:     "string",  # required - the property to set
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  value:    "string",  # [null]   - the value to assign to the dataset
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # required - the property to set
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  value:      "string",   # [null]   - the value to assign to the dataset
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
-This method pairs extremely well with the new [Values and Classes APIs](https://github.com/stimulusjs/stimulus/pull/202) coming in **Stimulus** **v2**, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
+This method pairs extremely well with the new [Values](https://stimulus.hotwire.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
 
 ```javascript
 export default class extends Controller {
@@ -157,10 +171,12 @@ Sets a valid property on an element to a new value.
 
 ```ruby
 cable_ready["MyChannel"].set_property(
-  name:     "string",  # required - string containing a valid property
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  value:    "string",  # [null]   - the value to assign to the property
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # required - string containing a valid property
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  value:      "string",   # [null]   - the value to assign to the property
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -185,10 +201,12 @@ Sets a single style on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_style(
-  name:     "string",  # required - the style to set
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  value:    "string",  # [null]   - the value to assign to the style
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  name:       "string",   # required - the style to set
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  value:      "string",   # [null]   - the value to assign to the style
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -207,12 +225,14 @@ Sets multiple styles on an element.
 
 ```ruby
 cable_ready["MyChannel"].set_styles(
-  selector: "string",  # required - string containing a CSS selector or XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
   styles: {
     background: "red",
     color: "white"
   },
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -231,9 +251,11 @@ Sets the value of an element.
 
 ```ruby
 cable_ready["MyChannel"].set_value(
-  selector: "string",  # required - string containing a CSS selector or XPath expression
-  value:    "string",  # [null]   - the value to assign to the attribute
-  xpath:    true|false # [false]  - process the selector as an XPath expression
+  cancel:     true|false, # [false]  - cancel the operation (for use on client)
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # required - string containing a CSS selector or XPath expression
+  value:      "string",   # [null]   - the value to assign to the attribute
+  xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
 ```
 

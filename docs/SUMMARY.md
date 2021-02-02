@@ -19,7 +19,7 @@
 * [Methods](reference/methods.md)
 * [Operations](reference/operations/README.md)
   * [DOM Mutations](reference/operations/dom-mutations.md)
-  * [Element Mutations](reference/operations/element-mutations.md)
+  * [Element Property Mutations](reference/operations/element-mutations.md)
   * [DOM Events](reference/operations/event-dispatch.md)
   * [Browser Manipulations](reference/operations/browser-manipulations.md)
   * [Notifications](reference/operations/notifications.md)

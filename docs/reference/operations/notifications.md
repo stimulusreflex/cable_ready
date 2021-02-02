@@ -11,6 +11,10 @@ cable_ready["MyChannel"].console_log(
 )
 ```
 
+{% hint style="warning" %}
+There are no life-cycle events raised by `console_log`.
+{% endhint %}
+
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Console/log](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)
@@ -29,8 +33,9 @@ The user will be asked to Allow or Block notifications. You cannot force them to
 
 ```ruby
 cable_ready["MyChannel"].notification(
-  title:   "string", # required, although it can be empty
-  options: {}        # see options such as body, icon, vibrate, silent
+  cancel:  true|false, # [false]  - cancel the operation (for use on client)
+  title:   "string",   # required, although it can be empty
+  options: {}          # see options such as body, icon, vibrate, silent
 )
 ```
 
@@ -38,6 +43,8 @@ cable_ready["MyChannel"].notification(
 
 * `cable-ready:before-notification`
 * `cable-ready:after-notification`
+
+Life-cycle events for `notification` are raised on `document`.
 
 #### Reference
 
@@ -75,4 +82,37 @@ document.addEventListener('my-app:notify', e => {
   })
 })
 ```
+
+## play\_sound
+
+Play an .mp3 or .ogg audio file in the browser.
+
+The [sound](https://firebasestorage.googleapis.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LqJ4RHpf9JKqE06cFtt%2F-MRz6H3BF9iv5xam5pXU%2F-MRz81q3XEph8-xlQ_kb%2Fstimulus_reflex_sound_logo.mp3?alt=media&token=f26dfe2b-2fed-41ec-b927-7229b28749f0) starts playing when the minimum viable amount of the sound file has been downloaded. If another sound request comes in while the first one is still playing, the first one stops.
+
+CableReady subtly captures the first user interaction on the page to ensure this operation works well on all browsers, **including Safari Mobile**. A silent mp3 is played as soon as the page context is established. It is base64 encoded so there is no network request. At 93 bytes, it is the minimum viable mp3!
+
+```ruby
+cable_ready["MyChannel"].play_sound(
+  cancel: true|false, # [false]  - cancel the operation (for use on client)
+  src:    ""          # required - URL for audio file
+)
+```
+
+{% hint style="info" %}
+CableReady creates an HTML Audio instance on `document.audio` when the page loads. This object is technically available for you to use in your application as you see fit. Check out MDN for the full [audio API](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio).
+{% endhint %}
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-play-sound`
+* `cable-ready:after-play-sound`
+
+Life-cycle events for `play_sound` are raised on `document`.
+
+`cable-ready:after-play-sound` is emitted either after the sound has finished playing, or immediately if the operation is cancelled.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio)
+* [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
 

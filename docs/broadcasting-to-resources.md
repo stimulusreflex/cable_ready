@@ -201,7 +201,7 @@ With CableReady, what Facebook spent tens of millions of dollars engineering not
 
 Many of us use the `current_user` pattern so often that we can almost forget that it's a resource. You know what doesn't forget? CableReady.
 
-Assuming that you have your Connection class set up to be `identified_by` `:current_user`...
+Assuming that you have your Connection class set up to be identified by the current user...
 
 {% code title="app/channels/application\_cable/connection.rb" %}
 ```ruby
@@ -217,17 +217,25 @@ end
 ```
 {% endcode %}
 
-... you can set up your Channel to `stream_for` to `current_user`:
+... you can run `rails g channel users` to create a UsersChannel.
+
+Set up UsersChannel to `stream_for` `current_user`:
 
 ```ruby
-class OptimismChannel < ApplicationCable::Channel
+class UsersChannel < ApplicationCable::Channel
   def subscribed
     stream_for current_user
   end
 end
 ```
 
-The cool thing about this is that there's no client code changes necessary. Just use the standard client-side Channel subscriber boilerplate to connect, and ActionCable will pull in the `current_user` reference from your Connection class, no `params` required.
+The cool thing about this is that there's no client code changes necessary. Just let your standard client-side `app/javascript/channels/users_channel.js` connect, and ActionCable will pull in the `current_user` reference from your Connection class, no `params` required.
+
+```ruby
+cable_ready[UsersChannel].text_content().broadcast_to(current_user)
+```
+
+You can broadcast to the `current_user` from anywhere in your app.
 
 {% hint style="success" %}
 You can [clone and experiment with the "streamfor" sample application](https://github.com/leastbad/streamfor) that demonstrates using `broadcast_to` to send updates to `current_user`.

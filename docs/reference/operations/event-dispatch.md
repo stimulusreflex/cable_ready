@@ -10,10 +10,11 @@ If jQuery is in use \(and available in the global `window` scope\) `dispatch_eve
 
 ```ruby
 cable_ready["MyChannel"].dispatch_event(
-  name:     "string", # required - the name of the DOM event to dispatch (can be custom)
-  detail:   {},       # [null]   - assigned to event.detail
-  selector: "string", # [document] - string containing a CSS selector or XPath expression
-  xpath:    true|false# [false] - process the selector as an XPath expression
+  name:       "string",   # required - the name of the DOM event to dispatch (can be custom)
+  detail:     {},         # [null]   - assigned to event.detail
+  select_all: true|false, # [false]  - operate on list of elements returned from selector
+  selector:   "string",   # [document] - string containing a CSS selector or XPath expression
+  xpath:      true|false  # [false] - process the selector as an XPath expression
 )
 ```
 
@@ -24,6 +25,10 @@ The `detail` parameter will convert `user_id` to `userId` - snake\_case to camel
 {% endhint %}
 
 Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](../../leveraging-stimulus.md#event-listener-controllers).
+
+{% hint style="warning" %}
+There are no life-cycle events emitted for `dispatch_event`.
+{% endhint %}
 
 #### Reference
 
