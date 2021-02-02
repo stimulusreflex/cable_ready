@@ -30,9 +30,25 @@ Since forms are rarely designed to be edited by multiple concurrent users 😱 i
 
 ## Selectors
 
-By default, the `selector` string argument to DOM-mutating CableReady operations expects a CSS selector that resolves to **one** single DOM element.
+By default, the `selector` option provided to DOM-mutating operations expects a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) that resolves to **one** single DOM element.
 
-If multiple elements can be returned, only the first one is used.
+If multiple elements are returned, only the first one is used.
+
+### Operating on multiple elements
+
+Many [DOM Mutation](reference/operations/dom-mutations.md) and [Element Property Mutation](reference/operations/element-mutations.md) operations support a `select_all` option which instructs CableReady to operate on [one or many DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) returned by the `selector` query.
+
+This technique is quite powerful because it can scoop up elements from multiple locations in the DOM based on their element type, id property, CSS class list or attributes. For example, you could grab every element with an instance of a Stimulus controller called `sushi`:
+
+```ruby
+cable_ready.text_content(select_all: true, selector: "[data-controller='sushi']")
+```
+
+{% hint style="warning" %}
+Each element will emit their own "before" and "after" events as part of the same operation.
+
+Any information you change in these events could modify the behavior of the operation for the other elements that were selected. 🐉🐉🐉
+{% endhint %}
 
 ### xPath
 
@@ -82,6 +98,10 @@ cable_ready["stream"]
 You can grab the XPath selector for any element using your browser's Element Inspector. Activate the desired element, right-click and select "Copy", then "Copy full XPath".
 {% endhint %}
 
+{% hint style="warning" %}
+XPath selectors cannot be used with the `select_all` option, although if this is important to your application, let us know and we'll consider a more flexible implementation.
+{% endhint %}
+
 ## Life-cycle events
 
 Most CableReady operations emit a DOM [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent) immediately before an operation is executed, and another immediately after.
@@ -113,17 +133,70 @@ document.addEventListener('cable-ready:after-morph', afterMorphHandler)
 
 Once you have captured an event, you can inspect the `detail` object to access all of the options passed to CableReady when the operation was enqueued.
 
-### Passing extra data
+### Passing extra data to the client
 
-Since arbitrary JSON-compatible data that you pass when adding an operation will be available on the client via `detail`, you can use operations send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
+You can pass extra, arbitrary, JSON-compatible data when adding an operation. You can use operations to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
+
+```ruby
+cable_ready.set_cookie(
+  cookie: "favorite_food=tripe",
+  corn_pop: "bad dude"
+).broadcast
+```
+
+On the client, you can access all parameters provided to an operation via the `detail` object. Remember, all snake\_case keys will be automatically converted to camelCase:
+
+```javascript
+setCookieHandler = event => {
+  console.log(event.detail.cornPop)
+}
+```
 
 In general, it's easier to track related concepts transactionally in one broadcast envelope than it is to assemble data from multiple broadcasts back into a coherent state.
 
-### Avoid long-running before-operation events
+### Modifying operations before they run
 
-CableReady does not \(and could not\) wait for event listeners to finish running before launching the primary function of any particular operation. This means that **if you do something slow in your event handler callback, it will likely finish running** _**after**_ **the operation is completed**. Depending on your expectations, this could cause chaos for inexperienced developers.
+Almost all operations emit `cable-ready:before-{operation}` and `cable-ready:after-{operation}` events. If you create an event handler to listen for "before" events, you can access and modify most of the parameters passed when queueing the operation on the server.
 
-## 
+Continuing the `set_cookie` example, the event handler is able to intercept the operation mid-flight and change the parameters.
+
+```javascript
+setCookieHandler = event => {
+  event.detail.cookie = 'favorite_food=yams'
+}
+```
+
+{% hint style="warning" %}
+If your operation is [processing multiple elements](usage.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. If you change any values in the `event.detail` object, this new value will be picked up by the other elements associated with the current operation that have not been processed, yet.
+
+You could conceivable change a value during the "before" callback, then change it back to the original value during the "after" callback. [This is almost certainly something you don't want to need to be able to do.](https://rubyonrails.org/doctrine/#provide-sharp-knives)
+{% endhint %}
+
+### Cancelling operations
+
+Almost all operations accept a `cancel` parameter that is designed to be interacted with in a "before" event handler on the client. `cancel` must be `false` or `undefined` when the event handler returns for the operation to run.
+
+```javascript
+setCookieHandler = event => {
+  event.detail.cancel = true
+}
+```
+
+Cancelled operations still emit an "after" event, but their primary functionality will not occur.
+
+For example, if you have a long-running Reflex operation, the user might click a cancel button and proceed with their business. When the Reflex finally completes, your event handler can cancel the operation and prevent whatever would have happened.
+
+{% hint style="warning" %}
+The server will have no idea that the operation was cancelled on the client. If this would create an inconsistency, you should send a cancel notification to the server, perhaps with a Nothing Reflex.
+{% endhint %}
+
+While most developers will never think about or interact with the `cancel` parameter, it's an important tool to have available when building sophisticated client user interfaces.
+
+{% hint style="danger" %}
+As with modifying `detail` data, if your operation is [processing multiple elements](usage.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. You _could_ cancel an operation for a given element and then un-cancel it for later elements.
+
+You _could_ jump out of an airlock into space, too. Don't say we didn't warn you! 👨‍🚀
+{% endhint %}
 
 ## Focus assignment
 
@@ -154,6 +227,22 @@ ActionCable.server.broadcast("users:#{current_user.to_gid_param}", data)
 ```
 
 `UsersChannel` becomes `users` while ActiveRecord has a `to_gid_param`.
+
+## Poking a subscriber
+
+Sometimes you just need to tell a subscriber that it's time to _do the thing_. You can send a `broadcast` with no operations and still take advantage of the `received` handler:
+
+```ruby
+cable_ready["stream"].broadcast
+```
+
+```javascript
+consumer.subscriptions.create('ChewiesChannel', {
+  received (data) {
+    console.log('Data was received!')
+  }
+})
+```
 
 ## Disconnect a user from their ActionCable Connection
 
