@@ -43,7 +43,7 @@ module CableReady
 
       verified_operations.each do |operation|
         key, options = operation.to_a.first
-        enqueue_operation(key, options)
+        enqueued_operations[key] << options
       end
 
       self
