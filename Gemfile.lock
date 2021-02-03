@@ -105,11 +105,14 @@ GEM
     method_source (0.9.2)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
+    mini_portile2 (2.5.0)
     minitest (5.14.3)
+    mocha (1.12.0)
     multi_json (1.15.0)
     multipart-post (2.1.1)
     nio4r (2.5.4)
-    nokogiri (1.11.1-x86_64-darwin)
+    nokogiri (1.11.1)
+      mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     octokit (4.20.0)
       faraday (>= 0.9)
@@ -206,6 +209,7 @@ DEPENDENCIES
   cable_ready!
   github_changelog_generator
   magic_frozen_string_literal
+  mocha
   pry
   pry-nav
   rake
