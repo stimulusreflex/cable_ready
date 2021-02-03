@@ -5,7 +5,7 @@ require "active_support/all"
 require "cable_ready/version"
 require "cable_ready/config"
 require "cable_ready/broadcaster"
-require "cable_ready/concerns/compoundable"
+require "cable_ready/compoundable"
 
 module CableReady
   class Engine < Rails::Engine

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "thread/local"
-require_relative "concerns/compoundable"
+require_relative "compoundable"
 require_relative "channel"
 
 module CableReady
