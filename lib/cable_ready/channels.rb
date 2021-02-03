@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require "thread/local"
+require_relative "concerns/compoundable"
 require_relative "channel"
 
 module CableReady
   # This class is a thread local singleton: CableReady::Channels.instance
   # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started
   class Channels
+    include Compoundable
     extend Thread::Local
 
     attr_accessor :operations
@@ -40,14 +42,6 @@ module CableReady
           channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear: clear) }
           channels.each { |channel| @channels.except!(channel.identifier) if clear }
         end
-    end
-
-    private
-
-    def compound(keys)
-      keys.map { |key|
-        key.class < ActiveRecord::Base ? key.to_sgid(expires_in: nil).to_s : key.to_s
-      }.join(":")
     end
   end
 end
