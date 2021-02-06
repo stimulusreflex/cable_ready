@@ -4,7 +4,7 @@ require_relative "identifiable"
 
 module CableReady
   class Channel
-    include CableReady::Identifiable
+    include Identifiable
     attr_reader :identifier, :enqueued_operations, :previous_selector
 
     def initialize(identifier)

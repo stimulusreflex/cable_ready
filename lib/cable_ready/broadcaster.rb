@@ -5,7 +5,7 @@ require_relative "identifiable"
 
 module CableReady
   module Broadcaster
-    include CableReady::Identifiable
+    include Identifiable
     extend ::ActiveSupport::Concern
 
     def cable_ready
