@@ -42,7 +42,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-append', operation)
       const { html, focusSelector } = operation
       if (!operation.cancel) {
-        element.insertAdjacentHTML('beforeend', html)
+        element.insertAdjacentHTML('beforeend', html || '')
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-append', operation)
@@ -67,7 +67,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-inner-html', operation)
       const { html, focusSelector } = operation
       if (!operation.cancel) {
-        element.innerHTML = html
+        element.innerHTML = html || ''
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-inner-html', operation)
@@ -79,7 +79,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-insert-adjacent-html', operation)
       const { html, position, focusSelector } = operation
       if (!operation.cancel) {
-        element.insertAdjacentHTML(position || 'beforeend', html)
+        element.insertAdjacentHTML(position || 'beforeend', html || '')
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-insert-adjacent-html', operation)
@@ -91,7 +91,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-insert-adjacent-text', operation)
       const { text, position, focusSelector } = operation
       if (!operation.cancel) {
-        element.insertAdjacentText(position || 'beforeend', text)
+        element.insertAdjacentText(position || 'beforeend', text || '')
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-insert-adjacent-text', operation)
@@ -131,7 +131,7 @@ const DOMOperations = {
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
-        element.outerHTML = html
+        element.outerHTML = html || ''
         assignFocus(focusSelector)
       }
       dispatch(
@@ -147,7 +147,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-prepend', operation)
       const { html, focusSelector } = operation
       if (!operation.cancel) {
-        element.insertAdjacentHTML('afterbegin', html)
+        element.insertAdjacentHTML('afterbegin', html || '')
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-prepend', operation)
@@ -173,7 +173,7 @@ const DOMOperations = {
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
-        element.outerHTML = html
+        element.outerHTML = html || ''
         assignFocus(focusSelector)
       }
       dispatch(parent.children[ordinal], 'cable-ready:after-replace', operation)
@@ -185,7 +185,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-text-content', operation)
       const { text, focusSelector } = operation
       if (!operation.cancel) {
-        element.textContent = text
+        element.textContent = text || ''
         assignFocus(focusSelector)
       }
       dispatch(element, 'cable-ready:after-text-content', operation)
@@ -198,7 +198,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-add-css-class', operation)
       const { name } = operation
-      if (!operation.cancel) element.classList.add(...getClassNames(name))
+      if (!operation.cancel) element.classList.add(...getClassNames(name || ''))
       dispatch(element, 'cable-ready:after-add-css-class', operation)
     })
   },
@@ -225,7 +225,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-attribute', operation)
       const { name, value } = operation
-      if (!operation.cancel) element.setAttribute(name, value)
+      if (!operation.cancel) element.setAttribute(name, value || '')
       dispatch(element, 'cable-ready:after-set-attribute', operation)
     })
   },
@@ -234,7 +234,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-dataset-property', operation)
       const { name, value } = operation
-      if (!operation.cancel) element.dataset[name] = value
+      if (!operation.cancel) element.dataset[name] = value || ''
       dispatch(element, 'cable-ready:after-set-dataset-property', operation)
     })
   },
@@ -243,7 +243,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-property', operation)
       const { name, value } = operation
-      if (!operation.cancel && name in element) element[name] = value
+      if (!operation.cancel && name in element) element[name] = value || ''
       dispatch(element, 'cable-ready:after-set-property', operation)
     })
   },
@@ -252,7 +252,7 @@ const DOMOperations = {
     processElements(operation, element => {
       dispatch(element, 'cable-ready:before-set-style', operation)
       const { name, value } = operation
-      if (!operation.cancel) element.style[name] = value
+      if (!operation.cancel) element.style[name] = value || ''
       dispatch(element, 'cable-ready:after-set-style', operation)
     })
   },
@@ -262,7 +262,7 @@ const DOMOperations = {
       dispatch(element, 'cable-ready:before-set-styles', operation)
       const { styles } = operation
       for (let [name, value] of Object.entries(styles)) {
-        if (!operation.cancel) element.style[name] = value
+        if (!operation.cancel) element.style[name] = value || ''
       }
       dispatch(element, 'cable-ready:after-set-styles', operation)
     })
@@ -335,7 +335,7 @@ const DOMOperations = {
   setCookie: operation => {
     dispatch(document, 'cable-ready:before-set-cookie', operation)
     const { cookie } = operation
-    if (!operation.cancel) document.cookie = cookie
+    if (!operation.cancel) document.cookie = cookie || ''
     dispatch(document, 'cable-ready:after-set-cookie', operation)
   },
 
@@ -350,7 +350,7 @@ const DOMOperations = {
     dispatch(document, 'cable-ready:before-set-storage-item', operation)
     const { key, value, type } = operation
     const storage = type === 'session' ? sessionStorage : localStorage
-    if (!operation.cancel) storage.setItem(key, value)
+    if (!operation.cancel) storage.setItem(key, value || '')
     dispatch(document, 'cable-ready:after-set-storage-item', operation)
   },
 
@@ -359,8 +359,8 @@ const DOMOperations = {
   consoleLog: operation => {
     const { message, level } = operation
     level && ['warn', 'info', 'error'].includes(level)
-      ? console[level](message)
-      : console.log(message)
+      ? console[level](message || '')
+      : console.log(message || '')
   },
 
   notification: operation => {
@@ -388,7 +388,7 @@ const DOMOperations = {
       }
       document.audio.addEventListener('canplaythrough', canplaythrough)
       document.audio.addEventListener('ended', ended)
-      document.audio.src = src
+      if (src) document.audio.src = src
       document.audio.play()
     } else dispatch(document, 'cable-ready:after-play-sound', operation)
   }
