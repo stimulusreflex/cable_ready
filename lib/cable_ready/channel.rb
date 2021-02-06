@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+require_relative "identifiable"
+
 module CableReady
   class Channel
-    attr_reader :identifier, :enqueued_operations
+    include CableReady::Identifiable
+    attr_reader :identifier, :enqueued_operations, :previous_selector
 
     def initialize(identifier)
       @identifier = identifier
@@ -26,8 +29,18 @@ module CableReady
 
     def add_operation_method(name)
       return if respond_to?(name)
-      singleton_class.public_send :define_method, name, ->(options = {}) {
-        enqueued_operations[name.to_s] << options.stringify_keys
+      singleton_class.public_send :define_method, name, ->(*args) {
+        selector, options = nil, args.first || {} # 1 or 0 params
+        selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
+        selector, options = args[0, 2] if args.many? # 2 or more params
+        options.stringify_keys!
+        options["selector"] = selector if selector && options.exclude?("selector")
+        options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
+        if options.include?("selector")
+          @previous_selector = options["selector"]
+          options["selector"] = previous_selector.is_a?(ActiveRecord::Base) || previous_selector.is_a?(ActiveRecord::Relation) ? dom_id(previous_selector) : previous_selector
+        end
+        enqueued_operations[name.to_s] << options
         self # supports operation chaining
       }
     end
@@ -36,6 +49,7 @@ module CableReady
 
     def reset
       @enqueued_operations = Hash.new { |hash, key| hash[key] = [] }
+      @previous_selector = nil
     end
 
     def broadcastable_operations
