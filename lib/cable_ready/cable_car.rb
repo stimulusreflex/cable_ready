@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require "thread/local"
+require_relative "applicable"
 
 module CableReady
   class CableCar
     extend Thread::Local
+    include Applicable
     attr_reader :enqueued_operations
 
     def initialize
@@ -17,8 +19,8 @@ module CableReady
     end
 
     def ride(clear: true)
-      payload = transmitable_operations
-      reset if clear
+      payload = transmittable_operations
+      clear ? reset : enqueued_operations.deep_transform_keys! { |key| key.underscore }
       payload
     end
 
@@ -30,24 +32,13 @@ module CableReady
       }
     end
 
-    def apply(operations)
-      operations = operations.is_a?(Hash) ? operations : JSON.parse(operations)
-      operations.each do |operation_method|
-        key, operation = operation_method
-        operation.each do |enqueued_operation|
-          enqueued_operations[key] << enqueued_operation
-        end
-      end
-      self
-    end
-
     private
 
     def reset
       @enqueued_operations = Hash.new { |hash, key| hash[key] = [] }
     end
 
-    def transmitable_operations
+    def transmittable_operations
       enqueued_operations
         .select { |_, list| list.present? }
         .deep_transform_keys! { |key| key.to_s.camelize(:lower) }

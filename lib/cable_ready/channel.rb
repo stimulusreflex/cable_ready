@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "applicable"
+
 module CableReady
   class Channel
+    include Applicable
     attr_reader :identifier, :enqueued_operations
 
     def initialize(identifier)
@@ -16,12 +19,12 @@ module CableReady
 
     def broadcast(clear: true)
       ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => broadcastable_operations}
-      reset if clear
+      clear ? reset : enqueued_operations.deep_transform_keys! { |key| key.underscore }
     end
 
     def broadcast_to(model, clear: true)
       identifier.broadcast_to model, {"cableReady" => true, "operations" => broadcastable_operations}
-      reset if clear
+      clear ? reset : enqueued_operations.deep_transform_keys! { |key| key.underscore }
     end
 
     def add_operation_method(name)
