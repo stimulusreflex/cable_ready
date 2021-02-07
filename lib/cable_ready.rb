@@ -8,6 +8,15 @@ require "cable_ready/broadcaster"
 
 module CableReady
   class Engine < Rails::Engine
+    initializer "renderer" do
+      ActiveSupport.on_load(:action_controller) do
+        ActionController::Renderers.add :operations do |operations, options|
+          self.content_type = Mime[:json]
+          # operations.respond_to?(:ride) ? operations.ride(options) : operations
+          operations
+        end
+      end
+    end
   end
 
   def self.config
