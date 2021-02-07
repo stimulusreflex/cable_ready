@@ -30,6 +30,17 @@ module CableReady
       }
     end
 
+    def apply(operations)
+      operations = operations.is_a?(Hash) ? operations : JSON.parse(operations)
+      operations.each do |operation_method|
+        key, operation = operation_method
+        operation.each do |enqueued_operation|
+          enqueued_operations[key] << enqueued_operation
+        end
+      end
+      self
+    end
+
     private
 
     def reset
