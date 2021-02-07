@@ -16,10 +16,10 @@ module CableReady
       ObjectSpace.define_finalizer self, -> { CableReady.config.delete_observer config_observer }
     end
 
-    def to_json(clear: true)
-      json = {"cableReady" => true, "operations" => transmitable_operations}.to_json
+    def ride(clear: true)
+      payload = transmitable_operations
       reset if clear
-      json
+      payload
     end
 
     def add_operation_method(name)
