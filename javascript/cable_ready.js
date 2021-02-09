@@ -1,5 +1,10 @@
 import morphdom from 'morphdom'
-import { verifyNotMutable, verifyNotPermanent } from './callbacks'
+import {
+  shouldMorph,
+  didMorph,
+  verifyNotMutable,
+  verifyNotPermanent
+} from './morph_callbacks'
 import {
   assignFocus,
   dispatch,
@@ -7,32 +12,10 @@ import {
   getClassNames,
   processElements
 } from './utils'
+import activeElement from './active_element'
 
-export let activeElement
-
-const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
-const didMorphCallbacks = []
-
-// Indicates whether or not we should morph an element via onBeforeElUpdated callback
-// SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
-//
-const shouldMorph = operation => (fromEl, toEl) => {
-  return !shouldMorphCallbacks
-    .map(callback => {
-      return typeof callback === 'function'
-        ? callback(operation, fromEl, toEl)
-        : true
-    })
-    .includes(false)
-}
-
-// Execute any pluggable functions that modify elements after morphing via onElUpdated callback
-//
-const didMorph = operation => el => {
-  didMorphCallbacks.forEach(callback => {
-    if (typeof callback === 'function') callback(operation, el)
-  })
-}
+export const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
+export const didMorphCallbacks = []
 
 const DOMOperations = {
   // DOM Mutations
@@ -414,7 +397,7 @@ const perform = (
             operation.element = document
           }
           if (operation.element || options.emitMissingElementWarnings) {
-            activeElement = document.activeElement
+            activeElement.set(document.activeElement)
             DOMOperations[name](operation)
           }
         } catch (e) {
