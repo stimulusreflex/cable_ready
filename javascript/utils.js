@@ -74,8 +74,17 @@ const kebabize = str => {
     .join('')
 }
 
-export const before = (element, name, operation) =>
-  dispatch(element, `cable-ready:before-${kebabize(name)}`, operation)
+// Provide a standardized pipeline of checks and modifications to all operations based on provided options
+// Currently skips execution if cancelled and implements an optional delay
+export const operate = (operation, callback) => {
+  if (!operation.cancel) {
+    operation.delay ? setTimeout(callback, operation.delay) : callback()
+  }
+}
 
-export const after = (element, name, operation) =>
-  dispatch(element, `cable-ready:after-${kebabize(name)}`, operation)
+// Dispatch life-cycle events with standardized naming
+export const before = (target, name, operation) =>
+  dispatch(target, `cable-ready:before-${kebabize(name)}`, operation)
+
+export const after = (target, name, operation) =>
+  dispatch(target, `cable-ready:after-${kebabize(name)}`, operation)
