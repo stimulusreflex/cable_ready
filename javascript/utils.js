@@ -61,3 +61,21 @@ export const processElements = (operation, callback) => {
     operation.selectAll ? operation.element : [operation.element]
   ).forEach(callback)
 }
+
+// camelCase to kebab-case
+const kebabize = str => {
+  return str
+    .split('')
+    .map((letter, idx) => {
+      return letter.toUpperCase() === letter
+        ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
+        : letter
+    })
+    .join('')
+}
+
+export const before = (element, name, operation) =>
+  dispatch(element, `cable-ready:before-${kebabize(name)}`, operation)
+
+export const after = (element, name, operation) =>
+  dispatch(element, `cable-ready:after-${kebabize(name)}`, operation)
