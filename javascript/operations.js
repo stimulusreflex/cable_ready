@@ -81,9 +81,9 @@ export default {
       const template = document.createElement('template')
       template.innerHTML = String(html).trim()
       operation.content = template.content
-      before(element, callee, operation)
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
+      before(element, callee, operation)
       if (!operation.cancel) {
         const { childrenOnly, focusSelector } = operation
         morphdom(
@@ -103,9 +103,9 @@ export default {
 
   outerHtml: (operation, callee) => {
     processElements(operation, element => {
-      before(element, callee, operation)
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
+      before(element, callee, operation)
       if (!operation.cancel) {
         const { html, focusSelector } = operation
         element.outerHTML = html || ''
@@ -141,9 +141,9 @@ export default {
 
   replace: (operation, callee) => {
     processElements(operation, element => {
-      before(element, callee, operation)
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
+      before(element, callee, operation)
       if (!operation.cancel) {
         const { html, focusSelector } = operation
         element.outerHTML = html || ''
