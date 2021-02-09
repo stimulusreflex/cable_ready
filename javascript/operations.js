@@ -15,8 +15,8 @@ export default {
   append: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, focusSelector } = operation
       if (!operation.cancel) {
+        const { html, focusSelector } = operation
         element.insertAdjacentHTML('beforeend', html || '')
         assignFocus(focusSelector)
       }
@@ -27,11 +27,13 @@ export default {
   graft: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { parent, focusSelector } = operation
-      const parentElement = document.querySelector(parent)
-      if (!operation.cancel && parentElement) {
-        parentElement.appendChild(element)
-        assignFocus(focusSelector)
+      if (!operation.cancel) {
+        const { parent, focusSelector } = operation
+        const parentElement = document.querySelector(parent)
+        if (parentElement) {
+          parentElement.appendChild(element)
+          assignFocus(focusSelector)
+        }
       }
       after(element, callee, operation)
     })
@@ -40,8 +42,8 @@ export default {
   innerHtml: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, focusSelector } = operation
       if (!operation.cancel) {
+        const { html, focusSelector } = operation
         element.innerHTML = html || ''
         assignFocus(focusSelector)
       }
@@ -52,8 +54,8 @@ export default {
   insertAdjacentHtml: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, position, focusSelector } = operation
       if (!operation.cancel) {
+        const { html, position, focusSelector } = operation
         element.insertAdjacentHTML(position || 'beforeend', html || '')
         assignFocus(focusSelector)
       }
@@ -64,8 +66,8 @@ export default {
   insertAdjacentText: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { text, position, focusSelector } = operation
       if (!operation.cancel) {
+        const { text, position, focusSelector } = operation
         element.insertAdjacentText(position || 'beforeend', text || '')
         assignFocus(focusSelector)
       }
@@ -80,10 +82,10 @@ export default {
       template.innerHTML = String(html).trim()
       operation.content = template.content
       before(element, callee, operation)
-      const { childrenOnly, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
+        const { childrenOnly, focusSelector } = operation
         morphdom(
           element,
           childrenOnly ? template.content : template.innerHTML,
@@ -102,10 +104,10 @@ export default {
   outerHtml: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
+        const { html, focusSelector } = operation
         element.outerHTML = html || ''
         assignFocus(focusSelector)
       }
@@ -116,8 +118,8 @@ export default {
   prepend: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, focusSelector } = operation
       if (!operation.cancel) {
+        const { html, focusSelector } = operation
         element.insertAdjacentHTML('afterbegin', html || '')
         assignFocus(focusSelector)
       }
@@ -128,8 +130,8 @@ export default {
   remove: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { focusSelector } = operation
       if (!operation.cancel) {
+        const { focusSelector } = operation
         element.remove()
         assignFocus(focusSelector)
       }
@@ -140,10 +142,10 @@ export default {
   replace: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { html, focusSelector } = operation
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
       if (!operation.cancel) {
+        const { html, focusSelector } = operation
         element.outerHTML = html || ''
         assignFocus(focusSelector)
       }
@@ -154,8 +156,8 @@ export default {
   textContent: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { text, focusSelector } = operation
       if (!operation.cancel) {
+        const { text, focusSelector } = operation
         element.textContent = text || ''
         assignFocus(focusSelector)
       }
@@ -168,8 +170,10 @@ export default {
   addCssClass: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name } = operation
-      if (!operation.cancel) element.classList.add(...getClassNames(name || ''))
+      if (!operation.cancel) {
+        const { name } = operation
+        element.classList.add(...getClassNames(name || ''))
+      }
       after(element, callee, operation)
     })
   },
@@ -177,8 +181,10 @@ export default {
   removeAttribute: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name } = operation
-      if (!operation.cancel) element.removeAttribute(name)
+      if (!operation.cancel) {
+        const { name } = operation
+        element.removeAttribute(name)
+      }
       after(element, callee, operation)
     })
   },
@@ -186,8 +192,10 @@ export default {
   removeCssClass: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name } = operation
-      if (!operation.cancel) element.classList.remove(...getClassNames(name))
+      if (!operation.cancel) {
+        const { name } = operation
+        element.classList.remove(...getClassNames(name))
+      }
       after(element, callee, operation)
     })
   },
@@ -195,8 +203,10 @@ export default {
   setAttribute: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name, value } = operation
-      if (!operation.cancel) element.setAttribute(name, value || '')
+      if (!operation.cancel) {
+        const { name, value } = operation
+        element.setAttribute(name, value || '')
+      }
       after(element, callee, operation)
     })
   },
@@ -204,8 +214,10 @@ export default {
   setDatasetProperty: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name, value } = operation
-      if (!operation.cancel) element.dataset[name] = value || ''
+      if (!operation.cancel) {
+        const { name, value } = operation
+        element.dataset[name] = value || ''
+      }
       after(element, callee, operation)
     })
   },
@@ -213,8 +225,8 @@ export default {
   setProperty: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name, value } = operation
       if (!operation.cancel) {
+        const { name, value } = operation
         if (name in element) element[name] = value || ''
       }
       after(element, callee, operation)
@@ -224,8 +236,10 @@ export default {
   setStyle: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { name, value } = operation
-      if (!operation.cancel) element.style[name] = value || ''
+      if (!operation.cancel) {
+        const { name, value } = operation
+        element.style[name] = value || ''
+      }
       after(element, callee, operation)
     })
   },
@@ -233,9 +247,10 @@ export default {
   setStyles: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { styles } = operation
-      for (let [name, value] of Object.entries(styles)) {
-        if (!operation.cancel) element.style[name] = value || ''
+      if (!operation.cancel) {
+        const { styles } = operation
+        for (let [name, value] of Object.entries(styles))
+          element.style[name] = value || ''
       }
       after(element, callee, operation)
     })
@@ -244,8 +259,10 @@ export default {
   setValue: (operation, callee) => {
     processElements(operation, element => {
       before(element, callee, operation)
-      const { value } = operation
-      if (!operation.cancel) element.value = value || ''
+      if (!operation.cancel) {
+        const { value } = operation
+        element.value = value || ''
+      }
       after(element, callee, operation)
     })
   },
@@ -265,67 +282,85 @@ export default {
 
   clearStorage: (operation, callee) => {
     before(document, callee, operation)
-    const { type } = operation
-    const storage = type === 'session' ? sessionStorage : localStorage
-    if (!operation.cancel) storage.clear()
+    if (!operation.cancel) {
+      const { type } = operation
+      const storage = type === 'session' ? sessionStorage : localStorage
+      storage.clear()
+    }
     after(document, callee, operation)
   },
 
   go: (operation, callee) => {
     before(window, callee, operation)
-    const { delta } = operation
-    if (!operation.cancel) history.go(delta)
+    if (!operation.cancel) {
+      const { delta } = operation
+      history.go(delta)
+    }
     after(window, callee, operation)
   },
 
   pushState: (operation, callee) => {
     before(window, callee, operation)
-    const { state, title, url } = operation
-    if (!operation.cancel) history.pushState(state || {}, title || '', url)
+    if (!operation.cancel) {
+      const { state, title, url } = operation
+      history.pushState(state || {}, title || '', url)
+    }
     after(window, callee, operation)
   },
 
   removeStorageItem: (operation, callee) => {
     before(document, callee, operation)
-    const { key, type } = operation
-    const storage = type === 'session' ? sessionStorage : localStorage
-    if (!operation.cancel) storage.removeItem(key)
+    if (!operation.cancel) {
+      const { key, type } = operation
+      const storage = type === 'session' ? sessionStorage : localStorage
+      storage.removeItem(key)
+    }
     after(document, callee, operation)
   },
 
   replaceState: (operation, callee) => {
     before(window, callee, operation)
-    const { state, title, url } = operation
-    if (!operation.cancel) history.replaceState(state || {}, title || '', url)
+    if (!operation.cancel) {
+      const { state, title, url } = operation
+      history.replaceState(state || {}, title || '', url)
+    }
     after(window, callee, operation)
   },
 
   scrollIntoView: (operation, callee) => {
     const { element } = operation
     before(element, callee, operation)
-    if (!operation.cancel) element.scrollIntoView(operation)
+    if (!operation.cancel) {
+      element.scrollIntoView(operation)
+    }
     after(element, callee, operation)
   },
 
   setCookie: (operation, callee) => {
     before(document, callee, operation)
-    const { cookie } = operation
-    if (!operation.cancel) document.cookie = cookie || ''
+    if (!operation.cancel) {
+      const { cookie } = operation
+      document.cookie = cookie || ''
+    }
     after(document, callee, operation)
   },
 
   setFocus: (operation, callee) => {
     const { element } = operation
     before(element, callee, operation)
-    if (!operation.cancel) assignFocus(element)
+    if (!operation.cancel) {
+      assignFocus(element)
+    }
     after(element, callee, operation)
   },
 
   setStorageItem: (operation, callee) => {
     before(document, callee, operation)
-    const { key, value, type } = operation
-    const storage = type === 'session' ? sessionStorage : localStorage
-    if (!operation.cancel) storage.setItem(key, value || '')
+    if (!operation.cancel) {
+      const { key, value, type } = operation
+      const storage = type === 'session' ? sessionStorage : localStorage
+      storage.setItem(key, value || '')
+    }
     after(document, callee, operation)
   },
 
@@ -342,19 +377,20 @@ export default {
 
   notification: (operation, callee) => {
     before(document, callee, operation)
-    const { title, options } = operation
-    if (!operation.cancel)
+    if (!operation.cancel) {
+      const { title, options } = operation
       Notification.requestPermission().then(result => {
         operation.permission = result
         if (result === 'granted') new Notification(title || '', options)
       })
+    }
     after(document, callee, operation)
   },
 
   playSound: (operation, callee) => {
     before(document, callee, operation)
-    const { src } = operation
     if (!operation.cancel) {
+      const { src } = operation
       const canplaythrough = () => {
         document.audio.removeEventListener('canplaythrough', canplaythrough)
         document.audio.play()
