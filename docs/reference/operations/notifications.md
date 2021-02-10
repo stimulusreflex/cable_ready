@@ -87,7 +87,7 @@ document.addEventListener('my-app:notify', e => {
 
 Play an .mp3 or .ogg audio file in the browser.
 
-The [sound](https://firebasestorage.googleapis.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LqJ4RHpf9JKqE06cFtt%2F-MRz6H3BF9iv5xam5pXU%2F-MRz81q3XEph8-xlQ_kb%2Fstimulus_reflex_sound_logo.mp3?alt=media&token=f26dfe2b-2fed-41ec-b927-7229b28749f0) starts playing when the minimum viable amount of the sound file has been downloaded. If another sound request comes in while the first one is still playing, the first one stops.
+The [sound](https://www.dropbox.com/s/jka3a37ibbqiaqv/stimulus_reflex_sound_logo.mp3?dl=1) starts playing when the minimum viable amount of the sound file has been downloaded. If another sound request comes in while the first one is still playing, the first one stops.
 
 CableReady subtly captures the first user interaction on the page to ensure this operation works well on all browsers, **including Safari Mobile**. A silent mp3 is played as soon as the page context is established. It is base64 encoded so there is no network request. At 93 bytes, it is the minimum viable mp3!
 
