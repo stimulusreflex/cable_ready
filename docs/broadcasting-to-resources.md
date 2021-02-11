@@ -424,5 +424,5 @@ Anyhow, let's wrap up with a few important details to keep in mind when combinin
 * `broadcast` can only work with string-based stream identifiers
 * `broadcast_to` can only work with constant-based stream identifiers
 * if you use them both at the same time, you might have a brain tumor; good luck 🧠
-* if you come up with an alternative approach for unpersisted records, [tell us about it](https://discord.gg/XveN625)
+* if you come up with an alternative approach for unpersisted records, [tell us about it](https://discord.gg/stimulus-reflex)
 
