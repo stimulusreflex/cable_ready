@@ -20,7 +20,7 @@ export default class extends Controller {
       )
     } else {
       console.error(
-        `"stream-from" Stimulus controller cannot connect without an ActionCable consumer.\nPlease set 'application.consumer = consumer' in your index.js to use CableReady streaming.`
+        `The "<%= class_name.underscore.dasherize %>" Stimulus controller cannot connect without an ActionCable consumer.\nPlease set 'application.consumer = consumer' in your index.js to use CableReady streaming.`
       )
     }
   }
