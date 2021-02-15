@@ -351,7 +351,7 @@ export default {
         document.audio.play()
       }
       const ended = () => {
-        document.audio.removeEventListener('ended', canplaythrough)
+        document.audio.removeEventListener('ended', ended)
         dispatch(document, 'cable-ready:after-play-sound', operation)
       }
       if (document.body.hasAttribute('data-unlock-audio')) {
