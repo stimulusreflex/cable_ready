@@ -3,13 +3,19 @@
 `broadcast` and `broadcast_to` immediately transmit all pending operations to subscribed ActionCable clients. Both methods can be called on an existing instance of `CableReady::Channels` or as the conclusion to a method chain.
 
 ```ruby
-cable_ready["MyIdentifier"] # an instance of CableReady::Channels
-cable_ready[UserChannel] # another instance, identified by a constant
+cable_ready["MyIdentifier"] # CableReady::Channels instance, string identifier
+cable_ready[UserChannel] # constant identifier, used to broadcast_to a resource
 ```
 
 While data transmission is handled by ActionCable, the client-side [channel subscriber](../setup.md#setup) must be configured to pass the received data to the CableReady client.
 
 The default behavior of CableReady is to clear the operation queues for all streams immediately after delivering them. However, the developer can pass `clear: false` as the last keyword parameter to prevent clearing the queue. Not clearing the operations queue leaves it available for potential future `broadcast` methods to repeat.
+
+|  | String identifier | Constant identifier \(for resources\) |
+| :--- | :--- | :--- |
+| channel setup | stream\_from "cookies" | stream\_for Cookie.find\(params\[:id\]\) |
+| identifier | cable\_ready\["cookies"\] | cable\_ready\[CookiesChannel\] |
+| send to client | broadcast | broadcast\_to\(cookie\) |
 
 ## broadcast\(\*identifiers, clear: true\)
 

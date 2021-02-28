@@ -397,14 +397,15 @@ export default {
         document.audio.play()
       }
       const ended = () => {
-        document.audio.removeEventListener('ended', canplaythrough)
-        after(document, callee, operation)
+        document.audio.removeEventListener('ended', ended)
+        dispatch(document, 'cable-ready:after-play-sound', operation)
       }
-      document.audio.addEventListener('canplaythrough', canplaythrough)
-      document.audio.addEventListener('ended', ended)
-      if (src) document.audio.src = src
-      document.audio.play()
-    })
-    if (operation.cancel) after(document, callee, operation)
+      if (document.body.hasAttribute('data-unlock-audio')) {
+        document.audio.addEventListener('canplaythrough', canplaythrough)
+        document.audio.addEventListener('ended', ended)
+        if (src) document.audio.src = src
+        document.audio.play()
+      } else dispatch(document, 'cable-ready:after-play-sound', operation)
+    } else dispatch(document, 'cable-ready:after-play-sound', operation)
   }
 }
