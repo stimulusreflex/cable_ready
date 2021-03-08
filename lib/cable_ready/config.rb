@@ -17,7 +17,7 @@ module CableReady
     end
 
     def observers
-      @observer_peers.keys
+      @observer_peers&.keys || []
     end
 
     def operation_names
