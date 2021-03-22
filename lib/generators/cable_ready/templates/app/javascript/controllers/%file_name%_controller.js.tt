@@ -4,18 +4,35 @@ import CableReady from 'cable_ready'
 export default class extends Controller {
   static values = { id: Number }
 
-  connect() {
-    this.channel = this.application.consumer.subscriptions.create({
-      channel: '<%= class_name %>Channel',
-      id: this.idValue
-    }, {
-      received (data) {
-        if (data.cableReady) CableReady.perform(data.operations)
-      }
-    })
+  connect () {
+    if (this.preview) return
+    if (this.application.consumer) {
+      this.channel = this.application.consumer.subscriptions.create(
+        {
+          channel: '<%= class_name %>Channel',
+          id: this.idValue
+        },
+        {
+          received (data) {
+            if (data.cableReady) CableReady.perform(data.operations)
+          }
+        }
+      )
+    } else {
+      console.error(
+        `The "<%= class_name.underscore.dasherize %>" Stimulus controller cannot connect without an ActionCable consumer.\nPlease set 'application.consumer = consumer' in your index.js to use CableReady streaming.`
+      )
+    }
   }
 
-  disconnect() {
+  disconnect () {
     this.channel.unsubscribe()
+  }
+
+  get preview () {
+    return (
+      document.documentElement.hasAttribute('data-turbolinks-preview') ||
+      document.documentElement.hasAttribute('data-turbo-preview')
+    )
   }
 }
