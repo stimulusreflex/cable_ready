@@ -31,7 +31,7 @@ module CableReady
       @enqueued_operations.to_json(*args)
     end
 
-    def apply(operations = "{}")
+    def merge!(operations = "{}")
       operations = begin
         JSON.parse(operations.is_a?(String) ? operations : operations.to_json)
       rescue JSON::ParserError

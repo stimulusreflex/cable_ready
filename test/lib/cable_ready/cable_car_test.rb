@@ -8,21 +8,21 @@ class CableReady::CableCarTest < ActiveSupport::TestCase
     @cable_car = CableReady::CableCar.instance
   end
 
-  test "ride should return json-ifiable payload" do
+  test "dispatch should return json-ifiable payload" do
     CableReady::CableCar.instance.reset!
-    ride = CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").ride
-    assert_equal({"innerHtml" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, ride)
+    dispatch = CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch
+    assert_equal({"innerHtml" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, dispatch)
   end
 
-  test "ride should clear operations" do
+  test "dispatch should clear operations" do
     CableReady::CableCar.instance.reset!
-    CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").ride
+    CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch
     assert_equal({}, CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
   end
 
-  test "ride should maintain operations if clear is false" do
+  test "dispatch should maintain operations if clear is false" do
     CableReady::CableCar.instance.reset!
-    CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").ride(clear: false)
+    CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch(clear: false)
     assert_equal({"inner_html" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
   end
 end

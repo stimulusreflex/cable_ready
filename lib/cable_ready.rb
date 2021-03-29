@@ -12,7 +12,7 @@ module CableReady
     initializer "renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
-          render json: operations.ride
+          render json: operations.dispatch
         end
       end
     end

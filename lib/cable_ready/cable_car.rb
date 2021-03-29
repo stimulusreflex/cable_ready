@@ -10,7 +10,7 @@ module CableReady
       super "CableCar"
     end
 
-    def ride(clear: true)
+    def dispatch(clear: true)
       payload = operations_payload
       reset! if clear
       payload
