@@ -43,7 +43,7 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
   end
 
   test "should merge many operations" do
-    @operation_builder.merge!(foobar: [{name: "passed_option"}])
+    @operation_builder[:foobar] = [{name: "passed_option"}]
 
     operations = @operation_builder.instance_variable_get(:@enqueued_operations)
     assert_equal 1, operations["foobar"].size
