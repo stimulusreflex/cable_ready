@@ -19,7 +19,7 @@ Operations can be broadcast to one person, every person online, or ad hoc groups
 As the ~~secret weapon~~ primary dependency powering [StimulusReflex](https://docs.stimulusreflex.com/), CableReady establishes a standard for programmatically updating browser state **with no need for custom JavaScript.**
 
 {% hint style="success" %}
-**Get Involved.** We are stronger together! Please join us in \#cableready on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/XveN625)
+**Get Involved.** We are stronger together! Please join us in \#cableready on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/stimulus-reflex)
 
 [![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
 {% endhint %}
@@ -47,7 +47,7 @@ CableReady enables a radical new style of development, and **it can make you lit
 
 We welcome [Hotwire](https://hotwire.dev) to the \#resistance, albeit a bit more than stylishly late to the party.
 
-Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex.
+Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex. 
 
 While any answer will be nuanced and biases controlled for, we see the Turbo eventually providing an excellent successor for Rails UJS and acting as a launchboard to Reactive Rails UI design.
 

@@ -16,6 +16,10 @@ module CableReady
       @operation_names = Set.new(default_operation_names)
     end
 
+    def observers
+      @observer_peers&.keys || []
+    end
+
     def operation_names
       @operation_names.to_a
     end

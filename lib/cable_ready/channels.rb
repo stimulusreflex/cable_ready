@@ -9,11 +9,8 @@ module CableReady
   class Channels
     extend Thread::Local
 
-    attr_accessor :operations
-
     def initialize
       @channels = {}
-      @operations = {}
     end
 
     def [](identifier)
