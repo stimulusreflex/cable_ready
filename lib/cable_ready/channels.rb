@@ -11,11 +11,8 @@ module CableReady
     include Compoundable
     extend Thread::Local
 
-    attr_accessor :operations
-
     def initialize
       @channels = {}
-      @operations = {}
     end
 
     def [](*keys)
