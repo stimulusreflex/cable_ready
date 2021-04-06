@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "rails/engine"
+require "active_record"
+require "action_view"
 require "active_support/all"
 require "cable_ready/version"
 require "cable_ready/operation_builder"

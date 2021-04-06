@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "active_record"
-require "action_view"
-
 module CableReady
   module Identifiable
     def dom_id(record, prefix = nil)
