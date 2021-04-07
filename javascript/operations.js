@@ -254,6 +254,21 @@ export default {
     })
   },
 
+  setMeta: operation => {
+    dispatch(document, 'cable-ready:before-set-meta', operation)
+    const { name, content } = operation
+    if (!operation.cancel) {
+      let meta = document.head.querySelector(`meta[name=${name}]`)
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.name = name
+        document.head.appendChild(meta)
+      }
+      meta.content = content
+    }
+    dispatch(document, 'cable-ready:after-set-meta', operation)
+  },
+
   // Browser Manipulations
 
   clearStorage: operation => {
