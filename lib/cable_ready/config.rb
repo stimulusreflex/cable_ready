@@ -60,6 +60,7 @@ module CableReady
         set_cookie
         set_dataset_property
         set_focus
+        set_meta
         set_property
         set_storage_item
         set_style
