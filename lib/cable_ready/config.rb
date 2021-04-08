@@ -16,6 +16,10 @@ module CableReady
       @operation_names = Set.new(default_operation_names)
     end
 
+    def observers
+      @observer_peers&.keys || []
+    end
+
     def operation_names
       @operation_names.to_a
     end
@@ -56,6 +60,7 @@ module CableReady
         set_cookie
         set_dataset_property
         set_focus
+        set_meta
         set_property
         set_storage_item
         set_style
