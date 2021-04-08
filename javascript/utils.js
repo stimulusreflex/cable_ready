@@ -79,7 +79,9 @@ const kebabize = str => {
 export const operate = (operation, callback) => {
   if (!operation.cancel) {
     operation.delay ? setTimeout(callback, operation.delay) : callback()
+    return true
   }
+  return false
 }
 
 // Dispatch life-cycle events with standardized naming
