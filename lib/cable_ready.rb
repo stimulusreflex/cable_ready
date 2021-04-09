@@ -9,6 +9,13 @@ require "cable_ready/operation_builder"
 require "cable_ready/config"
 require "cable_ready/broadcaster"
 require "cable_ready/identifiable"
+require "cable_ready/channels"
+require "cable_ready/channel"
+require "cable_ready/cable_car"
+require "thread/local"
+require "monitor"
+require "observer"
+require "singleton"
 
 module CableReady
   class Engine < Rails::Engine
