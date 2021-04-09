@@ -1,11 +1,21 @@
 # frozen_string_literal: true
 
 require "rails/engine"
+require "active_record"
+require "action_view"
 require "active_support/all"
+require "thread/local"
+require "monitor"
+require "observer"
+require "singleton"
 require "cable_ready/version"
+require "cable_ready/identifiable"
 require "cable_ready/operation_builder"
 require "cable_ready/config"
 require "cable_ready/broadcaster"
+require "cable_ready/channel"
+require "cable_ready/channels"
+require "cable_ready/cable_car"
 
 module CableReady
   class Engine < Rails::Engine

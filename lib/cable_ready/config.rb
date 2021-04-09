@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "monitor"
-require "observer"
-require "singleton"
-
 module CableReady
   # This class is a process level singleton shared by all threads: CableReady::Config.instance
   class Config

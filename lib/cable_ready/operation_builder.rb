@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 module CableReady
   class OperationBuilder
-    attr_reader :identifier
+    include Identifiable
+    attr_reader :identifier, :previous_selector
 
     def self.finalizer_for(identifier)
       proc {
@@ -20,9 +23,18 @@ module CableReady
 
     def add_operation_method(name)
       return if respond_to?(name)
-
-      singleton_class.public_send :define_method, name, ->(options = {}) {
-        @enqueued_operations[name.to_s] << options.stringify_keys
+      singleton_class.public_send :define_method, name, ->(*args) {
+        selector, options = nil, args.first || {} # 1 or 0 params
+        selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
+        selector, options = args[0, 2] if args.many? # 2 or more params
+        options.stringify_keys!
+        options["selector"] = selector if selector && options.exclude?("selector")
+        options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
+        if options.include?("selector")
+          @previous_selector = options["selector"]
+          options["selector"] = previous_selector.is_a?(ActiveRecord::Base) || previous_selector.is_a?(ActiveRecord::Relation) ? dom_id(previous_selector) : previous_selector
+        end
+        @enqueued_operations[name.to_s] << options
         self
       }
     end
@@ -37,9 +49,9 @@ module CableReady
       rescue JSON::ParserError
         {}
       end
-      operations.each do |key, operation|
+      operations.each do |name, operation|
         operation.each do |enqueued_operation|
-          @enqueued_operations[key.to_s] << enqueued_operation
+          @enqueued_operations[name.to_s] << enqueued_operation
         end
       end
       self
@@ -51,6 +63,7 @@ module CableReady
 
     def reset!
       @enqueued_operations = Hash.new { |hash, key| hash[key] = [] }
+      @previous_selector = nil
     end
   end
 end

@@ -65,8 +65,64 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
   end
 
   test "operations payload should camelize keys" do
-    @operation_builder.add_operation_method("foobar")
-    @operation_builder.foobar({beep_boop: "passed_option"})
-    assert_equal({"foobar" => [{"beepBoop" => "passed_option"}]}, @operation_builder.operations_payload)
+    @operation_builder.add_operation_method("foo_bar")
+    @operation_builder.foo_bar({beep_boop: "passed_option"})
+    assert_equal({"fooBar" => [{"beepBoop" => "passed_option"}]}, @operation_builder.operations_payload)
+  end
+
+  test "should take first argument as selector" do
+    @operation_builder.add_operation_method("inner_html")
+
+    @operation_builder.inner_html("#smelly", html: "<span>I rock</span>")
+
+    operations = {
+      "innerHtml" => [{"html" => "<span>I rock</span>", "selector" => "#smelly"}]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should use previously passed selector in next operation" do
+    @operation_builder.add_operation_method("inner_html")
+    @operation_builder.add_operation_method("set_focus")
+
+    @operation_builder.set_focus("#smelly").inner_html(html: "<span>I rock</span>")
+
+    operations = {
+      "setFocus" => [{"selector" => "#smelly"}],
+      "innerHtml" => [{"html" => "<span>I rock</span>", "selector" => "#smelly"}]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should clear previous_selector after calling reset!" do
+    @operation_builder.add_operation_method("inner_html")
+    @operation_builder.inner_html(selector: "#smelly", html: "<span>I rock</span>")
+
+    @operation_builder.reset!
+
+    @operation_builder.inner_html(html: "<span>winning</span>")
+
+    assert_equal({"innerHtml" => [{"html" => "<span>winning</span>"}]}, @operation_builder.operations_payload)
+  end
+
+  test "should use previous_selector if present and should use `selector` if explicitly provided" do
+    @operation_builder.add_operation_method("inner_html")
+    @operation_builder.add_operation_method("set_focus")
+
+    @operation_builder.set_focus("#smelly").inner_html(html: "<span>I rock</span>").inner_html(html: "<span>I rock too</span>", selector: "#smelly2")
+
+    operations = {
+      "setFocus" => [
+        {"selector" => "#smelly"}
+      ],
+      "innerHtml" => [
+        {"html" => "<span>I rock</span>", "selector" => "#smelly"},
+        {"html" => "<span>I rock too</span>", "selector" => "#smelly2"}
+      ]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
   end
 end
