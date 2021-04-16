@@ -369,7 +369,7 @@ export default {
         document.audio.removeEventListener('ended', ended)
         dispatch(document, 'cable-ready:after-play-sound', operation)
       }
-      if (document.body.hasAttribute('data-unlock-audio')) {
+      if (!document.body.hasAttribute('data-lock-audio')) {
         document.audio.addEventListener('canplaythrough', canplaythrough)
         document.audio.addEventListener('ended', ended)
         if (src) document.audio.src = src

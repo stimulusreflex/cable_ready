@@ -100,6 +100,8 @@ cable_ready["MyChannel"].play_sound(
 
 {% hint style="info" %}
 CableReady creates an HTML Audio instance on `document.audio` when the page loads. This object is technically available for you to use in your application as you see fit. Check out MDN for the full [audio API](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio).
+
+If you want to disable this, add the `data-lock-audio` attribute to your `body` tag.
 {% endhint %}
 
 #### Life-cycle Callback Events
