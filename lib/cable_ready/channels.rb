@@ -17,7 +17,7 @@ module CableReady
 
     def [](*keys)
       keys.select!(&:itself)
-      identifier = keys.one? ? keys.pop : compound(keys)
+      identifier = (keys.many? || keys.one? && keys.first.is_a?(ActiveRecord::Base)) ? compound(keys) : keys.pop
       @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 
