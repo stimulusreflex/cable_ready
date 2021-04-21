@@ -17,6 +17,7 @@ require "cable_ready/compoundable"
 require "cable_ready/channel"
 require "cable_ready/channels"
 require "cable_ready/cable_car"
+require "cable_ready/stream_identifier"
 
 module CableReady
   class Engine < Rails::Engine
@@ -29,11 +30,17 @@ module CableReady
     end
   end
 
-  def self.config
-    CableReady::Config.instance
-  end
+  class << self
+    def config
+      CableReady::Config.instance
+    end
 
-  def self.configure
-    yield config
+    def configure
+      yield config
+    end
+
+    def signed_stream_verifier
+      @signed_stream_verifier ||= ActiveSupport::MessageVerifier.new(config.verifier_key, digest: "SHA256", serializer: JSON)
+    end
   end
 end
