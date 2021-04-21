@@ -20,13 +20,11 @@ require "cable_ready/channels"
 require "cable_ready/cable_car"
 
 module CableReady
-
   class Engine < Rails::Engine
-    
     initializer "cable_ready.sanity_check" do
       SanityChecker.check! unless Rails.env.production?
     end
-    
+
     initializer "renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
@@ -34,7 +32,6 @@ module CableReady
         end
       end
     end
-    
   end
 
   def self.config
