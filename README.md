@@ -52,7 +52,7 @@ to learn more about ActionCable before proceeding.
 
 ## 💙 Community
 
-- [Discord](https://discord.gg/XveN625) - chat root
+- [Discord](https://discord.gg/stimulus-reflex) - primary support channel
 
 ## 🚀 Install
 

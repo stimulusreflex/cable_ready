@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "monitor"
-require "observer"
-require "singleton"
-
 module CableReady
   # This class is a process level singleton shared by all threads: CableReady::Config.instance
   class Config
@@ -18,6 +14,10 @@ module CableReady
       @operation_names = Set.new(default_operation_names)
       @on_failed_sanity_checks = :exit
       @on_new_version_available = :ignore
+    end
+
+    def observers
+      @observer_peers&.keys || []
     end
 
     def operation_names
@@ -60,6 +60,7 @@ module CableReady
         set_cookie
         set_dataset_property
         set_focus
+        set_meta
         set_property
         set_storage_item
         set_style

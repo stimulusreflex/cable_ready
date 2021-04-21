@@ -1,19 +1,13 @@
 # frozen_string_literal: true
 
-require "thread/local"
-require_relative "channel"
-
 module CableReady
   # This class is a thread local singleton: CableReady::Channels.instance
   # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started
   class Channels
     extend Thread::Local
 
-    attr_accessor :operations
-
     def initialize
       @channels = {}
-      @operations = {}
     end
 
     def [](identifier)

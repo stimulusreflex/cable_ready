@@ -57,7 +57,7 @@ This allows us to **shift our mental model** away from "who are we broadcasting 
 
 `stream_for` and `broadcast_to` actually unlock new feature and UX design possibilities.
 
-#### A brief refresher on why SPAs are even a thing, and not just the punch-line to a cautionary tale
+### A brief refresher on why SPAs are even a thing, and not just the punch-line to a cautionary tale
 
 React was created to address the technical challenges involved in the syncronization of notifications, likes and comments on different parts of a user's page, _in real-time_.
 
@@ -65,7 +65,7 @@ When you scroll through your unique newsfeed, everything you see on your screen 
 
 What's _really_ happening is that each item on your feed has been pre-cached, with a minimum viable DOM structure and just enough meta-data to allow it to subscribe itself to a firehose of scoped updates pertaining to that item. If the item is scrolled off the page far enough or the tab is inactive for more than a minute or three, the subscription is discarded and the item purges itself from the DOM.
 
-#### We don't need React to do this anymore
+### We don't need React to do this anymore
 
 With CableReady, it's possible to present your users with composable, reactive interface elements that subscribe to their own real-time event stream with a few dozen lines of simple code.
 
@@ -83,9 +83,9 @@ Setting up this pattern \[which Facebook broke the web to implement\] with Cable
 4. Allow users to add/remove specific resource instances, perhaps via a `has_many` relationship or even an integer array attribute
 5. Everyone who changes attributes of the item \(think Likes\) triggers a `broadcast_to` that [morph](reference/operations/dom-mutations.md#morph)s the markup of the resource for anyone who has that instance displayed on their screen
 
-#### Fewer promises, more consciousness-expanding code samples plz
+### Fewer promises, more consciousness-expanding code samples plz
 
-#### 1. Configure channel
+### 1. Configure channel
 
 {% code title="app/channels/helens\_channel.rb" %}
 ```ruby
@@ -97,7 +97,7 @@ end
 ```
 {% endcode %}
 
-#### 2. Setup partial
+### 2. Setup partial
 
 {% code title="app/views/helens/\_helen.html.erb" %}
 ```markup
@@ -108,7 +108,7 @@ end
 ```
 {% endcode %}
 
-#### 3. Prepare subscriber
+### 3. Prepare subscriber
 
 {% code title="app/javascript/controllers/helen\_controller.js" %}
 ```javascript
@@ -129,7 +129,7 @@ export default class extends Controller {
       }
     )
   }
-  
+
   disconnect() {
     this.channel.unsubscribe()
   }
@@ -137,9 +137,9 @@ export default class extends Controller {
 ```
 {% endcode %}
 
-#### 4. Create UI for users to select and render their favorite Helens: left as an exercise for the developer 👵
+### 4. Create UI for users to select and render their favorite Helens: left as an exercise for the developer 👵
 
-#### 5. Give each Helen the power to automatically broadcast updates to every subscribed client instance
+### 5. Give each Helen the power to automatically broadcast updates to every subscribed client instance
 
 {% code title="app/models/helen.rb" %}
 ```ruby
@@ -154,7 +154,7 @@ end
 ```
 {% endcode %}
 
-#### Victory lap: use StimulusReflex to celebrate Helen's birthday 🎂
+### Victory lap: use StimulusReflex to celebrate Helen's birthday 🎂
 
 {% code title="app/views/helens/\_helen.html.erb" %}
 ```markup
@@ -193,7 +193,7 @@ Since all websocket traffic is moved through one Connection and Channel subscrip
 
 One of the few ways that the future is likely to be similar to the past is that when fundamentally new tools become available, smart young people quickly start building things that simply didn't and likely couldn't have existed before.
 
-Ironically, Facebook could only make React do all of the real-time magic because they have some of the smartest developers on the planet working on the _back-end_ of their UI. 
+Ironically, Facebook could only make React do all of the real-time magic because they have some of the smartest developers on the planet working on the _back-end_ of their UI.
 
 With CableReady, what Facebook spent tens of millions of dollars engineering not so long ago is available to every Rails developer, for free.
 
@@ -298,7 +298,7 @@ export default class extends Controller {
       }
     )
   }
-  
+
   disconnect() {
     this.subscription.unsubscribe()
   }
@@ -339,11 +339,11 @@ If you are using Signed Global IDs to do lookups, use of the `dom_id` helper bec
 
 ## Broadcasting to new resources
 
-#### Combining stream\_for and stream\_from
+### Combining stream\_for and stream\_from
 
 Building on the "[Multiple Identifiers](identifiers.md#multiple-identifiers)" and "[Stream Identifiers with logic](identifiers.md#stream-identifiers-with-logic)" sections on the [Stream Identifiers](identifiers.md) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
 
-`broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome,  we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
+`broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome, we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
 
 In many cases, the best solution would be to save the new resource before displaying it to the user\(s\). You can delete unused stub resources with a recurring cleanup job.
 
@@ -384,7 +384,7 @@ const uuidv4 = () => {
 
 export default class extends Controller {
   static values = { id: Number }
-  
+
   initialize() {
     this.uuid = uuidv4()
   }
@@ -408,7 +408,7 @@ export default class extends Controller {
       }
     )
   }
-  
+
   disconnect() {
     this.channel.unsubscribe()
   }
@@ -424,5 +424,5 @@ Anyhow, let's wrap up with a few important details to keep in mind when combinin
 * `broadcast` can only work with string-based stream identifiers
 * `broadcast_to` can only work with constant-based stream identifiers
 * if you use them both at the same time, you might have a brain tumor; good luck 🧠
-* if you come up with an alternative approach for unpersisted records, [tell us about it](https://discord.gg/XveN625)
+* if you come up with an alternative approach for unpersisted records, [tell us about it](https://discord.gg/stimulus-reflex)
 

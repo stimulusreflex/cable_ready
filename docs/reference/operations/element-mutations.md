@@ -132,12 +132,18 @@ Sets an dataset property \(data-\* attribute\) on an element.
 ```ruby
 cable_ready["MyChannel"].set_dataset_property(
   cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - the property to set
+  name:       "string",   # required - the property to set, camelCased
   select_all: true|false, # [false]  - operate on list of elements returned from selector
   selector:   "string",   # required - string containing a CSS selector or XPath expression
   value:      "string",   # [null]   - the value to assign to the dataset
   xpath:      true|false  # [false]  - process the selector as an XPath expression
 )
+```
+
+The `name` parameter must be passed as camelCase and without the `data-` prefix. If you have an `index` value defined on a Stimulus controller called `slide-show`, you will need to set:
+
+```javascript
+name: "slideShowIndexValue"
 ```
 
 This method pairs extremely well with the new [Values](https://stimulus.hotwire.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
