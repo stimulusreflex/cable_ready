@@ -6,9 +6,6 @@ module CableReadyHelper
 
   def stream_from(*keys)
     keys.select!(&:itself)
-    tag.div(data: {
-      controller: "stream-from",
-      stream_from_identifier_value: signed_stream_identifier(compound(keys))
-    })
+    tag.stream_from(identifier: signed_stream_identifier(compound(keys)))
   end
 end
