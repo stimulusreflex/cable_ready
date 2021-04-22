@@ -2,7 +2,7 @@ import CableReady from 'cable_ready'
 import { consumer } from './action_cable'
 
 class StreamFromElement extends HTMLElement {
-  async connectedCallback () {
+  connectedCallback () {
     if (this.preview) return
     if (consumer) {
       this.channel = consumer.subscriptions.create(
