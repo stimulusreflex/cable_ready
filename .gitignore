@@ -12,3 +12,5 @@ node_modules/
 /packages/**/dist/
 lerna-debug.log
 yarn-error.log
+*~
+.byebug_history

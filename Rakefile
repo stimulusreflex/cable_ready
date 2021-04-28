@@ -2,11 +2,17 @@
 
 require "bundler/gem_tasks"
 require "github_changelog_generator/task"
+require "rake/testtask"
+require "pry"
 
 task default: [:test]
 
-task :test do
-  puts "Please write some tests..."
+Rake::TestTask.new(:test) do |t|
+  t.libs << "lib"
+  t.libs << "test"
+  t.pattern = "test/**/*_test.rb"
+  t.verbose = true
+  t.warning = false
 end
 
 GitHubChangelogGenerator::RakeTask.new :changelog do |config|
