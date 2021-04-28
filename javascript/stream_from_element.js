@@ -35,4 +35,4 @@ class StreamFromElement extends HTMLElement {
   }
 }
 
-customElements.define('stream-from', StreamFromElement)
+window.customElements.define('stream-from', StreamFromElement)
