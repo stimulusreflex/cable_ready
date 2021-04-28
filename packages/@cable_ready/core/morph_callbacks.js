@@ -1,6 +1,6 @@
 import { mutableTags } from './enums'
 import { isTextInput } from './utils'
-import { shouldMorphCallbacks, didMorphCallbacks } from './cable_ready'
+import { shouldMorphCallbacks, didMorphCallbacks } from './index'
 import activeElement from './active_element'
 
 // Indicates whether or not we should morph an element via onBeforeElUpdated callback

@@ -1,1 +1,3 @@
-export * from '@cable_ready/core'
+import CableReady from '@cable_ready/core'
+
+export default CableReady
