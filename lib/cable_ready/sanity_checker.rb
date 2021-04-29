@@ -55,11 +55,11 @@ class CableReady::SanityChecker
       if latest_version != CableReady::VERSION
         puts <<~WARN
 
-        There is a new version of CableReady available!
-        Current: #{CableReady::VERSION} Latest: #{latest_version}
+          There is a new version of CableReady available!
+          Current: #{CableReady::VERSION} Latest: #{latest_version}
 
-        If you upgrade, it is very important that you update BOTH Gemfile and package.json
-        Then, run `bundle install && yarn install` to update to #{latest_version}.
+          If you upgrade, it is very important that you update BOTH Gemfile and package.json
+          Then, run `bundle install && yarn install` to update to #{latest_version}.
 
         WARN
         exit if CableReady.config.on_new_version_available == :exit
