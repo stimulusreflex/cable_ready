@@ -39,9 +39,9 @@ class CableReady::SanityChecker
 
     unless javascript_version_matches?
       warn_and_exit <<~WARN
-        The CableReady npm package version (#{javascript_package_version}) does not match the Rubygem version (#{gem_version}).
-        To update the CableReady npm package:
-            yarn upgrade cable_ready@#{gem_version}
+        The cable_ready npm package version (#{javascript_package_version}) does not match the Rubygem version (#{gem_version}).
+        To update the cable_ready npm package:
+          yarn upgrade cable_ready@#{gem_version}
       WARN
     end
   end
@@ -55,10 +55,11 @@ class CableReady::SanityChecker
       if latest_version != CableReady::VERSION
         puts <<~WARN
 
-          There is a new version of CableReady available!
-          Current: #{CableReady::VERSION} Latest: #{latest_version}
-          It is very important that you update BOTH Gemfile and package.json
-          Run `bundle install && yarn install` to complete the upgrade.
+        There is a new version of CableReady available!
+        Current: #{CableReady::VERSION} Latest: #{latest_version}
+
+        If you upgrade, it is very important that you update BOTH Gemfile and package.json
+        Then, run `bundle install && yarn install` to update to #{latest_version}.
 
         WARN
         exit if CableReady.config.on_new_version_available == :exit
@@ -122,7 +123,6 @@ class CableReady::SanityChecker
   def exit_with_info
     puts
 
-    # bundle exec rails generate cable_ready:config
     if File.exist?(initializer_path)
       puts <<~INFO
         If you know what you are doing and you want to start the application anyway,
@@ -143,7 +143,7 @@ class CableReady::SanityChecker
 
         Then open your initializer at
 
-        <RAILS_ROOT>/config/initializers/cable_ready.rb
+        #{initializer_path}
 
         and then add the following directive:
 
@@ -153,6 +153,6 @@ class CableReady::SanityChecker
 
       INFO
     end
-    exit false
+    exit false unless Rails.env.test?
   end
 end
