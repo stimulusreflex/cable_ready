@@ -8,7 +8,6 @@ class CableReady::SanityChecker
   class << self
     def check!
       return if CableReady.config.on_failed_sanity_checks == :ignore
-      return if called_by_installer?
       return if called_by_generate_config?
 
       instance = new
@@ -18,14 +17,8 @@ class CableReady::SanityChecker
 
     private
 
-    def called_by_installer?
-      Rake.application.top_level_tasks.include? "cable_ready:install"
-    rescue
-      false
-    end
-
     def called_by_generate_config?
-      ARGV.include? "cable_ready:config"
+      ARGV.include? "cable_ready:initializer"
     end
   end
 
