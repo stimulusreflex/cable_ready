@@ -2,6 +2,8 @@ import { verifyNotMutable, verifyNotPermanent } from './morph_callbacks'
 import { xpathToElement } from './utils'
 import activeElement from './active_element'
 import DOMOperations from './operations'
+import actionCable from './action_cable'
+import './stream_from_element'
 
 export const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
 export const didMorphCallbacks = []
@@ -59,6 +61,11 @@ const performAsync = (
   })
 }
 
+const initialize = (initializeOptions = {}) => {
+  const { consumer } = initializeOptions
+  actionCable.setConsumer(consumer)
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   if (!document.audio && document.body.hasAttribute('data-unlock-audio')) {
     document.audio = new Audio(
@@ -82,5 +89,6 @@ export default {
   performAsync,
   DOMOperations,
   shouldMorphCallbacks,
-  didMorphCallbacks
+  didMorphCallbacks,
+  initialize
 }

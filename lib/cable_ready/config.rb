@@ -8,6 +8,7 @@ module CableReady
     include Singleton
 
     attr_accessor :on_failed_sanity_checks, :on_new_version_available
+    attr_writer :verifier_key
 
     def initialize
       super
@@ -18,6 +19,10 @@ module CableReady
 
     def observers
       @observer_peers&.keys || []
+    end
+
+    def verifier_key
+      @verifier_key || Rails.application.key_generator.generate_key("cable_ready/verifier_key")
     end
 
     def operation_names
