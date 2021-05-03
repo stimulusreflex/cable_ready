@@ -25,12 +25,23 @@
   "author": "Nathan Hopkins <natehop@gmail.com>",
   "main": "./javascript/cable_ready.js",
   "scripts": {
-    "prettier-standard-check": "yarn run prettier-standard --check ./javascript/**/*.js"
+    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/*.js ./javascript/**/*.js",
+    "prettier-standard:format": "yarn run prettier-standard ./javascript/*.js ./javascript/**/*.js",
+    "format": "yarn run prettier-standard:format",
+    "test": "yarn run mocha --require @babel/register --require jsdom-global/register --require esm ./javascript/test"
   },
   "dependencies": {
     "morphdom": "^2.6.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.0",
+    "@babel/register": "^7.13.16",
+    "assert": "^2.0.0",
+    "esm": "^3.2.25",
+    "jsdom": "^16.5.3",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^8.3.2",
     "prettier-standard": "^16.1.0"
   }
 }

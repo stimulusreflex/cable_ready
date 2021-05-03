@@ -1,4 +1,4 @@
-import CableReady from 'cable_ready'
+import CableReady from './cable_ready'
 import { consumer } from './action_cable'
 
 class StreamFromElement extends HTMLElement {
