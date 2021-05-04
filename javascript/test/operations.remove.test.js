@@ -7,6 +7,10 @@ import CableReady from '../cable_ready'
 
 describe('operations', () => {
   context('remove', () => {
+    afterEach(() => {
+      sinon.restore()
+    })
+
     it('should remove element', () => {
       const dom = new JSDOM(
         '<div id="parent"><div id="remove">Remove</div></div>'
@@ -60,13 +64,13 @@ describe('operations', () => {
 
       const parent = document.querySelector('#parent')
       const operations = { remove: [{ selector: '#doesntexist' }] }
-      const spy = sinon.spy(console, 'log')
+      sinon.replace(console, 'log', sinon.fake())
       const text =
         "CableReady remove failed due to missing DOM element for selector: '#doesntexist'"
 
       CableReady.perform(operations)
 
-      assert(spy.calledWith(text))
+      assert(console.log.calledWith(text))
     })
   })
 })
