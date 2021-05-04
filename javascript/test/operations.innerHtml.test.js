@@ -1,5 +1,4 @@
 import assert from 'assert'
-import refute from './refute'
 import { JSDOM } from 'jsdom'
 
 import CableReady from '../cable_ready'

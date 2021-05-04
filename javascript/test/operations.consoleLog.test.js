@@ -1,6 +1,5 @@
 import assert from 'assert'
 import sinon from 'sinon'
-import refute from './refute'
 import { JSDOM } from 'jsdom'
 
 import CableReady from '../cable_ready'
