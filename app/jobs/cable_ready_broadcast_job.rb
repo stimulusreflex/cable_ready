@@ -2,7 +2,7 @@
 
 class CableReadyBroadcastJob < (defined?(ActiveJob::Base) ? ActiveJob::Base : Object)
   include CableReady::Broadcaster
-  queue_as :default
+  queue_as :default if defined?(ActiveJob::Base)
 
   def perform(identifier:, operations:, model: nil)
     if model.present?
