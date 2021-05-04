@@ -42,6 +42,7 @@
     "jsdom": "^16.5.3",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.3.2",
-    "prettier-standard": "^16.1.0"
+    "prettier-standard": "^16.1.0",
+    "sinon": "^10.0.0"
   }
 }
