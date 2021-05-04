@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CableReadyBroadcastJob < ActiveJob::Base
+class CableReadyBroadcastJob < (defined?(ActiveJob::Base) ? ActiveJob::Base : Object)
   include CableReady::Broadcaster
   queue_as :default
 
