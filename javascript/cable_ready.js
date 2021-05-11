@@ -29,7 +29,7 @@ const perform = (
           }
           if (operation.element || options.emitMissingElementWarnings) {
             activeElement.set(document.activeElement)
-            DOMOperations[name](operation)
+            DOMOperations[name](operation, name)
           }
         } catch (e) {
           if (operation.element) {

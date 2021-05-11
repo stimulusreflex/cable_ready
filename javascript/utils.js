@@ -61,3 +61,32 @@ export const processElements = (operation, callback) => {
     operation.selectAll ? operation.element : [operation.element]
   ).forEach(callback)
 }
+
+// camelCase to kebab-case
+const kebabize = str => {
+  return str
+    .split('')
+    .map((letter, idx) => {
+      return letter.toUpperCase() === letter
+        ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
+        : letter
+    })
+    .join('')
+}
+
+// Provide a standardized pipeline of checks and modifications to all operations based on provided options
+// Currently skips execution if cancelled and implements an optional delay
+export const operate = (operation, callback) => {
+  if (!operation.cancel) {
+    operation.delay ? setTimeout(callback, operation.delay) : callback()
+    return true
+  }
+  return false
+}
+
+// Dispatch life-cycle events with standardized naming
+export const before = (target, name, operation) =>
+  dispatch(target, `cable-ready:before-${kebabize(name)}`, operation)
+
+export const after = (target, name, operation) =>
+  dispatch(target, `cable-ready:after-${kebabize(name)}`, operation)
