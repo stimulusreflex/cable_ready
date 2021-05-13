@@ -3,7 +3,7 @@ import activeElement from './active_element'
 
 // Indicates if the passed element is considered a text input.
 //
-export const isTextInput = element => {
+const isTextInput = element => {
   return inputTags[element.tagName] && textInputTypes[element.type]
 }
 
@@ -11,7 +11,7 @@ export const isTextInput = element => {
 //
 // * selector - a CSS selector for the element that should have focus
 //
-export const assignFocus = selector => {
+const assignFocus = selector => {
   const element =
     selector && selector.nodeType === Node.ELEMENT_NODE
       ? selector
@@ -26,7 +26,7 @@ export const assignFocus = selector => {
 // * name - the name of the event
 // * detail - the event detail
 //
-export const dispatch = (element, name, detail = {}) => {
+const dispatch = (element, name, detail = {}) => {
   const init = { bubbles: true, cancelable: true, detail: detail }
   const evt = new CustomEvent(name, init)
   element.dispatchEvent(evt)
@@ -35,7 +35,7 @@ export const dispatch = (element, name, detail = {}) => {
 
 // Accepts an xPath query and returns the element found at that position in the DOM
 //
-export const xpathToElement = xpath => {
+const xpathToElement = xpath => {
   return document.evaluate(
     xpath,
     document,
@@ -49,20 +49,21 @@ export const xpathToElement = xpath => {
 //
 // * names - could be a string or an array of strings for multiple classes.
 //
-export const getClassNames = names => Array(names).flat()
+const getClassNames = names => Array(names).flat()
 
 // Perform operation for either the first or all of the elements returned by CSS selector
 //
 // * operation - the instruction payload from perform
 // * callback - the operation function to run for each element
 //
-export const processElements = (operation, callback) => {
+const processElements = (operation, callback) => {
   Array.from(
     operation.selectAll ? operation.element : [operation.element]
   ).forEach(callback)
 }
 
 // camelCase to kebab-case
+//
 const kebabize = str => {
   return str
     .split('')
@@ -76,7 +77,8 @@ const kebabize = str => {
 
 // Provide a standardized pipeline of checks and modifications to all operations based on provided options
 // Currently skips execution if cancelled and implements an optional delay
-export const operate = (operation, callback) => {
+//
+const operate = (operation, callback) => {
   if (!operation.cancel) {
     operation.delay ? setTimeout(callback, operation.delay) : callback()
     return true
@@ -85,8 +87,20 @@ export const operate = (operation, callback) => {
 }
 
 // Dispatch life-cycle events with standardized naming
-export const before = (target, name, operation) =>
+const before = (target, name, operation) =>
   dispatch(target, `cable-ready:before-${kebabize(name)}`, operation)
 
-export const after = (target, name, operation) =>
+const after = (target, name, operation) =>
   dispatch(target, `cable-ready:after-${kebabize(name)}`, operation)
+
+export {
+  isTextInput,
+  assignFocus,
+  dispatch,
+  xpathToElement,
+  getClassNames,
+  processElements,
+  operate,
+  before,
+  after
+}
