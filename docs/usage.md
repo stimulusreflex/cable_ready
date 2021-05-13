@@ -140,7 +140,7 @@ You can pass extra, arbitrary, JSON-compatible data when adding an operation. Yo
 ```ruby
 cable_ready["biden"].set_cookie(
   cookie: "favorite_food=pasta",
-  dog: "major",
+  dog: "Major",
   corn_pop: "bad dude"
 ).broadcast
 ```
