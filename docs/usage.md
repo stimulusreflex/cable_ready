@@ -138,8 +138,9 @@ Once you have captured an event, you can inspect the `detail` object to access a
 You can pass extra, arbitrary, JSON-compatible data when adding an operation. You can use operations to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
 
 ```ruby
-cable_ready.set_cookie(
-  cookie: "favorite_food=tripe",
+cable_ready["biden"].set_cookie(
+  cookie: "favorite_food=pasta",
+  dog: "major",
   corn_pop: "bad dude"
 ).broadcast
 ```

@@ -270,5 +270,5 @@ Finally, let's wire up the input element's change event to the `greet` method:
 
 StimulusReflex users must **not** include `CableReady::Broadcaster` in their Reflex classes, as it makes special versions of the CableReady methods available.
 
-If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action)".
+If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/rtfm/cableready#using-cableready-inside-a-reflex-action)".
 
