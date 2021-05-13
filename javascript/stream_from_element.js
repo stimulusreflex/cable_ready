@@ -18,7 +18,7 @@ class StreamFromElement extends HTMLElement {
       )
     } else {
       console.error(
-        `The stream_from helper cannot connect without an ActionCable consumer.\nPlease set 'CableReady.initialize({ consumer })' in your index.js.`
+        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease set `CableReady.initialize({ consumer })` in your `index.js`.'
       )
     }
   }
@@ -35,6 +35,16 @@ class StreamFromElement extends HTMLElement {
   }
 }
 
-if (!window.customElements.get('stream-from')) {
+const customElement = window.customElements.get('stream-from')
+
+if (customElement) {
+  if (customElement !== StreamFromElement) {
+    console.warn(
+      'CableReady tried to register the HTML custom element `stream-from`, but `stream-from` is already registered and used by something else. Make sure that nothing else defines the custom element `stream-from`.'
+    )
+  } else {
+    // CableReady has already registered the `stream-from` custom element and it's the right one
+  }
+} else {
   window.customElements.define('stream-from', StreamFromElement)
 }
