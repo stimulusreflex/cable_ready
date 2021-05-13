@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { JSDOM } from 'jsdom'
 
-import CableReady from '../cable_ready'
+import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('insertAdjacentText', () => {
@@ -21,7 +21,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, '<span>Nate Hopkinsbeforeend</span>')
     })
@@ -43,7 +43,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, '<span>afterbeginNate Hopkins</span>')
     })
@@ -65,7 +65,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, 'beforebegin<span>Nate Hopkins</span>')
     })
@@ -87,7 +87,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, '<span>Nate Hopkins</span>afterend')
     })
@@ -115,7 +115,7 @@ describe('operations', () => {
 
       assert.equal(elements.length, 3)
 
-      CableReady.perform(operations)
+      perform(operations)
 
       elements.forEach(element => {
         assert(element)
@@ -154,7 +154,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, 'Nate Hopkinsbeforeend')
     })
@@ -214,7 +214,7 @@ describe('operations', () => {
       assert.equal(beforeCount, 0)
       assert.equal(afterCount, 0)
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(beforeCount, 3)
       assert.equal(afterCount, 3)

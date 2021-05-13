@@ -51,7 +51,6 @@ module CableReady
         morph
         notification
         outer_html
-        play_sound
         prepend
         push_state
         remove

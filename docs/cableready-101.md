@@ -57,5 +57,13 @@ The `broadcast` method can conclude the chain, meaning that you can send a conso
 cable_ready["visitors"].console_log(message: "Welcome!").broadcast
 ```
 
+## Ready to rumble!
+
+And that's really all you need to get started with CableReady. Everything you do will follow the same basic structure:
+
+`cable_ready[identifier].operation().broadcast`
+
+You can look over the next sections to learn more techniques, such as [broadcasting to resources](broadcasting-to-resources.md#stream_for-and-broadcast_to), or jump to the [Operations](reference/operations/) reference to see everything CableReady can do.
+
 ![](.gitbook/assets/hasselhoff.jpg)
 

@@ -23,11 +23,12 @@
   },
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",
-  "main": "./javascript/cable_ready.js",
+  "main": "./javascript/index.js",
   "scripts": {
-    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/*.js ./javascript/**/*.js",
-    "prettier-standard:format": "yarn run prettier-standard ./javascript/*.js ./javascript/**/*.js",
+    "lint": "yarn run prettier-standard:check",
     "format": "yarn run prettier-standard:format",
+    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js",
+    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js",
     "test": "yarn run mocha --require @babel/register --require jsdom-global/register --require esm ./javascript/test"
   },
   "dependencies": {

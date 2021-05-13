@@ -2,7 +2,7 @@ import assert from 'assert'
 import refute from './refute'
 import { JSDOM } from 'jsdom'
 
-import CableReady from '../cable_ready'
+import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('events', () => {
@@ -76,7 +76,7 @@ describe('operations', () => {
         refute(beforeEvent)
         refute(afterEvent)
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert(beforeEvent)
         assert(afterEvent)
@@ -147,7 +147,7 @@ describe('operations', () => {
         refute(beforeEvent)
         refute(afterEvent)
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert(beforeEvent)
         assert(afterEvent)

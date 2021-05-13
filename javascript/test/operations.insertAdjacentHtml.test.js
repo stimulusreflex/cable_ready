@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { JSDOM } from 'jsdom'
 
-import CableReady from '../cable_ready'
+import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('insertAdjacentHtml', () => {
@@ -21,7 +21,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(
         element.innerHTML,
@@ -46,7 +46,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(
         element.innerHTML,
@@ -71,7 +71,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(
         element.innerHTML,
@@ -96,7 +96,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(
         element.innerHTML,
@@ -127,7 +127,7 @@ describe('operations', () => {
 
       assert.equal(elements.length, 3)
 
-      CableReady.perform(operations)
+      perform(operations)
 
       elements.forEach(element => {
         assert(element)
@@ -166,7 +166,7 @@ describe('operations', () => {
         ]
       }
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(element.innerHTML, 'Nate Hopkins<span>beforeend</span>')
     })
@@ -226,7 +226,7 @@ describe('operations', () => {
       assert.equal(beforeCount, 0)
       assert.equal(afterCount, 0)
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(beforeCount, 3)
       assert.equal(afterCount, 3)

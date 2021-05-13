@@ -1,12 +1,7 @@
-import { verifyNotMutable, verifyNotPermanent } from './morph_callbacks'
 import { xpathToElement } from './utils'
 import activeElement from './active_element'
-import DOMOperations from './operations'
+import OperationStore from './operation_store'
 import actionCable from './action_cable'
-import './stream_from_element'
-
-export const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
-export const didMorphCallbacks = []
 
 const perform = (
   operations,
@@ -29,7 +24,15 @@ const perform = (
           }
           if (operation.element || options.emitMissingElementWarnings) {
             activeElement.set(document.activeElement)
-            DOMOperations[name](operation)
+            const cableReadyOperation = OperationStore.all[name]
+
+            if (cableReadyOperation) {
+              cableReadyOperation(operation, name)
+            } else {
+              console.error(
+                `CableReady couldn't find the "${name}" operation. Make sure you haven't misspelled the operation name and that you've added all required operations.`
+              )
+            }
           }
         } catch (e) {
           if (operation.element) {
@@ -66,29 +69,4 @@ const initialize = (initializeOptions = {}) => {
   actionCable.setConsumer(consumer)
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  if (!document.audio && document.body.hasAttribute('data-unlock-audio')) {
-    document.audio = new Audio(
-      'data:audio/mpeg;base64,//OExAAAAAAAAAAAAEluZm8AAAAHAAAABAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/P39/f39/f39/f39/f39/f39/f39/f39/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAJAa/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//MUxAAAAANIAAAAAExBTUUzLjk2LjFV//MUxAsAAANIAAAAAFVVVVVVVVVVVVVV//MUxBYAAANIAAAAAFVVVVVVVVVVVVVV//MUxCEAAANIAAAAAFVVVVVVVVVVVVVV'
-    )
-    const unlockAudio = () => {
-      document.body.removeEventListener('click', unlockAudio)
-      document.body.removeEventListener('touchstart', unlockAudio)
-      document.audio
-        .play()
-        .then(() => {})
-        .catch(() => {})
-    }
-    document.body.addEventListener('click', unlockAudio)
-    document.body.addEventListener('touchstart', unlockAudio)
-  }
-})
-
-export default {
-  perform,
-  performAsync,
-  DOMOperations,
-  shouldMorphCallbacks,
-  didMorphCallbacks,
-  initialize
-}
+export { perform, performAsync, initialize }

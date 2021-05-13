@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import refute from './refute'
 import { JSDOM } from 'jsdom'
 
-import CableReady from '../cable_ready'
+import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('remove', () => {
@@ -22,7 +22,7 @@ describe('operations', () => {
 
       assert.equal(parent.innerHTML, '<div id="remove">Remove</div>')
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(parent.innerHTML, '')
       assert.equal(document.querySelector('#remove'), null)
@@ -51,7 +51,7 @@ describe('operations', () => {
       assert(document.querySelector('#parent'))
       ids.forEach(id => assert(document.querySelector(id)))
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert.equal(parent.innerHTML.trim(), '')
       assert(document.querySelector('#parent'))
@@ -68,7 +68,7 @@ describe('operations', () => {
       const text =
         "CableReady remove failed due to missing DOM element for selector: '#doesntexist'"
 
-      CableReady.perform(operations)
+      perform(operations)
 
       assert(console.log.calledWith(text))
     })

@@ -2,7 +2,7 @@ import assert from 'assert'
 import refute from './refute'
 import { JSDOM } from 'jsdom'
 
-import CableReady from '../cable_ready'
+import { perform } from '../cable_ready'
 
 const events = [
   {
@@ -73,7 +73,7 @@ describe('operations', () => {
         refute(beforeCalled)
         refute(afterCalled)
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert(beforeCalled)
         assert(afterCalled)
@@ -121,7 +121,7 @@ describe('operations', () => {
         refute(cancelled)
         refute(afterCalled)
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert(cancelled)
         assert(afterCalled)

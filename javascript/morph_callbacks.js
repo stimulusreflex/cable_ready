@@ -1,6 +1,5 @@
 import { mutableTags } from './enums'
 import { isTextInput } from './utils'
-import { shouldMorphCallbacks, didMorphCallbacks } from './cable_ready'
 import activeElement from './active_element'
 
 // Indicates whether or not we should morph an element via onBeforeElUpdated callback
@@ -50,4 +49,14 @@ const verifyNotPermanent = (detail, fromEl, toEl) => {
   return !permanent
 }
 
-export { shouldMorph, didMorph, verifyNotMutable, verifyNotPermanent }
+const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
+const didMorphCallbacks = []
+
+export {
+  shouldMorphCallbacks,
+  didMorphCallbacks,
+  shouldMorph,
+  didMorph,
+  verifyNotMutable,
+  verifyNotPermanent
+}

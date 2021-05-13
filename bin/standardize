@@ -2,4 +2,4 @@
 
 bundle exec magic_frozen_string_literal
 bundle exec standardrb --fix
-yarn run prettier-standard ./javascript/*.js
+yarn format
