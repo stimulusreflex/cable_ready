@@ -24,3 +24,7 @@
   * [Browser Manipulations](reference/operations/browser-manipulations.md)
   * [Notifications](reference/operations/notifications.md)
 
+---
+
+* [Release History](release-history.md)
+
