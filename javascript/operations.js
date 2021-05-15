@@ -391,6 +391,13 @@ export default {
     })
   },
 
+  consoleTable: (operation, callee) => {
+    operate(operation, () => {
+      const { data, columns } = operation
+      console.table(data, columns || [])
+    })
+  },
+
   notification: (operation, callee) => {
     before(document, callee, operation)
     operate(operation, () => {
