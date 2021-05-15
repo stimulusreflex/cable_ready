@@ -13,6 +13,7 @@
 * [Troubleshooting](troubleshooting/README.md)
   * [Morph Sanity Checklist](troubleshooting/morph-checklist.md)
 * [Advocating for "Reactive Rails"](advocating-for-reactive-rails.md)
+* [Release History](release-history.md)
 
 ## Reference
 
@@ -23,8 +24,4 @@
   * [DOM Events](reference/operations/event-dispatch.md)
   * [Browser Manipulations](reference/operations/browser-manipulations.md)
   * [Notifications](reference/operations/notifications.md)
-
----
-
-* [Release History](release-history.md)
 
