@@ -42,6 +42,7 @@ module CableReady
         append
         clear_storage
         console_log
+        console_table
         dispatch_event
         go
         graft
