@@ -35,16 +35,6 @@ class StreamFromElement extends HTMLElement {
   }
 }
 
-const customElement = window.customElements.get('stream-from')
-
-if (customElement) {
-  if (customElement !== StreamFromElement) {
-    console.warn(
-      'CableReady tried to register the HTML custom element `stream-from`, but `stream-from` is already registered and used by something else. Make sure that nothing else defines the custom element `stream-from`.'
-    )
-  } else {
-    // CableReady has already registered the `stream-from` custom element and it's the right one
-  }
-} else {
+if (!window.customElements.get('stream-from')) {
   window.customElements.define('stream-from', StreamFromElement)
 }
