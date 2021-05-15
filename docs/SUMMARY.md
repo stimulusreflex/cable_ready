@@ -13,6 +13,7 @@
 * [Troubleshooting](troubleshooting/README.md)
   * [Morph Sanity Checklist](troubleshooting/morph-checklist.md)
 * [Advocating for "Reactive Rails"](advocating-for-reactive-rails.md)
+* [Release History](release-history.md)
 
 ## Reference
 
