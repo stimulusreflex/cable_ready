@@ -9,7 +9,7 @@ Create a custom DOM event in the browser for the purpose of implementing custom 
 If jQuery is in use \(and available in the global `window` scope\) `dispatch_event` will also [trigger a jQuery event](https://api.jquery.com/trigger/) with the same name.
 
 ```ruby
-cable_ready["MyChannel"].dispatch_event(
+dispatch_event(
   cancel:     Boolean, # [false]    - cancel the operation (for use on client)
   delay:      Integer, # [0]        - wait for n milliseconds before running
   detail:     Object,  # [null]     - assigned to event.detail
@@ -43,7 +43,7 @@ There are no life-cycle events emitted for `dispatch_event`.
 Add a `meta` tag to your document `head`. If a `meta` tag with the same name already exists, update the `content` to a new value.
 
 ```ruby
-cable_ready["MyChannel"].set_meta(
+set_meta(
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   content:    String,  # required - the content attribute of the meta tag
   delay:      Integer, # [0]      - wait for n milliseconds before running

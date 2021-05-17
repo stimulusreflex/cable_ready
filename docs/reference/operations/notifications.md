@@ -5,9 +5,11 @@
 Output a message to the browser console.
 
 ```ruby
-cable_ready["MyChannel"].console_log(
-  message: "string", # required, although it can be empty
-  level:   "string"  # optionally specify one of "warn", "info" or "error"
+console_log(
+  cancel:  Boolean, # [false] - cancel the operation (for use on client)
+  delay:   Integer, # [0]     - wait for n milliseconds before running
+  level:   String,  # ["log"] - optionally specify one of "warn", "info" or "error"
+  message: String,  # [""]    - required, although it can be empty
 )
 ```
 
@@ -18,6 +20,29 @@ There are no life-cycle events raised by `console_log`.
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Console/log](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)
+
+## console\_table
+
+Output a table to the browser console.
+
+```ruby
+console_table(
+  cancel:  Boolean,         # [false] - cancel the operation (for use on client)
+  columns: Array,           # [[]]    - optional array of strings
+  delay:   Integer,         # [0]     - wait for n milliseconds before running
+  data:    Object or Array, # [{}]    - required, although it can be empty
+)
+```
+
+The Console Inspector will build a simple table of values when provided with relatively normalized data in Array or Object format via the `data` option. You can further specify an array of Strings to create an "allowlist" of columns to display \(and hide the rest\).
+
+{% hint style="warning" %}
+There are no life-cycle events raised by `console_table`.
+{% endhint %}
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/Console/table](https://developer.mozilla.org/en-US/docs/Web/API/Console/table)
 
 ## notification
 
@@ -32,10 +57,11 @@ The user will be asked to Allow or Block notifications. You cannot force them to
 {% endhint %}
 
 ```ruby
-cable_ready["MyChannel"].notification(
-  cancel:  true|false, # [false]  - cancel the operation (for use on client)
-  title:   "string",   # required, although it can be empty
-  options: {}          # see options such as body, icon, vibrate, silent
+notification(
+  cancel:  Boolean, # [false]  - cancel the operation (for use on client)
+  delay:   Integer, # [0]        - wait for n milliseconds before running
+  title:   String,  # required, although it can be empty
+  options: Object   # see options such as body, icon, vibrate, silent
 )
 ```
 
@@ -53,7 +79,7 @@ Life-cycle events for `notification` are raised on `document`.
 #### Example:
 
 ```ruby
-cable_ready["MyChannel"].notification(
+notification(
   title: "You are the best.",
   options: {
     body: "How does it feel to be your parents' favourite?",
@@ -92,9 +118,10 @@ The [sound](https://www.dropbox.com/s/jka3a37ibbqiaqv/stimulus_reflex_sound_logo
 CableReady subtly captures the first user interaction on the page to ensure this operation works well on all browsers, **including Safari Mobile**. A silent mp3 is played as soon as the page context is established. It is base64 encoded so there is no network request. At 93 bytes, it is the minimum viable mp3!
 
 ```ruby
-cable_ready["MyChannel"].play_sound(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  src:    ""          # required - URL for audio file
+play_sound(
+  cancel: Boolean, # [false]  - cancel the operation (for use on client)
+  delay:  Integer, # [0]      - wait for n milliseconds before running
+  src:    String   # required - URL for audio file
 )
 ```
 
