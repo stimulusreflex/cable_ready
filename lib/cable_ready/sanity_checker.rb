@@ -44,7 +44,7 @@ class CableReady::SanityChecker
     return if CableReady.config.on_new_version_available == :ignore
     return unless using_stable_release
     begin
-      latest_version = URI.open("https://raw.githubusercontent.com/hopsoft/cable_ready/master/LATEST", open_timeout: 1, read_timeout: 1).read.strip
+      latest_version = URI.open("https://raw.githubusercontent.com/stimulusreflex/cable_ready/master/LATEST", open_timeout: 1, read_timeout: 1).read.strip
       if latest_version != CableReady::VERSION
         puts <<~WARN
 
