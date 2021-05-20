@@ -1,5 +1,44 @@
 # Changelog
 
+## [v5.0.0.pre0](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre0) (2021-05-20)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v4.5.0...v5.0.0.pre0)
+
+**Implemented enhancements:**
+
+- console\_table operation [\#125](https://github.com/stimulusreflex/cable_ready/pull/125) ([leastbad](https://github.com/leastbad))
+- Introduce `OperationStore` to add operations on-the-fly [\#124](https://github.com/stimulusreflex/cable_ready/pull/124) ([marcoroth](https://github.com/marcoroth))
+- cable\_car aka 'Ajax mode' [\#108](https://github.com/stimulusreflex/cable_ready/pull/108) ([leastbad](https://github.com/leastbad))
+- chainable selectors [\#107](https://github.com/stimulusreflex/cable_ready/pull/107) ([leastbad](https://github.com/leastbad))
+
+**Closed issues:**
+
+- Warning in Ruby 3.0 [\#113](https://github.com/stimulusreflex/cable_ready/issues/113)
+- play\_sound operation hijacks sound controls [\#111](https://github.com/stimulusreflex/cable_ready/issues/111)
+- Provide a CableReady channel generator [\#94](https://github.com/stimulusreflex/cable_ready/issues/94)
+- Jest Error [\#85](https://github.com/stimulusreflex/cable_ready/issues/85)
+- Event Dispatch: help with serialization [\#59](https://github.com/stimulusreflex/cable_ready/issues/59)
+
+**Merged pull requests:**
+
+- Remove warning message for already registered custom element [\#126](https://github.com/stimulusreflex/cable_ready/pull/126) ([marcoroth](https://github.com/marcoroth))
+- Bump lodash from 4.17.20 to 4.17.21 [\#123](https://github.com/stimulusreflex/cable_ready/pull/123) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump handlebars from 4.7.6 to 4.7.7 [\#122](https://github.com/stimulusreflex/cable_ready/pull/122) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actionpack from 6.1.3.1 to 6.1.3.2 [\#121](https://github.com/stimulusreflex/cable_ready/pull/121) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rexml from 3.2.4 to 3.2.5 [\#120](https://github.com/stimulusreflex/cable_ready/pull/120) ([dependabot[bot]](https://github.com/apps/dependabot))
+- broadcast\_later [\#119](https://github.com/stimulusreflex/cable_ready/pull/119) ([julianrubisch](https://github.com/julianrubisch))
+- set\_meta operation [\#117](https://github.com/stimulusreflex/cable_ready/pull/117) ([leastbad](https://github.com/leastbad))
+- Setup better finalizer [\#116](https://github.com/stimulusreflex/cable_ready/pull/116) ([hopsoft](https://github.com/hopsoft))
+- Bump activerecord from 6.1.1 to 6.1.3 [\#115](https://github.com/stimulusreflex/cable_ready/pull/115) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actionpack from 6.1.1 to 6.1.3 [\#114](https://github.com/stimulusreflex/cable_ready/pull/114) ([dependabot[bot]](https://github.com/apps/dependabot))
+- sound opt-in [\#112](https://github.com/stimulusreflex/cable_ready/pull/112) ([leastbad](https://github.com/leastbad))
+- before -\> operate -\> after [\#110](https://github.com/stimulusreflex/cable_ready/pull/110) ([leastbad](https://github.com/leastbad))
+- restructure client [\#109](https://github.com/stimulusreflex/cable_ready/pull/109) ([leastbad](https://github.com/leastbad))
+- undefined no more [\#106](https://github.com/stimulusreflex/cable_ready/pull/106) ([leastbad](https://github.com/leastbad))
+- sanity check + initializer generator [\#105](https://github.com/stimulusreflex/cable_ready/pull/105) ([leastbad](https://github.com/leastbad))
+- stream\_from [\#104](https://github.com/stimulusreflex/cable_ready/pull/104) ([leastbad](https://github.com/leastbad))
+- Channel generator [\#95](https://github.com/stimulusreflex/cable_ready/pull/95) ([julianrubisch](https://github.com/julianrubisch))
+
 ## [v4.5.0](https://github.com/stimulusreflex/cable_ready/tree/v4.5.0) (2021-01-26)
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v4.4.6...v4.5.0)
@@ -27,8 +66,6 @@
 
 - pluggable before/after morph callbacks [\#87](https://github.com/stimulusreflex/cable_ready/pull/87) ([leastbad](https://github.com/leastbad))
 - Add more detail to the CableReady error message [\#84](https://github.com/stimulusreflex/cable_ready/pull/84) ([marcoroth](https://github.com/marcoroth))
-
-# Changelog
 
 ## [v4.4.5](https://github.com/stimulusreflex/cable_ready/tree/v4.4.5) (2020-12-13)
 
@@ -186,6 +223,8 @@
 - Support for multiple CSS classes. [\#49](https://github.com/stimulusreflex/cable_ready/pull/49) ([sarriagada](https://github.com/sarriagada))
 - Make morph emit after event [\#48](https://github.com/stimulusreflex/cable_ready/pull/48) ([julianrubisch](https://github.com/julianrubisch))
 - Customize operations via initializer [\#47](https://github.com/stimulusreflex/cable_ready/pull/47) ([leastbad](https://github.com/leastbad))
+- Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/stimulusreflex/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
+- Add setStyles [\#37](https://github.com/stimulusreflex/cable_ready/pull/37) ([excid3](https://github.com/excid3))
 - Fix typo in method name outerHTML -\> outer\_html [\#35](https://github.com/stimulusreflex/cable_ready/pull/35) ([back2war](https://github.com/back2war))
 
 ## [v4.2.0](https://github.com/stimulusreflex/cable_ready/tree/v4.2.0) (2020-06-02)
@@ -199,9 +238,7 @@
 **Merged pull requests:**
 
 - after-outer-html emitted from new element [\#46](https://github.com/stimulusreflex/cable_ready/pull/46) ([leastbad](https://github.com/leastbad))
-- Fix `outer\_html` notation [\#45](https://github.com/stimulusreflex/cable_ready/pull/45) ([julianrubisch](https://github.com/julianrubisch))
-- Correct method 'outerHtml' to 'outer\_html' in documentation [\#39](https://github.com/stimulusreflex/cable_ready/pull/39) ([pskarlas](https://github.com/pskarlas))
-- Add setStyles [\#37](https://github.com/stimulusreflex/cable_ready/pull/37) ([excid3](https://github.com/excid3))
+- Fix `outer_html` notation [\#45](https://github.com/stimulusreflex/cable_ready/pull/45) ([julianrubisch](https://github.com/julianrubisch))
 - Print out the selector for easier debugging perform errors [\#36](https://github.com/stimulusreflex/cable_ready/pull/36) ([excid3](https://github.com/excid3))
 - add set\_property method to library [\#34](https://github.com/stimulusreflex/cable_ready/pull/34) ([leastbad](https://github.com/leastbad))
 
@@ -402,9 +439,6 @@
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/e62800f06e2f436fc66de2b9840313ba1de349bc...v0.1.0)
 
-
-
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
 
 
 \* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
