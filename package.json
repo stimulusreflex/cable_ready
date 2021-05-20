@@ -15,11 +15,11 @@
   ],
   "homepage": "https://cableready.stimulusreflex.com/",
   "bugs": {
-    "url": "https://github.com/hopsoft/cable_ready/issues"
+    "url": "https://github.com/stimulusreflex/cable_ready/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com:hopsoft/cable_ready.git"
+    "url": "git+https://github.com:stimulusreflex/cable_ready.git"
   },
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",

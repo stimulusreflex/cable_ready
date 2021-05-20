@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://gitcdn.link/repo/hopsoft/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
+  <img src="https://gitcdn.link/repo/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
     <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
@@ -7,7 +7,7 @@
     <a href="https://www.npmjs.com/package/cable_ready">
       <img alt="downloads" src="https://img.shields.io/npm/dm/cable_ready.svg?color=blue" target="_blank" />
     </a>
-    <a href="https://github.com/hopsoft/cable_ready/blob/master/LICENSE">
+    <a href="https://github.com/stimulusreflex/cable_ready/blob/master/LICENSE">
       <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen.svg" target="_blank" />
     </a>
     <a href="http://blog.codinghorror.com/the-best-code-is-no-code-at-all/" target="_blank">
@@ -30,11 +30,11 @@
     <a href="https://www.codacy.com/manual/hopsoft/cable_ready/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hopsoft/cable_ready&amp;utm_campaign=Badge_Grade" target="_blank">
       <img alt="Code Quality" src="https://app.codacy.com/project/badge/Grade/8e6971e3410347eaaa16be2555160b9c"/>
     </a>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/hopsoft/cable_ready/workflows/Prettier-Standard/badge.svg">
-      <img src="https://github.com/hopsoft/cable_ready/workflows/Prettier-Standard/badge.svg" alt="Prettier-Standard" style="max-width:100%;">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg">
+      <img src="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg" alt="Prettier-Standard" style="max-width:100%;">
     </a>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/hopsoft/cable_ready/workflows/StandardRB/badge.svg">
-      <img src="https://github.com/hopsoft/cable_ready/workflows/StandardRB/badge.svg" alt="StandardRB" style="max-width:100%;">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/stimulusreflex/cable_ready/workflows/StandardRB/badge.svg">
+      <img src="https://github.com/stimulusreflex/cable_ready/workflows/StandardRB/badge.svg" alt="StandardRB" style="max-width:100%;">
     </a>
   </p>
 </p>
@@ -48,7 +48,7 @@ to learn more about ActionCable before proceeding.
 ## 📚 Docs
 
 - [Official Documentation](https://cableready.stimulusreflex.com)
-- [Documentation Source Code](https://github.com/hopsoft/cable_ready/tree/master/docs)
+- [Documentation Source Code](https://github.com/stimulusreflex/cable_ready/tree/master/docs)
 
 ## 💙 Community
 
