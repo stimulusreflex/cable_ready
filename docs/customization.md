@@ -36,7 +36,7 @@ Now you can call your custom operation like any other. Any options passed to the
 cable_ready["visitors"].jazz_hands(thumbs: 2).broadcast
 ```
 
-You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/stimulusreflex/cable_ready/blob/eb1267b02d6e2a1967881012e09c0cafa8c4c197/javascript/cable_ready.js#L133). The `setCookie` and `innerHtml` methods are an excellent starting point.
+You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/hopsoft/cable_ready/blob/eb1267b02d6e2a1967881012e09c0cafa8c4c197/javascript/cable_ready.js#L133). The `setCookie` and `innerHtml` methods are an excellent starting point.
 
 ### Multi-element custom operations
 
@@ -73,7 +73,7 @@ There is also a corresponding callback function that will run only if an element
 
 ### shouldMorph Callbacks
 
-CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/stimulusreflex/cable_ready/blob/master/javascript/callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](usage.md#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
+CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/hopsoft/cable_ready/blob/master/javascript/callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](usage.md#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
 
 These callbacks need to return true if the element should be morphed, or else return false to skip it. All callbacks **must** return a boolean value, even if the purpose of of the callback is to perform some kind of meta-transformation on the elements, as you'll see with the Alpine example in a moment.
 
