@@ -113,6 +113,12 @@ document.addEventListener('my-app:notify', e => {
 
 Play an .mp3 or .ogg audio file in the browser.
 
+{% hint style="danger" %}
+`play_sound` has been **removed** from the core library as of CableReady v5.0.0.
+
+Don't fret, though; it's just been extracted to its own [package](https://www.npmjs.com/package/@cable_ready/audio_operations). You can find instructions on how to [import it](../../customization.md#importing-audiooperations), or use it as the basis for your own `play_sound` [custom operation](../../customization.md#custom-operations) on the [Customization](../../customization.md) page.
+{% endhint %}
+
 The [sound](https://www.dropbox.com/s/jka3a37ibbqiaqv/stimulus_reflex_sound_logo.mp3?dl=1) starts playing when the minimum viable amount of the sound file has been downloaded. If another sound request comes in while the first one is still playing, the first one stops.
 
 CableReady subtly captures the first user interaction on the page to ensure this operation works well on all browsers, **including Safari Mobile**. A silent mp3 is played as soon as the page context is established. It is base64 encoded so there is no network request. At 93 bytes, it is the minimum viable mp3!
@@ -137,6 +143,12 @@ CableReady creates an HTML Audio instance on `document.audio` when the page load
 Life-cycle events for `play_sound` are raised on `document`.
 
 `cable-ready:after-play-sound` is emitted either after the sound has finished playing, or immediately if the operation is cancelled.
+
+#### Importing AudioOperations
+
+After adding `play_sound` to the library, people came out of the woodwork to say that our clever implementation was messing up their audio player, or not working well with IE11. We experimented with several workarounds to opt-in and opt-out, but ultimately decided that this provided the perfect opportunity to build out our vision for a general purpose packaged operation API. We think it turned out great!
+
+Find a step-by-step example on how to import AudioOperations [here](../../customization.md#importing-audiooperations).
 
 #### Reference
 
