@@ -73,7 +73,9 @@ If `broadcast_to` is called at the end of a method chain, there is no opportunit
 
 Every class which includes `CableReady::Broadcaster` has access to a special, server-side version of the [Rails dom\_id helper](https://apidock.com/rails/ActionView/RecordIdentifier/dom_id). Whereas the view helper is typically used to generate `id` values for rendering DOM elements which map cleanly to ActiveRecord model instances, this method is intended to generate CSS selector strings used by CableReady to locate those DOM elements.
 
-This is **functionally identical to the view template version except that it prefixes the generated string with `#`** so that it can be passed directly to `document.querySelector()` on the client. This syntactic sugar means you can use a clever DSL instead of ugly string concatenations.
+This method is a superset of the functionality offered by the native Rails version. It is otherwise **functionally identical to the view template version except that it prefixes the generated string with `#`** so that it can be passed directly to `document.querySelector()` on the client. This syntactic sugar means you can use a clever DSL instead of ugly string concatenations.
+
+In addition to accepting model instances, CableReady's `dom_id` can also accept `ActiveRecord::Relation` objects, which are are pluralized. Finally, it will also accept any object which can be turned into a String, such as a constantized class name.
 
 This method is automatically available in all StimulusReflex Reflex classes. This means that you can deploy some [extreme](https://www.youtube.com/watch?v=FO2Abp0FbA0)ly sexy morph Reflexes:
 
@@ -83,6 +85,10 @@ class PostsReflex < ApplicationReflex
     post = Post.last
     # no need to write ugly "#post_#{post.id}"
     morph dom_id(post), render(post)
+    
+    dom_id(User.all)         # "#users"
+    dom_id(User.all, :happy) # "#happy_users"
+    dom_id(User, :angry)     # "#angry_user"
   end
 end
 ```

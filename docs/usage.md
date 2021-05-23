@@ -30,9 +30,41 @@ Since forms are rarely designed to be edited by multiple concurrent users 😱 i
 
 ## Selectors
 
-By default, the `selector` option provided to DOM-mutating operations expects a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) that resolves to **one** single DOM element.
+The `selector` option provided to DOM-mutating operations expects a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) that resolves to **one** single DOM element. The default element for all operations is `document` unless it is changed.
 
-If multiple elements are returned, only the first one is used.
+If multiple elements are returned, only the first one is used - unless the `select_all` option is used.
+
+### `selector` as optional first argument
+
+Since most CableReady operations require a `selector`, we made it the optional default first parameter to an operation - saving you some precious keystrokes. Just remember: it has to be first:
+
+```ruby
+inner_html("#carebears", html: "<b>Don't stare.</b>")
+```
+
+Note that if you try to specify `selector` both ways in one operation, the one in the Hash will take priority:
+
+```ruby
+inner_html("#red", selector: "#green", html: "<blink>Green wins!</blink>")
+```
+
+### `selector` will accept AR models and relations
+
+You can pass selector \(parameter and key/value, both\) anything you can pass to [dom\_id](reference/methods.md#dom_id-record-prefix-nil), including models \(like `User.first`, which beomes `#user_1`\) and relations \(`User.all` becomes `#users`\).
+
+```ruby
+inner_html(User.first, html: "<span>Your mother</span>")
+```
+
+### `selector` remembers the previous selector
+
+You know what sucks? Repeating yourself. Why is why `selector` remembers the previous selector.
+
+Each CableReady channel now remembers the `selector` from the previous operation, if any. This means that you can specify a selector at the beginning of a chain, and it will automatically be picked up by succeeding operations until a new selector is used, at which point _that_ selector becomes the "new previous" operation for all following operations; if a new selector is used, all previously used selectors are unmodifed.
+
+```ruby
+set_focus("#smelly").inner_html(html: "<span>I rock</span>").set_style(name: "color", value: "red").text_content(selector: User.all, text: "Bloom")
+```
 
 ### Operating on multiple elements
 
@@ -41,7 +73,7 @@ Many [DOM Mutation](reference/operations/dom-mutations.md) and [Element Property
 This technique is quite powerful because it can scoop up elements from multiple locations in the DOM based on their element type, id property, CSS class list or attributes. For example, you could grab every element with an instance of a Stimulus controller called `sushi`:
 
 ```ruby
-cable_ready.text_content(select_all: true, selector: "[data-controller='sushi']")
+text_content(select_all: true, selector: "[data-controller='sushi']")
 ```
 
 {% hint style="warning" %}
@@ -86,12 +118,11 @@ const elementToXPath = element => {
 An XPath-powered operation might look like:
 
 ```ruby
-cable_ready["stream"]
-  .text_content(
-    selector: "/html/body/div[3]/div[1]/article[1]/section[5]/ul[1]/li[10]/div[1]/div[2]",
-    xpath: true,
-    text: "XPath is under-utilized, but beware of side-effects changing your DOM."
-  ).broadcast
+text_content(
+  selector: "/html/body/div[3]/div[1]/article[1]/section[5]/ul[1]/li[10]/div[1]/div[2]",
+  xpath: true,
+  text: "XPath is under-utilized, but beware of side-effects changing your DOM."
+)
 ```
 
 {% hint style="success" %}
@@ -250,6 +281,8 @@ consumer.subscriptions.create('ChewiesChannel', {
 As you can see in the upcoming section on [connection identifiers](identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
 
 Forcing a websocket reconnection is mainly useful for upgrading account privileges after successfully authenticating. You could also disconnect former employees after they've been terminated.
+
+TODO: update to recommend client-side solution
 
 This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference \(i.e. a user that is actually connected\) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will simply fail silently:
 

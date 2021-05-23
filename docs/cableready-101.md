@@ -35,13 +35,15 @@ ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel
 
 You can call `cable_ready` multiple times to add more operations to the queue. Since `cable_ready` is a singleton instance, you can continue to add operations to the queue even across multiple methods, or a recursive function.
 
-You can use different operations together, and each operation can have completely different arguments. Without a call to `broadcast`, operations will accumulate for the specified Channel stream identifier.
-
 ```ruby
 cable_ready["visitors"].console_log(message: "We have more salad than we can eat.")
 cable_ready["visitors"].set_style(selector: "body", name: "color", value: "red")
-cable_ready["visitors"].set_style(selector: "#foo", name: "color", value: "blue")
+cable_ready["visitors"].set_style("#foo", name: "color", value: "blue")
 ```
+
+You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is where you identify the target DOM element\(s\) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
+
+Without a call to `broadcast`, operations will accumulate for the specified Channel stream identifier.
 
 ## Method chaining
 

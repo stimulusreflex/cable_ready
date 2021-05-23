@@ -17,6 +17,34 @@ yarn add cable_ready
 
 You can manually tweak and/or lock the versions you want to install by modifying `Gemfile` and `package.json` respectively, then re-running `bundle install && yarn install`.
 
+## Upgrading, package versions and sanity
+
+In the future, should you ever upgrade your version of CableReadh, it's very important that you always make sure your gem version and npm package versions match.
+
+Since mismatched versions are the first step on the path to hell, by default CableReady won't allow the server to start if your versions are mismatched in the development environment.
+
+If you have special needs, you can override this setting in your initializer. `:warn` will emit the same text-based warning but not prevent the server process from starting. `:ignore` will silence all mismatched version warnings, if you really just DGAF. ¯\\_\(ツ\)\_/¯
+
+CableReady can also let you know when new stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or `:exit`.
+
+{% code title="config/initializers/cable\_ready.rb" %}
+```ruby
+CableReady.configure do |config|
+  config.on_failed_sanity_checks = :warn
+  config.on_new_version_available = :warn
+end
+```
+{% endcode %}
+
+### Upgrading to v5.0.0
+
+* git repos are now living in the [stimulusreflex](https://github.com/stimulusreflex) organization on GitHub
+* make sure that you update `cable_ready` to `5.0.0` in **both** your Gemfile and package.json
+* create an initializer with `rails g cable_ready:initializer` if needed
+* install `stream_from` support with `rails g cable_ready:stream_from`
+* install the `@cable_ready/audio_operations` npm package if required
+* convert your custom operations to use the new `CableReady.operations` object
+
 ## ActionCable
 
 CableReady depends on the [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) framework \(installed by default as part of [Ruby on Rails](https://rubyonrails.org/)\) to handle sending data to the client over websockets. You must have ActionCable installed on both the client and server... and it will be unless you've disabled it.
