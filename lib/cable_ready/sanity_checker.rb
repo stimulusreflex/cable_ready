@@ -9,6 +9,7 @@ class CableReady::SanityChecker
     def check!
       return if CableReady.config.on_failed_sanity_checks == :ignore
       return if called_by_generate_config?
+      return if called_by_rake?
 
       instance = new
       instance.check_javascript_package_version
@@ -18,7 +19,11 @@ class CableReady::SanityChecker
     private
 
     def called_by_generate_config?
-      ARGV.include? "cable_ready:initializer"
+      ARGV.include?("cable_ready:initializer")
+    end
+
+    def called_by_rake?
+      caller.find { |c| c.include?("/gems/rake-") }
     end
   end
 
@@ -27,6 +32,7 @@ class CableReady::SanityChecker
       warn_and_exit <<~WARN
         Can't locate the cable_ready npm package.
         Either add it to your package.json as a dependency or use "yarn link cable_ready" if you are doing development.
+
       WARN
     end
 
@@ -35,6 +41,7 @@ class CableReady::SanityChecker
         The cable_ready npm package version (#{javascript_package_version}) does not match the Rubygem version (#{gem_version}).
         To update the cable_ready npm package:
           yarn upgrade cable_ready@#{gem_version}
+
       WARN
     end
   end
@@ -108,7 +115,9 @@ class CableReady::SanityChecker
   end
 
   def warn_and_exit(text)
-    puts "WARNING:"
+    puts
+    puts "Heads up! 🔥"
+    puts
     puts text
     exit_with_info if CableReady.config.on_failed_sanity_checks == :exit
   end
@@ -118,9 +127,7 @@ class CableReady::SanityChecker
 
     if File.exist?(initializer_path)
       puts <<~INFO
-        If you know what you are doing and you want to start the application anyway,
-        you can add the following directive to the CableReady initializer,
-        which is located at #{initializer_path}
+        If you know what you are doing and you want to start the application anyway, you can silence these warnings in the CableReady initializer, which is located at #{initializer_path}
 
           CableReady.configure do |config|
             config.on_failed_sanity_checks = :warn
