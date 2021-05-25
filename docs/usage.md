@@ -251,6 +251,74 @@ As with modifying `detail` data, if your operation is [processing multiple eleme
 You _could_ jump out of an airlock into space, too. Don't say we didn't warn you! 👨‍🚀
 {% endhint %}
 
+## Channel generator
+
+CableReady provides a Rails generator that you can use to create ActionCable `Channel` classes and the client-side code required to subscribe to it.
+
+Just provide it with the name of the channel class that you want to create, or pass `--help` to see all options:
+
+```bash
+bin/rails generate cable_ready:channel Sailor
+```
+
+The generator is interactive and will take you on a Choose Your Own Adventure through the decision tree of possible outcomes.
+
+The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](identifiers.md) and [Broadcasting to Resources](broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
+
+#### Broadcasting to a resource
+
+If you answer yes to the `broadcast_to` question, it will then ask you for the class name of the resource you want to stream, just in case it's different from the class name of the `Channel` that you're creating. Assuming that you went with the default "Sailor", you'll now have a `Sailor Channel`:
+
+{% code title="app/channels/sailor\_channel.rb" %}
+```ruby
+class SailorChannel < ApplicationCable::Channel
+  def subscribed
+    stream_for Sailor.find(params[:id])
+  end
+end
+```
+{% endcode %}
+
+The generator will then ask if you're going to use Stimulus to subscribe to the `Channel`. Even though CableReady does not require that you use Stimulus, we definitely recommend it as the blessed path. In this case, if you answer no, the generator is finished and you're on your own when it comes to subscribing. You'll have a 
+
+If you answer yes, it will create [a Stimulus controller that will subscribe to your Channel](leveraging-stimulus.md#introducing-the-stimulus-cableready-controller). The idea is that in your `app/javascript/controllers/index.js`, you will import the ActionCable `consumer.js` and [attach it to your Stimulus application](leveraging-stimulus.md#1-this-application-consumer). This makes the connection available to all Stimulus controllers while ensuring that all subscriptions share the same ActionCable `Connection`.
+
+All you need to do is create an instance of the Stimulus controller on the markup \(using a partial or ViewComponent\) that sets the `data-{controller}-id-value` attribute:
+
+{% code title="app/views/sailors/\_sailor.html.erb" %}
+```text
+<div data-controller="sailor" data-sailor-id-value="<%= sailor.id %>"></div>
+```
+{% endcode %}
+
+Now, whenever that Sailor partial is in the DOM, it will automatically subscribe itself to updates for the resource behind it. On the Ruby side, you can now do this:
+
+```ruby
+cable_ready[SailorChannel].inner_html(html: "Howdy!").broadcast_to(Sailor.first)
+```
+
+#### Broadcasting to a string identifier
+
+If you answer no to the `broadcast_to` question, it will proceed to ask you for the stream identifier string that you'll be streaming from. Assuming that you accept the default "sailor", you'll now have a `Sailor Channel`:
+
+{% code title="app/channels/sailor\_channel.rb" %}
+```ruby
+class SailorChannel < ApplicationCable::Channel
+  def subscribed
+    stream_from "sailor"
+  end
+end
+```
+{% endcode %}
+
+You are free to customize the string as required by your application. On the client, `Channel` subscription classes load when your app loads and will stay connected, waiting for updates. It's up to you to decide whether this is appropriate for your application, and is out of scope for this section. Again, you'll find all of the details in the [Stream Identifiers](identifiers.md) chapter.
+
+Without any further modification, all users will receive all broadcasts sent to this `Channel` on every page:
+
+```ruby
+cable_ready["sailor"].inner_html(html: "Howdy!").broadcast
+```
+
 ## Focus assignment
 
 The [DOM Mutation](reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.
