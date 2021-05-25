@@ -51,7 +51,7 @@ Since its release in late 2020, Rails developers have been eagerly digging into 
 
 While any answer will be nuanced and biases controlled for, we see the Turbo eventually providing an excellent successor for Rails UJS and acting as a launchboard to Reactive Rails UI design.
 
-We're confident calling CableReady an upgrade path from [Turbo Streams](https://turbo.hotwire.dev/handbook/streams). CableReady supports 5x more operations and is designed for extreme flexibility; it can be used almost anywhere in your app.
+We're confident calling CableReady an upgrade path from [Turbo Streams](https://turbo.hotwire.dev/handbook/streams). CableReady supports 7x more operations and is designed for extreme flexibility; it can be used almost anywhere in your app.
 
 Moreover, developers can use CableReady to broadcast operations to ad hoc groups of both people and resources [in a way that enables developers to build applications not easily possible](broadcasting-to-resources.md#fewer-promises-more-consciousness-expanding-code-samples-plz) with other tools.
 

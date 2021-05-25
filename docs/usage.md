@@ -186,6 +186,27 @@ setCookieHandler = event => {
 
 In general, it's easier to track related concepts transactionally in one broadcast envelope than it is to assemble data from multiple broadcasts back into a coherent state.
 
+### Staggering operations
+
+Sometimes, it can be hard to get the timing of things \*just right\*. CableReady is here to help, in the form of the `delay` option that is available for every operation.
+
+By default, CableReady runs operations in the order that they are received. However, if an integer `delay` is provided, the execution of that operation will be delayed by `n` milliseconds. It is as if that particular operation is wrapped in a `setTimeout`, which is exactly correct.
+
+```ruby
+console_log(message: "3").console_log(message: "2", delay: 1000).console_log(message: "1", delay: 2000).console_log(message: "Blast off?")
+```
+
+Remember: the individual operations are not aware of each other, so the delay is not cumulative. Plus, if you put a non-delayed operations after a delayed operation, the non-delayed operation will still fire immediately. The results of the example above will be:
+
+```text
+3
+Blast off?
+2
+1
+```
+
+You'll see the `3` and `Blast off?` immediately, followed by the `2` after a second, and `1` after another second.
+
 ### Modifying operations before they run
 
 Almost all operations emit `cable-ready:before-{operation}` and `cable-ready:after-{operation}` events. If you create an event handler to listen for "before" events, you can access and modify most of the parameters passed when queueing the operation on the server.
