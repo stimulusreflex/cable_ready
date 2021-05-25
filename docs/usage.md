@@ -265,7 +265,7 @@ The generator is interactive and will take you on a Choose Your Own Adventure th
 
 The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](identifiers.md) and [Broadcasting to Resources](broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
 
-#### Broadcasting to a resource
+### Broadcasting to a resource
 
 If you answer yes to the `broadcast_to` question, it will then ask you for the class name of the resource you want to stream, just in case it's different from the class name of the `Channel` that you're creating. Assuming that you went with the default "Sailor", you'll now have a `Sailor Channel`:
 
@@ -297,7 +297,7 @@ Now, whenever that Sailor partial is in the DOM, it will automatically subscribe
 cable_ready[SailorChannel].inner_html(html: "Howdy!").broadcast_to(Sailor.first)
 ```
 
-#### Broadcasting to a string identifier
+### Broadcasting to a string identifier
 
 If you answer no to the `broadcast_to` question, it will proceed to ask you for the stream identifier string that you'll be streaming from. Assuming that you accept the default "sailor", you'll now have a `Sailor Channel`:
 
