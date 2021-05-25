@@ -16,6 +16,7 @@ The default behavior of CableReady is to clear the operation queues for all stre
 | channel setup | stream\_from "cookies" | stream\_for Cookie.find\(params\[:id\]\) |
 | identifier | cable\_ready\["cookies"\] | cable\_ready\[CookiesChannel\] |
 | send to client | broadcast | broadcast\_to\(cookie\) |
+| create job | broadcast\_later | broadcast\_later\_to\(cookie\) |
 
 ## broadcast\(\*identifiers, clear: true\)
 
@@ -40,6 +41,24 @@ Calling `broadcast` with no parameters delivers all queues identified by strings
 {% hint style="info" %}
 If `broadcast` is called at the end of a method chain, there is no opportunity to change the identifier. In this context, `broadcast` only accepts the optional `clear: false` boolean argument.
 {% endhint %}
+
+## broadcast\_later\(clear: true\)
+
+Batch up all of the outstanding operations, serialize them and send the result to an ActiveJob for processing. The job worker will take responsibility for actually broadcasting the operations.
+
+This method can only be called at the end of a chain of operations, implying a single string-based stream identifier. It cannot be called in isolation to broadcast multiple channels the way `broadcast` can.
+
+This is an excellent way to speed up Reflex actions, although creating jobs has its own overhead. If you are using Sidekiq, remember that jobs are guaranteed to run "[at least once](https://stackoverflow.com/questions/65821152/sidekiq-will-execute-your-job-at-least-once-not-exactly-once)".
+
+## broadcast\_later\_to\(model, clear: true\)
+
+When called at the end of an operation chain, `broadcast_later_to` will batch up all of the outstanding operations, serialize them and send the result to an ActiveJob for processing. The job worker will take responsibility for actually broadcasting the operations.
+
+This method can only be called at the end of a chain of operations, implying a single resource as the stream identifier. It cannot be called in isolation to clear multiple channels the way `broadcast_to` can.
+
+You must pass `broadcast_to_later` an ActiveRecord model so that the job knows what resource to broadcast the operations to.
+
+This is an excellent way to speed up Reflex actions, although creating jobs has its own overhead. If you are using Sidekiq, remember that jobs are guaranteed to run "[at least once](https://stackoverflow.com/questions/65821152/sidekiq-will-execute-your-job-at-least-once-not-exactly-once)".
 
 ## broadcast\_to\(model, \*identifiers, clear: true\)
 
