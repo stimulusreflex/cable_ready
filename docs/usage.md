@@ -319,6 +319,16 @@ Without any further modification, all users will receive all broadcasts sent to 
 cable_ready["sailor"].inner_html(html: "Howdy!").broadcast
 ```
 
+## Operation Execution Order
+
+CableReady executes operations in the order that they are received, with the caveat that this applies to the type of operation as much as the operations themselves. In other words, if you:
+
+```ruby
+inner_html(html: "1").outer_html(html: "2").inner_html(html: "3")
+```
+
+Your operations will execute in the order **1, 3, 2** because CableReady will finish the `inner_html` operations before it moves on to the `outer_html` operations.
+
 ## Focus assignment
 
 The [DOM Mutation](reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.

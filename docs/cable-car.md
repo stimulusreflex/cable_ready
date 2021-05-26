@@ -18,7 +18,11 @@ Using `cable_car` is very similar to using the `cable_ready` method, except that
 cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
 ```
 
-This generates a Hash that contains a camelCased String key for every unique type of operation currently enqueued. The value of that key is an array of Hashes, where each Hash is an instance of the operation in context. This array could have one or many Hashes, depending on how many operations are queued.
+This generates a Hash that maps directly to CableReady's internal representation of your queued operations.
+
+#### Wait, what's in that Hash?!
+
+The Hash contains a camelCased String key for every unique type of operation currently enqueued. The value of that key is an array of Hashes, where each Hash is an instance of the operation in context. This array could have one or many Hashes, depending on how many operations are queued.
 
 Each inner Hash has camelCased keys corresponding to the options passed to it when the operation was created. The server doesn't know what options any given operation is expecting, and any extra options will be passed to the client as extra information which can be accessed with an event handler \(or Reflex callback method\).
 
@@ -29,16 +33,6 @@ Each inner Hash has camelCased keys corresponding to the options passed to it wh
 You can now convert the Hash to JSON using the `to_json` method and send it to the client via the mechanism of your choice. When received, pass the JSON into `CableReady.perform()` and the operations will be executed, regardless of how they got to the the browser.
 
 You can call `cable_car` and add operations multiple times, and it will continue to accumulate operations until you do something to clear the queue. Like the `broadcast` method, `dispatch` accepts an optional boolean keyword argument `clear`, which you can use to return the current JSON blob without clearing the queue.
-
-#### Operation Execution Order
-
-CableReady executes operations in the order that they are received, with the caveat that this applies to the type of operation as much as the operations themselves. In other words, if you:
-
-```ruby
-inner_html(html: "1").outer_html(html: "2").inner_html(html: "3")
-```
-
-Your operations will execute in the order **1, 3, 2** because CableReady will finish the `inner_html` operations before it moves on to the `outer_html` operations.
 
 ## Operations Renderer
 
@@ -110,5 +104,5 @@ That's it! Honestly, the only way it could be easier is if you just used Stimulu
 
 ## Operation Serialization
 
-
+[Earlier](cable-car.md#wait-whats-in-that-hash), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?
 
