@@ -45,6 +45,10 @@ You can use different operations together, and each operation can have completel
 
 Without a call to `broadcast`, operations will accumulate for the specified Channel stream identifier.
 
+## Executing operations
+
+TODO
+
 ## Method chaining
 
 When you call `cable_ready["visitors"]` you are presented with a `CableReady::Channels` object, which supports method chaining. This is a fancy way of saying that you can link up as many operations in sequence as you want, and they will ultimately be broadcast in the order that they were created.

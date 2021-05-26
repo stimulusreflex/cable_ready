@@ -9,6 +9,7 @@
 * [Leveraging Stimulus](leveraging-stimulus.md)
 * [Stream Identifiers](identifiers.md)
 * [Broadcasting to Resources](broadcasting-to-resources.md)
+* [Ride the Cable Car](cable-car.md)
 * [Customization](customization.md)
 * [Troubleshooting](troubleshooting/README.md)
   * [Morph Sanity Checklist](troubleshooting/morph-checklist.md)
