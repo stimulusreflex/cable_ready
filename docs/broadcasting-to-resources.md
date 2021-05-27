@@ -82,7 +82,7 @@ What's _really_ happening is that each item on your feed has been pre-cached, wi
 
 ### We don't need React to do this anymore
 
-With CableReady, it's possible to present your users with composable, reactive interface elements that subscribe to their own real-time event stream with a few dozen lines of simple code.
+With CableReady, it's possible to present your users with composable, reactive interface elements that subscribe to their own real-time event stream with a few dozen lines of code.
 
 {% hint style="warning" %}
 This is not hyperbole. Do you remember the first time you saw ActiveRecord working and thought, "I must be missing something, because this is impossible?"
