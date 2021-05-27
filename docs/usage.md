@@ -251,7 +251,7 @@ As you can see in the upcoming section on [connection identifiers](identifiers.m
 
 Forcing a websocket reconnection is mainly useful for upgrading account privileges after successfully authenticating. You could also disconnect former employees after they've been terminated.
 
-This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference \(i.e. a user that is actually connected\) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will simply fail silently:
+This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference \(i.e. a user that is actually connected\) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will fail silently:
 
 ```ruby
 ActionCable.server.remote_connections.where(current_user: User.find(1)).disconnect

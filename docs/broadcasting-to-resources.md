@@ -67,7 +67,7 @@ What's _really_ happening is that each item on your feed has been pre-cached, wi
 
 ### We don't need React to do this anymore
 
-With CableReady, it's possible to present your users with composable, reactive interface elements that subscribe to their own real-time event stream with a few dozen lines of simple code.
+With CableReady, it's possible to present your users with composable, reactive interface elements that subscribe to their own real-time event stream with a few dozen lines of code.
 
 {% hint style="warning" %}
 This is not hyperbole. Do you remember the first time you saw ActiveRecord working and thought, "I must be missing something, because this is impossible?"
@@ -191,7 +191,7 @@ Since all websocket traffic is moved through one Connection and Channel subscrip
 
 ![Helens](.gitbook/assets/helens.jpg)
 
-One of the few ways that the future is likely to be similar to the past is that when fundamentally new tools become available, smart young people quickly start building things that simply didn't and likely couldn't have existed before.
+One of the few ways that the future is likely to be similar to the past is that when fundamentally new tools become available, smart young people quickly start building things that didn't and likely couldn't have existed before.
 
 Ironically, Facebook could only make React do all of the real-time magic because they have some of the smartest developers on the planet working on the _back-end_ of their UI.
 
