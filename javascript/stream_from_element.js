@@ -18,7 +18,7 @@ class StreamFromElement extends HTMLElement {
       )
     } else {
       console.error(
-        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease set `CableReady.initialize({ consumer })` in your `index.js`.'
+        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:stream_from` to fix this.'
       )
     }
   }
