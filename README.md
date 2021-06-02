@@ -79,10 +79,10 @@ Please run `./bin/standardize` prior submitting pull requests.
 ### 📦 Releasing
 
 1. Bump version number at `lib/cable_ready/version.rb`
-1. Run `rake build`
-1. Run `rake release`
-1. Run `yarn publish --no-git-tag-version`
-1. Commit and push changes to the `package.json` file
+2. Run `rake build`
+3. Run `rake release`
+4. Run `yarn publish --no-git-tag-version`
+5. Commit and push changes to the `package.json` file
 
 ## 📝 License
 
