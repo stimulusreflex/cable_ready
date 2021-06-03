@@ -2,7 +2,7 @@
 
 ## New Release: v5.0.0
 
-* New `cable_car` mode provides access to operation composition from anywhere, paving the way for using CableReady via Ajax actions, Turbo Frames etc
+* New [`cable_car`](cable-car.md#introducing-cable_car) mode provides access to operation composition from anywhere, paving the way for using [CableReady via Ajax](cable-car.md#ajax-mode) actions, Turbo Frames etc
 * New `stream_from` helper makes streaming from arbitrary components easier than ever
 * New operations: [`console_table`](reference/operations/notifications.md#console_table), [`set_meta`](reference/operations/event-dispatch.md#set_meta)
 * New `cable_ready:channel` [generator](usage.md#channel-generator) creates channel classes and client channel subscribers
