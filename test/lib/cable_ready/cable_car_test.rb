@@ -25,4 +25,15 @@ class CableReady::CableCarTest < ActiveSupport::TestCase
     CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch(clear: false)
     assert_equal({"inner_html" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
   end
+
+  test "selectors should accept any object which respond_to? to_dom_selector" do
+    CableReady::CableCar.instance.reset!
+    my_object = Struct.new(:id) do
+      def to_dom_selector
+        "##{id}"
+      end
+    end.new("users")
+    dispatch = CableReady::CableCar.instance.inner_html(selector: my_object, html: "<span>winning</span>").dispatch
+    assert_equal({"innerHtml" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, dispatch)
+  end
 end

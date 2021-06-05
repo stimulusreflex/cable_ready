@@ -71,5 +71,7 @@ class CableReady::IdentifiableTest < ActiveSupport::TestCase
     assert_equal "#user_99", dom_id(user)
     assert_equal "#user_99", dom_id(user, nil)
     assert_equal "#all_active_user_99", dom_id(user, "all_active")
+
+    assert_equal "#user_99", determine_dom_selector(user)
   end
 end

@@ -15,5 +15,15 @@ module CableReady
 
       "##{id}".squeeze("#").strip
     end
+
+    def determine_dom_selector(obj)
+      if obj.respond_to?(:to_dom_selector)
+        obj.to_dom_selector
+      elsif obj.is_a?(ActiveRecord::Base) || obj.is_a?(ActiveRecord::Relation)
+        dom_id(obj)
+      else
+        obj.to_s
+      end
+    end
   end
 end
