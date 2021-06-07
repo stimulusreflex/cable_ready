@@ -32,7 +32,7 @@ module CableReady
         options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
         if options.include?("selector")
           @previous_selector = options["selector"]
-          options["selector"] = determine_dom_selector(previous_selector)
+          options["selector"] = identifiable?(previous_selector) ? dom_id(previous_selector) : previous_selector
         end
         @enqueued_operations[name.to_s] << options
         self

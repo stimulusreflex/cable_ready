@@ -5,7 +5,11 @@ module CableReady
     def dom_id(record, prefix = nil)
       prefix = prefix.to_s.strip if prefix
 
-      id = if record.is_a?(ActiveRecord::Relation)
+      id = if record.respond_to?(:to_dom_selector)
+        return record.to_dom_selector
+      elsif record.respond_to?(:to_dom_id)
+        record.to_dom_id
+      elsif record.is_a?(ActiveRecord::Relation)
         [prefix, record.model_name.plural].compact.join("_")
       elsif record.is_a?(ActiveRecord::Base)
         ActionView::RecordIdentifier.dom_id(record, prefix)
@@ -16,14 +20,11 @@ module CableReady
       "##{id}".squeeze("#").strip
     end
 
-    def determine_dom_selector(obj)
-      if obj.respond_to?(:to_dom_selector)
-        obj.to_dom_selector
-      elsif obj.is_a?(ActiveRecord::Base) || obj.is_a?(ActiveRecord::Relation)
-        dom_id(obj)
-      else
-        obj.to_s
-      end
+    def identifiable?(obj)
+      obj.respond_to?(:to_dom_selector) ||
+        obj.respond_to?(:to_dom_id) ||
+        obj.is_a?(ActiveRecord::Relation) ||
+        obj.is_a?(ActiveRecord::Base)
     end
   end
 end
