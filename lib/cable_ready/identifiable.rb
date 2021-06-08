@@ -3,11 +3,11 @@
 module CableReady
   module Identifiable
     def dom_id(record, prefix = nil)
+      return record.to_dom_selector if record.respond_to?(:to_dom_selector)
+
       prefix = prefix.to_s.strip if prefix
 
-      id = if record.respond_to?(:to_dom_selector)
-        return record.to_dom_selector
-      elsif record.respond_to?(:to_dom_id)
+      id = if record.respond_to?(:to_dom_id)
         record.to_dom_id
       elsif record.is_a?(ActiveRecord::Relation)
         [prefix, record.model_name.plural].compact.join("_")
