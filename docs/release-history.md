@@ -10,6 +10,7 @@
 * Channels and `cable_car` now have `to_json` and `apply!` serialization methods
 * Channels now support deferred delivery via ActiveJob thanks to the new [`broadcast_later`](reference/methods.md#broadcast_later-clear-true) and [`broadcast_later_to`](reference/methods.md#broadcast_later_to-model-clear-true) methods
 * `dom_id` [method](reference/methods.md#dom_id-record-prefix-nil) upgraded to handle ActiveRecord Models and Relations
+* Objects passed as selectors to an operation can now expose a `to_dom_selector` or `to_dom_id` method
 * Operations now accept [selector](usage.md#selector-as-optional-first-argument) as an optional first parameter
 * `selector` option now accepts ActiveRecord [Models and Relations](usage.md#selector-will-accept-ar-models-and-relations)
 * Chained operations now [remember](usage.md#selector-remembers-the-previous-selector) the selector from the previous operation
