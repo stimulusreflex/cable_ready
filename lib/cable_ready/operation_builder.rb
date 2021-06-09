@@ -24,12 +24,18 @@ module CableReady
     def add_operation_method(name)
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(*args) {
-        selector, options = nil, args.first || {} # 1 or 0 params
-        selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
-        selector, options = args[0, 2] if args.many? # 2 or more params
-        options.stringify_keys!
-        options.each do |key, value|
-          options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym)
+        if args.one? && args.first.respond_to?(:to_cable) && args.first.to_cable.is_a?(Array)
+          selector, options = nil, args.first.to_cable
+            .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
+            .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
+        else
+          selector, options = nil, args.first || {} # 1 or 0 params
+          selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
+          selector, options = args[0, 2] if args.many? # 2 or more params
+          options.stringify_keys!
+          options.each do |key, value|
+            options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym)
+          end
         end
         options["selector"] = selector if selector && options.exclude?("selector")
         options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
