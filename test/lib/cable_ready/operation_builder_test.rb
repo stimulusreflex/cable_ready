@@ -3,6 +3,20 @@
 require "test_helper"
 require_relative "../../../lib/cable_ready"
 
+class Death
+  def to_html
+    "I rock"
+  end
+
+  def to_dom_id
+    "death"
+  end
+
+  def to_cable
+    [:html, :dom_id, :spaz]
+  end
+end
+
 class CableReady::OperationBuilderTest < ActiveSupport::TestCase
   setup do
     @operation_builder = CableReady::OperationBuilder.new("test")
@@ -120,6 +134,51 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
       "innerHtml" => [
         {"html" => "<span>I rock</span>", "selector" => "#smelly"},
         {"html" => "<span>I rock too</span>", "selector" => "#smelly2"}
+      ]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should pull html option from Death object" do
+    @operation_builder.add_operation_method("inner_html")
+    death = Death.new
+
+    @operation_builder.inner_html(html: death)
+
+    operations = {
+      "innerHtml" => [
+        {"html" => "I rock"}
+      ]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should pull html option with selector from Death object" do
+    @operation_builder.add_operation_method("inner_html")
+    death = Death.new
+
+    @operation_builder.inner_html(death, html: death)
+
+    operations = {
+      "innerHtml" => [
+        {"html" => "I rock", "selector" => "#death"}
+      ]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should pull html and dom_id options from Death object" do
+    @operation_builder.add_operation_method("inner_html")
+    death = Death.new
+
+    @operation_builder.inner_html(death)
+
+    operations = {
+      "innerHtml" => [
+        {"html" => "I rock", "domId" => "death"}
       ]
     }
 
