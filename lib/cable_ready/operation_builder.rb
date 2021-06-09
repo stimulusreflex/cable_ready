@@ -24,8 +24,8 @@ module CableReady
     def add_operation_method(name)
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(*args) {
-        if args.one? && args.first.respond_to?(:to_cable) && args.first.to_cable.is_a?(Array)
-          selector, options = nil, args.first.to_cable
+        if args.one? && args.first.respond_to?(:to_operation) && args.first.to_operation.is_a?(Array)
+          selector, options = nil, args.first.to_operation
             .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
             .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
         else

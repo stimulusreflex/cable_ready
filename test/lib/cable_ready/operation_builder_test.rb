@@ -12,7 +12,7 @@ class Death
     "death"
   end
 
-  def to_cable
+  def to_operation
     [:html, :dom_id, :spaz]
   end
 end
