@@ -33,9 +33,7 @@ module CableReady
           selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
           selector, options = args[0, 2] if args.many? # 2 or more params
           options.stringify_keys!
-          options.each do |key, value|
-            options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym)
-          end
+          options.each { |key, value| options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym) }
         end
         options["selector"] = selector if selector && options.exclude?("selector")
         options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
