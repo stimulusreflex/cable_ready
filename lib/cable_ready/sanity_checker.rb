@@ -135,7 +135,7 @@ class CableReady::SanityChecker
 
         INFO
       end
-      exit false unless Rails.env.test?
+      exit false if Rails.env.test? == false
     end
   end
 end
