@@ -12,7 +12,7 @@ class CableReady::SanityChecker
       return if called_by_rake?
 
       instance = new
-      instance.check_javascript_package_version
+      instance.check_package_versions_match
       instance.check_new_version_available
     end
 
@@ -27,29 +27,27 @@ class CableReady::SanityChecker
     end
   end
 
-  def check_javascript_package_version
-    if javascript_package_version.nil?
+  def check_package_versions_match
+    if npm_version.nil?
       warn_and_exit <<~WARN
         Can't locate the cable_ready npm package.
         Either add it to your package.json as a dependency or use "yarn link cable_ready" if you are doing development.
-
       WARN
     end
 
-    unless javascript_version_matches?
+    if package_version_mismatch?
       warn_and_exit <<~WARN
-        The cable_ready npm package version (#{javascript_package_version}) does not match the Rubygem version (#{gem_version}).
+        The cable_ready npm package version (#{npm_version}) does not match the Rubygem version (#{gem_version}).
         To update the cable_ready npm package:
           yarn upgrade cable_ready@#{gem_version}
-
       WARN
     end
   end
 
   def check_new_version_available
-    return unless Rails.env.development?
     return if CableReady.config.on_new_version_available == :ignore
-    return unless using_stable_release
+    return if Rails.env.development? == false
+    return if using_preview_release?
     begin
       latest_version = URI.open("https://raw.githubusercontent.com/stimulusreflex/cable_ready/master/LATEST", open_timeout: 1, read_timeout: 1).read.strip
       if latest_version != CableReady::VERSION
@@ -71,25 +69,25 @@ class CableReady::SanityChecker
 
   private
 
-  def javascript_version_matches?
-    javascript_package_version == gem_version
+  def package_version_mismatch?
+    npm_version != gem_version
   end
 
-  def using_stable_release
-    stable = CableReady::VERSION.match?(LATEST_VERSION_FORMAT)
-    puts "CableReady #{CableReady::VERSION} update check skipped: pre-release build" unless stable
-    stable
+  def using_preview_release?
+    preview = CableReady::VERSION.match?(LATEST_VERSION_FORMAT) == false
+    puts "CableReady #{CableReady::VERSION} update check skipped: pre-release build" if preview
+    preview
   end
 
   def gem_version
     @_gem_version ||= CableReady::VERSION.gsub(".pre", "-pre")
   end
 
-  def javascript_package_version
-    @_js_version ||= find_javascript_package_version
+  def npm_version
+    @_npm_version ||= find_npm_version
   end
 
-  def find_javascript_package_version
+  def find_npm_version
     if (match = search_file(package_json_path, regex: /version/))
       match[JSON_VERSION_FORMAT, 1]
     elsif (match = search_file(yarn_lock_path, regex: /^cable_ready/))
@@ -98,7 +96,7 @@ class CableReady::SanityChecker
   end
 
   def search_file(path, regex:)
-    return unless File.exist?(path)
+    return if File.exist?(path) == false
     File.foreach(path).grep(regex).first
   end
 
@@ -110,49 +108,34 @@ class CableReady::SanityChecker
     Rails.root.join("yarn.lock")
   end
 
-  def initializer_path
-    @_initializer_path ||= Rails.root.join("config", "initializers", "cable_ready.rb")
+  def initializer_missing?
+    File.exist?(Rails.root.join("config", "initializers", "cable_ready.rb")) == false
   end
 
   def warn_and_exit(text)
-    puts
+    puts 
     puts "Heads up! 🔥"
     puts
     puts text
-    exit_with_info if CableReady.config.on_failed_sanity_checks == :exit
-  end
-
-  def exit_with_info
     puts
-
-    if File.exist?(initializer_path)
+    if CableReady.config.on_failed_sanity_checks == :exit
       puts <<~INFO
-        If you know what you are doing and you want to start the application anyway, you can silence these warnings in the CableReady initializer, which is located at #{initializer_path}
+        If you know what you are doing and you want to start the application anyway, you can add the following directive to the CableReady initializer:
 
-          CableReady.configure do |config|
+        CableReady.configure do |config|
             config.on_failed_sanity_checks = :warn
           end
 
       INFO
-    else
-      puts <<~INFO
-        If you know what you are doing and you want to start the application anyway,
-        you can create a CableReady initializer with the command:
+      if initializer_missing?
+        puts <<~INFO
+          You can create a CableReady initializer with the command:
 
-        bundle exec rails generate cable_ready:config
+            bundle exec rails generate cable_ready:initializer
 
-        Then open your initializer at
-
-        #{initializer_path}
-
-        and then add the following directive:
-
-          CableReady.configure do |config|
-            config.on_failed_sanity_checks = :warn
-          end
-
-      INFO
+        INFO
+      end
+      exit false unless Rails.env.test?
     end
-    exit false unless Rails.env.test?
   end
 end
