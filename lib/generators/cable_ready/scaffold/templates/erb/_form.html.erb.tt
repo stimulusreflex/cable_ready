@@ -1,6 +1,6 @@
-<%%= form_with(model: <%= model_resource_name %>, data: {remote: true}, id: dom_id(<%= singular_table_name %>)) do |form| %>
+<%%= form_with(model: <%= model_resource_name %>, data: {remote: true, type: "json"}, id: dom_id(<%= singular_table_name %>), html: {style: "margin-bottom: 36px;"}) do |form| %>
   <%% if <%= singular_table_name %>.errors.any? %>
-    <div id="error_explanation">
+    <div>
       <h2><%%= pluralize(<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
 
       <ul>
@@ -12,13 +12,13 @@
   <%% end %>
 
 <% attributes.each do |attribute| -%>
-  <div class="field">
+  <div>
 <% if attribute.password_digest? -%>
     <%%= form.label :password %><br>
     <%%= form.password_field :password %>
   </div>
 
-  <div class="field">
+  <div>
     <%%= form.label :password_confirmation %><br>
     <%%= form.password_field :password_confirmation %>
 <% elsif attribute.attachments? -%>
@@ -31,8 +31,8 @@
   </div>
 
 <% end -%>
-  <div class="actions">
+  <div style="margin-top: 12px">
     <%%= form.submit %>
-    <%%= link_to "Cancel", <%= plural_table_name %>_path, data: {remote: true, type: "json"} %>
+    <%%= link_to "Cancel", <%= plural_table_name %>_path, data: {remote: true, type: "json"}, style: "margin-left: 8px;" %>
   </div>
 <%% end %>

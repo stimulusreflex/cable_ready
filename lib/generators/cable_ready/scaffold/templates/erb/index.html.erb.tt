@@ -5,7 +5,5 @@
     <%%= render @<%= plural_table_name %> %>
   </div>
 
-  <br>
-
-  <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, data: {remote: true} %>
+  <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, data: {remote: true, type: "json"} %>
 </div>
