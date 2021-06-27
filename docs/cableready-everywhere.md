@@ -59,6 +59,10 @@ end
 
 Not too shabby, right?
 
+### Cable Car
+
+TODO
+
 ## Jobs
 
 Using ActiveJob - especially when it's backed by the awesome [Sidekiq](https://sidekiq.org/) - is arguably one of the two best and most common ways developers broadcast CableReady operations, along with [Reflexes](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action).
@@ -111,6 +115,10 @@ class ExampleJob < ApplicationJob
 end
 ```
 {% endcode %}
+
+## mrujs
+
+TODO
 
 ## ActiveRecord
 
@@ -265,6 +273,14 @@ Finally, let's wire up the input element's change event to the `greet` method:
 <input type="text" data-controller="sailors" data-action="change->sailors#greet">
 ```
 {% endcode %}
+
+## chrono\_trigger
+
+TODO
+
+## Redis Firehose TBD
+
+TODO
 
 ## StimulusReflex
 
