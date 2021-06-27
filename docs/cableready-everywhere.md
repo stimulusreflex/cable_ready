@@ -112,10 +112,6 @@ end
 ```
 {% endcode %}
 
-## mrujs
-
-TODO
-
 ## ActiveRecord
 
 Make sure that `CableReady::Broadcaster` is included in your `ApplicationRecord`, and delegate `render` to `ApplicationController`:
@@ -269,14 +265,6 @@ Finally, let's wire up the input element's change event to the `greet` method:
 <input type="text" data-controller="sailors" data-action="change->sailors#greet">
 ```
 {% endcode %}
-
-## chrono\_trigger
-
-TODO
-
-## Redis Firehose TBD
-
-TODO
 
 ## StimulusReflex
 
