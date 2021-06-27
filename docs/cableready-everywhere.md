@@ -59,10 +59,6 @@ end
 
 Not too shabby, right?
 
-### Cable Car
-
-TODO
-
 ## Jobs
 
 Using ActiveJob - especially when it's backed by the awesome [Sidekiq](https://sidekiq.org/) - is arguably one of the two best and most common ways developers broadcast CableReady operations, along with [Reflexes](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action).
