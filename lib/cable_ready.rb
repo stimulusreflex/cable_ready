@@ -32,6 +32,8 @@ module CableReady
         ActionController::Renderers.add :operations do |operations, options|
           render json: operations.dispatch
         end
+
+        Mime::Type.register "application/vnd.cable-ready.json", :cable_ready
       end
     end
   end
