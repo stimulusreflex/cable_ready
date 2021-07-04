@@ -30,6 +30,7 @@ module CableReady
     initializer "renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
+          response.content_type ||= Mime[:cable_ready]
           render json: operations.dispatch
         end
 
