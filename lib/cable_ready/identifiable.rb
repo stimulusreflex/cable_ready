@@ -17,7 +17,7 @@ module CableReady
         [prefix, record.to_s.strip].compact.join("_")
       end
 
-      "##{id}".squeeze("#").strip
+      "##{id}".squeeze("#").strip.downcase
     end
 
     def identifiable?(obj)
