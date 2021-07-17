@@ -12,8 +12,17 @@ class Death
     "death"
   end
 
-  def to_operation
+  def to_operation_options
     [:html, :dom_id, :spaz]
+  end
+end
+
+class Life
+  def to_operation_options
+    {
+      html: "You go, girl",
+      dom_id: "life"
+    }
   end
 end
 
@@ -179,6 +188,21 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
     operations = {
       "innerHtml" => [
         {"html" => "I rock", "domId" => "death"}
+      ]
+    }
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
+  test "should pull html and dom_id options from Life object" do
+    @operation_builder.add_operation_method("inner_html")
+    life = Life.new
+
+    @operation_builder.inner_html(life)
+
+    operations = {
+      "innerHtml" => [
+        {"html" => "You go, girl", "domId" => "life"}
       ]
     }
 

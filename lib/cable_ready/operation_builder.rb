@@ -24,10 +24,19 @@ module CableReady
     def add_operation_method(name)
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(*args) {
-        if args.one? && args.first.respond_to?(:to_operation) && args.first.to_operation.is_a?(Array)
-          selector, options = nil, args.first.to_operation
-            .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
-            .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
+        if args.one? && args.first.respond_to?(:to_operation_options) && [Array, Hash].include?(args.first.to_operation_options.class)
+          case args.first.to_operation_options.class.name
+          when "Array"
+            selector, options = nil, args.first.to_operation_options
+              .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
+              .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
+          when "Hash"
+            selector, options = nil, args.first.to_operation_options
+              .select { |e| e.is_a?(Symbol) }
+              .each_with_object({}) { |option, memo| memo[option[0]] = option[1] }
+          else
+            raise TypeError, ":to_operation_options returned an #{args.first.to_operation_options.class.name}. Must be an Array or Hash."
+          end
         else
           selector, options = nil, args.first || {} # 1 or 0 params
           selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
