@@ -32,8 +32,6 @@ module CableReady
               .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
           when "Hash"
             selector, options = nil, args.first.to_operation_options
-              .select { |e| e.is_a?(Symbol) }
-              .each_with_object({}) { |option, memo| memo[option[0]] = option[1] }
           else
             raise TypeError, ":to_operation_options returned an #{args.first.to_operation_options.class.name}. Must be an Array or Hash."
           end
