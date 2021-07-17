@@ -24,10 +24,24 @@ module CableReady
     def add_operation_method(name)
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(*args) {
-        selector, options = nil, args.first || {} # 1 or 0 params
-        selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
-        selector, options = args[0, 2] if args.many? # 2 or more params
-        options.stringify_keys!
+        if args.one? && args.first.respond_to?(:to_operation_options) && [Array, Hash].include?(args.first.to_operation_options.class)
+          case args.first.to_operation_options
+          when Array
+            selector, options = nil, args.first.to_operation_options
+              .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
+              .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
+          when Hash
+            selector, options = nil, args.first.to_operation_options
+          else
+            raise TypeError, ":to_operation_options returned an #{args.first.to_operation_options.class.name}. Must be an Array or Hash."
+          end
+        else
+          selector, options = nil, args.first || {} # 1 or 0 params
+          selector, options = options, {} unless options.is_a?(Hash) # swap if only selector provided
+          selector, options = args[0, 2] if args.many? # 2 or more params
+          options.stringify_keys!
+          options.each { |key, value| options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym) }
+        end
         options["selector"] = selector if selector && options.exclude?("selector")
         options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
         if options.include?("selector")
