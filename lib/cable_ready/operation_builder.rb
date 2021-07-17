@@ -25,12 +25,12 @@ module CableReady
       return if respond_to?(name)
       singleton_class.public_send :define_method, name, ->(*args) {
         if args.one? && args.first.respond_to?(:to_operation_options) && [Array, Hash].include?(args.first.to_operation_options.class)
-          case args.first.to_operation_options.class.name
-          when "Array"
+          case args.first.to_operation_options
+          when Array
             selector, options = nil, args.first.to_operation_options
               .select { |e| e.is_a?(Symbol) && args.first.respond_to?("to_#{e}".to_sym) }
               .each_with_object({}) { |option, memo| memo[option.to_s] = args.first.send("to_#{option}".to_sym) }
-          when "Hash"
+          when Hash
             selector, options = nil, args.first.to_operation_options
           else
             raise TypeError, ":to_operation_options returned an #{args.first.to_operation_options.class.name}. Must be an Array or Hash."
