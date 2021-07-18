@@ -7,6 +7,7 @@ class CableReady::SanityChecker
 
   class << self
     def check!
+      return if ENV["SKIP_SANITY_CHECK"]
       return if CableReady.config.on_failed_sanity_checks == :ignore
       return if called_by_generate_config?
       return if called_by_rake?
@@ -23,7 +24,7 @@ class CableReady::SanityChecker
     end
 
     def called_by_rake?
-      caller.find { |c| c.include?("/gems/rake-") }
+      File.basename($PROGRAM_NAME) == "rake"
     end
   end
 
@@ -113,16 +114,20 @@ class CableReady::SanityChecker
   end
 
   def warn_and_exit(text)
-    puts 
+    puts
     puts "Heads up! 🔥"
     puts
     puts text
     puts
     if CableReady.config.on_failed_sanity_checks == :exit
       puts <<~INFO
-        If you know what you are doing and you want to start the application anyway, you can add the following directive to the CableReady initializer:
+        To ignore any warnings and start the application anyway, you can set the SKIP_SANITY_CHECK environment variable:
 
-        CableReady.configure do |config|
+          SKIP_SANITY_CHECK=true rails s
+
+        To do this permanently, add the following directive to the CableReady initializer:
+
+          CableReady.configure do |config|
             config.on_failed_sanity_checks = :warn
           end
 
