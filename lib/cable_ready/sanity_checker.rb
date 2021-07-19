@@ -31,15 +31,20 @@ class CableReady::SanityChecker
   def check_package_versions_match
     if npm_version.nil?
       warn_and_exit <<~WARN
-        Can't locate the cable_ready npm package.
+        👉 Can't locate the cable_ready npm package.
+
+          yarn add cable_ready@#{gem_version}
+
         Either add it to your package.json as a dependency or use "yarn link cable_ready" if you are doing development.
       WARN
     end
 
     if package_version_mismatch?
       warn_and_exit <<~WARN
-        The cable_ready npm package version (#{npm_version}) does not match the Rubygem version (#{gem_version}).
+        👉 The cable_ready npm package version (#{npm_version}) does not match the Rubygem version (#{gem_version}).
+
         To update the cable_ready npm package:
+
           yarn upgrade cable_ready@#{gem_version}
       WARN
     end
@@ -54,7 +59,7 @@ class CableReady::SanityChecker
       if latest_version != CableReady::VERSION
         puts <<~WARN
 
-          There is a new version of CableReady available!
+          👉 There is a new version of CableReady available!
           Current: #{CableReady::VERSION} Latest: #{latest_version}
 
           If you upgrade, it is very important that you update BOTH Gemfile and package.json
@@ -64,7 +69,7 @@ class CableReady::SanityChecker
         exit if CableReady.config.on_new_version_available == :exit
       end
     rescue
-      puts "CableReady #{CableReady::VERSION} update check skipped: connection timeout"
+      puts "👉 CableReady #{CableReady::VERSION} update check skipped: connection timeout"
     end
   end
 
@@ -76,7 +81,7 @@ class CableReady::SanityChecker
 
   def using_preview_release?
     preview = CableReady::VERSION.match?(LATEST_VERSION_FORMAT) == false
-    puts "CableReady #{CableReady::VERSION} update check skipped: pre-release build" if preview
+    puts "👉 CableReady #{CableReady::VERSION} update check skipped: pre-release build" if preview
     preview
   end
 

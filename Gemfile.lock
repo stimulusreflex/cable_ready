@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cable_ready (5.0.0.pre0)
+    cable_ready (5.0.0.pre1)
       rails (>= 5.2)
       thread-local (>= 1.1.0)
 
@@ -121,7 +121,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    loofah (2.9.1)
+    loofah (2.10.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     magic_frozen_string_literal (1.2.0)
@@ -130,13 +130,13 @@ GEM
     marcel (1.0.1)
     method_source (0.9.2)
     mini_mime (1.0.3)
-    mini_portile2 (2.5.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     mocha (1.12.0)
     multi_json (1.15.0)
     multipart-post (2.1.1)
     nio4r (2.5.7)
-    nokogiri (1.11.5)
+    nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     octokit (4.21.0)
@@ -230,7 +230,7 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
-    websocket-driver (0.7.3)
+    websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.4.2)
@@ -249,4 +249,4 @@ DEPENDENCIES
   standardrb
 
 BUNDLED WITH
-   2.2.3
+   2.2.19
