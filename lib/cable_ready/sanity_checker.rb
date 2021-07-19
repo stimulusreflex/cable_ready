@@ -128,7 +128,7 @@ class CableReady::SanityChecker
       puts <<~INFO
         To ignore any warnings and start the application anyway, you can set the SKIP_SANITY_CHECK environment variable:
 
-          SKIP_SANITY_CHECK=true rails s
+          SKIP_SANITY_CHECK=true rails
 
         To do this permanently, add the following directive to the CableReady initializer:
 
