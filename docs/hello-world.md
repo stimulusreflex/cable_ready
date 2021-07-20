@@ -11,7 +11,7 @@ If your goals can be achieved by broadcasting operations to the current user fro
 To demonstrate a basic setup, we're going to use the built-in Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
 
 ```bash
-bundle exec rails generate channel example
+rails g channel example
 ```
 
 In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to a stream called `visitors`. We'll talk more about streams soon. For now, `visitors` is for operations that will be sent to everyone currently looking at your site.
@@ -41,5 +41,5 @@ consumer.subscriptions.create('ExampleChannel', {
 ```
 {% endcode %}
 
-That's it! Let's get this party started and learn how to broadcast operations.
+In the [next section](cableready-101.md), we'll learn how to broadcast operations.
 

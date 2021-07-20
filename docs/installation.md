@@ -19,7 +19,7 @@ You can manually tweak and/or lock the versions you want to install by modifying
 
 ## Upgrading, package versions and sanity
 
-In the future, should you ever upgrade your version of CableReadh, it's very important that you always make sure your gem version and npm package versions match.
+When upgrading CableReady, it's very important that you make sure your gem version and npm package versions match.
 
 Since mismatched versions are the first step on the path to hell, by default CableReady won't allow the server to start if your versions are mismatched in the development environment.
 

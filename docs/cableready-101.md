@@ -8,29 +8,42 @@ We're going to use an ActiveRecord `after_create` callback to demonstrate welcom
 
 ## Broadcasting operations
 
-There are three distinct aspects of every CableReady invocation:
+#### Preparing to broadcast
 
-1. Channel stream identifier\(s\): decide who \(or what\) will receive operations
-2. Operation queueing: define one or more operations to broadcast
-3. Broadcast: broadcast all queued operations immediately
+You can use CableReady almost anywhere in your application, so long as you include it into the class that you're working in:
+
+```ruby
+include CableReady::Broadcaster
+```
+
+{% hint style="success" %}
+On the [Working with CableReady](usage.md#lets-get-comfortable) page, you'll learn how to set up CableReady to be accessible from anywhere in your application.
+{% endhint %}
+
+#### The 3 parts of a CableReady command
+
+With few exceptions, all CableReady invocations have three predictable segments:
+
+1. Stream identifier\(s\): who \(or what\) will receive operations
+2. Operation queueing: one or more operations to broadcast
+3. Broadcast: deliver all queued operations immediately
 
 ```ruby
 class User < ApplicationRecord
   include CableReady::Broadcaster
 
   after_create do
-    cable_ready["visitors"].console_log(message: "Welcome #{self.name} to the site!")
-    cable_ready.broadcast # send queued console_log operation to all ExampleChannel subscribers
+    cable_ready["visitors"] # send to everyone subscribed to the channel streaming from "visitors"
+      .console_log(message: "Welcome #{self.name} to the site!") # all users will see a message appear in their browser's Console Inspector
+      .broadcast # send all queued operations to all ExampleChannel subscribers
   end
 end
 ```
 
 The `ExampleChannel` that we created in the [Setup](hello-world.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Log message welcoming the latest member.
 
-On the [Working with CableReady](usage.md#lets-get-comfortable) page, we'll see how we can set up CableReady so that you can access it from anywhere in your application, so that you don't have to include the module in every class.
-
 {% hint style="info" %}
-ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that resolution possibilities are defined across all of your Channel classes.
+ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that Strean Identifiers are defined inside of your Channel classes.
 {% endhint %}
 
 You can call `cable_ready` multiple times to add more operations to the queue. Since `cable_ready` is a singleton instance, you can continue to add operations to the queue even across multiple methods, or a recursive function.
