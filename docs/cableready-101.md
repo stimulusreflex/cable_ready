@@ -25,7 +25,7 @@ class User < ApplicationRecord
 end
 ```
 
-The `ExampleChannel` that we created in the [Setup](setup.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Log message welcoming the latest member.
+The `ExampleChannel` that we created in the [Setup](hello-world.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Log message welcoming the latest member.
 
 On the [Working with CableReady](usage.md#lets-get-comfortable) page, we'll see how we can set up CableReady so that you can access it from anywhere in your application, so that you don't have to include the module in every class.
 

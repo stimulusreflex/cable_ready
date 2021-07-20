@@ -1,7 +1,7 @@
 # Installation
 
 {% hint style="success" %}
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed as a dependency and you can move on to [Setup](setup.md#setup). 🎉
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed as a dependency and you can move on to [Setup](hello-world.md#setup). 🎉
 {% endhint %}
 
 CableReady has both client \([npm package](https://www.npmjs.com/package/cable_ready)\) and server \([Ruby gem](https://rubygems.org/gems/cable_ready)\) components which need to be installed. It is vitally important that you **make sure that your server and client versions match exactly**.

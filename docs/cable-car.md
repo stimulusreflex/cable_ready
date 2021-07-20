@@ -10,27 +10,34 @@ CableReady-the-Library - which was created for ActionCable - had become just one
 
 ## Introducing `cable_car`
 
-Thanks to `CableReady::Broadcaster`, you can now call the `cable_car` method pretty much anywhere in your application. Unlike `Channels`, Cable Car isn't opinionated about how you plan to use the JSON it creates. It doesn't have any broadcast capacity of its own, making it a perfect fit for controller actions, ActiveJob scheduling and persisting operations to your database.
+Thanks to `CableReady::Broadcaster`, you can now call the `cable_car` method pretty much anywhere in your application. Unlike ActionCable `Channels` - which are delivered over WebSockets - Cable Car isn't opinionated about how you plan to use the JSON it creates. It doesn't have any broadcast capacity of its own, making it a perfect fit for controller actions responding to HTTP requests, ActiveJob scheduling and persisting operations to your database.
 
-Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier \("no square brackets"\) and instead of calling `broadcast`, when you're finished adding operations, you call `dispatch`:
+Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier \("no square brackets"\). Instead of sending data over WebSockets with `broadcast`, you call `dispatch`:
 
 ```ruby
-cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
+operations = cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
 ```
 
-This generates a Hash that maps directly to CableReady's internal representation of your queued operations.
+This generates a Hash that describes CableReady's internal representation of your queued operations.
 
 #### Wait, what's in that Hash?!
 
 The Hash contains a camelCased String key for every unique type of operation currently enqueued. The value of that key is an array of Hashes, where each Hash is an instance of the operation in context. This array could have one or many Hashes, depending on how many operations are queued.
 
-Each inner Hash has camelCased keys corresponding to the options passed to it when the operation was created. The server doesn't know what options any given operation is expecting, and any extra options will be passed to the client as extra information which can be accessed with an event handler \(or Reflex callback method\).
-
 ```javascript
 {"innerHtml"=>[{"html"=>"<b>Users</b>", "selector"=>"#users"}]}
 ```
 
-You can now convert the Hash to JSON using the `to_json` method and send it to the client via the mechanism of your choice. When received, pass the JSON into `CableReady.perform()` and the operations will be executed, regardless of how they got to the the browser.
+Each inner Hash has camelCased keys corresponding to the options passed to it when the operation was created. The server doesn't know what options any given operation is expecting, and any extra options will be passed to the client as extra information which can be accessed with an event handler \(or Reflex callback method\).
+
+You can now convert the Hash to JSON using the `to_json` method and send it to the client via the mechanism of your choice:
+
+```ruby
+operations.to_json
+"{\"innerHtml\":[{\"html\":\"\\u003cb\\u003eUsers\\u003c/b\\u003e\",\"selector\":\"#users\"}]}"
+```
+
+Pass the JSON into `CableReady.perform()` and the operations will be executed, regardless of how they got to the the browser.
 
 You can call `cable_car` and add operations multiple times, and it will continue to accumulate operations until you do something to clear the queue. Like the `broadcast` method, `dispatch` accepts an optional boolean keyword argument `clear`, which you can use to return the current JSON blob without clearing the queue.
 
@@ -46,13 +53,11 @@ class HomeController < ApplicationController
 end
 ```
 
-The client will receive a JSON blob which can be passed directly to `CableReady.perform()`.
-
-How cool is that?
+How cool is that? Next, we'll look at how to put this technique to work.
 
 ## "Ajax Mode"
 
-Accessing CableReady with fetch is a snap. We need a button to kick things off, and an empty DIV element named `users` to receive updates. The button calls `go` on a Stimulus controller:
+Accessing CableReady with `fetch` is a snap. We need a button to kick things off, and an empty DIV element named `users` to receive updates. The button calls `go` on a Stimulus controller:
 
 ```markup
 <button data-controller="cable-car" data-action="cable-car#go">Cable Car</button>
@@ -66,24 +71,22 @@ import CableReady from 'cable_ready'
 
 export default class extends Controller {
   go () {
-    fetch('/ride.json', {
-      headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-      .then(response => response.json())
-      .then(data => CableReady.perform(data))
+    fetch('/ride')
+      .then(r => r.json())
+      .then(CableReady.perform)
   }
 }
 ```
 {% endcode %}
 
-No need to get fancy: we send Rails the header it needs to treat this as an XHR request, and mark whatever comes back as JSON, which can be passed straight into `CableReady.perform()`.
+No need to get fancy: we parse the String that comes back as JSON, and pass it straight into `CableReady.perform`.
 
 On the server side, we need to make sure that the request is sent to the right controller:
 
 {% code title="config/routes.rb" %}
 ```ruby
 Rails.application.routes.draw do
-  get "ride", to: "home#ride", constraints: lambda { |request| request.xhr? } 
+  get "ride", to: "home#ride" 
 end
 ```
 {% endcode %}

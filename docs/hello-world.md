@@ -2,7 +2,7 @@
 description: Bootstrap a minimum viable CableReady install without bikeshedding
 ---
 
-# Setup
+# Hello World
 
 {% hint style="success" %}
 If your goals can be achieved by broadcasting operations to the current user from inside of a Reflex action method, you're already [good to go](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action) and can skip to [CableReady 101](cableready-101.md).

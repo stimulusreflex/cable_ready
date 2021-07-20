@@ -109,7 +109,7 @@ Each stream identifier has its own operations queue. This means that you could b
 
 ## Dynamic identifiers
 
-Until now, we've been [working with](setup.md) Channels that have "glob" identifiers. Everyone subscribing to the Channel can be reached by broadcasting to it's identifier. Time to level up!
+Until now, we've been [working with](hello-world.md) Channels that have "glob" identifiers. Everyone subscribing to the Channel can be reached by broadcasting to it's identifier. Time to level up!
 
 The argument to `stream_from` is \[just\] a string, which means that we can construct all manner of dynamic identifiers based on information available to us from the Channel and Connection, as well as a `params` hash that comes from the client when the Channel subscription is received.
 
@@ -198,7 +198,7 @@ Let's imagine for a moment that in your new application, authenticated users are
 You can clone a copy of [this token authentication application](https://github.com/leastbad/stimulus_reflex_harness/tree/token_auth) and see a great example of how passing params works. A JWT token is created, stored in a `meta` tag in the `head`, then passed to the Channel subscription as a 2nd parameter.
 {% endhint %}
 
-We've [already seen](setup.md) that the subscription creation method accepts a string like "ExampleChannel". Behind the scenes, that string is converted into an object:
+We've [already seen](hello-world.md) that the subscription creation method accepts a string like "ExampleChannel". Behind the scenes, that string is converted into an object:
 
 ```javascript
 {channel: "ExampleChannel"}

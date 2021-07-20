@@ -2,7 +2,7 @@
 
 * [Welcome](README.md)
 * [Installation](installation.md)
-* [Setup](setup.md)
+* [Hello World](hello-world.md)
 * [CableReady 101](cableready-101.md)
 * [Working with CableReady](usage.md)
 * [CableReady Everywhere](cableready-everywhere.md)
