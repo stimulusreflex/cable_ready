@@ -1,32 +1,8 @@
 # Working with CableReady
 
-## ActionCable: The Missing Manual
+CableReady is a simple library with a lot of power.
 
-The author has substantial empathy for any volunteers tasked with documenting abstract framework concepts, including the dozens of people who have contributed in varying degrees to the [Rails Guide for ActionCable](https://guides.rubyonrails.org/action_cable_overview.html). Still, as a tool for learning how to use ActionCable, it frustrates the reader along several axis and hasn't received the polish other Guides in the Rails framework have benefitted from.
-
-The most unfortunate aspect of the ActionCable guide was the decision to frame the entire mental model around the apparent goal of implementing \[part of\] a chat system. **ActionCable is for building chat systems in the exact same way that Rails is for building blogs.** In fact, this paragraph is very intentionally the only time chat will be mentioned in the entirety of the CableReady documentation. It is realistic to conclude that the near-complete fixation on chat retarded the evolution of real-time interfaces and techniques in Rails by a period measured in years. 🤦‍♀️
-
-`Connection` represents the fully-abstracted raw websocket protocol. Properly configured, one WS connection can support an unbound number of Channels, and it will work hard to keep you connected even if your bandwidth is spotty. Connections are also where most developers implement authentication.
-
-`Channel` is a theme-specific conduit for exchanging messages via the Connection. These conduits are referenced by the developer using either a string or a constant. Channel is designed with a "hub-and-spoke" distribution model in which there is no concept of direct, client-to-client message passing. Implemented as a sibling pair of Ruby and JavaScript classes, Channel provides the flexible conceptual chassis upon which real-time applications can be built in Rails.
-
-`Subscription` is a wire made out of intention, stretched between the firehose "stream" interfaces of the Channel and the densely connected tree your client-side code taps like a spigot. Subscriptions might not be free, but they certainly are quite cheap.
-
-The thing about Channels and Subscriptions is that once you've established them, they only take up as much room as the content that you pass down them. They are a lattice of pneumatic tubes that only exist in the moment they are needed, and not a moment before or after.
-
-To double-murder a metaphor, Channels are to classes what Subscriptions are to instances.
-
-... and now you know how ActionCable works!
-
-## Single Source of Truth
-
-CableReady was created with a deep and informed belief that web[ applications that maintain state on the server are fundamentally easier to design, build and maintain](advocating-for-reactive-rails.md).
-
-However, one of the stranger edge-cases that must be handled in a websockets-enabled world is the potential for a server update to overwrite the value of a text input _while the user is typing into it_. It's a jarring example because it's an end-result that was almost completely impossible to achieve in the Ajax era. Despite our wildest brainstorms, we have yet to identify even a single scenario where a user would consider having their effort undone to be positive.
-
-As a result, CableReady's popular [morph](reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active \(have focus\).
-
-Since forms are rarely designed to be edited by multiple concurrent users 😱 it's unlikely that you'll have to spend time thinking about this issue. If you're one of the lucky ones, you can use CableReady and StimulusReflex to establish a field-level locking system, or at the very least, update CSS or nearby indicators to show that a particular input is locked, contested or potentially out of date.
+You can figure out how to use it in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony diabetes, too.
 
 ## Selectors
 
@@ -125,13 +101,27 @@ text_content(
 )
 ```
 
+It's very likely that you'll never need to use XPath in your applications and possibly even in your career. However, it's one of those things that when you need to build a list of children of the siblings of the current element's parent, you'll be really thankful that we included it.
+
 {% hint style="success" %}
 You can grab the XPath selector for any element using your browser's Element Inspector. Activate the desired element, right-click and select "Copy", then "Copy full XPath".
 {% endhint %}
 
+Helpful references for working with XPath include [the only time W3Schools will be linked to from this site](https://www.w3schools.com/xml/xpath_syntax.asp), the [XPath cheatsheet](https://devhints.io/xpath), this [ultimate cheatsheet](https://www.softwaretestinghelp.com/xpath-writing-cheat-sheet-tutorial-examples/), and finally, an [exhaustive cheatsheet](https://www.lambdatest.com/blog/most-exhaustive-xpath-locators-cheat-sheet/).
+
 {% hint style="warning" %}
 XPath selectors cannot be used with the `select_all` option, although if this is important to your application, let us know and we'll consider a more flexible implementation.
 {% endhint %}
+
+## Operation Execution Order
+
+CableReady executes operations in the order that they are received, with the caveat that this applies to the type of operation as much as the operations themselves. In other words, if you:
+
+```ruby
+inner_html(html: "1").outer_html(html: "2").inner_html(html: "3")
+```
+
+Your operations will execute in the order **1, 3, 2** because CableReady will finish the `inner_html` operations before it moves on to the `outer_html` operations.
 
 ## Life-cycle events
 
@@ -251,6 +241,40 @@ As with modifying `detail` data, if your operation is [processing multiple eleme
 You _could_ jump out of an airlock into space, too. Don't say we didn't warn you! 👨‍🚀
 {% endhint %}
 
+## Single Source of Truth
+
+CableReady was created with a deep and informed belief that web[ applications that maintain state on the server are fundamentally easier to design, build and maintain](advocating-for-reactive-rails.md).
+
+However, one of the stranger edge-cases that must be handled in a websockets-enabled world is the potential for a server update to overwrite the value of a text input _while the user is typing into it_. It's a jarring example because it's an end-result that was almost completely impossible to achieve in the Ajax era. Despite our wildest brainstorms, we have yet to identify even a single scenario where a user would consider having their effort undone to be positive.
+
+As a result, CableReady's popular [morph](reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active \(have focus\).
+
+Since forms are rarely designed to be edited by multiple concurrent users 😱 it's unlikely that you'll have to spend time thinking about this issue. If you're one of the lucky ones, you can use CableReady and StimulusReflex to establish a field-level locking system, or at the very least, update CSS or nearby indicators to show that a particular input is locked, contested or potentially out of date.
+
+## Focus assignment
+
+The [DOM Mutation](reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.
+
+If `focusSelector` is not specified, the focus will go to the element that was active immediately before the operation was executed.
+
+It is possible to perform an operation that removes the previously active element, leaving the focus in an ambiguous state. It's also possible to use the [set\_focus](reference/operations/browser-manipulations.md#set_focus) operation to manually set the focus at any time.
+
+## Poking a subscriber
+
+Sometimes you just need to tell a subscriber that it's time to _do the thing_. You can send a `broadcast` with no operations and still take advantage of the `received` handler:
+
+```ruby
+cable_ready["stream"].broadcast
+```
+
+```javascript
+consumer.subscriptions.create('ChewiesChannel', {
+  received (data) {
+    console.log('Received a broadcast!')
+  }
+})
+```
+
 ## Channel generator
 
 CableReady provides a Rails generator that you can use to create ActionCable `Channel` classes and the client-side code required to subscribe to it.
@@ -258,7 +282,7 @@ CableReady provides a Rails generator that you can use to create ActionCable `Ch
 Just provide it with the name of the channel class that you want to create, or pass `--help` to see all options:
 
 ```bash
-bin/rails generate cable_ready:channel Sailor
+rails g cable_ready:channel Sailor
 ```
 
 The generator is interactive and will take you on a Choose Your Own Adventure through the decision tree of possible outcomes.
@@ -318,99 +342,6 @@ Without any further modification, all users will receive all broadcasts sent to 
 ```ruby
 cable_ready["sailor"].inner_html(html: "Howdy!").broadcast
 ```
-
-## Operation Execution Order
-
-CableReady executes operations in the order that they are received, with the caveat that this applies to the type of operation as much as the operations themselves. In other words, if you:
-
-```ruby
-inner_html(html: "1").outer_html(html: "2").inner_html(html: "3")
-```
-
-Your operations will execute in the order **1, 3, 2** because CableReady will finish the `inner_html` operations before it moves on to the `outer_html` operations.
-
-## Focus assignment
-
-The [DOM Mutation](reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.
-
-If `focusSelector` is not specified, the focus will go to the element that was active immediately before the operation was executed.
-
-It is possible to perform an operation that removes the previously active element, leaving the focus in an ambiguous state. It's also possible to use the [set\_focus](reference/operations/browser-manipulations.md#set_focus) operation to manually set the focus at any time.
-
-## ActionCable Connection authentication
-
-Since it's difficult to improve upon perfection, please consult the StimulusReflex documentation section on [authenticating users in ActionCable](https://docs.stimulusreflex.com/authentication).
-
-## Send data to any ActionCable Channel
-
-There are times where it might be useful to send data directly to any clients subscribed to a given Channel stream identifier. It's even compatible with a CableReady performer since the data you send will \(hopefully\) not have a `cableReady` key present.
-
-```ruby
-ActionCable.server.broadcast("your-stream-identifier", data)
-```
-
-You can see this technique used in "[Verify ActionCable](troubleshooting/#verify-actioncable)".
-
-If you need to send data to a constant-based stream, you just need to break down the fourth wall and construct your identifier manually. Here we will send data to `current_user` using the `UsersChannel`:
-
-```ruby
-ActionCable.server.broadcast("users:#{current_user.to_gid_param}", data)
-```
-
-`UsersChannel` becomes `users` while ActiveRecord has a `to_gid_param`.
-
-## Poking a subscriber
-
-Sometimes you just need to tell a subscriber that it's time to _do the thing_. You can send a `broadcast` with no operations and still take advantage of the `received` handler:
-
-```ruby
-cable_ready["stream"].broadcast
-```
-
-```javascript
-consumer.subscriptions.create('ChewiesChannel', {
-  received (data) {
-    console.log('Data was received!')
-  }
-})
-```
-
-## Disconnect a user from their ActionCable Connection
-
-As you can see in the upcoming section on [connection identifiers](identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
-
-Forcing a websocket reconnection is mainly useful for upgrading account privileges after successfully authenticating. You could also disconnect former employees after they've been terminated.
-
-TODO: update to recommend client-side solution
-
-This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference \(i.e. a user that is actually connected\) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will simply fail silently:
-
-```ruby
-ActionCable.server.remote_connections.where(current_user: User.find(1)).disconnect
-```
-
-The ActionCable Channel subscriber will immediately start attempting to reconnect to the server, with the usual connection retry rate fall-off curve, just as if you restarted your Puma process.
-
-### Disconnecting when you have multiple identifiers
-
-It's not clear whether this is a bug or a feature, but ActionCable will not allow you to disconnect a user if your Connection has any identifiers which haven't been assigned. Specifically, if you have configured your Connection to be `identified_by` both `current_user` and `session_id`, it will raise an error if your user hasn't authenticated yet. That's no good!
-
-Our suggestion is that you **fix ActionCable** with this initializer, which changes line 6 from `all?` to `any?`
-
-{% code title="config/initializers/action\_cable.rb" %}
-```ruby
-module ActionCable
-  class RemoteConnections
-    class RemoteConnection
-      def valid_identifiers?(ids)
-        keys = ids.keys
-        identifiers.any? { |id| keys.include?(id) }
-      end
-    end
-  end
-end
-```
-{% endcode %}
 
 ## Integrating with StimulusReflex
 

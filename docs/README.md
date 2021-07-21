@@ -1,28 +1,36 @@
 ---
-description: 'Server-side Ruby making magic happen on the client, in real-time'
+description: 'Real-time changes in the browser, using server-side Ruby.'
 ---
 
 # Welcome
 
 ## What is CableReady?
 
-CableReady is a Ruby gem that was first released in May 2017. It lets you **create great real-time user experiences** by triggering client-side DOM changes, events and notifications over [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) web sockets. These commands are called **operations**.
+CableReady offers 35 different [operations](./#what-can-i-do-with-cableready) that let you **create reactive user experiences** without the need for complex SPA frameworks.
+
+The CableReady client is language, framework and transport agnostic. **If your server can create JSON, you can use CableReady.**
 
 ![](.gitbook/assets/fantasia.gif)
 
-Unlike Ajax requests, operations are not always initiated by user activity - or even the user's browser.
+**Operations** are typically responses to [user activity](https://stimulusreflex.com), but can also be created by jobs or other external events.
 
-You can broadcast one or **many operations at once** from inside a [Reflex](https://docs.stimulusreflex.com/morph-modes#activejob-example), as well as ActiveRecord callbacks, ActiveJobs, ActionCable Channels, controller actions, rake tasks and in response to API calls and webhooks.
-
-Operations can be broadcast to one person, every person online, or ad hoc groups of people - making real-time notifications, live comments on a blog post, [form validations](https://optimism.leastbad.com/), collaborative editing, shared media viewing, endless page scrolling and [lazy asset loading](https://github.com/julianrubisch/futurism) laughably trivial.
-
-As the ~~secret weapon~~ primary dependency powering [StimulusReflex](https://docs.stimulusreflex.com/), CableReady establishes a standard for programmatically updating browser state **with no need for custom JavaScript.**
+**Broadcasts** can be delivered to one person, everyone online, or ad hoc groups of thousands. Real-time notifications, live comments on a blog post, [form validations](https://optimism.leastbad.com/), collaborative editing, shared media viewing, endless page scrolling and [lazy asset loading](https://github.com/julianrubisch/futurism) become easy wins.
 
 {% hint style="success" %}
 **Get Involved.** We are stronger together! Please join us in \#cableready on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/stimulus-reflex)
 
 [![GitHub stars](https://img.shields.io/github/stars/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![GitHub forks](https://img.shields.io/github/forks/hopsoft/cable_ready?style=social)](https://github.com/hopsoft/cable_ready) [![Twitter follow](https://img.shields.io/twitter/follow/hopsoft?style=social)](https://twitter.com/hopsoft)
 {% endhint %}
+
+## How should I use CableReady?
+
+#### With WebSockets
+
+As the ~~secret weapon~~ primary dependency powering [StimulusReflex](https://docs.stimulusreflex.com/), CableReady is the standard mechanism for controlling the browser **with no need for custom JavaScript.**
+
+#### With Ajax
+
+New in v5, the [Cable Car](cable-car.md) API allows developers to create a CableReady JSON payload. You're covered, whether you're using the amazing [Mrujs](https://mrujs.com) or `fetch`ing data from URLs.
 
 ## Why should I use CableReady?
 
@@ -32,7 +40,7 @@ Or maybe you've realized that trying to synchronize state between the client and
 
 It all comes down to [The Great Surplus](https://youtu.be/4PVViBjukAE?t=1079).
 
-CableReady enables a radical new style of development, and **it can make you literally 10x more productive than people who don't have it**. Will you use your surplus for good... or for _awesome?_
+CableReady enables a radical new style of development, and **it can make you literally 10x more productive than teams not using it**. Will you use your surplus for good... or for _awesome?_
 
 ### Goals
 
@@ -41,19 +49,11 @@ CableReady enables a radical new style of development, and **it can make you lit
 * [x] Increase functionality, not complexity 🪁
 * [x] Act as a force multiplier for StimulusJS 🔨
 
-{% embed url="https://www.youtube.com/watch?v=F5hA79vKE\_E" caption="" %}
-
 ### Upgrade from Hotwire Turbo Streams
 
-We welcome [Hotwire](https://hotwire.dev) to the \#resistance, albeit a bit more than stylishly late to the party.
+CableReady is an obvious upgrade path from [Turbo Streams](https://turbo.hotwired.dev/handbook/streams). CableReady supports **7x** more operations and is [extremely flexible](cableready-everywhere.md).
 
-Since its release in late 2020, Rails developers have been eagerly digging into their new tooling. Inevitably, people ask how it stacks up to CableReady and StimulusReflex. 
-
-While any answer will be nuanced and biases controlled for, we see the Turbo eventually providing an excellent successor for Rails UJS and acting as a launchboard to Reactive Rails UI design.
-
-We're confident calling CableReady an upgrade path from [Turbo Streams](https://turbo.hotwire.dev/handbook/streams). CableReady supports 7x more operations and is designed for extreme flexibility; it can be used almost anywhere in your app.
-
-Moreover, developers can use CableReady to broadcast operations to ad hoc groups of both people and resources [in a way that enables developers to build applications not easily possible](broadcasting-to-resources.md#fewer-promises-more-consciousness-expanding-code-samples-plz) with other tools.
+Developers can use CableReady to broadcast operations to ad hoc groups of both people and resources [in a way that enables developers to build applications not easily possible](broadcasting-to-resources.md#fewer-promises-more-consciousness-expanding-code-samples-plz) with other tools.
 
 ## What can I do with CableReady?
 

@@ -39,7 +39,7 @@ end
 ### Upgrading to v5.0.0
 
 * git repos are now living in the [stimulusreflex](https://github.com/stimulusreflex) organization on GitHub
-* make sure that you update `cable_ready` to `5.0.0` in **both** your Gemfile and package.json
+* make sure that you update `cable_ready` to `5.0.0` in **both** your `Gemfile` and `package.json`
 * create an initializer with `rails g cable_ready:initializer` if needed
 * install `stream_from` support with `rails g cable_ready:stream_from`
 * install the `@cable_ready/audio_operations` npm package if required
@@ -50,6 +50,12 @@ end
 CableReady depends on the [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) framework \(installed by default as part of [Ruby on Rails](https://rubyonrails.org/)\) to handle sending data to the client over websockets. You must have ActionCable installed on both the client and server... and it will be unless you've disabled it.
 
 You can check your `package.json` to verify that `@rails/actioncable` is installed. If you have trouble with ActionCable, consider [verifying that it's installed correctly](troubleshooting/#verify-actioncable).
+
+### AnyCable
+
+If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io).
+
+![](.gitbook/assets/anycable.png)
 
 ## Redis
 

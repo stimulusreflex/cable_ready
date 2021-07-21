@@ -11,6 +11,7 @@
 * [Broadcasting to Resources](broadcasting-to-resources.md)
 * [Ride the Cable Car](cable-car.md)
 * [Customization](customization.md)
+* [ActionCable: The Missing Manual](actioncable-the-missing-manual.md)
 * [Troubleshooting](troubleshooting/README.md)
   * [Morph Sanity Checklist](troubleshooting/morph-checklist.md)
 * [Advocating for "Reactive Rails"](advocating-for-reactive-rails.md)
