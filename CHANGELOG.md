@@ -1,5 +1,37 @@
 # Changelog
 
+## [v5.0.0.pre2](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre2) (2021-07-21)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre1...v5.0.0.pre2)
+
+**Implemented enhancements:**
+
+- register a CableReady JSON MIME type [\#140](https://github.com/stimulusreflex/cable_ready/pull/140) ([existentialmutt](https://github.com/existentialmutt))
+- Smart options \(they grow up so fast\) [\#136](https://github.com/stimulusreflex/cable_ready/pull/136) ([leastbad](https://github.com/leastbad))
+- Support `to_dom_selector` for operation selectors [\#135](https://github.com/stimulusreflex/cable_ready/pull/135) ([jaredcwhite](https://github.com/jaredcwhite))
+- dom\_id should always be lowercase [\#129](https://github.com/stimulusreflex/cable_ready/pull/129) ([leastbad](https://github.com/leastbad))
+
+**Fixed bugs:**
+
+- Improve install experience [\#128](https://github.com/stimulusreflex/cable_ready/pull/128) ([leastbad](https://github.com/leastbad))
+
+**Closed issues:**
+
+- Idea: ability to pass any object which responds to `to_dom_selector` as a selector  [\#134](https://github.com/stimulusreflex/cable_ready/issues/134)
+
+**Merged pull requests:**
+
+- Bump addressable from 2.7.0 to 2.8.0 [\#141](https://github.com/stimulusreflex/cable_ready/pull/141) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore: make webpack happy with no sideEffects [\#138](https://github.com/stimulusreflex/cable_ready/pull/138) ([ParamagicDev](https://github.com/ParamagicDev))
+
+## [v5.0.0.pre1](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre1) (2021-06-02)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre0...v5.0.0.pre1)
+
+**Merged pull requests:**
+
+- Include app folder in release [\#133](https://github.com/stimulusreflex/cable_ready/pull/133) ([julianrubisch](https://github.com/julianrubisch))
+
 ## [v5.0.0.pre0](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre0) (2021-05-20)
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v4.5.0...v5.0.0.pre0)
