@@ -34,7 +34,7 @@ If you need the user executing the controller action to see the broadcast, you s
 
 ### Ajax
 
-Fans of [Hotwire Turbo Streams](https://turbo.hotwire.dev/handbook/streams) will be excited to know that it is easy to use CableReady with standard Rails controller actions. Here's how to do it:
+Fans of [Turbo Streams](https://turbo.hotwired.dev/handbook/streams) will be excited to know that it is easy to use CableReady with standard Rails controller actions. Here's how to do it:
 
 ```markup
 <%= link_to "Console message", "users/#{current_user.id}/message", method: :patch %>
@@ -61,7 +61,29 @@ Not too shabby, right?
 
 ### Cable Car
 
-TODO
+While Cable Car is covered fully in [its own chapter](cable-car.md), it's really easy to return a payload that can be parsed as JSON and passed directly to `CableReady.perform()` on the client.
+
+```markup
+fetch('users/42/message', {method: 'PATCH'})
+  .then(response => response.json())
+  .then(data => CableReady.perform(data))
+```
+
+{% code title="config/routes.rb" %}
+```ruby
+patch 'users/:id/message', to: 'users#message'
+```
+{% endcode %}
+
+{% code title="app/controllers/users\_controller.rb" %}
+```ruby
+class UsersController < ApplicationController
+  def message
+    render operations: cable_car.console_log(message: "Hi!")
+  end
+end
+```
+{% endcode %}
 
 ## Jobs
 

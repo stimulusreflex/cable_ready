@@ -12,7 +12,7 @@ In practice, [all CableReady operations](reference/operations/) require at least
 
 ## Queues
 
-When you add an operation, you're adding an entry to the array \(a FIFO queue\) of operations for a given stream identifier:
+When you add an operation, you're adding an entry to a FIFO queue of operations for a given stream identifier:
 
 ```ruby
 cable_ready["visitors"].morph
@@ -24,6 +24,12 @@ If your app has multiple stream identifiers, it means that you have two differen
 cable_ready["sailors"].inner_html
 cable_ready["visitors"].set_style
 ```
+
+{% hint style="info" %}
+As we learned back in [Hello World](hello-world.md), ActionCable Channel classes announce stream identifiers using the `stream_from` and `stream_for` methods.
+
+**Each identifier can only be attached to one Channel.**
+{% endhint %}
 
 Now, you have "visitors" with two operations, and "sailors" with one, both waiting patiently to be [broadcast](reference/methods.md#broadcast-identifiers-clear-true):
 

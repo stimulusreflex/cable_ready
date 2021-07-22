@@ -48,27 +48,30 @@ ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel
 
 ## Queueing operations
 
-You can call `cable_ready` multiple times to add more operations to the queue. Since `cable_ready` is a singleton instance, you can continue to add operations to the queue even across multiple methods, or a recursive function.
+Each stream identifier has a queue of operations. You can call `cable_ready` multiple times to add more operations to these queues. Since `cable_ready` is a singleton instance, you can continue to add operations to a queue even across multiple methods:
 
 ```ruby
 cable_ready["visitors"].console_log(message: "We have more salad than we can eat.")
 cable_ready["visitors"].set_style(selector: "body", name: "color", value: "red")
+```
+
+You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is how you identify the target DOM element\(s\) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
+
+```ruby
 cable_ready["visitors"].set_style("#foo", name: "color", value: "blue")
 ```
 
-You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is where you identify the target DOM element\(s\) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
-
-Without a call to `broadcast`, operations will accumulate for the specified Channel stream identifier.
+Operations will continue to accumulate for all stream identifier queues until you call `broadcast`.
 
 ## Method chaining
 
-When you call `cable_ready["visitors"]` you are presented with a `CableReady::Channels` object, which supports method chaining. This is a fancy way of saying that you can link up as many operations in sequence as you want, and they will ultimately be broadcast in the order that they were created.
+When you call `cable_ready["visitors"]`, it returns a `CableReady::Channels` object, which supports method chaining. That is, you can link up as many operations in sequence as you want, and they will be broadcast in the order that they were created.
 
 ```ruby
 cable_ready["visitors"].console_log(message: "1").console_log(message: "2")
 ```
 
-The `broadcast` method can conclude the chain, meaning that you can send a console message to everyone looking at your site with:
+The `broadcast` method concludes the chain. After the operations have been dispatched, the queues are emptied.
 
 ```ruby
 cable_ready["visitors"].console_log(message: "Welcome!").broadcast

@@ -109,6 +109,8 @@ You can grab the XPath selector for any element using your browser's Element Ins
 
 Helpful references for working with XPath include [the only time W3Schools will be linked to from this site](https://www.w3schools.com/xml/xpath_syntax.asp), the [XPath cheatsheet](https://devhints.io/xpath), this [ultimate cheatsheet](https://www.softwaretestinghelp.com/xpath-writing-cheat-sheet-tutorial-examples/), and finally, an [exhaustive cheatsheet](https://www.lambdatest.com/blog/most-exhaustive-xpath-locators-cheat-sheet/).
 
+Takeaway: XPath is extremely popular with cheaters.
+
 {% hint style="warning" %}
 XPath selectors cannot be used with the `select_all` option, although if this is important to your application, let us know and we'll consider a more flexible implementation.
 {% endhint %}
@@ -259,22 +261,6 @@ If `focusSelector` is not specified, the focus will go to the element that was a
 
 It is possible to perform an operation that removes the previously active element, leaving the focus in an ambiguous state. It's also possible to use the [set\_focus](reference/operations/browser-manipulations.md#set_focus) operation to manually set the focus at any time.
 
-## Poking a subscriber
-
-Sometimes you just need to tell a subscriber that it's time to _do the thing_. You can send a `broadcast` with no operations and still take advantage of the `received` handler:
-
-```ruby
-cable_ready["stream"].broadcast
-```
-
-```javascript
-consumer.subscriptions.create('ChewiesChannel', {
-  received (data) {
-    console.log('Received a broadcast!')
-  }
-})
-```
-
 ## Channel generator
 
 CableReady provides a Rails generator that you can use to create ActionCable `Channel` classes and the client-side code required to subscribe to it.
@@ -289,7 +275,7 @@ The generator is interactive and will take you on a Choose Your Own Adventure th
 
 The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](identifiers.md) and [Broadcasting to Resources](broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
 
-### Broadcasting to a resource
+#### Broadcasting to a resource
 
 If you answer yes to the `broadcast_to` question, it will then ask you for the class name of the resource you want to stream, just in case it's different from the class name of the `Channel` that you're creating. Assuming that you went with the default "Sailor", you'll now have a `Sailor Channel`:
 
@@ -321,7 +307,7 @@ Now, whenever that Sailor partial is in the DOM, it will automatically subscribe
 cable_ready[SailorChannel].inner_html(html: "Howdy!").broadcast_to(Sailor.first)
 ```
 
-### Broadcasting to a string identifier
+#### Broadcasting to a string identifier
 
 If you answer no to the `broadcast_to` question, it will proceed to ask you for the stream identifier string that you'll be streaming from. Assuming that you accept the default "sailor", you'll now have a `Sailor Channel`:
 
@@ -352,8 +338,8 @@ StimulusReflex is the sister library to CableReady. It's... really great, actual
 | StimulusReflex | Translates user actions into server-side events that change your data, then regenerating your page based on this new data **into an HTML string**. |
 | CableReady | Takes the HTML string from StimulusReflex and sends it to the browser before using morphdom to update only the parts of your DOM that changed. |
 
-⬆️ StimulusReflex is for **sending** commands. 📡  
-⬇️ CableReady is for **receiving** updates. 👽
+⬆️ StimulusReflex is for sending commands to the server. 📡  
+⬇️ CableReady is for sending commands to the browser. 👽
 
 {% hint style="info" %}
 A Reflex action is a reaction to a user action that changes server-side state and re-renders the current page \(or a subset of the current page\) for that particular user in the background, provided that they are still on the same page.
@@ -363,5 +349,5 @@ A CableReady operation is a reaction to some server-side code \(which must be im
 
 {% embed url="https://www.youtube.com/watch?v=dPzv2qsj5L8" %}
 
-If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/reflexes#using-cableready-inside-a-reflex-action)".
+If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/rtfm/cableready)".
 
