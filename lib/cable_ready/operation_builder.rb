@@ -48,7 +48,8 @@ module CableReady
           @previous_selector = options["selector"]
           options["selector"] = identifiable?(previous_selector) ? dom_id(previous_selector) : previous_selector
         end
-        @enqueued_operations[name.to_s] << options
+        options["operation"] = name.to_s.camelize(:lower)
+        @enqueued_operations << options
         self
       }
     end
@@ -63,20 +64,16 @@ module CableReady
       rescue JSON::ParserError
         {}
       end
-      operations.each do |name, operation|
-        operation.each do |enqueued_operation|
-          @enqueued_operations[name.to_s] << enqueued_operation
-        end
-      end
+      @enqueued_operations.push(operations)
       self
     end
 
     def operations_payload
-      @enqueued_operations.select { |_, list| list.present? }.deep_transform_keys { |key| key.to_s.camelize(:lower) }
+      @enqueued_operations.map { |operation| operation.transform_keys { |key| key.to_s.camelize(:lower) }}
     end
 
     def reset!
-      @enqueued_operations = Hash.new { |hash, key| hash[key] = [] }
+      @enqueued_operations = []
       @previous_selector = nil
     end
   end
