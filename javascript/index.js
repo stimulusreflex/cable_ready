@@ -17,7 +17,7 @@ export default {
   addOperations,
   get DOMOperations () {
     console.warn(
-      'DEPRECATED: Please use `CableReady.operations.jazzHands = ...` instead of `CableReady.DOMOperations.jazzHands = ...`'
+      'DEPRECATED: Please use `CableReady.operations` instead of `CableReady.DOMOperations`'
     )
     return OperationStore.all
   },
