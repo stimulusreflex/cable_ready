@@ -69,7 +69,7 @@ module CableReady
     end
 
     def operations_payload
-      @enqueued_operations.map { |operation| operation.transform_keys { |key| key.to_s.camelize(:lower) }}
+      @enqueued_operations.map { |operation| operation.transform_keys { |key| key.to_s.camelize(:lower) } }
     end
 
     def reset!
