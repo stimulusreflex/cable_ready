@@ -58,7 +58,7 @@ module CableReady
       @enqueued_operations.to_json(*args)
     end
 
-    def apply!(operations = "{}")
+    def apply!(operations = "[]")
       operations = begin
         JSON.parse(operations.is_a?(String) ? operations : operations.to_json)
       rescue JSON::ParserError
@@ -69,7 +69,7 @@ module CableReady
     end
 
     def operations_payload
-      @enqueued_operations.map { |operation| operation.transform_keys { |key| key.to_s.camelize(:lower) } }
+      @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
     end
 
     def reset!

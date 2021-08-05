@@ -272,10 +272,12 @@ export default {
 
   dispatchEvent: operation => {
     processElements(operation, element => {
+      before(element, operation)
       operate(operation, () => {
         const { name, detail } = operation
         dispatch(element, name, detail)
       })
+      after(element, operation)
     })
   },
 
