@@ -7,9 +7,11 @@ Removes all key/values pair on the local persistant storage of the user's browse
 Data stored in either local or session storage is specific to the protocol of the page.
 
 ```ruby
-cable_ready["MyChannel"].clear_storage(
-  cancel: true|false, # [false]   - cancel the operation (for use on client)
-  type:   "session"   # ["local"] - local storage vs session storage
+clear_storage(
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer, # [0]       - wait for n milliseconds before running
+  type:   String   # ["local"] - "session" or "local"
 )
 ```
 
@@ -34,9 +36,11 @@ Load a specific page from the session history. You can use it to move forwards a
 If no value is passed or if `delta` equals `0`, it has the same result as calling `location.reload()`.
 
 ```ruby
-cable_ready["MyChannel"].go(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  delta:  Integer     # optional integer
+go(
+  batch:  String,  # [null]  - add the operation to a named batch
+  cancel: Boolean, # [false] - cancel the operation (for use on client)
+  delay:  Integer, # [0]     - wait for n milliseconds before running
+  delta:  Integer  #         - optional positive or negative integer
 )
 ```
 
@@ -61,11 +65,13 @@ This is similar to setting `window.location = "#foo"` in that both will also cre
 You can associate arbitrary data with your new history entry by passing a Hash to the optional `state` parameter.
 
 ```ruby
-cable_ready["MyChannel"].push_state(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  url:    "/",        # required - URL String
-  title:  "Home",     # [""]     - optional String
-  state:  {}          # [{}]     - optional Hash
+push_state(
+  batch:  String,  # [null]   - add the operation to a named batch
+  cancel: Boolean, # [false]  - cancel the operation (for use on client)
+  delay:  Integer, # [0]      - wait for n milliseconds before running
+  url:    String,  # required - URL String
+  title:  String,  # [""]     - optional String
+  state:  Object   # [{}]     - optional Hash
 )
 ```
 
@@ -92,10 +98,12 @@ Remove a key/value pair on the local persistant storage of the user's browser. D
 Data stored in either local or session storage is specific to the protocol of the page. Integer keys are automatically converted to strings.
 
 ```ruby
-cable_ready["MyChannel"].remove_storage_item(
-  cancel: true|false, # [false]   - cancel the operation (for use on client)
-  key:    "string",   # required
-  type:   "session"   # ["local"] - local storage vs session storage
+remove_storage_item(
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer, # [0]       - wait for n milliseconds before running
+  key:    String,  # required
+  type:   String   # ["local"] - "local" or "session"
 )
 ```
 
@@ -122,11 +130,13 @@ Most of the time, you probably want to use `push_state`.
 {% endhint %}
 
 ```ruby
-cable_ready["MyChannel"].replace_state(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  url:    "/",        # required - URL String
-  title:  "Home",     # [""]     - optional String
-  state:  {}          # [{}]     - optional Hash
+replace_state(
+  batch:  String,  # [null]   - add the operation to a named batch
+  cancel: Boolean, # [false]  - cancel the operation (for use on client)
+  delay:  Integer, # [0]      - wait for n milliseconds before running
+  url:    String,  # required - URL String
+  title:  String,  # [""]     - optional String
+  state:  Object   # [{}]     - optional Hash
 )
 ```
 
@@ -146,6 +156,21 @@ Life-cycle events for `replace_state` are raised on `window`. Add a listener for
 
 Scroll the viewport so that the element with the specified anchor \(`id` attribute\) is in view.
 
+```ruby
+scroll_into_view(
+  batch:    String,  # [null]      - add the operation to a named batch
+  behavior: String,  # ["auto"]    - auto or smooth
+  block:    String,  # ["start"]   - start, center, end, nearest
+  cancel:   Boolean, # [false]     - cancel the operation (for use on client)
+  delay:    Integer, # [0]         - wait for n milliseconds before running
+  inline:   String,  # ["nearest"] - start, center, end, nearest
+  selector: String,  # required    - string containing a CSS selector or XPath expression
+  xpath:    Boolean  # [false]     - process the selector as an XPath expression
+)
+```
+
+#### Example
+
 ```markup
 <div id="i-am-an-anchor">⚓</div>
 ```
@@ -155,17 +180,6 @@ The default behavior is to instantly jump to the element such that the top of th
 {% hint style="success" %}
 If you're looking for a more _human_ experience, give `behavior: "smooth", block: "center"` a try.
 {% endhint %}
-
-```ruby
-cable_ready["MyChannel"].scroll_into_view(
-  behavior: "string",   # ["auto"]    - auto or smooth
-  block:    "string",   # ["start"]   - start, center, end, nearest
-  cancel:   true|false, # [false]     - cancel the operation (for use on client)
-  inline:   "string",   # ["nearest"] - start, center, end, nearest
-  selector: "string",   # required    - string containing a CSS selector or XPath expression
-  xpath:    true|false  # [false]     - process the selector as an XPath expression
-)
-```
 
 #### Life-cycle Callback Events
 
@@ -181,9 +195,11 @@ cable_ready["MyChannel"].scroll_into_view(
 Writes a cookie to the document cookie store.
 
 ```ruby
-cable_ready["MyChannel"].set_cookie(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  cookie: "string"    # required - "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"
+set_cookie(
+  batch:  String,  # [null]   - add the operation to a named batch
+  cancel: Boolean, # [false]  - cancel the operation (for use on client)
+  cookie: String,  # required - "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"
+  delay:  Integer  # [0]      - wait for n milliseconds before running
 )
 ```
 
@@ -207,10 +223,12 @@ Life-cycle events for `set_cookie` are raised on `document`.
 Set focus on the specified element, if it can be focused. The focused element is the element which will receive keyboard and similar events by default.
 
 ```ruby
-cable_ready["MyChannel"].set_focus(
-  cancel:   true|false, # [false]  - cancel the operation (for use on client)
-  selector: "string",   # required - string containing a CSS selector or XPath expression
-  xpath:    true|false  # [false]  - process the selector as an XPath expression
+set_focus(
+  batch:    String,  # [null]   - add the operation to a named batch
+  cancel:   Boolean, # [false]  - cancel the operation (for use on client)
+  delay:    Integer, # [0]      - wait for n milliseconds before running
+  selector: String,  # required - string containing a CSS selector or XPath expression
+  xpath:    Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -230,11 +248,13 @@ Create or update a key/value pair on the local persistant storage of the user's 
 Data stored in either local or session storage is specific to the protocol of the page. Integer keys are automatically converted to strings.
 
 ```ruby
-cable_ready["MyChannel"].set_storage_item(
-  cancel: true|false, # [false]  - cancel the operation (for use on client)
-  key:    "string",   # required
-  value:  "string",   # required
-  type:   "session"   # ["local"] - local storage vs session storage
+set_storage_item(
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer, # [0]       - wait for n milliseconds before running
+  key:    String,  # required
+  value:  String,  # required
+  type:   String   # ["local"] - "local" or "session"
 )
 ```
 

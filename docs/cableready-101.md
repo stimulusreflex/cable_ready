@@ -1,57 +1,112 @@
-# CableReady 101
+# Channels 101
 
-Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
+CableReady v5 introduces the new `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter. While `stream_from` is the fastest way to start broadcasting operations, they intentionally lack the flexibility and customization possible with an ActionCable Channel class and client consumer.
 
-You can send CableReady broadcasts from [just about anywhere](cableready-everywhere.md) in your application: ActiveJobs, controller actions, ActiveRecord model callbacks, rake tasks, pub/sub workers, webhooks, you name it.
+What follows is a brief tutorial that will get you up-and-running with using Channels.
 
-We're going to use an ActiveRecord `after_create` callback to demonstrate welcoming a new user.
+## Basic Channel Setup
+
+Use the Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
+
+```bash
+rails g channel example
+```
+
+In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to a stream called `visitors`. We'll talk more about streams soon. For now, `visitors` is for operations that will be sent to everyone currently looking at your site.
+
+{% code title="app/channels/example\_channel.rb" %}
+```ruby
+class ExampleChannel < ApplicationCable::Channel
+  def subscribed
+    stream_from "visitors"
+  end
+end
+```
+{% endcode %}
+
+The generator also creates a JavaScript channel subscriber. Import `CableReady` and modify the `received` method to check incoming data for CableReady broadcasts.
+
+{% code title="app/javascript/channels/example\_channel.js" %}
+```javascript
+import CableReady from 'cable_ready'
+import consumer from './consumer'
+
+consumer.subscriptions.create('ExampleChannel', {
+  received (data) {
+    if (data.cableReady) CableReady.perform(data.operations)
+  }
+})
+```
+{% endcode %}
 
 ## Broadcasting operations
 
-There are three distinct aspects of every CableReady invocation:
+Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
 
-1. Channel stream identifier\(s\): decide who \(or what\) will receive operations
-2. Operation queueing: define one or more operations to broadcast
-3. Broadcast: broadcast all queued operations immediately
+#### Make CableReady available
+
+You can use CableReady almost anywhere in your application, so long as you include it in the class that you're working in:
+
+```ruby
+include CableReady::Broadcaster
+```
+
+{% hint style="success" %}
+On the [CableReady Everywhere](cableready-everywhere.md) page, you'll learn how to broadcast from \(pretty much\) anywhere in your application.
+{% endhint %}
+
+#### The 3 parts of a CableReady command
+
+With few exceptions, all CableReady invocations have three predictable segments:
+
+1. Stream identifier\(s\): who \(or what\) will receive operations
+2. Operation queueing: one or more operations to broadcast
+3. Broadcast: deliver all queued operations immediately
 
 ```ruby
 class User < ApplicationRecord
   include CableReady::Broadcaster
 
   after_create do
-    cable_ready["visitors"].console_log(message: "Welcome #{self.name} to the site!")
-    cable_ready.broadcast # send queued console_log operation to all ExampleChannel subscribers
+    cable_ready["visitors"] # send to everyone subscribed to the channel streaming from "visitors"
+      .console_log(message: "Welcome #{self.name} to the site!") # all users will see a message appear in their browser's Console Inspector
+      .broadcast # send all queued operations to all ExampleChannel subscribers
   end
 end
 ```
 
-The `ExampleChannel` that we created in the [Setup](setup.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Log message welcoming the latest member.
-
-On the [Working with CableReady](usage.md#lets-get-comfortable) page, we'll see how we can set up CableReady so that you can access it from anywhere in your application, so that you don't have to include the module in every class.
-
 {% hint style="info" %}
-ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that resolution possibilities are defined across all of your Channel classes.
+The `ExampleChannel` that we created in the [Setup](hello-world.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Inspector message welcoming the latest member.
+
+ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that Strean Identifiers are defined inside of your Channel classes.
 {% endhint %}
 
-You can call `cable_ready` multiple times to add more operations to the queue. Since `cable_ready` is a singleton instance, you can continue to add operations to the queue even across multiple methods, or a recursive function.
+## Queueing operations
 
-You can use different operations together, and each operation can have completely different arguments. Without a call to `broadcast`, operations will accumulate for the specified Channel stream identifier.
+Each stream identifier has a queue of operations. You can call `cable_ready` multiple times to add more operations to these queues. Since `cable_ready` is a singleton instance, you can continue to add operations to a queue even across multiple methods:
 
 ```ruby
 cable_ready["visitors"].console_log(message: "We have more salad than we can eat.")
 cable_ready["visitors"].set_style(selector: "body", name: "color", value: "red")
-cable_ready["visitors"].set_style(selector: "#foo", name: "color", value: "blue")
 ```
+
+You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is how you identify the target DOM element\(s\) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
+
+```ruby
+cable_ready["visitors"].set_style("#foo", name: "color", value: "blue")
+```
+
+Operations will continue to accumulate for all stream identifier queues until you call `broadcast`.
 
 ## Method chaining
 
-When you call `cable_ready["visitors"]` you are presented with a `CableReady::Channels` object, which supports method chaining. This is a fancy way of saying that you can link up as many operations in sequence as you want, and they will ultimately be broadcast in the order that they were created.
+When you call `cable_ready["visitors"]`, it returns a `CableReady::Channels` object, which supports method chaining. That is, you can link up as many operations in sequence as you want, and they will be broadcast in the order that they were created.
 
 ```ruby
 cable_ready["visitors"].console_log(message: "1").console_log(message: "2")
 ```
 
-The `broadcast` method can conclude the chain, meaning that you can send a console message to everyone looking at your site with:
+The `broadcast` method concludes the chain. After the operations have been dispatched, the queues are emptied.
 
 ```ruby
 cable_ready["visitors"].console_log(message: "Welcome!").broadcast
@@ -59,9 +114,7 @@ cable_ready["visitors"].console_log(message: "Welcome!").broadcast
 
 ## Ready to rumble!
 
-And that's really all you need to get started with CableReady. Everything you do will follow the same basic structure:
-
-`cable_ready[identifier].operation().broadcast`
+And that's really all you need to get started with CableReady.
 
 You can look over the next sections to learn more techniques, such as [broadcasting to resources](broadcasting-to-resources.md#stream_for-and-broadcast_to), or jump to the [Operations](reference/operations/) reference to see everything CableReady can do.
 

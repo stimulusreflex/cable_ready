@@ -51,6 +51,21 @@ As you can see, we have traded our string-based stream identifiers for constant-
 This allows us to **shift our mental model** away from "who are we broadcasting to?" to "what is each _individual_ user interested in?"
 {% endhint %}
 
+### broadcasting\_for: worth it?
+
+A quick digression: `ActionCable::Channel` provides a class method, [broadcasting\_for](https://api.rubyonrails.org/classes/ActionCable/Channel/Broadcasting/ClassMethods.html#method-i-broadcasting_for), which provides another way to build string identifiers. If you have a `HelensChannel`, you can:
+
+```ruby
+HelensChannel.broadcasting_for(Post.first)
+=> "helens:Z2lkOi8vcHJvZ2VuaXRvci9Vc2VyLzE"
+```
+
+This is a perfectly valid way to generate a string identifer for a resource, instead of using the `stream_for`/`broadcast_to` magic that we discuss on this page.
+
+The argument to be made against it is that it is completely dumb: it has no knowledge of your Channel class or what kind of data or purpose it represents. It doesn't matter if `HelensChannel` knows what a `Post` is or not; it's just joining strings together.
+
+The author's opinion is that `broadcasting_for` is not bad, but `stream_for`/`broadcast_to` is more powerful and presents more interesting creative possibilities.
+
 ## Why is this awesome?
 
 `stream_from` and `broadcast` make it easy to develop reactive interfaces with Rails.
@@ -191,7 +206,7 @@ Since all websocket traffic is moved through one Connection and Channel subscrip
 
 ![Helens](.gitbook/assets/helens.jpg)
 
-One of the few ways that the future is likely to be similar to the past is that when fundamentally new tools become available, smart young people quickly start building things that didn't and likely couldn't have existed before.
+One of the few ways that the future is likely to be similar to the past is that when fundamentally new tools become available, smart young people quickly start building things that simply didn't and likely couldn't have existed before.
 
 Ironically, Facebook could only make React do all of the real-time magic because they have some of the smartest developers on the planet working on the _back-end_ of their UI.
 

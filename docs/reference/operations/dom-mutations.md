@@ -5,13 +5,15 @@
 Inserts HTML into the DOM, inside the target element, after its last child.
 
 ```ruby
-cable_ready["MyChannel"].append(
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  html:           "string",   # [null]   - the HTML to assign
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+append(
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  html:           String,  # [null]   - the HTML to assign
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -32,13 +34,15 @@ Reparent the target element and its children to a new parent element in the DOM.
 Grafted elements are moved, not recreated. This means that any Stimulus controllers attached to an element will `disconnect` and then immediately`connect` again, but **their internal state remains intact**.
 
 ```ruby
-cable_ready["MyChannel"].graft(  
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  parent:         "string",   # [null]   - string containing a CSS selector
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+graft(  
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  parent:         String,  # [null]   - string containing a CSS selector
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -56,13 +60,15 @@ cable_ready["MyChannel"].graft(
 Sets the innerHTML of a DOM element.
 
 ```ruby
-cable_ready["MyChannel"].inner_html(  
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  html:           "string",   # [null]   - the HTML to assign
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+inner_html(  
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  html:           String,  # [null]   - the HTML to assign
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -85,14 +91,16 @@ Inserts HTML into the DOM relative to an element. Positions are as follows, defa
 * `afterend`: After the target element itself
 
 ```ruby
-cable_ready["MyChannel"].insert_adjacent_html(
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]      - string containing a CSS selector
-  html:           "string",   # [null]      - the HTML to insert
-  position:       "string",   # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  select_all:     true|false, # [false]     - operate on list of elements returned from selector
-  selector:       "string",   # required    - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]     - process the selector as an XPath expression
+insert_adjacent_html(
+  batch:          String,  # [null]      - add the operation to a named batch
+  cancel:         Boolean, # [false]     - cancel the operation (for use on client)
+  delay:          Integer, # [0]         - wait for n milliseconds before running
+  focus_selector: String,  # [null]      - string containing a CSS selector
+  html:           String,  # [null]      - the HTML to insert
+  position:       String,  # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  select_all:     Boolean, # [false]     - operate on list of elements returned from selector
+  selector:       String,  # required    - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]     - process the selector as an XPath expression
 )
 ```
 
@@ -115,14 +123,16 @@ Inserts text into the DOM relative to an element. Positions are as follows, defa
 * `afterend`: After the target element itself
 
 ```ruby
-cable_ready["MyChannel"].insert_adjacent_text(
-  cancel:         true|false,     # [false]     - cancel the operation (for use on client)
-  focus_selector: "string",       # [null]      - string containing a CSS selector
-  position:       "string",       # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
-  select_all:     true|false,     # [false]     - operate on list of elements returned from selector
-  selector:       "string",       # required    - string containing a CSS selector or XPath expression
-  text:           "string",       # [null]      - the text to insert
-  xpath:          true|false      # [false]     - process the selector as an XPath expression
+insert_adjacent_text(
+  batch:          String,  # [null]      - add the operation to a named batch
+  cancel:         Boolean, # [false]     - cancel the operation (for use on client)
+  delay:          Integer, # [0]         - wait for n milliseconds before running
+  focus_selector: String,  # [null]      - string containing a CSS selector
+  position:       String,  # [beforeend] - the relative position to the DOM element (beforebegin, afterbegin, beforeend, afterend)
+  select_all:     Boolean, # [false]     - operate on list of elements returned from selector
+  selector:       String,  # required    - string containing a CSS selector or XPath expression
+  text:           String,  # [null]      - the text to insert
+  xpath:          Boolean  # [false]     - process the selector as an XPath expression
 )
 ```
 
@@ -140,15 +150,17 @@ cable_ready["MyChannel"].insert_adjacent_text(
 Fast lightweight DOM diffing/patching without a virtual DOM.
 
 ```ruby
-cable_ready["MyChannel"].morph(
-  cancel:                   true|false, # [false]  - cancel the operation (for use on client)
-  children_only:            true|false, # [false]  - indicates if only child nodes should be morphed... skipping the parent element
-  focus_selector:           "string",   # [null]   - string containing a CSS selector
-  html:                     "string",   # [null]   - the HTML to assign  
-  permanent_attribute_name: "string",   # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
-  select_all:               true|false, # [false]  - operate on list of elements returned from selector
-  selector:                 "string",   # required - string containing a CSS selector or XPath expression
-  xpath:                    true|false  # [false]  - process the selector as an XPath expression
+morph(
+  batch:                    String,  # [null]   - add the operation to a named batch
+  cancel:                   Boolean, # [false]  - cancel the operation (for use on client)
+  children_only:            Boolean, # [false]  - indicates if only child nodes should be morphed... skipping the parent element
+  delay:                    Integer, # [0]      - wait for n milliseconds before running
+  focus_selector:           String,  # [null]   - string containing a CSS selector
+  html:                     String,  # [null]   - the HTML to assign  
+  permanent_attribute_name: String,  # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
+  select_all:               Boolean, # [false]  - operate on list of elements returned from selector
+  selector:                 String,  # required - string containing a CSS selector or XPath expression
+  xpath:                    Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -194,7 +206,7 @@ If you need to render a collection of partials, you'll have to wrap the render m
 {% endcode %}
 
 ```ruby
-cable_ready["MyChannel"].morph(
+morph(
   children_only: true,
   selector: "#bar",
   html: "<div id=\"bar\">" + render(Bar.all) + "</div>"
@@ -219,13 +231,15 @@ cable_ready["MyChannel"].morph(
 Replaces a DOM element with new HTML.
 
 ```ruby
-cable_ready["MyChannel"].outer_html(
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  html:           "string",   # [null]   - the HTML to use as replacement
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+outer_html(
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  html:           String,  # [null]   - the HTML to use as replacement
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -243,13 +257,15 @@ cable_ready["MyChannel"].outer_html(
 Inserts HTML into the DOM, inside the target element, before its first child.
 
 ```ruby
-cable_ready["MyChannel"].prepend(  
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  html:           "string",   # [null]   - the HTML to assign
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+prepend(  
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  html:           String,  # [null]   - the HTML to assign
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -268,12 +284,14 @@ cable_ready["MyChannel"].prepend(
 Removes an element from the DOM.
 
 ```ruby
-cable_ready["MyChannel"].remove(
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+remove(
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -291,13 +309,15 @@ cable_ready["MyChannel"].remove(
 Replaces a DOM element with new HTML. This operation is an alias of [outer\_html](dom-mutations.md#outer_html) and has the same implementation.
 
 ```ruby
-cable_ready["MyChannel"].replace(
-  cancel:         true|false, # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",   # [null]   - string containing a CSS selector
-  html:           "string",   # [null]   - the HTML to use as replacement
-  select_all:     true|false, # [false]  - operate on list of elements returned from selector
-  selector:       "string",   # required - string containing a CSS selector or XPath expression
-  xpath:          true|false  # [false]  - process the selector as an XPath expression
+replace(
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  html:           String,  # [null]   - the HTML to use as replacement
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -319,13 +339,15 @@ CableReady sets `textContent` instead of `innerText`. You can learn more [here](
 {% endhint %}
 
 ```ruby
-cable_ready["MyChannel"].text_content(
-  cancel:         true|false,     # [false]  - cancel the operation (for use on client)
-  focus_selector: "string",       # [null]   - string containing a CSS selector
-  select_all:     true|false,     # [false]  - operate on list of elements returned from selector
-  selector:       "string",       # required - string containing a CSS selector or XPath expression
-  text:           "string",       # [null]   - the text to assign
-  xpath:          true|false      # [false]  - process the selector as an XPath expression
+text_content(
+  batch:          String,  # [null]   - add the operation to a named batch
+  cancel:         Boolean, # [false]  - cancel the operation (for use on client)
+  delay:          Integer, # [0]      - wait for n milliseconds before running
+  focus_selector: String,  # [null]   - string containing a CSS selector
+  select_all:     Boolean, # [false]  - operate on list of elements returned from selector
+  selector:       String,  # required - string containing a CSS selector or XPath expression
+  text:           String,  # [null]   - the text to assign
+  xpath:          Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 

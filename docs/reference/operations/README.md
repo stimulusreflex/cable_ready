@@ -33,6 +33,7 @@ description: All DOM operations that can be triggered from the server with Cable
 ## [DOM Events](event-dispatch.md)
 
 * [dispatch\_event](event-dispatch.md#dispatch_event)
+* [set\_meta](event-dispatch.md#set_meta)
 
 ## [Browser Manipulations](browser-manipulations.md)
 
@@ -49,6 +50,7 @@ description: All DOM operations that can be triggered from the server with Cable
 ## [Notifications](notifications.md)
 
 * [console\_log](notifications.md#console_log)
+* [console\_table](notifications.md#console_table)
 * [notification](notifications.md#notification)
 * [play\_sound](notifications.md#play_sound)
 

@@ -1,8 +1,10 @@
 # Installation
 
 {% hint style="success" %}
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed as a dependency and you can move on to [Setup](setup.md#setup). 🎉
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed and you can move on to [Hello World](hello-world.md). 🎉
 {% endhint %}
+
+## Client and Server Packages
 
 CableReady has both client \([npm package](https://www.npmjs.com/package/cable_ready)\) and server \([Ruby gem](https://rubygems.org/gems/cable_ready)\) components which need to be installed. It is vitally important that you **make sure that your server and client versions match exactly**.
 
@@ -17,11 +19,74 @@ yarn add cable_ready
 
 You can manually tweak and/or lock the versions you want to install by modifying `Gemfile` and `package.json` respectively, then re-running `bundle install && yarn install`.
 
+## `stream_from` Helper
+
+CableReady v5 introduces the `stream_from` helper, which allows Rails developers to broadcast operations to DOM targets without having to do any manual Channel setup.
+
+You should only need to run this once:
+
+```ruby
+rails g cable_ready:stream_from
+```
+
+If there's any issue, you need to make sure that your `index.js` or `application.js` includes the following:
+
+{% code title="app/javascript/controllers/index.js" %}
+```javascript
+import consumer from '../channels/consumer'
+import CableReady from 'cable_ready'
+
+CableReady.initialize({ consumer })
+```
+{% endcode %}
+
+## CableReady Initializer
+
+CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](customization.md#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
+
+```bash
+rails g cable_ready:initializer
+```
+
+## Upgrading, package versions and sanity
+
+When upgrading CableReady, it's very important that you make sure your gem version and npm package versions match.
+
+Since mismatched versions are the first step on the path to hell, by default CableReady won't allow the server to start if your versions are mismatched in the development environment.
+
+If you have special needs, you can override this setting in your initializer. `:warn` will emit the same text-based warning but not prevent the server process from starting. `:ignore` will silence all mismatched version warnings, if you really just DGAF. ¯\\_\(ツ\)\_/¯
+
+CableReady can also let you know when new stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or `:exit`.
+
+{% code title="config/initializers/cable\_ready.rb" %}
+```ruby
+CableReady.configure do |config|
+  config.on_failed_sanity_checks = :warn
+  config.on_new_version_available = :warn
+end
+```
+{% endcode %}
+
+### Upgrading to v5.0.0
+
+* git repos are now living in the [stimulusreflex](https://github.com/stimulusreflex) organization on GitHub
+* make sure that you update `cable_ready` to `5.0.0` in **both** your `Gemfile` and `package.json`
+* create an initializer with `rails g cable_ready:initializer` if needed
+* install `stream_from` support with `rails g cable_ready:stream_from`
+* install the `@cable_ready/audio_operations` npm package if required
+* convert your custom operations to use the new `CableReady.operations` object
+
 ## ActionCable
 
 CableReady depends on the [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) framework \(installed by default as part of [Ruby on Rails](https://rubyonrails.org/)\) to handle sending data to the client over websockets. You must have ActionCable installed on both the client and server... and it will be unless you've disabled it.
 
 You can check your `package.json` to verify that `@rails/actioncable` is installed. If you have trouble with ActionCable, consider [verifying that it's installed correctly](troubleshooting/#verify-actioncable).
+
+### AnyCable
+
+If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io).
+
+![](.gitbook/assets/anycable.png)
 
 ## Redis
 
