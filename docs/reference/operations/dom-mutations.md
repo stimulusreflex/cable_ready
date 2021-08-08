@@ -6,6 +6,7 @@ Inserts HTML into the DOM, inside the target element, after its last child.
 
 ```ruby
 append(
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -34,6 +35,7 @@ Grafted elements are moved, not recreated. This means that any Stimulus controll
 
 ```ruby
 graft(  
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -59,6 +61,7 @@ Sets the innerHTML of a DOM element.
 
 ```ruby
 inner_html(  
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -89,6 +92,7 @@ Inserts HTML into the DOM relative to an element. Positions are as follows, defa
 
 ```ruby
 insert_adjacent_html(
+  batch:          String,  # [null]      - add the operation to a named batch
   cancel:         Boolean, # [false]     - cancel the operation (for use on client)
   delay:          Integer, # [0]         - wait for n milliseconds before running
   focus_selector: String,  # [null]      - string containing a CSS selector
@@ -120,6 +124,7 @@ Inserts text into the DOM relative to an element. Positions are as follows, defa
 
 ```ruby
 insert_adjacent_text(
+  batch:          String,  # [null]      - add the operation to a named batch
   cancel:         Boolean, # [false]     - cancel the operation (for use on client)
   delay:          Integer, # [0]         - wait for n milliseconds before running
   focus_selector: String,  # [null]      - string containing a CSS selector
@@ -146,6 +151,7 @@ Fast lightweight DOM diffing/patching without a virtual DOM.
 
 ```ruby
 morph(
+  batch:                    String,  # [null]   - add the operation to a named batch
   cancel:                   Boolean, # [false]  - cancel the operation (for use on client)
   children_only:            Boolean, # [false]  - indicates if only child nodes should be morphed... skipping the parent element
   delay:                    Integer, # [0]      - wait for n milliseconds before running
@@ -226,6 +232,7 @@ Replaces a DOM element with new HTML.
 
 ```ruby
 outer_html(
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -251,6 +258,7 @@ Inserts HTML into the DOM, inside the target element, before its first child.
 
 ```ruby
 prepend(  
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -277,6 +285,7 @@ Removes an element from the DOM.
 
 ```ruby
 remove(
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -301,6 +310,7 @@ Replaces a DOM element with new HTML. This operation is an alias of [outer\_html
 
 ```ruby
 replace(
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector
@@ -330,6 +340,7 @@ CableReady sets `textContent` instead of `innerText`. You can learn more [here](
 
 ```ruby
 text_content(
+  batch:          String,  # [null]   - add the operation to a named batch
   cancel:         Boolean, # [false]  - cancel the operation (for use on client)
   delay:          Integer, # [0]      - wait for n milliseconds before running
   focus_selector: String,  # [null]   - string containing a CSS selector

@@ -1,5 +1,5 @@
 ---
-description: 'Real-time changes in the browser, using server-side Ruby.'
+description: 'Real-time changes in the browser, controlled by server-side Ruby.'
 ---
 
 # Welcome

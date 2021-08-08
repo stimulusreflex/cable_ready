@@ -10,6 +10,7 @@ If jQuery is in use \(and available in the global `window` scope\) `dispatch_eve
 
 ```ruby
 dispatch_event(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]    - cancel the operation (for use on client)
   delay:      Integer, # [0]        - wait for n milliseconds before running
   detail:     Object,  # [null]     - assigned to event.detail
@@ -28,9 +29,12 @@ The `detail` parameter will convert `user_id` to `userId` - snake\_case to camel
 
 Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](../../leveraging-stimulus.md#event-listener-controllers).
 
-{% hint style="warning" %}
-There are no life-cycle events emitted for `dispatch_event`.
-{% endhint %}
+#### Life-cycle Callback Events
+
+* `cable-ready:before-dispatch-event`
+* `cable-ready:after-dispatch-event`
+
+Life-cycle events for `dispatch_event` are raised on `document`.
 
 #### Reference
 
@@ -44,6 +48,7 @@ Add a `meta` tag to your document `head`. If a `meta` tag with the same name alr
 
 ```ruby
 set_meta(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   content:    String,  # required - the content attribute of the meta tag
   delay:      Integer, # [0]      - wait for n milliseconds before running
@@ -96,6 +101,13 @@ export default class extends Controller {
 ```
 
 This technique allows the developer to update data that concerns the page without a potentially brittle expectation that the server knows the `id` of every component that needs to be updated.
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-set-meta`
+* `cable-ready:after-set-meta`
+
+Life-cycle events for `set_meta` are raised on `document`.
 
 #### Reference
 

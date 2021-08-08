@@ -8,6 +8,7 @@ Use `name` as an array to add multiple classes to the element.
 
 ```ruby
 add_css_class(
+  batch:      String,          # [null]   - add the operation to a named batch
   cancel:     Boolean,         # [false]  - cancel the operation (for use on client)
   delay:      Integer,         # [0]      - wait for n milliseconds before running
   name:       String or Array, # [null]   - CSS class name(s) to add
@@ -32,6 +33,7 @@ Removes an attribute from an element.
 
 ```ruby
 remove_attribute(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   name:       String,  # required - the attribute to remove
@@ -58,6 +60,7 @@ Use `name` as an array to remove multiple classes from the element.
 
 ```ruby
 remove_css_class(
+  batch:      String,          # [null]   - add the operation to a named batch
   cancel:     Boolean,         # [false]  - cancel the operation (for use on client)
   delay:      Integer,         # [0]      - wait for n milliseconds before running
   name:       String or Array, # [null]   - CSS class name(s) to remove
@@ -82,6 +85,7 @@ Sets an attribute on an element.
 
 ```ruby
 set_attribute(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   name:       String,  # required - the attribute to set
@@ -115,6 +119,7 @@ Sets an dataset property \(data-\* attribute\) on an element.
 
 ```ruby
 set_dataset_property(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   name:       String,  # required - the property to set, camelCased
@@ -162,6 +167,7 @@ Sets a valid property on an element to a new value.
 
 ```ruby
 set_property(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   name:       String,  # required - string containing a valid property
@@ -193,6 +199,7 @@ Sets a single style on an element.
 
 ```ruby
 set_style(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   name:       String,  # required - the style to set
@@ -218,6 +225,7 @@ Sets multiple styles on an element.
 
 ```ruby
 set_styles(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   select_all: Boolean, # [false]  - operate on list of elements returned from selector
@@ -245,6 +253,7 @@ Sets the value of an element.
 
 ```ruby
 set_value(
+  batch:      String,  # [null]   - add the operation to a named batch
   cancel:     Boolean, # [false]  - cancel the operation (for use on client)
   delay:      Integer, # [0]      - wait for n milliseconds before running
   select_all: Boolean, # [false]  - operate on list of elements returned from selector

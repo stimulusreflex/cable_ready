@@ -6,6 +6,7 @@ Output a message to the browser console.
 
 ```ruby
 console_log(
+  batch:   String,  # [null]  - add the operation to a named batch
   cancel:  Boolean, # [false] - cancel the operation (for use on client)
   delay:   Integer, # [0]     - wait for n milliseconds before running
   level:   String,  # ["log"] - optionally specify one of "warn", "info" or "error"
@@ -13,9 +14,12 @@ console_log(
 )
 ```
 
-{% hint style="warning" %}
-There are no life-cycle events raised by `console_log`.
-{% endhint %}
+#### Life-cycle Callback Events
+
+* `cable-ready:before-console-log`
+* `cable-ready:after-console-log`
+
+Life-cycle events for `console_log` are raised on `document`.
 
 #### Reference
 
@@ -27,6 +31,7 @@ Output a table to the browser console.
 
 ```ruby
 console_table(
+  batch:   String,          # [null]  - add the operation to a named batch
   cancel:  Boolean,         # [false] - cancel the operation (for use on client)
   columns: Array,           # [[]]    - optional array of strings
   delay:   Integer,         # [0]     - wait for n milliseconds before running
@@ -36,9 +41,12 @@ console_table(
 
 The Console Inspector will build a simple table of values when provided with relatively normalized data in Array or Object format via the `data` option. You can further specify an array of Strings to create an "allowlist" of columns to display \(and hide the rest\).
 
-{% hint style="warning" %}
-There are no life-cycle events raised by `console_table`.
-{% endhint %}
+#### Life-cycle Callback Events
+
+* `cable-ready:before-console-table`
+* `cable-ready:after-console-table`
+
+Life-cycle events for `console_table` are raised on `document`.
 
 #### Reference
 
@@ -58,8 +66,9 @@ The user will be asked to Allow or Block notifications. You cannot force them to
 
 ```ruby
 notification(
+  batch:   String,  # [null]   - add the operation to a named batch
   cancel:  Boolean, # [false]  - cancel the operation (for use on client)
-  delay:   Integer, # [0]        - wait for n milliseconds before running
+  delay:   Integer, # [0]      - wait for n milliseconds before running
   title:   String,  # required, although it can be empty
   options: Object   # see options such as body, icon, vibrate, silent
 )
@@ -125,6 +134,7 @@ CableReady subtly captures the first user interaction on the page to ensure this
 
 ```ruby
 play_sound(
+  batch:  String,  # [null]   - add the operation to a named batch
   cancel: Boolean, # [false]  - cancel the operation (for use on client)
   delay:  Integer, # [0]      - wait for n milliseconds before running
   src:    String   # required - URL for audio file

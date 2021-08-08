@@ -1,8 +1,10 @@
 # Installation
 
 {% hint style="success" %}
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed as a dependency and you can move on to [Setup](hello-world.md#setup). 🎉
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed and you can move on to [Hello World](hello-world.md). 🎉
 {% endhint %}
+
+## Client and Server Packages
 
 CableReady has both client \([npm package](https://www.npmjs.com/package/cable_ready)\) and server \([Ruby gem](https://rubygems.org/gems/cable_ready)\) components which need to be installed. It is vitally important that you **make sure that your server and client versions match exactly**.
 
@@ -16,6 +18,35 @@ yarn add cable_ready
 ```
 
 You can manually tweak and/or lock the versions you want to install by modifying `Gemfile` and `package.json` respectively, then re-running `bundle install && yarn install`.
+
+## `stream_from` Helper
+
+CableReady v5 introduces the `stream_from` helper, which allows Rails developers to broadcast operations to DOM targets without having to do any manual Channel setup.
+
+You should only need to run this once:
+
+```ruby
+rails g cable_ready:stream_from
+```
+
+If there's any issue, you need to make sure that your `index.js` or `application.js` includes the following:
+
+{% code title="app/javascript/controllers/index.js" %}
+```javascript
+import consumer from '../channels/consumer'
+import CableReady from 'cable_ready'
+
+CableReady.initialize({ consumer })
+```
+{% endcode %}
+
+## CableReady Initializer
+
+CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](customization.md#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
+
+```bash
+rails g cable_ready:initializer
+```
 
 ## Upgrading, package versions and sanity
 

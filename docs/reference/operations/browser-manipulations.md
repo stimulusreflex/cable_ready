@@ -8,6 +8,7 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 clear_storage(
+  batch:  String,  # [null]    - add the operation to a named batch
   cancel: Boolean, # [false]   - cancel the operation (for use on client)
   delay:  Integer, # [0]       - wait for n milliseconds before running
   type:   String   # ["local"] - "session" or "local"
@@ -36,6 +37,7 @@ If no value is passed or if `delta` equals `0`, it has the same result as callin
 
 ```ruby
 go(
+  batch:  String,  # [null]  - add the operation to a named batch
   cancel: Boolean, # [false] - cancel the operation (for use on client)
   delay:  Integer, # [0]     - wait for n milliseconds before running
   delta:  Integer  #         - optional positive or negative integer
@@ -64,6 +66,7 @@ You can associate arbitrary data with your new history entry by passing a Hash t
 
 ```ruby
 push_state(
+  batch:  String,  # [null]   - add the operation to a named batch
   cancel: Boolean, # [false]  - cancel the operation (for use on client)
   delay:  Integer, # [0]      - wait for n milliseconds before running
   url:    String,  # required - URL String
@@ -96,6 +99,7 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 remove_storage_item(
+  batch:  String,  # [null]    - add the operation to a named batch
   cancel: Boolean, # [false]   - cancel the operation (for use on client)
   delay:  Integer, # [0]       - wait for n milliseconds before running
   key:    String,  # required
@@ -127,6 +131,7 @@ Most of the time, you probably want to use `push_state`.
 
 ```ruby
 replace_state(
+  batch:  String,  # [null]   - add the operation to a named batch
   cancel: Boolean, # [false]  - cancel the operation (for use on client)
   delay:  Integer, # [0]      - wait for n milliseconds before running
   url:    String,  # required - URL String
@@ -153,6 +158,7 @@ Scroll the viewport so that the element with the specified anchor \(`id` attribu
 
 ```ruby
 scroll_into_view(
+  batch:    String,  # [null]      - add the operation to a named batch
   behavior: String,  # ["auto"]    - auto or smooth
   block:    String,  # ["start"]   - start, center, end, nearest
   cancel:   Boolean, # [false]     - cancel the operation (for use on client)
@@ -190,6 +196,7 @@ Writes a cookie to the document cookie store.
 
 ```ruby
 set_cookie(
+  batch:  String,  # [null]   - add the operation to a named batch
   cancel: Boolean, # [false]  - cancel the operation (for use on client)
   cookie: String,  # required - "example=value; path=/; expires=Sat, 07 Mar 2020 16:19:19 GMT"
   delay:  Integer  # [0]      - wait for n milliseconds before running
@@ -217,6 +224,7 @@ Set focus on the specified element, if it can be focused. The focused element is
 
 ```ruby
 set_focus(
+  batch:    String,  # [null]   - add the operation to a named batch
   cancel:   Boolean, # [false]  - cancel the operation (for use on client)
   delay:    Integer, # [0]      - wait for n milliseconds before running
   selector: String,  # required - string containing a CSS selector or XPath expression
@@ -241,6 +249,7 @@ Data stored in either local or session storage is specific to the protocol of th
 
 ```ruby
 set_storage_item(
+  batch:  String,  # [null]    - add the operation to a named batch
   cancel: Boolean, # [false]   - cancel the operation (for use on client)
   delay:  Integer, # [0]       - wait for n milliseconds before running
   key:    String,  # required

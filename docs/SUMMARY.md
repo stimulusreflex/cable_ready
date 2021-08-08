@@ -3,7 +3,7 @@
 * [Welcome](README.md)
 * [Installation](installation.md)
 * [Hello World](hello-world.md)
-* [CableReady 101](cableready-101.md)
+* [Channels 101](cableready-101.md)
 * [Working with CableReady](usage.md)
 * [CableReady Everywhere](cableready-everywhere.md)
 * [Leveraging Stimulus](leveraging-stimulus.md)

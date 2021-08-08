@@ -1,12 +1,47 @@
-# CableReady 101
+# Channels 101
 
-Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
+CableReady v5 introduces the new `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter. While `stream_from` is the fastest way to start broadcasting operations, they intentionally lack the flexibility and customization possible with an ActionCable Channel class and client consumer.
 
-You can send CableReady broadcasts from [just about anywhere](cableready-everywhere.md) in your application: ActiveJobs, controller actions, ActiveRecord model callbacks, rake tasks, pub/sub workers, webhooks, you name it.
+What follows is a brief tutorial that will get you up-and-running with using Channels.
 
-We're going to use an ActiveRecord `after_create` callback to demonstrate welcoming a new user.
+## Basic Channel Setup
+
+Use the Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
+
+```bash
+rails g channel example
+```
+
+In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to a stream called `visitors`. We'll talk more about streams soon. For now, `visitors` is for operations that will be sent to everyone currently looking at your site.
+
+{% code title="app/channels/example\_channel.rb" %}
+```ruby
+class ExampleChannel < ApplicationCable::Channel
+  def subscribed
+    stream_from "visitors"
+  end
+end
+```
+{% endcode %}
+
+The generator also creates a JavaScript channel subscriber. Import `CableReady` and modify the `received` method to check incoming data for CableReady broadcasts.
+
+{% code title="app/javascript/channels/example\_channel.js" %}
+```javascript
+import CableReady from 'cable_ready'
+import consumer from './consumer'
+
+consumer.subscriptions.create('ExampleChannel', {
+  received (data) {
+    if (data.cableReady) CableReady.perform(data.operations)
+  }
+})
+```
+{% endcode %}
 
 ## Broadcasting operations
+
+Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
 
 #### Make CableReady available
 
