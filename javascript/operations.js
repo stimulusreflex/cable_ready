@@ -385,19 +385,23 @@ export default {
   // Notifications
 
   consoleLog: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { message, level } = operation
       level && ['warn', 'info', 'error'].includes(level)
         ? console[level](message || '')
         : console.log(message || '')
     })
+    after(document, operation)
   },
 
   consoleTable: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { data, columns } = operation
       console.table(data, columns || [])
     })
+    after(document, operation)
   },
 
   notification: operation => {
