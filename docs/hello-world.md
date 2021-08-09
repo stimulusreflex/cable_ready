@@ -13,7 +13,7 @@ Just use a `stream_from` helper in your template wherever you need [Reactive](ht
 What does the agnostic, dyslexic insomniac do? 
 ```
 
-Everyone looking at this page - or any other page which is subscribed to `:foo` - will instantly see an update when the following code executes:
+Everyone looking at this page - or any other page which is subscribed to `:foo` - will instantly see an update when the following Ruby code executes:
 
 ```ruby
 cable_ready[:foo]
@@ -21,7 +21,7 @@ cable_ready[:foo]
   .broadcast
 ```
 
-You just ran code on the server that dynamically updated text on potentially thousands of clients without writing any JavaScript.
+You just ran code on the server that dynamically updated text on potentially thousands of clients, without writing any JavaScript.
 
 ![Jazz Hands](.gitbook/assets/eunji.gif)
 
