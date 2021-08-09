@@ -1,6 +1,10 @@
 # Channels 101
 
-CableReady v5 introduces the new `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter. While `stream_from` is the fastest way to start broadcasting operations, they intentionally lack the flexibility and customization possible with an ActionCable Channel class and client consumer.
+While [stream\_from](stream_from.md) is a handy tool, there are powerful techniques only possible with the flexibility of [ActionCable](action-cable.md#the-missing-manual) Connections, Channels and Subscriptions. It's important that you understand how CableReady interacts with ActionCable to get the most out of this library.
+
+{% hint style="info" %}
+CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter.
+{% endhint %}
 
 What follows is a brief tutorial that will get you up-and-running with using Channels.
 

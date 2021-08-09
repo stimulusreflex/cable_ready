@@ -9,6 +9,7 @@
 * [Leveraging Stimulus](leveraging-stimulus.md)
 * [Stream Identifiers](identifiers.md)
 * [Broadcasting to Resources](broadcasting-to-resources.md)
+* [stream\_from](stream_from.md)
 * [Ride the Cable Car](cable-car.md)
 * [Customization](customization.md)
 * [ActionCable: It's Complicated](action-cable.md)
