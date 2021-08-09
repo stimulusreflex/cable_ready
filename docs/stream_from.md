@@ -1,5 +1,7 @@
 # stream\_from
 
+There's no limit \(within reason\) to how many subscriptions you can open on a single page, and as you'll soon learn, you can provide several keys which mix many different types, including ActiveRecord model resources, strings, integers, class constants and more.
+
 ## Example time!
 
 We're going to use a ActiveRecord model callbacks to demonstrate updating likes on a Photo resource.
