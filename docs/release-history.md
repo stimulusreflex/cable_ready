@@ -3,10 +3,9 @@
 ## New Release: v5.0.0
 
 * New [`cable_car`](cable-car.md#introducing-cable_car) mode provides access to operation composition from anywhere, paving the way for using [CableReady via Ajax](cable-car.md#ajax-mode) actions, Turbo Frames etc
-* New `stream_from` helper makes streaming from arbitrary components easier than ever
-* New operations: [`console_table`](reference/operations/notifications.md#console_table), [`set_meta`](reference/operations/event-dispatch.md#set_meta)
-* New `cable_ready:channel` [generator](usage.md#channel-generator) creates channel classes and client channel subscribers
-* New, simplified JSON wire format is easier to work with and port to other languages
+* New [`stream_from`](stream_from.md) helper allows broadcasting without any Channel setup
+* [`console_table`](reference/operations/notifications.md#console_table) and [`set_meta`](reference/operations/event-dispatch.md#set_meta) bring total to [35 operations](reference/operations/)
+* New, simplified JSON wire format is easier to work with... _and port to other languages_ 🤩
 * Operations now execute in the [order](usage.md#operation-execution-order) that they are created, regardless of type
 * New load-time [sanity checker](installation.md#upgrading-package-versions-and-sanity) module provides early warning of gem/npm version issues and an optional [check](installation.md#upgrading-to-v-5-0-0) for new CableReady releases
 * Channels and `cable_car` now have `to_json` and `apply!` serialization methods
@@ -19,6 +18,7 @@
 * Operations now accept an optional `delay` option in `ms`, allowing chained time [staggering](usage.md#staggering-operations)
 * Operations can now be added to [named batches](usage.md#operation-batches) via the `batch` option
 * Custom operations can access [standardized](customization.md#before-operate-after) `before`, `operate` and `after` methods
+* New `cable_ready:channel` [generator](usage.md#channel-generator) creates Ruby and JS Channel classes
 * `ApplicationController::Renderers` has new `operations` renderer
 * `CableReady.DOMOperations` was deprecated in favor of [`CableReady.operations`](customization.md#custom-operations)
 * `play_sound` operation has been [extracted](customization.md#importing-audiooperations) to `@cable_ready/audio_operations`
