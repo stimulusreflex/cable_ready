@@ -56,7 +56,7 @@ Since mismatched versions are the first step on the path to hell, by default Cab
 
 If you have special needs, you can override this setting in your initializer. `:warn` will emit the same text-based warning but not prevent the server process from starting. `:ignore` will silence all mismatched version warnings, if you really just DGAF. ¯\\_\(ツ\)\_/¯
 
-CableReady can also let you know when new stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or `:exit`.
+CableReady can also let you know when new, stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or even `:exit` so that you're never left behind.
 
 {% code title="config/initializers/cable\_ready.rb" %}
 ```ruby
@@ -84,7 +84,7 @@ You can check your `package.json` to verify that `@rails/actioncable` is install
 
 ### AnyCable
 
-If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io).
+If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io) or [AnyCable Pro](https://anycable.io/#opensource), which boasts lower memory consumption, Apollo GraphQL compatibility and support for a binary transport protocol. 
 
 ![](.gitbook/assets/anycable.png)
 

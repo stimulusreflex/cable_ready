@@ -1,12 +1,26 @@
 # Channels 101
 
-While [stream\_from](stream_from.md) is a handy tool, there are powerful techniques only possible with the flexibility of [ActionCable](action-cable.md#the-missing-manual) Connections, Channels and Subscriptions. It's important that you understand how CableReady interacts with ActionCable to get the most out of this library.
+While [stream\_from](stream_from.md) is great, there are many techniques _only_ possible if you leverage [ActionCable](action-cable.md#the-missing-manual) Connections, Channels and Subscriptions.
 
 {% hint style="info" %}
 CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter.
 {% endhint %}
 
-What follows is a brief tutorial that will get you up-and-running with using Channels.
+## So, what's a channel?
+
+{% hint style="success" %}
+There's an entire [chapter](action-cable.md#the-missing-manual) dedicated to explaining ActionCable, but this should be enough to get started. 😅
+{% endhint %}
+
+An ActionCable [Channel](https://api.rubyonrails.org/v6.1.4/classes/ActionCable/Channel/Base.html) is a Ruby class you create with a goal in mind. Achieving that goal revolves around sending and receiving messages from a list of subscribers that are connected over WebSockets.
+
+Channels define one or more unique identifiers. These are string patterns which map subscribers to Channels, similarly to how `routes.rb` maps request paths to Controllers. The way you structure these identifiers decides whether messages sent to the Channel are delivered to every subscriber, or just a subset that matches a given pattern.
+
+On the client, you use an ActionCable Connection `consumer` to subscribe to Channels. The subscription provides access to data that is `received` from the server, as well as a mechanism for sending data to the sever.
+
+The subscription attempt can _optionally_ include `params`, similar to POSTing a form to a controller action. The Channel class can access these `params` and use these values to compute and return a subscription identifier. 
+
+Don't worry if this sounds complicated, because we're going to create a Channel together, now.
 
 ## Basic Channel Setup
 
@@ -16,7 +30,7 @@ Use the Rails `channel` generator to create an ActionCable [Channel](https://gui
 rails g channel example
 ```
 
-In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to a stream called `visitors`. We'll talk more about streams soon. For now, `visitors` is for operations that will be sent to everyone currently looking at your site.
+In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to the identifier `visitors`. Operations broadcast there will be sent to everyone looking at your site. They will be automatically subscribed to your channel.
 
 {% code title="app/channels/example\_channel.rb" %}
 ```ruby
@@ -43,9 +57,13 @@ consumer.subscriptions.create('ExampleChannel', {
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Thanks to Turbo Drive / Turbolinks, subscriptions will remain active until the user refreshes or leaves the site.
+{% endhint %}
+
 ## Broadcasting operations
 
-Now that we have installed the library, verified its dependencies and created an ActionCable Channel in our app, it's time to actually make the magic happen.
+Now that we have created a Channel, it's time to send commands to the client.
 
 #### Make CableReady available
 
@@ -79,10 +97,10 @@ class User < ApplicationRecord
 end
 ```
 
-{% hint style="info" %}
-The `ExampleChannel` that we created in the [Setup](hello-world.md) will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Inspector message welcoming the latest member.
+The `ExampleChannel` that you created will send any operations broadcast to `visitors` to all currently subscribed clients. In the code above, everyone on the site will see a Console Inspector message welcoming the latest member.
 
-ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that Strean Identifiers are defined inside of your Channel classes.
+{% hint style="info" %}
+ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel can stream from a given identifier. It is conceptually similar to Rails request routing, except that identifiers are defined inside of your Channel classes.
 {% endhint %}
 
 ## Queueing operations

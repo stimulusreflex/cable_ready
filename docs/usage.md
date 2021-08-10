@@ -2,7 +2,7 @@
 
 CableReady is a simple library with a lot of power.
 
-You can figure out how to use it in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony diabetes, too.
+You can figure out [the basics](hello-world.md) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony diabetes, too.
 
 ## Selectors
 
