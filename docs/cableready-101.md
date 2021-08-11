@@ -1,6 +1,6 @@
 # Channels 101
 
-While [stream\_from](stream_from.md) is great, there are many techniques _only_ possible if you leverage [ActionCable](action-cable.md#the-missing-manual) Connections, Channels and Subscriptions.
+While `stream_from` is great, there are many techniques _only_ possible if you leverage [ActionCable](action-cable.md#the-missing-manual) Connections, Channels and Subscriptions.
 
 {% hint style="info" %}
 CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](hello-world.md) chapter.
@@ -58,7 +58,7 @@ consumer.subscriptions.create('ExampleChannel', {
 {% endcode %}
 
 {% hint style="success" %}
-Thanks to Turbo Drive / Turbolinks, subscriptions will remain active until the user refreshes or leaves the site.
+Thanks to Turbo Drive / Turbolinks, subscriptions created in this manner will remain active until the user refreshes the page or leaves the site.
 {% endhint %}
 
 ## Broadcasting operations
@@ -105,7 +105,9 @@ ActionCable can deduce `ExampleChannel` from `visitors` because only one Channel
 
 ## Queueing operations
 
-Each stream identifier has a queue of operations. You can call `cable_ready` multiple times to add more operations to these queues. Since `cable_ready` is a singleton instance, you can continue to add operations to a queue even across multiple methods:
+CableReady maintains a queue of operations for every identifier. You can call `cable_ready` multiple times to add more operations to these queues.
+
+`cable_ready` is a singleton instance, which means that you can keep adding operations to a queue across multiple method calls.
 
 ```ruby
 cable_ready["visitors"].console_log(message: "We have more salad than we can eat.")

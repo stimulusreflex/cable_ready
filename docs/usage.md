@@ -2,7 +2,7 @@
 
 CableReady is a simple library with a lot of power.
 
-You can figure out [the basics](hello-world.md) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony diabetes, too.
+You can figure out [the basics](hello-world.md) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony insulin shock, too.
 
 ## Selectors
 
@@ -34,9 +34,11 @@ inner_html(User.first, html: "<span>Your mother</span>")
 
 ### `selector` remembers the previous selector
 
-You know what sucks? Repeating yourself. Why is why `selector` remembers the previous selector.
+You know what sucks? Repeating yourself.
 
-Each CableReady channel now remembers the `selector` from the previous operation, if any. This means that you can specify a selector at the beginning of a chain, and it will automatically be picked up by succeeding operations until a new selector is used, at which point _that_ selector becomes the "new previous" operation for all following operations; if a new selector is used, all previously used selectors are unmodifed.
+Each CableReady channel remembers the `selector` from the previous operation, if any. This means that you can specify a selector at the beginning of a chain, and it will automatically be picked up by succeeding operations until a new selector is used, at which point _that_ selector becomes the default selector for all following operations.
+
+ If a new selector is used, all previously used selectors are unmodifed.
 
 ```ruby
 set_focus("#smelly").inner_html(html: "<span>I rock</span>").set_style(name: "color", value: "red").text_content(selector: User.all, text: "Bloom")
@@ -117,25 +119,36 @@ XPath selectors cannot be used with the `select_all` option, although if this is
 
 ## Operation Execution Order
 
-TODO: Update this pending simple\_json PR
-
-CableReady executes operations in the order that they are received, with the caveat that this applies to the type of operation as much as the operations themselves. In other words, if you:
+CableReady executes operations in the order that they are created:
 
 ```ruby
-inner_html(html: "1").outer_html(html: "2").inner_html(html: "3")
+console_log(message: "3").console_log(message: "1")
+console_log(message: "2")
 ```
 
-Your operations will execute in the order **1, 3, 2** because CableReady will finish the `inner_html` operations before it moves on to the `outer_html` operations.
+You will see the following in your Console Inspector:
+
+```text
+3
+1
+2
+```
 
 ## Operation Batches
 
-TODO
+CableReady operations can be grouped together using the `batch` option, which accepts either `true` or a string. **The goal of a batch is to know when all operations in a batch have been executed, even if other operations in a broadcast are still being executed.**
+
+When all operations in a batch have been executed, CableReady will emit a `cable-ready:batch-complete` DOM event on the `document`. The `detail` object of the event will contain a key called `batch` which contains the name of the batch that was completed.
+
+Each operation can belong to a maximum of one batch. **Batches do not impact the order in which operations are executed.**
+
+Batches are reset after each `broadcast` - there is no such thing as a multi-broadcast batch. One broadcast can include operations that are batched alongside un-batched operations.
 
 ## Life-cycle events
 
 All CableReady operations emit a DOM [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent) immediately before an operation is executed, and another immediately after.
 
-They will be emitted from the `selector` element if present, otherwise they will default to `document`.
+Events are emitted from the target `element` if present; otherwise, they will default to `document`. Consult the documentation for each operation to confirm which object to listen to.
 
 The event names follow a predictable pattern, as seen with `cable-ready:before-inner-html` and `cable-ready:after-morph`.
 
