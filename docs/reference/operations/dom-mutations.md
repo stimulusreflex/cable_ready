@@ -151,16 +151,17 @@ Fast lightweight DOM diffing/patching without a virtual DOM.
 
 ```ruby
 morph(
-  batch:                    String,  # [null]   - add the operation to a named batch
-  cancel:                   Boolean, # [false]  - cancel the operation (for use on client)
-  children_only:            Boolean, # [false]  - indicates if only child nodes should be morphed... skipping the parent element
-  delay:                    Integer, # [0]      - wait for n milliseconds before running
-  focus_selector:           String,  # [null]   - string containing a CSS selector
-  html:                     String,  # [null]   - the HTML to assign  
-  permanent_attribute_name: String,  # [null]   - an attribute name that prevents elements from being updated i.e. "data-permanent"
-  select_all:               Boolean, # [false]  - operate on list of elements returned from selector
-  selector:                 String,  # required - string containing a CSS selector or XPath expression
-  xpath:                    Boolean  # [false]  - process the selector as an XPath expression
+  batch:                    String,  # [null]    - add the operation to a named batch
+  cancel:                   Boolean, # [false]   - cancel the operation (for use on client)
+  children_only:            Boolean, # [false]   - indicates if only child nodes should be morphed... skipping the parent element
+  content:                  String,  # READ ONLY - the content that is going to be used to morph
+  delay:                    Integer, # [0]       - wait for n milliseconds before running
+  focus_selector:           String,  # [null]    - string containing a CSS selector
+  html:                     String,  # [null]    - the HTML to assign  
+  permanent_attribute_name: String,  # [null]    - an attribute name that prevents elements from being updated i.e. "data-permanent"
+  select_all:               Boolean, # [false]   - operate on list of elements returned from selector
+  selector:                 String,  # required  - string containing a CSS selector or XPath expression
+  xpath:                    Boolean  # [false]   - process the selector as an XPath expression
 )
 ```
 
