@@ -4,6 +4,20 @@ CableReady is a simple library with a lot of power.
 
 You can figure out [the basics](hello-world.md) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony insulin shock, too.
 
+## Passing extra options to operations
+
+In addition to the standard, documented options for each operation, you can pass additional application-specific data to the client. These JSON-compatible options will be ignored by CableReady but available via [life-cycle events](usage.md#listening-for-events) in the `detail` object.
+
+You can use these ad hoc options to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
+
+```ruby
+cable_ready["biden"].set_cookie(
+  cookie: "favorite_food=pasta",
+  dog: "Major",
+  corn_pop: "bad dude"
+).broadcast
+```
+
 ## Selectors
 
 The `selector` option provided to DOM-mutating operations expects a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) that resolves to **one** single DOM element. The default element for all operations is `document` unless it is changed.
@@ -148,7 +162,7 @@ Batches are reset after each `broadcast` - there is no such thing as a multi-bro
 
 All CableReady operations emit a DOM [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent) immediately before an operation is executed, and another immediately after.
 
-Events are emitted from the target `element` if present; otherwise, they will default to `document`. Consult the documentation for each operation to confirm which object to listen to.
+Events are emitted from the target `selector` if present; otherwise, they will default to `document`. Consult the documentation for each operation to confirm which object to listen to.
 
 The event names follow a predictable pattern, as seen with `cable-ready:before-inner-html` and `cable-ready:after-morph`.
 
@@ -168,34 +182,21 @@ You can create a callback function to handle the life-cycle events CableReady em
 
 Create **named functions** \(and avoid anonymous functions\) for your callbacks because it's impossible to [remove](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener) an event listener with an anonymous callback.
 
-```ruby
-const afterMorphHandler = event => { console.log(event.detail) }
+```javascript
+const afterMorphHandler = event => console.log(event.detail)
 document.addEventListener('cable-ready:after-morph', afterMorphHandler)
 ```
 
-Once you have captured an event, you can inspect the `detail` object to access all of the options passed to CableReady when the operation was enqueued.
-
-### Passing extra data to the client
-
-You can pass extra, arbitrary, JSON-compatible data when adding an operation. You can use operations to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
-
-```ruby
-cable_ready["biden"].set_cookie(
-  cookie: "favorite_food=pasta",
-  dog: "Major",
-  corn_pop: "bad dude"
-).broadcast
-```
-
-On the client, you can access all parameters provided to an operation via the `detail` object. Remember, all snake\_case keys will be automatically converted to camelCase:
+Once you have captured an event, you can access all parameters provided to an operation via the `detail` object. Remember, all snake\_case keys will be automatically converted to camelCase:
 
 ```javascript
-setCookieHandler = event => {
-  console.log(event.detail.cornPop)
-}
+const setCookieHandler = event => console.log(event.detail.cornPop)
+document.addEventListener('cable-ready:after-set-cookie', setCookieHandler)
 ```
 
-In general, it's easier to track related concepts transactionally in one broadcast envelope than it is to assemble data from multiple broadcasts back into a coherent state.
+{% hint style="success" %}
+It's easier to track related concepts transactionally in one broadcast than it is to assemble data from multiple broadcasts back into a coherent state.
+{% endhint %}
 
 ### Staggering operations
 
