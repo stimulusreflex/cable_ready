@@ -324,6 +324,18 @@ export default {
     after(window, callee, operation)
   },
 
+  redirectTo: (operation, callee) => {
+    before(window, callee, operation)
+    operate(operation, () => {
+      let { url, action } = operation
+      action = action || 'advance'
+      if (window.Turbo) window.Turbo.visit(url, { action })
+      if (window.Turbolinks) window.Turbolinks.visit(url, { action })
+      if (!window.Turbo && !window.Turbolinks) window.location.href = url
+    })
+    after(window, callee, operation)
+  },
+
   removeStorageItem: (operation, callee) => {
     before(document, callee, operation)
     operate(operation, () => {
