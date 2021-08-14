@@ -7,7 +7,7 @@ module CableReady
 
     included do |base|
       if base < ActiveRecord::Base
-        after_commit :broadcast_self
+        after_commit :broadcast_index
       end
     end
 
@@ -31,8 +31,9 @@ module CableReady
 
     private
 
-    def broadcast_self
+    def broadcast_index
       ActionCable.server.broadcast("#{self.class.name.underscore}_#{id}", {})
+      cable_ready.dispatch_event(name: ""
     end
 
     module ClassMethods
