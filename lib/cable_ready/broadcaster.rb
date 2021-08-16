@@ -7,16 +7,20 @@ module CableReady
 
     included do |base|
       if base < ActiveRecord::Base
-        after_commit :broadcast_index
-      end
-    end
+        after_commit :broadcast_resource
 
-    class_methods do |base|
-      if base < ActiveRecord::Base
-        def has_many(*args, &block)
-          options = args.extract_options!
-          options[:extend] = Array(options[:extend]).push(ClassMethods)
-          super(*args, **options, &block)
+        def self.has_many(name, scope = nil, **options, &extension)
+          broadcast = options.delete(:broadcast).present?
+          result = super
+          broadcast_association(name) if broadcast
+          result
+        end
+
+        private
+
+        def self.broadcast_association(name)
+          # name is the name of the association, so that's one down...
+          ActionCable.server.broadcast(self.to_gid, {})
         end
       end
     end
@@ -31,15 +35,8 @@ module CableReady
 
     private
 
-    def broadcast_index
-      ActionCable.server.broadcast("#{self.class.name.underscore}_#{id}", {})
-      cable_ready.dispatch_event(name: ""
-    end
-
-    module ClassMethods
-      def broadcast_collection(id, collection_name)
-        ActionCable.server.broadcast("#{name.underscore}_#{id}_#{collection_name}", {})
-      end
+    def broadcast_resource
+      ActionCable.server.broadcast(self.to_gid, {})
     end
   end
 end

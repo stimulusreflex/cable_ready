@@ -8,4 +8,11 @@ module CableReadyHelper
     keys.select!(&:itself)
     tag.stream_from(identifier: signed_stream_identifier(compound(keys)))
   end
+
+  def broadcast_from(*keys, url: nil, &block)
+    keys.select!(&:itself)
+    options = {identifier: signed_stream_identifier(compound(keys))}
+    options.merge!(url: url) if url
+    tag.broadcast_from(options) { capture(&block) }
+  end
 end
