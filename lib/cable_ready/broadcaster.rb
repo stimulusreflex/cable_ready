@@ -7,20 +7,25 @@ module CableReady
 
     included do |base|
       if base < ActiveRecord::Base
-        after_commit :broadcast_resource
+        class_attribute :broadcast_resource_enabled
+        after_commit :broadcast_resource_commits, if: -> { self.broadcast_resource_enabled }
 
         def self.has_many(name, scope = nil, **options, &extension)
-          broadcast = options.delete(:broadcast).present?
+          @broadcast_association_commits = options.delete(:broadcast).present?
           result = super
-          broadcast_association(name) if broadcast
+          broadcast_association(name) if @broadcast_association_commits
           result
+        end
+
+        def self.broadcast_resource
+          self.broadcast_resource_enabled = true
         end
 
         private
 
         def self.broadcast_association(name)
           # name is the name of the association, so that's one down...
-          ActionCable.server.broadcast(self.to_gid, {})
+          # ActionCable.server.broadcast(self.to_gid, {})
         end
       end
     end
@@ -35,7 +40,7 @@ module CableReady
 
     private
 
-    def broadcast_resource
+    def broadcast_resource_commits
       ActionCable.server.broadcast(self.to_gid, {})
     end
   end

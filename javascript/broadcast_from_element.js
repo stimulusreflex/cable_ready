@@ -29,7 +29,9 @@ class BroadcastFromElement extends HTMLElement {
   received (data) {
     const template = document.createElement('template')
     fetch(
-      this.hasAttribute('url') ? this.getAttribute('url') : window.location.href
+      this.hasAttribute('data-url')
+        ? this.getAttribute('data-url')
+        : window.location.href
     )
       .then(response => response.text())
       .then(html => {
