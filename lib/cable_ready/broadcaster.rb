@@ -8,16 +8,12 @@ module CableReady
     included do |base|
       if base < ActiveRecord::Base
         include ExtendHasMany
-        class_attribute :broadcast_self_enabled, :broadcast_collections_enabled
+        class_attribute :broadcast_self_enabled
         after_commit :broadcast_self, if: -> { broadcast_self_enabled }
-        after_commit :broadcast_collections, if: -> { broadcast_collections_enabled }
+        after_commit :broadcast_collections
 
-        def self.enable_broadcast_self
+        def self.enable_broadcasts
           self.broadcast_self_enabled = true
-        end
-
-        def self.enable_broadcast_collections
-          self.broadcast_collections_enabled = true
         end
       end
     end
