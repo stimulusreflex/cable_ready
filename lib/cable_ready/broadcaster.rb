@@ -11,9 +11,9 @@ module CableReady
         after_commit :broadcast_resource_commits, if: -> { self.broadcast_resource_enabled }
 
         def self.has_many(name, scope = nil, **options, &extension)
-          @broadcast_association_commits = options.delete(:broadcast).present?
+          broadcast = options.delete(:broadcast).present?
           result = super
-          broadcast_association(name) if @broadcast_association_commits
+          broadcast_association(name) if broadcast
           result
         end
 
