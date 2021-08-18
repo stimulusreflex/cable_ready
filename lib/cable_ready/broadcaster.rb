@@ -34,43 +34,33 @@ module CableReady
 
     def broadcast_collections
       self.class.registered_collections.each do |registered_collection|
-        # klass, id, collection, resource = registered_collection
-        klass, _, collection = registered_collection
-        puts
-        puts "*******************"
-        puts registered_collection.inspect
-        puts "************"
-        puts
-        klass.broadcast_collection(self, collection)
+        klass, _, collection, inverse_association = registered_collection
+        resource = self.send(inverse_association.underscore)
+        klass.broadcast_collection(resource, collection)
       end
     end
 
     module ClassMethods
       def broadcast_collection(resource, collection_name)
-        identifier = CableReady.signed_stream_verifier.generate(resource.to_global_id.to_s + ":" + collection_name.to_s)
+        identifier = resource.to_global_id.to_s + ":" + collection_name.to_s
         ActionCable.server.broadcast(identifier, {})
       end
 
-      # def broadcast(resource, collection_name)
       def broadcast(collection_name)
         reflection = reflect_on_association(collection_name)
-        # reflection.klass.register_collection(self, reflection.foreign_key, collection_name, resource)
-        reflection.klass.register_collection(self, reflection.foreign_key, collection_name)
+        reflection.klass.register_collection(self, reflection.foreign_key, collection_name, reflection.inverse_of.name.to_s)
       end
 
       def has_many(name, scope = nil, **options, &extension)
         broadcast = options.delete(:broadcast).present?
         result = super
-        # broadcast(self, name) if broadcast
         broadcast(name) if broadcast
         result
       end
 
-      # def register_collection(klass, id, collection, resource)
-      def register_collection(klass, id, collection)
+      def register_collection(klass, foreign_key, collection, inverse_association)
         @collections ||= []
-        # @collections << [klass, id, collection, resource]
-        @collections << [klass, id, collection]
+        @collections << [klass, foreign_key, collection, inverse_association]
       end
 
       def registered_collections
