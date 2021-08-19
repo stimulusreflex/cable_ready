@@ -34,10 +34,21 @@ module CableReady
 
     def broadcast_collections
       self.class.registered_collections.each do |registered_collection|
-        klass, _, collection, inverse_association = registered_collection
-        resource = self.send(inverse_association.underscore)
-        klass.broadcast_collection(resource, collection)
+        klass, _, collection_name, _, _ = registered_collection # TODO: Maybe this should be a Hash?
+        resource = find_resource_for_broadcast(registered_collection)
+        klass.broadcast_collection(resource, collection_name)
       end
+    end
+
+    def find_resource_for_broadcast(registered_collection)
+      resource = self
+      _, _, _, inverse_association, through_association = registered_collection
+
+      if through_association
+        resource = resource.send(through_association.underscore)
+      end
+
+      resource.send(inverse_association.underscore)
     end
 
     module ClassMethods
@@ -48,7 +59,18 @@ module CableReady
 
       def broadcast(collection_name)
         reflection = reflect_on_association(collection_name)
-        reflection.klass.register_collection(self, reflection.foreign_key, collection_name, reflection.inverse_of.name.to_s)
+
+        inverse_of = reflection.inverse_of&.name&.to_s
+        through_association = nil
+
+        if reflection.through_reflection?
+          inverse_of          = reflection.through_reflection.inverse_of.name.to_s
+          through_association = reflection.through_reflection.name.to_s.singularize
+        end
+
+        # TODO: If we can't find inverse_of for some reason we need to abort.
+
+        reflection.klass.register_collection(self, reflection.foreign_key, collection_name, inverse_of, through_association)
       end
 
       def has_many(name, scope = nil, **options, &extension)
@@ -58,9 +80,9 @@ module CableReady
         result
       end
 
-      def register_collection(klass, foreign_key, collection, inverse_association)
+      def register_collection(klass, foreign_key, collection, inverse_association, through_association)
         @collections ||= []
-        @collections << [klass, foreign_key, collection, inverse_association]
+        @collections << [klass, foreign_key, collection, inverse_association, through_association]
       end
 
       def registered_collections
