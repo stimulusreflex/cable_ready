@@ -64,7 +64,7 @@ module CableReady
         through_association = nil
 
         if reflection.through_reflection?
-          inverse_of          = reflection.through_reflection.inverse_of.name.to_s
+          inverse_of = reflection.through_reflection.inverse_of.name.to_s
           through_association = reflection.through_reflection.name.to_s.singularize
         end
 
