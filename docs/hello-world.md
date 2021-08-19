@@ -25,7 +25,7 @@ Your server-side code just dynamically updated text on potentially thousands of 
 
 ![Jazz Hands](.gitbook/assets/eunji.gif)
 
-You could, in theory at least, already be done learning CableReady and just start using its [35 operations](reference/operations/) in your controllers, models, Reflexes and jobs. What a time to be alive! ✨
+You could, in theory at least, already be done learning CableReady and just start using its [36 operations](reference/operations/) in your controllers, models, Reflexes and jobs. What a time to be alive! ✨
 
 However, most developers will want to keep reading and learn how to use Channels.
 

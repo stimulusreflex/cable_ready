@@ -91,6 +91,41 @@ Life-cycle events for `push_state` are raised on `window`. Add a listener for th
 * [https://developer.mozilla.org/en-US/docs/Web/API/History/pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
+## redirect\_to
+
+Add an entry to the browser's session history stack.
+
+This is similar to setting `window.location = "#foo"` in that both will also create and activate another history entry associated with the current document. The new URL can be any URL in the same origin as the current URL.
+
+You can associate arbitrary data with your new history entry by passing a Hash to the optional `state` parameter.
+
+```ruby
+push_state(
+  batch:  String,  # [null]   - add the operation to a named batch
+  cancel: Boolean, # [false]  - cancel the operation (for use on client)
+  delay:  Integer, # [0]      - wait for n milliseconds before running
+  url:    String,  # required - URL String
+  title:  String,  # [""]     - optional String
+  state:  Object   # [{}]     - optional Hash
+)
+```
+
+{% hint style="warning" %}
+ Note that `push_state` never causes a [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/Events/hashchange) event to be fired, even if the new URL differs from the old URL only in its hash.
+{% endhint %}
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-push-state`
+* `cable-ready:after-push-state`
+
+Life-cycle events for `push_state` are raised on `window`. Add a listener for the [`popstate`](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) event in order to determine when the navigation has completed.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/History/pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+
 ## remove\_storage\_item
 
 Remove a key/value pair on the local persistant storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.

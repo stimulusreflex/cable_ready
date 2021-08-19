@@ -40,6 +40,7 @@ description: All DOM operations that can be triggered from the server with Cable
 * [clear\_storage](browser-manipulations.md#clear_storage)
 * [go](browser-manipulations.md#go)
 * [push\_state](browser-manipulations.md#push_state)
+* [redirect\_to](browser-manipulations.md#redirect_to)
 * [remove\_storage\_item](browser-manipulations.md#remove_storage_item)
 * [replace\_state](browser-manipulations.md#replace_state)
 * [scroll\_into\_view](browser-manipulations.md#scroll_into_view)
