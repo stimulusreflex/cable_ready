@@ -2,11 +2,6 @@ import morphdom from 'morphdom'
 import { consumer } from './action_cable'
 
 class BroadcastFromElement extends HTMLElement {
-  constructor () {
-    super()
-    this.received = this.received.bind(this)
-  }
-
   connectedCallback () {
     if (this.preview) return
     if (consumer) {
@@ -16,7 +11,26 @@ class BroadcastFromElement extends HTMLElement {
           identifier: this.getAttribute('identifier')
         },
         {
-          received: this.received
+          received: () => {
+            const identifier = this.getAttribute('identifier')
+            const query = `broadcast-from[identifier="${identifier}"]`
+            const blocks = document.querySelectorAll(query)
+            if (blocks[0] !== this) return
+
+            const template = document.createElement('template')
+            fetch(
+              this.hasAttribute('data-url')
+                ? this.getAttribute('data-url')
+                : window.location.href
+            )
+              .then(response => response.text())
+              .then(html => {
+                template.innerHTML = String(html).trim()
+                const fragments = template.content.querySelectorAll(query)
+                for (let i = 0; i < blocks.length; i++)
+                  morphdom(blocks[i], fragments[i], { childrenOnly: true })
+              })
+          }
         }
       )
     } else {
@@ -24,26 +38,6 @@ class BroadcastFromElement extends HTMLElement {
         'The `broadcast_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
       )
     }
-  }
-
-  received (data) {
-    const template = document.createElement('template')
-    fetch(
-      this.hasAttribute('data-url')
-        ? this.getAttribute('data-url')
-        : window.location.href
-    )
-      .then(response => response.text())
-      .then(html => {
-        template.innerHTML = String(html).trim()
-        morphdom(
-          this,
-          template.content.querySelector(
-            `broadcast-from[identifier="${this.getAttribute('identifier')}"]`
-          ),
-          { childrenOnly: true }
-        )
-      })
   }
 
   disconnectedCallback () {
