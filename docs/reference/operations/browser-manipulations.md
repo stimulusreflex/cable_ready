@@ -93,38 +93,44 @@ Life-cycle events for `push_state` are raised on `window`. Add a listener for th
 
 ## redirect\_to
 
-Add an entry to the browser's session history stack.
+Initiate navigation to a new URL. Techniques will be used in the following order:
 
-This is similar to setting `window.location = "#foo"` in that both will also create and activate another history entry associated with the current document. The new URL can be any URL in the same origin as the current URL.
+1. Turbo.visit
+2. Turbolinks.visit
+3. window.location.href
 
-You can associate arbitrary data with your new history entry by passing a Hash to the optional `state` parameter.
+`Turbo.visit` will be used if the target location is on the same domain and the Turbo library is available as `window.Turbo`.
+
+`Turbolinks.visit` will be used if the target location is on the same domain and the Turbolinks library is available as `window.Turbolinks`.
+
+There is an `action` option which can only be "advance" \(default value, which is comparable to `push_state`\) or `replace` \(which is similar to `replace_state`\).
 
 ```ruby
-push_state(
-  batch:  String,  # [null]   - add the operation to a named batch
-  cancel: Boolean, # [false]  - cancel the operation (for use on client)
-  delay:  Integer, # [0]      - wait for n milliseconds before running
-  url:    String,  # required - URL String
-  title:  String,  # [""]     - optional String
-  state:  Object   # [{}]     - optional Hash
+redirect_to(
+  action: String,  # "advance" - other possible value is "replace"
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer, # [0]       - wait for n milliseconds before running
+  url:    String   # required  - URL String
 )
 ```
 
 {% hint style="warning" %}
- Note that `push_state` never causes a [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/Events/hashchange) event to be fired, even if the new URL differs from the old URL only in its hash.
+ Note that if your redirect is handled by `window.location.href` there can be no reliable opportunity to emit or capture an `after-redirect-to` event.
 {% endhint %}
 
 #### Life-cycle Callback Events
 
-* `cable-ready:before-push-state`
-* `cable-ready:after-push-state`
+* `cable-ready:before-redirect-to`
+* `cable-ready:after-redirect-to`
 
-Life-cycle events for `push_state` are raised on `window`. Add a listener for the [`popstate`](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) event in order to determine when the navigation has completed.
+Life-cycle events for `redirect_to` are raised on `window`.
 
 #### Reference
 
-* [https://developer.mozilla.org/en-US/docs/Web/API/History/pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
-* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/location](https://developer.mozilla.org/en-US/docs/Web/API/Window/location)
+* [https://github.com/turbolinks/turbolinks\#turbolinksvisit](https://github.com/turbolinks/turbolinks#turbolinksvisit)
+* [https://turbo.hotwired.dev/reference/drive\#turbodrivevisit](https://turbo.hotwired.dev/reference/drive#turbodrivevisit)
 
 ## remove\_storage\_item
 
