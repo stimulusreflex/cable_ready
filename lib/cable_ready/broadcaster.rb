@@ -36,44 +36,44 @@ module CableReady
     end
 
     def broadcast_collections
-      self.class.registered_collections.each do |registered_collection|
-        klass, _, collection_name, _, _ = registered_collection # TODO: Maybe this should be a Hash?
-        resource = find_resource_for_broadcast(registered_collection)
-        klass.broadcast_collection(resource, collection_name)
+      self.class.registered_collections.each do |collection|
+        resource = find_resource_for_broadcast(collection)
+        collection[:klass].broadcast_collection(resource, collection[:name])
       end
     end
 
-    def find_resource_for_broadcast(registered_collection)
+    def find_resource_for_broadcast(collection)
       resource = self
-      _, _, _, inverse_association, through_association = registered_collection
-
-      if through_association
-        resource = resource.send(through_association.underscore)
-      end
-
-      resource.send(inverse_association.underscore)
+      resource = resource.send(collection[:through_association].underscore) if collection[:through_association]
+      resource.send(collection[:inverse_association].underscore)
     end
 
     module ClassMethods
-      def broadcast_collection(resource, collection_name)
-        identifier = resource.to_global_id.to_s + ":" + collection_name.to_s
+      def broadcast_collection(resource, name)
+        identifier = resource.to_global_id.to_s + ":" + name.to_s
         ActionCable.server.broadcast(identifier, {})
       end
 
-      def broadcast(collection_name)
-        reflection = reflect_on_association(collection_name)
+      def broadcast(name)
+        reflection = reflect_on_association(name)
 
         inverse_of = reflection.inverse_of&.name&.to_s
         through_association = nil
 
         if reflection.through_reflection?
-          inverse_of = reflection.through_reflection.inverse_of.name.to_s
+          inverse_of = reflection.through_reflection.inverse_of&.name&.to_s
           through_association = reflection.through_reflection.name.to_s.singularize
         end
 
-        # TODO: If we can't find inverse_of for some reason we need to abort.
+        raise ArgumentError, "Could not find inverse_of for #{name}" unless inverse_of
 
-        reflection.klass.register_collection(self, reflection.foreign_key, collection_name, inverse_of, through_association)
+        reflection.klass.register_collection({ 
+          klass: self,
+          foreign_key: reflection.foreign_key,
+          name: name,
+          inverse_association: inverse_of,
+          through_association: through_association
+        })
       end
 
       def has_many(name, scope = nil, **options, &extension)
@@ -83,9 +83,9 @@ module CableReady
         result
       end
 
-      def register_collection(klass, foreign_key, collection, inverse_association, through_association)
+      def register_collection(collection)
         @collections ||= []
-        @collections << [klass, foreign_key, collection, inverse_association, through_association]
+        @collections << collection
       end
 
       def registered_collections
