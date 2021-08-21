@@ -338,6 +338,14 @@ export default {
     after(window, operation)
   },
 
+  reload: operation => {
+    before(window, operation)
+    operate(operation, () => {
+      window.location.reload()
+    })
+    after(window, operation)
+  },
+
   removeStorageItem: operation => {
     before(document, operation)
     operate(operation, () => {
