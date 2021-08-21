@@ -87,11 +87,19 @@ const operate = (operation, callback) => {
 }
 
 // Dispatch life-cycle events with standardized naming
-const before = (target, name, operation) =>
-  dispatch(target, `cable-ready:before-${kebabize(name)}`, operation)
+const before = (target, operation) =>
+  dispatch(
+    target,
+    `cable-ready:before-${kebabize(operation.operation)}`,
+    operation
+  )
 
-const after = (target, name, operation) =>
-  dispatch(target, `cable-ready:after-${kebabize(name)}`, operation)
+const after = (target, operation) =>
+  dispatch(
+    target,
+    `cable-ready:after-${kebabize(operation.operation)}`,
+    operation
+  )
 
 export {
   isTextInput,

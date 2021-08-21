@@ -13,21 +13,21 @@ import {
 export default {
   // DOM Mutations
 
-  append: (operation, callee) => {
+  append: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.insertAdjacentHTML('beforeend', html || '')
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  graft: (operation, callee) => {
+  graft: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { parent, focusSelector } = operation
         const parentElement = document.querySelector(parent)
@@ -36,47 +36,47 @@ export default {
           assignFocus(focusSelector)
         }
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  innerHtml: (operation, callee) => {
+  innerHtml: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.innerHTML = html || ''
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  insertAdjacentHtml: (operation, callee) => {
+  insertAdjacentHtml: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, position, focusSelector } = operation
         element.insertAdjacentHTML(position || 'beforeend', html || '')
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  insertAdjacentText: (operation, callee) => {
+  insertAdjacentText: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { text, position, focusSelector } = operation
         element.insertAdjacentText(position || 'beforeend', text || '')
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  morph: (operation, callee) => {
+  morph: operation => {
     processElements(operation, element => {
       const { html } = operation
       const template = document.createElement('template')
@@ -84,7 +84,7 @@ export default {
       operation.content = template.content
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { childrenOnly, focusSelector } = operation
         morphdom(
@@ -98,189 +98,191 @@ export default {
         )
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], callee, operation)
+      after(parent.children[ordinal], operation)
     })
   },
 
-  outerHtml: (operation, callee) => {
+  outerHtml: operation => {
     processElements(operation, element => {
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.outerHTML = html || ''
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], callee, operation)
+      after(parent.children[ordinal], operation)
     })
   },
 
-  prepend: (operation, callee) => {
+  prepend: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.insertAdjacentHTML('afterbegin', html || '')
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  remove: (operation, callee) => {
+  remove: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { focusSelector } = operation
         element.remove()
         assignFocus(focusSelector)
       })
-      after(document, callee, operation)
+      after(document, operation)
     })
   },
 
-  replace: (operation, callee) => {
+  replace: operation => {
     processElements(operation, element => {
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.outerHTML = html || ''
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], callee, operation)
+      after(parent.children[ordinal], operation)
     })
   },
 
-  textContent: (operation, callee) => {
+  textContent: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
         element.textContent = text || ''
         assignFocus(focusSelector)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
   // Element Property Mutations
 
-  addCssClass: (operation, callee) => {
+  addCssClass: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name } = operation
         element.classList.add(...getClassNames(name || ''))
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  removeAttribute: (operation, callee) => {
+  removeAttribute: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name } = operation
         element.removeAttribute(name)
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  removeCssClass: (operation, callee) => {
+  removeCssClass: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name } = operation
         element.classList.remove(...getClassNames(name))
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setAttribute: (operation, callee) => {
+  setAttribute: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
         element.setAttribute(name, value || '')
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setDatasetProperty: (operation, callee) => {
+  setDatasetProperty: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
         element.dataset[name] = value || ''
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setProperty: (operation, callee) => {
+  setProperty: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
         if (name in element) element[name] = value || ''
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setStyle: (operation, callee) => {
+  setStyle: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
         element.style[name] = value || ''
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setStyles: (operation, callee) => {
+  setStyles: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { styles } = operation
         for (let [name, value] of Object.entries(styles))
           element.style[name] = value || ''
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
-  setValue: (operation, callee) => {
+  setValue: operation => {
     processElements(operation, element => {
-      before(element, callee, operation)
+      before(element, operation)
       operate(operation, () => {
         const { value } = operation
         element.value = value || ''
       })
-      after(element, callee, operation)
+      after(element, operation)
     })
   },
 
   // DOM Events
 
-  dispatchEvent: (operation, callee) => {
+  dispatchEvent: operation => {
     processElements(operation, element => {
+      before(element, operation)
       operate(operation, () => {
         const { name, detail } = operation
         dispatch(element, name, detail)
       })
+      after(element, operation)
     })
   },
 
-  setMeta: (operation, callee) => {
-    before(document, callee, operation)
+  setMeta: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { name, content } = operation
       let meta = document.head.querySelector(`meta[name='${name}']`)
@@ -291,41 +293,41 @@ export default {
       }
       meta.content = content
     })
-    after(document, callee, operation)
+    after(document, operation)
   },
 
   // Browser Manipulations
 
-  clearStorage: (operation, callee) => {
-    before(document, callee, operation)
+  clearStorage: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
       storage.clear()
     })
-    after(document, callee, operation)
+    after(document, operation)
   },
 
-  go: (operation, callee) => {
-    before(window, callee, operation)
+  go: operation => {
+    before(window, operation)
     operate(operation, () => {
       const { delta } = operation
       history.go(delta)
     })
-    after(window, callee, operation)
+    after(window, operation)
   },
 
-  pushState: (operation, callee) => {
-    before(window, callee, operation)
+  pushState: operation => {
+    before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
       history.pushState(state || {}, title || '', url)
     })
-    after(window, callee, operation)
+    after(window, operation)
   },
 
-  redirectTo: (operation, callee) => {
-    before(window, callee, operation)
+  redirectTo: operation => {
+    before(window, operation)
     operate(operation, () => {
       let { url, action } = operation
       action = action || 'advance'
@@ -333,93 +335,97 @@ export default {
       if (window.Turbolinks) window.Turbolinks.visit(url, { action })
       if (!window.Turbo && !window.Turbolinks) window.location.href = url
     })
-    after(window, callee, operation)
+    after(window, operation)
   },
 
-  reload: (operation, callee) => {
-    before(window, callee, operation)
+  reload: operation => {
+    before(window, operation)
     operate(operation, () => {
       window.location.reload()
     })
-    after(window, callee, operation)
+    after(window, operation)
   },
 
-  removeStorageItem: (operation, callee) => {
-    before(document, callee, operation)
+  removeStorageItem: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { key, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
       storage.removeItem(key)
     })
-    after(document, callee, operation)
+    after(document, operation)
   },
 
-  replaceState: (operation, callee) => {
-    before(window, callee, operation)
+  replaceState: operation => {
+    before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
       history.replaceState(state || {}, title || '', url)
     })
-    after(window, callee, operation)
+    after(window, operation)
   },
 
-  scrollIntoView: (operation, callee) => {
+  scrollIntoView: operation => {
     const { element } = operation
-    before(element, callee, operation)
+    before(element, operation)
     operate(operation, () => {
       element.scrollIntoView(operation)
     })
-    after(element, callee, operation)
+    after(element, operation)
   },
 
-  setCookie: (operation, callee) => {
-    before(document, callee, operation)
+  setCookie: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { cookie } = operation
       document.cookie = cookie || ''
     })
-    after(document, callee, operation)
+    after(document, operation)
   },
 
-  setFocus: (operation, callee) => {
+  setFocus: operation => {
     const { element } = operation
-    before(element, callee, operation)
+    before(element, operation)
     operate(operation, () => {
       assignFocus(element)
     })
-    after(element, callee, operation)
+    after(element, operation)
   },
 
-  setStorageItem: (operation, callee) => {
-    before(document, callee, operation)
+  setStorageItem: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { key, value, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
       storage.setItem(key, value || '')
     })
-    after(document, callee, operation)
+    after(document, operation)
   },
 
   // Notifications
 
-  consoleLog: (operation, callee) => {
+  consoleLog: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { message, level } = operation
       level && ['warn', 'info', 'error'].includes(level)
         ? console[level](message || '')
         : console.log(message || '')
     })
+    after(document, operation)
   },
 
-  consoleTable: (operation, callee) => {
+  consoleTable: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { data, columns } = operation
       console.table(data, columns || [])
     })
+    after(document, operation)
   },
 
-  notification: (operation, callee) => {
-    before(document, callee, operation)
+  notification: operation => {
+    before(document, operation)
     operate(operation, () => {
       const { title, options } = operation
       Notification.requestPermission().then(result => {
@@ -427,6 +433,6 @@ export default {
         if (result === 'granted') new Notification(title || '', options)
       })
     })
-    after(document, callee, operation)
+    after(document, operation)
   }
 }
