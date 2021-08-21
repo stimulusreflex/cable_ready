@@ -9,6 +9,9 @@ module CableReady
       if base < ActiveRecord::Base
         include ExtendHasMany
         after_commit :broadcast_collections
+        after_create_commit { @cable_ready_current_callback = :create }
+        after_update_commit { @cable_ready_current_callback = :update }
+        after_destroy_commit { @cable_ready_current_callback = :destroy }
 
         def self.enable_broadcasts(*options)
           options = options.extract_options!
@@ -31,19 +34,13 @@ module CableReady
 
     private
 
-    def current_callback
-      return :create if instance_variable_defined?("@_trigger_create_callback")
-      return :update if instance_variable_defined?("@_trigger_update_callback")
-      return :destroy if instance_variable_defined?("@_trigger_destroy_callback")
-    end
-
     def broadcast_self
       ActionCable.server.broadcast(to_global_id, {})
     end
 
     def broadcast_collections
       self.class.registered_collections
-        .select { |c| c[:options][:on].include?(current_callback) }
+        .select { |c| c[:options][:on].include?(@cable_ready_current_callback) }
         .each do |collection|
         resource = find_resource_for_broadcast(collection)
         collection[:klass].broadcast_collection(resource, collection[:name]) if collection[:options][:if].call(resource)
