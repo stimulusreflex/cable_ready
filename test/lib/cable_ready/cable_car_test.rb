@@ -11,19 +11,19 @@ class CableReady::CableCarTest < ActiveSupport::TestCase
   test "dispatch should return json-ifiable payload" do
     CableReady::CableCar.instance.reset!
     dispatch = CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch
-    assert_equal({"innerHtml" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, dispatch)
+    assert_equal([{"operation" => "innerHtml", "selector" => "#users", "html" => "<span>winning</span>"}], dispatch)
   end
 
   test "dispatch should clear operations" do
     CableReady::CableCar.instance.reset!
     CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch
-    assert_equal({}, CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
+    assert_equal([], CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
   end
 
   test "dispatch should maintain operations if clear is false" do
     CableReady::CableCar.instance.reset!
     CableReady::CableCar.instance.inner_html(selector: "#users", html: "<span>winning</span>").dispatch(clear: false)
-    assert_equal({"inner_html" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
+    assert_equal([{"operation" => "innerHtml", "selector" => "#users", "html" => "<span>winning</span>"}], CableReady::CableCar.instance.instance_variable_get(:@enqueued_operations))
   end
 
   test "selectors should accept any object which respond_to? to_dom_selector" do
@@ -34,7 +34,7 @@ class CableReady::CableCarTest < ActiveSupport::TestCase
       end
     end.new("users")
     dispatch = CableReady::CableCar.instance.inner_html(selector: my_object, html: "<span>winning</span>").dispatch
-    assert_equal({"innerHtml" => [{"selector" => ".users", "html" => "<span>winning</span>"}]}, dispatch)
+    assert_equal([{"operation" => "innerHtml", "selector" => ".users", "html" => "<span>winning</span>"}], dispatch)
   end
 
   test "selectors should accept any object which respond_to? to_dom_id" do
@@ -45,6 +45,6 @@ class CableReady::CableCarTest < ActiveSupport::TestCase
       end
     end.new("users")
     dispatch = CableReady::CableCar.instance.inner_html(selector: my_object, html: "<span>winning</span>").dispatch
-    assert_equal({"innerHtml" => [{"selector" => "#users", "html" => "<span>winning</span>"}]}, dispatch)
+    assert_equal([{"operation" => "innerHtml", "selector" => "#users", "html" => "<span>winning</span>"}], dispatch)
   end
 end

@@ -1,5 +1,18 @@
 # Changelog
 
+## [v5.0.0.pre3](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre3) (2021-08-22)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre2...v5.0.0.pre3)
+
+**Implemented enhancements:**
+
+- redirect\_to operation [\#144](https://github.com/stimulusreflex/cable_ready/pull/144) ([leastbad](https://github.com/leastbad))
+- RFC simplifed JSON payload + named batches [\#142](https://github.com/stimulusreflex/cable_ready/pull/142) ([leastbad](https://github.com/leastbad))
+
+**Merged pull requests:**
+
+- Bump path-parse from 1.0.6 to 1.0.7 [\#143](https://github.com/stimulusreflex/cable_ready/pull/143) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v5.0.0.pre2](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre2) (2021-07-21)
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre1...v5.0.0.pre2)

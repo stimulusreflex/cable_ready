@@ -54,6 +54,8 @@ module CableReady
         outer_html
         prepend
         push_state
+        redirect_to
+        reload
         remove
         remove_attribute
         remove_css_class
