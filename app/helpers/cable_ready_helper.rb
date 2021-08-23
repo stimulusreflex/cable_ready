@@ -12,7 +12,7 @@ module CableReadyHelper
   def broadcast_from(*keys, url: nil, &block)
     keys.select!(&:itself)
     options = {identifier: signed_stream_identifier(compound(keys))}
-    options[:"data-url"] = url if url
+    options[:url] = url if url
     tag.broadcast_from(**options) { capture(&block) }
   end
 end
