@@ -19,6 +19,8 @@ module CableReady
             on: [:create, :update, :destroy],
             if: -> { true }
           }.merge(options)
+
+          @@cable_ready_broadcast_class = options[:broadcast_class]
           after_commit :broadcast_self, options
         end
       end
@@ -35,6 +37,7 @@ module CableReady
     private
 
     def broadcast_self
+      ActionCable.server.broadcast(self.class, {}) if @@cable_ready_broadcast_class
       ActionCable.server.broadcast(to_global_id, {})
     end
 
@@ -48,6 +51,8 @@ module CableReady
     end
 
     def find_resource_for_broadcast(collection)
+      raise ArgumentError, "Could not find inverse_of for #{collection[:name]}" unless collection[:inverse_association]
+
       resource = self
       resource = resource.send(collection[:through_association].underscore) if collection[:through_association]
       resource.send(collection[:inverse_association].underscore)
@@ -86,8 +91,6 @@ module CableReady
           inverse_of = reflection.through_reflection.inverse_of&.name&.to_s
           through_association = reflection.through_reflection.name.to_s.singularize
         end
-
-        raise ArgumentError, "Could not find inverse_of for #{name}" unless inverse_of
 
         options = {
           on: [:create, :update, :destroy],
