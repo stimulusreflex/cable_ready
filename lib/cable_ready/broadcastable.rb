@@ -46,6 +46,7 @@ module CableReady
     alias_method :cable_ready_broadcast_destroys, :cable_ready_broadcast_creates
 
     def cable_ready_broadcast_updates
+      ActionCable.server.broadcast(self.class, {})
       ActionCable.server.broadcast(to_global_id, {})
     end
 
