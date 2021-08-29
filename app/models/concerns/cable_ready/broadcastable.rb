@@ -124,6 +124,8 @@ module CableReady
           raise ArgumentError, "Invalid broadcast option #{option}"
         end
 
+        reflection.klass.send(:include, CableReady::Broadcastable) unless reflection.klass.respond_to?(:cable_ready_register_collection)
+
         reflection.klass.cable_ready_register_collection({
           klass: self,
           foreign_key: reflection.foreign_key,
