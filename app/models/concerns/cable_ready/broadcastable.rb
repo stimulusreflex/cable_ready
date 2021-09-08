@@ -19,9 +19,11 @@ module CableReady
             if: -> { true }
           }.merge(options)
 
-          after_commit(:cable_ready_broadcast_creates, {on: :create, if: options[:if]}) if options[:on].include?(:create)
-          after_commit(:cable_ready_broadcast_updates, {on: :update, if: options[:if]}) if options[:on].include?(:update)
-          after_commit(:cable_ready_broadcast_destroys, {on: :destroy, if: options[:if]}) if options[:on].include?(:destroy)
+          enabled_callbacks = Array(options[:on])
+
+          after_commit(:cable_ready_broadcast_creates, {on: :create, if: options[:if]}) if enabled_callbacks.include?(:create)
+          after_commit(:cable_ready_broadcast_updates, {on: :update, if: options[:if]}) if enabled_callbacks.include?(:update)
+          after_commit(:cable_ready_broadcast_destroys, {on: :destroy, if: options[:if]}) if enabled_callbacks.include?(:destroy)
         end
       end
     end
