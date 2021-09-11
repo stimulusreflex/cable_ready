@@ -2,6 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import { consumer } from './action_cable'
+import { assignFocus, dispatch } from './utils'
 
 class BroadcastFromElement extends HTMLElement {
   connectedCallback () {
@@ -31,14 +32,17 @@ class BroadcastFromElement extends HTMLElement {
                 const fragments = template.content.querySelectorAll(query)
                 for (let i = 0; i < blocks.length; i++) {
                   activeElement.set(document.activeElement)
-                  const fauxperation = {
-                    permanentAttributeName: 'data-ignore-broadcasts'
+                  const operation = {
+                    permanentAttributeName: 'data-ignore-broadcasts',
+                    focusSelector: null
                   }
+                  dispatch(blocks[i], 'cable-ready:before-broadcast', operation)
                   morphdom(blocks[i], fragments[i], {
                     childrenOnly: true,
-                    onBeforeElUpdated: shouldMorph(fauxperation)
+                    onBeforeElUpdated: shouldMorph(operation)
                   })
-                  if (activeElement.element.focus) activeElement.element.focus()
+                  dispatch(blocks[i], 'cable-ready:after-broadcast', operation)
+                  assignFocus(operation.focusSelector)
                 }
               })
           }
