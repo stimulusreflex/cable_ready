@@ -1,4 +1,6 @@
 import morphdom from 'morphdom'
+import { shouldMorph } from './morph_callbacks'
+import activeElement from './active_element'
 import { consumer } from './action_cable'
 
 class BroadcastFromElement extends HTMLElement {
@@ -27,8 +29,17 @@ class BroadcastFromElement extends HTMLElement {
               .then(html => {
                 template.innerHTML = String(html).trim()
                 const fragments = template.content.querySelectorAll(query)
-                for (let i = 0; i < blocks.length; i++)
-                  morphdom(blocks[i], fragments[i], { childrenOnly: true })
+                for (let i = 0; i < blocks.length; i++) {
+                  activeElement.set(document.activeElement)
+                  const fauxperation = {
+                    permanentAttributeName: 'data-ignore-broadcasts'
+                  }
+                  morphdom(blocks[i], fragments[i], {
+                    childrenOnly: true,
+                    onBeforeElUpdated: shouldMorph(fauxperation)
+                  })
+                  if (activeElement.element.focus) activeElement.element.focus()
+                }
               })
           }
         }
