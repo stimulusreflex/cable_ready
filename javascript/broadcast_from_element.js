@@ -33,6 +33,8 @@ class BroadcastFromElement extends HTMLElement {
                 for (let i = 0; i < blocks.length; i++) {
                   activeElement.set(document.activeElement)
                   const operation = {
+                    element: blocks[i],
+                    html: fragments[i],
                     permanentAttributeName: 'data-ignore-broadcasts',
                     focusSelector: null
                   }
