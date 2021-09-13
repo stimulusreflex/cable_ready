@@ -1,12 +1,13 @@
 import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
-import { consumer } from './action_cable'
+import actionCable from './action_cable'
 import { assignFocus, dispatch } from './utils'
 
 class BroadcastFromElement extends HTMLElement {
-  connectedCallback () {
+  async connectedCallback () {
     if (this.preview) return
+    const consumer = await actionCable.getConsumer()
     if (consumer) {
       this.channel = consumer.subscriptions.create(
         {

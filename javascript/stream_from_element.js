@@ -1,9 +1,10 @@
-import CableReady from 'cable_ready'
-import { consumer } from './action_cable'
+import CableReady from '.'
+import actionCable from './action_cable'
 
 class StreamFromElement extends HTMLElement {
-  connectedCallback () {
+  async connectedCallback () {
     if (this.preview) return
+    const consumer = await actionCable.getConsumer()
     if (consumer) {
       this.channel = consumer.subscriptions.create(
         {
