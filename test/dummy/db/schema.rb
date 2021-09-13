@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_093607) do
+ActiveRecord::Schema.define(version: 2021_09_13_191759) do
 
   create_table "posts", force: :cascade do |t|
     t.string "title"
@@ -26,6 +26,11 @@ ActiveRecord::Schema.define(version: 2021_09_04_093607) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
@@ -36,6 +41,8 @@ ActiveRecord::Schema.define(version: 2021_09_04_093607) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "team_id"
+    t.index ["team_id"], name: "index_users_on_team_id"
   end
 
   add_foreign_key "posts", "users"
