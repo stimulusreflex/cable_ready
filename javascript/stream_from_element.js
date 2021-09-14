@@ -1,4 +1,4 @@
-import CableReady from 'cable_ready'
+import { perform } from './cable_ready'
 import { consumer } from './action_cable'
 
 class StreamFromElement extends HTMLElement {
@@ -12,7 +12,7 @@ class StreamFromElement extends HTMLElement {
         },
         {
           received (data) {
-            if (data.cableReady) CableReady.perform(data.operations)
+            if (data.cableReady) perform(data.operations)
           }
         }
       )
