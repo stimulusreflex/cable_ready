@@ -96,4 +96,16 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     mock_server.expects(:broadcast).with(section.to_global_id, {}).once
     section.update(title: "First Section")
   end
+
+  test "broadcasts to any GlobalID-able entity" do
+    entity = GlobalIdableEntity.new
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(GlobalIdableEntity, {}).once
+    mock_server.expects(:broadcast).with(entity.to_global_id, {}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    entity.fake_update
+  end
 end
