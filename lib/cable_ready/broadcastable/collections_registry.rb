@@ -13,6 +13,8 @@ module CableReady
         @registered_collections.select { |c| c[:options][:on].include?(operation) }
           .each do |collection|
           resource = find_resource_for_broadcast(collection, model)
+          next if resource.nil?
+
           collection[:klass].cable_ready_broadcast_collection(resource, collection[:name]) if collection[:options][:if].call(resource)
         end
       end

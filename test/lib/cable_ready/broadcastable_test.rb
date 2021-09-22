@@ -64,6 +64,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
     mock_server.expects(:broadcast).with(user.to_global_id, {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Team/1:users", {}).once
     mock_server.expects(:broadcast).with(Team, {}).once
     mock_server.expects(:broadcast).with(team.to_global_id, {}).once
 
