@@ -10,6 +10,7 @@ const template = `
     display: block;
   }
 </style>
+<slot></slot>
 `
 
 class BroadcastFromElement extends HTMLElement {
