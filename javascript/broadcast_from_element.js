@@ -4,7 +4,20 @@ import activeElement from './active_element'
 import actionCable from './action_cable'
 import { assignFocus, dispatch } from './utils'
 
+const template = `
+<style>
+  :host {
+    display: block;
+  }
+</style>
+`
+
 class BroadcastFromElement extends HTMLElement {
+  constructor () {
+    super()
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.innerHTML = template
+  }
   async connectedCallback () {
     if (this.preview) return
     const consumer = await actionCable.getConsumer()
