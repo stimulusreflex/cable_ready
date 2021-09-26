@@ -10,19 +10,23 @@ CableReady-the-Library - which was created for ActionCable - had become just one
 
 ## Introducing `cable_car`
 
-Thanks to `CableReady::Broadcaster`, you can now call the `cable_car` method pretty much anywhere in your application. Unlike ActionCable `Channels` - which are delivered over WebSockets - Cable Car isn't opinionated about how you plan to use the JSON it creates. It doesn't have any broadcast capacity of its own, making it a perfect fit for controller actions responding to HTTP requests, ActiveJob scheduling and persisting operations to your database.
+The `CableReady::Broadcaster` Concern now provides a `cable_car` method \(in addition to the familiar `cable_ready` method\) which you can call anywhere in your application.
 
-Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier \("no square brackets"\). Instead of sending data over WebSockets with `broadcast`, you call `dispatch`:
+You use `cable_car` to chain together operations which will ultimately be converted into JSON that the CableReady client can process.
+
+Unlike ActionCable `Channels` - which are delivered over WebSockets - Cable Car isn't opinionated about how you plan to use the JSON it creates. It doesn't have any broadcast capacity of its own, making it a perfect fit for controller actions responding to HTTP requests, ActiveJob scheduling and even persisting operations to your database.
+
+Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier \("no square brackets"\). Instead of sending data with `broadcast`, you generate JSON with `dispatch`:
 
 ```ruby
 operations = cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
 ```
 
-This generates a Hash that describes CableReady's internal representation of your queued operations.
+`operations` is an Array that describes a batch of queued operations.
 
-#### Wait, what's in that Hash?!
+#### Wait, what's in that Array?!
 
-The Hash contains a camelCased String key for every unique type of operation currently enqueued. The value of that key is an array of Hashes, where each Hash is an instance of the operation in context. This array could have one or many Hashes, depending on how many operations are queued.
+The Array contains an Object for every operation currently enqueued. Each Object contains, at minimum, a key called `operation` which identifies the operation type. Depending on the operation, additional 
 
 ```javascript
 {"innerHtml"=>[{"html"=>"<b>Users</b>", "selector"=>"#users"}]}

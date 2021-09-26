@@ -116,7 +116,7 @@ redirect_to(
 ```
 
 {% hint style="warning" %}
- Note that if your redirect is handled by `window.location.href` there can be no reliable opportunity to emit or capture an `after-redirect-to` event.
+Note that, if your redirect is handled by `window.location.href`, there can be no reliable opportunity to emit or capture an `after-redirect-to` event.
 {% endhint %}
 
 #### Life-cycle Callback Events
@@ -131,6 +131,37 @@ Life-cycle events for `redirect_to` are raised on `window`.
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/location](https://developer.mozilla.org/en-US/docs/Web/API/Window/location)
 * [https://github.com/turbolinks/turbolinks\#turbolinksvisit](https://github.com/turbolinks/turbolinks#turbolinksvisit)
 * [https://turbo.hotwired.dev/reference/drive\#turbodrivevisit](https://turbo.hotwired.dev/reference/drive#turbodrivevisit)
+
+## reload
+
+This will force a hard refresh of the current page at the moment the operation is executed. It is the programmatic equivalent of hitting the browser's Refresh button.
+
+While there's not much to say about `reload` - it is a method that has no parameters, after all - it can be useful to request a page refresh. Not only will the DOM be restored to a pristine state, but all Stimulus controllers will have an opportunity to reinitialize. The `delay` option might be a useful pairing in tricky timing circumstances.
+
+The Turbolinks and Turbo Drive cache will be cleared during the reload.
+
+```ruby
+reload(
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer  # [0]       - wait for n milliseconds before running
+)
+```
+
+{% hint style="warning" %}
+There can be no reliable opportunity to emit or capture an `after-reload` event unless the operation is flagged `cancel`.
+{% endhint %}
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-reload`
+* `cable-ready:after-reload`
+
+Life-cycle events for `reload` are raised on `window`.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/Location/reload](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload)
 
 ## remove\_storage\_item
 

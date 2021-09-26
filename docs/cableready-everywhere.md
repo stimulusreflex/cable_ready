@@ -28,7 +28,7 @@ end
 
 Controller actions that handle Ajax requests, as well as web hooks and OAuth endpoints are great places to call CableReady. It's also common to broadcast CableReady operations to groups of users and/or resources inside controller actions.
 
-If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced \(incorrectly\) that the broadcast did not work.
+If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced \(incorrectly\) that the broadcast did not work. See [this advice on Rails remote forms](troubleshooting/#remote-forms-in-rails-6-1) in the Troubleshooting chapter as well.
 
 If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/~/drafts/-MPd3ezNjm713wu61_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active_job_basics.html#enqueue-the-job) method. There's also [a good example](leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
 
@@ -295,6 +295,10 @@ Finally, let's wire up the input element's change event to the `greet` method:
 <input type="text" data-controller="sailors" data-action="change->sailors#greet">
 ```
 {% endcode %}
+
+## ActionMailbox
+
+TODO 
 
 ## chrono\_trigger
 

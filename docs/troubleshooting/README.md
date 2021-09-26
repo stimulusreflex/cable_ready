@@ -63,6 +63,19 @@ There is an abundance of collected wisdom on the StimulusReflex [Deployment](htt
 
 Another excellent resource is the [Sidekiq wiki page for Heroku](https://github.com/mperham/sidekiq/wiki/Heroku).
 
+## Remote forms in Rails 6.1
+
+The behaviour of form helpers changed slightly in Rails 6.1, as forms are no longer automatically set to be `remote: true` by default. This catches many developers off-guard!
+
+We recommend that Rails developers use UJS/mrujs remote forms wherever possible, especially if they are using Turbolinks / Turbo Drive. This allows forms to be submitted without reloading the page, which is not only much faster \(no more ugly screen refreshes!\) but allows ActionCable Connections to remain open, too.
+
+```markup
+<%= form_with model: @foo, local: false %>
+<%= form_with model: @foo, data: { remote: "true" } %>
+<%= form_for @foo, remote: true %>
+<form action="/foo" data-remote="true" method="post"></form>
+```
+
 ## Things to avoid doing, if possible
 
 ### Don't include CableReady::Broadcaster in a Reflex class 🙅‍♂️

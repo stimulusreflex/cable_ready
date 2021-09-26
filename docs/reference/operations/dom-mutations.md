@@ -154,7 +154,7 @@ morph(
   batch:                    String,  # [null]    - add the operation to a named batch
   cancel:                   Boolean, # [false]   - cancel the operation (for use on client)
   children_only:            Boolean, # [false]   - indicates if only child nodes should be morphed... skipping the parent element
-  content:                  String,  # READ ONLY - the content that is going to be used to morph
+  content:                  String,  # reference - the content that is going to be used to morph
   delay:                    Integer, # [0]       - wait for n milliseconds before running
   focus_selector:           String,  # [null]    - string containing a CSS selector
   html:                     String,  # [null]    - the HTML to assign  
@@ -218,6 +218,20 @@ morph(
 
 * `cable-ready:before-morph`
 * `cable-ready:after-morph`
+
+As with all operations, you can modify the items in the `event.detail` object inside of a `before-morph` to change the parameters of how the operation will be executed.
+
+The `morph` operation's `event.detail` object has a special key called `content` which is a direct reference to the internal `template` element's `content` accessor holding the document fragment that will be morphed into your DOM.
+
+This means that you can change the content which will soon be morphed into your page, but **you cannot assign the `content` to a new value**. Doing so would remove the reference!
+
+Instead, use the DOM API and mutate children _inside_ of the content:
+
+```javascript
+document.addEventListener('cable-ready:before-morph', event => {
+  event.detail.content.querySelector('#foo').setStyle('color', 'red')
+})
+```
 
 #### Reference
 
