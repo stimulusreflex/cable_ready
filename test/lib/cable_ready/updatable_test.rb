@@ -64,6 +64,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
     mock_server.expects(:broadcast).with(user.to_global_id, {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Team/1:users", {}).once
     mock_server.expects(:broadcast).with(Team, {}).once
     mock_server.expects(:broadcast).with(team.to_global_id, {}).once
 
@@ -90,10 +91,22 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     ActionCable.stubs(:server).returns(mock_server)
 
     section = Section.create
-    section.broadcasts_enabled = true
+    section.updates_enabled = true
 
     mock_server.expects(:broadcast).with(Section, {}).once
     mock_server.expects(:broadcast).with(section.to_global_id, {}).once
     section.update(title: "First Section")
+  end
+
+  test "updates any GlobalID-able entity" do
+    entity = GlobalIdableEntity.new
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(GlobalIdableEntity, {}).once
+    mock_server.expects(:broadcast).with(entity.to_global_id, {}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    entity.fake_update
   end
 end

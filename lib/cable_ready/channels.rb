@@ -13,7 +13,7 @@ module CableReady
 
     def [](*keys)
       keys.select!(&:itself)
-      identifier = keys.many? || (keys.one? && keys.first.is_a?(ActiveRecord::Base)) ? compound(keys) : keys.pop
+      identifier = keys.many? || (keys.one? && keys.first.respond_to?(:to_global_id)) ? compound(keys) : keys.pop
       @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 

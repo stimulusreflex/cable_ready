@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require "cable_ready/updatable/model_updatable_callbacks"
+require "cable_ready/updatable/collection_updatable_callbacks"
+require "cable_ready/updatable/collections_registry"
+
 module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
@@ -7,10 +11,10 @@ module CableReady
     included do |base|
       if base < ActiveRecord::Base
         include ExtendHasMany
-        after_commit :cable_ready_update_collections
-        after_commit :cable_ready_create_callback, on: :create
-        after_commit :cable_ready_update_callback, on: :update
-        after_commit :cable_ready_destroy_callback, on: :destroy
+
+        after_commit CollectionUpdatableCallbacks.new(:create), on: :create
+        after_commit CollectionUpdatableCallbacks.new(:update), on: :update
+        after_commit CollectionUpdatableCallbacks.new(:destroy), on: :destroy
 
         def self.enable_updates(*options)
           options = options.extract_options!
@@ -19,80 +23,36 @@ module CableReady
             if: -> { true }
           }.merge(options)
 
-          enabled_callbacks = Array(options[:on])
+          enabled_operations = Array(options[:on])
 
-          after_commit(:cable_ready_broadcast_creates, {on: :create, if: options[:if]}) if enabled_callbacks.include?(:create)
-          after_commit(:cable_ready_broadcast_updates, {on: :update, if: options[:if]}) if enabled_callbacks.include?(:update)
-          after_commit(:cable_ready_broadcast_destroys, {on: :destroy, if: options[:if]}) if enabled_callbacks.include?(:destroy)
+          after_commit(ModelUpdatableCallbacks.new(:create, enabled_operations), {on: :create, if: options[:if]})
+          after_commit(ModelUpdatableCallbacks.new(:update, enabled_operations), {on: :update, if: options[:if]})
+          after_commit(ModelUpdatableCallbacks.new(:destroy, enabled_operations), {on: :destroy, if: options[:if]})
         end
       end
     end
 
     private
 
-    def cable_ready_create_callback
-      @cable_ready_current_callback = :create
-    end
-
-    def cable_ready_update_callback
-      @cable_ready_current_callback = :update
-    end
-
-    def cable_ready_destroy_callback
-      @cable_ready_current_callback = :destroy
-    end
-
-    def cable_ready_broadcast_creates
-      ActionCable.server.broadcast(self.class, {})
-    end
-    alias_method :cable_ready_broadcast_destroys, :cable_ready_broadcast_creates
-
-    def cable_ready_broadcast_updates
-      ActionCable.server.broadcast(self.class, {})
-      ActionCable.server.broadcast(to_global_id, {})
-    end
-
-    def cable_ready_update_collections
-      self.class.cable_ready_registered_collections
-        .select { |c| c[:options][:on].include?(@cable_ready_current_callback) }
-        .each do |collection|
-        resource = cable_ready_find_resource_for_broadcast(collection)
-        collection[:klass].cable_ready_broadcast_collection(resource, collection[:name]) if collection[:options][:if].call(resource)
-      end
-    end
-
-    def cable_ready_find_resource_for_broadcast(collection)
-      raise ArgumentError, "Could not find inverse_of for #{collection[:name]}" unless collection[:inverse_association]
-
-      resource = self
-      resource = resource.send(collection[:through_association].underscore) if collection[:through_association]
-      resource.send(collection[:inverse_association].underscore)
-    end
-
     module ClassMethods
       def has_many(name, scope = nil, **options, &extension)
         option = options.delete(:enable_updates)
         broadcast = option.present?
         result = super
-        cable_ready_broadcast(name, option) if broadcast
+        enrich_association_with_updates(name, option) if broadcast
         result
       end
 
-      def cable_ready_register_collection(collection)
-        @collections ||= []
-        @collections << collection
+      def cable_ready_collections
+        @cable_ready_collections ||= CollectionsRegistry.new
       end
 
-      def cable_ready_registered_collections
-        @collections || []
-      end
-
-      def cable_ready_broadcast_collection(resource, name)
+      def cable_ready_update_collection(resource, name)
         identifier = resource.to_global_id.to_s + ":" + name.to_s
         ActionCable.server.broadcast(identifier, {})
       end
 
-      def cable_ready_broadcast(name, option)
+      def enrich_association_with_updates(name, option)
         reflection = reflect_on_association(name)
 
         inverse_of = reflection.inverse_of&.name&.to_s
@@ -126,9 +86,9 @@ module CableReady
           raise ArgumentError, "Invalid broadcast option #{option}"
         end
 
-        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_register_collection)
+        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_collections)
 
-        reflection.klass.cable_ready_register_collection({
+        reflection.klass.cable_ready_collections.register({
           klass: self,
           foreign_key: reflection.foreign_key,
           name: name,

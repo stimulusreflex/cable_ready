@@ -2,8 +2,12 @@
   <img src="https://gitcdn.link/repo/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
-    <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
-    <img src="https://img.shields.io/npm/v/cable_ready.svg?color=blue" />
+    <a href="https://rubygems.org/gems/cable_ready"> 
+      <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
+    </a>  
+    <a href="https://www.npmjs.com/package/cable_ready"> 
+      <img src="https://img.shields.io/npm/v/cable_ready.svg?color=blue" />
+    </a>
     <a href="https://www.npmjs.com/package/cable_ready">
       <img alt="downloads" src="https://img.shields.io/npm/dm/cable_ready.svg?color=blue" target="_blank" />
     </a>
