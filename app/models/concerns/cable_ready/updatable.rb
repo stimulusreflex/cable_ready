@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 module CableReady
-  module Broadcastable
+  module Updatable
     extend ::ActiveSupport::Concern
 
     included do |base|
       if base < ActiveRecord::Base
         include ExtendHasMany
-        after_commit :cable_ready_broadcast_collections
+        after_commit :cable_ready_update_collections
         after_commit :cable_ready_create_callback, on: :create
         after_commit :cable_ready_update_callback, on: :update
         after_commit :cable_ready_destroy_callback, on: :destroy
 
-        def self.enable_broadcasts(*options)
+        def self.enable_updates(*options)
           options = options.extract_options!
           options = {
             on: [:create, :update, :destroy],
@@ -52,7 +52,7 @@ module CableReady
       ActionCable.server.broadcast(to_global_id, {})
     end
 
-    def cable_ready_broadcast_collections
+    def cable_ready_update_collections
       self.class.cable_ready_registered_collections
         .select { |c| c[:options][:on].include?(@cable_ready_current_callback) }
         .each do |collection|
@@ -71,7 +71,7 @@ module CableReady
 
     module ClassMethods
       def has_many(name, scope = nil, **options, &extension)
-        option = options.delete(:broadcast)
+        option = options.delete(:enable_updates)
         broadcast = option.present?
         result = super
         cable_ready_broadcast(name, option) if broadcast
@@ -126,7 +126,7 @@ module CableReady
           raise ArgumentError, "Invalid broadcast option #{option}"
         end
 
-        reflection.klass.send(:include, CableReady::Broadcastable) unless reflection.klass.respond_to?(:cable_ready_register_collection)
+        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_register_collection)
 
         reflection.klass.cable_ready_register_collection({
           klass: self,

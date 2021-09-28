@@ -8,10 +8,10 @@ module CableReadyHelper
     tag.stream_from(**build_options(*keys, html_options))
   end
 
-  def broadcast_from(*keys, url: nil, html_options: {}, &block)
+  def updates_for(*keys, url: nil, html_options: {}, &block)
     options = build_options(*keys, html_options)
     options[:url] = url if url
-    tag.broadcast_from(**options) { capture(&block) }
+    tag.updates_for(**options) { capture(&block) }
   end
 
   private

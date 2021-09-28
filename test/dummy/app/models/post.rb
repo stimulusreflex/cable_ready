@@ -1,4 +1,4 @@
 class Post < ApplicationRecord
-  include CableReady::Broadcastable
+  include CableReady::Updatable
   belongs_to :user
 end

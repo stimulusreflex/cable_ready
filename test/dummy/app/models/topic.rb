@@ -1,4 +1,4 @@
 class Topic < ApplicationRecord
-  include CableReady::Broadcastable
-  enable_broadcasts on: :create
+  include CableReady::Updatable
+  enable_updates on: :create
 end

@@ -4,7 +4,7 @@ import activeElement from './active_element'
 import actionCable from './action_cable'
 import { assignFocus, dispatch } from './utils'
 
-class BroadcastFromElement extends HTMLElement {
+class UpdatesForElement extends HTMLElement {
   async connectedCallback () {
     if (this.preview) return
     const consumer = await actionCable.getConsumer()
@@ -17,7 +17,7 @@ class BroadcastFromElement extends HTMLElement {
         {
           received: () => {
             const identifier = this.getAttribute('identifier')
-            const query = `broadcast-from[identifier="${identifier}"]`
+            const query = `updates-for[identifier="${identifier}"]`
             const blocks = document.querySelectorAll(query)
             if (blocks[0] !== this) return
 
@@ -36,15 +36,15 @@ class BroadcastFromElement extends HTMLElement {
                   const operation = {
                     element: blocks[i],
                     html: fragments[i],
-                    permanentAttributeName: 'data-ignore-broadcasts',
+                    permanentAttributeName: 'data-ignore-updates',
                     focusSelector: null
                   }
-                  dispatch(blocks[i], 'cable-ready:before-broadcast', operation)
+                  dispatch(blocks[i], 'cable-ready:before-update', operation)
                   morphdom(blocks[i], fragments[i], {
                     childrenOnly: true,
                     onBeforeElUpdated: shouldMorph(operation)
                   })
-                  dispatch(blocks[i], 'cable-ready:after-broadcast', operation)
+                  dispatch(blocks[i], 'cable-ready:after-update', operation)
                   assignFocus(operation.focusSelector)
                 }
               })
@@ -53,7 +53,7 @@ class BroadcastFromElement extends HTMLElement {
       )
     } else {
       console.error(
-        'The `broadcast_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
+        'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
       )
     }
   }
@@ -70,6 +70,6 @@ class BroadcastFromElement extends HTMLElement {
   }
 }
 
-if (!window.customElements.get('broadcast-from')) {
-  window.customElements.define('broadcast-from', BroadcastFromElement)
+if (!window.customElements.get('updates-for')) {
+  window.customElements.define('updates-for', UpdatesForElement)
 }

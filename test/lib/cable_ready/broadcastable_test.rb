@@ -2,15 +2,15 @@
 
 require "test_helper"
 
-class CableReady::BroadcastableTest < ActiveSupport::TestCase
+class CableReady::UpdatableTest < ActiveSupport::TestCase
   test "includes the module automatically in associated models" do
     user = User.create(name: "John Doe")
 
     post = user.posts.build
-    assert post.class < CableReady::Broadcastable
+    assert post.class < CableReady::Updatable
   end
 
-  test "broadcasts the collection when an item is added" do
+  test "updates the collection when an item is added" do
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
     mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {}).once
@@ -21,7 +21,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     user.posts.create(title: "Lorem")
   end
 
-  test "broadcasts the collection when an item is destroyed" do
+  test "updates the collection when an item is destroyed" do
     user = User.create(name: "John Doe")
     post = user.posts.create(title: "Lorem")
 
@@ -33,7 +33,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     post.destroy
   end
 
-  test "broadcasts the collection when an item is updated" do
+  test "updates the collection when an item is updated" do
     user = User.create(name: "John Doe")
     post = user.posts.create(title: "Lorem")
 
@@ -45,7 +45,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     post.update(title: "Ipsum")
   end
 
-  test "broadcasts the model when it is updated" do
+  test "updates the model when it is updated" do
     user = User.create(name: "John Doe")
 
     mock_server = mock("server")
@@ -57,7 +57,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     user.update(name: "Jane Doe")
   end
 
-  test "broadcasts the parent when it is touched" do
+  test "updates the parent when it is touched" do
     team = Team.create
     user = team.users.create(name: "Ada Lovelace")
 
@@ -84,7 +84,7 @@ class CableReady::BroadcastableTest < ActiveSupport::TestCase
     topic.update(title: "Reactive Rails with CableReady")
   end
 
-  test "respects :if on enable_broadcasts" do
+  test "respects :if on enable_updates" do
     mock_server = mock("server")
 
     ActionCable.stubs(:server).returns(mock_server)

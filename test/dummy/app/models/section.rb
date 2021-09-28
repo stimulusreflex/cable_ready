@@ -1,6 +1,6 @@
 class Section < ApplicationRecord
-  include CableReady::Broadcastable
-  enable_broadcasts if: -> { broadcasts_enabled }
+  include CableReady::Updatable
+  enable_updates if: -> { updates_enabled }
 
-  attribute :broadcasts_enabled, :boolean, default: false
+  attribute :updates_enabled, :boolean, default: false
 end
