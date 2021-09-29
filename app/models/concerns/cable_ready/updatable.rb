@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "cable_ready/updatable/model_updatable_callbacks"
-require "cable_ready/updatable/collection_updatable_callbacks"
-require "cable_ready/updatable/collections_registry"
-
 module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
