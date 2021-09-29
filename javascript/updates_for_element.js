@@ -28,7 +28,7 @@ const debounceEvents = (callback, delay = 1000) => {
         callback(identifier)
       })
       identifiers = new Set()
-    }, delay)
+    }, parseInt(delay))
   }
 }
 
@@ -50,15 +50,21 @@ class UpdatesForElement extends HTMLElement {
         },
         {
           connected: () => {
-            document.addEventListener(
-              'cable-ready:updates-for',
-              // ({ detail: { identifier } }) => {
-              //   this.fetchAndUpdateForIdentifier(identifier)
-              // }
-              debounceEvents(identifier => {
-                this.fetchAndUpdateForIdentifier(identifier)
-              })
-            )
+            if (this.hasAttribute('debounce')) {
+              document.addEventListener(
+                'cable-ready:updates-for',
+                debounceEvents(identifier => {
+                  this.fetchAndUpdateForIdentifier(identifier)
+                })
+              )
+            } else {
+              document.addEventListener(
+                'cable-ready:updates-for',
+                ({ detail: { identifier } }) => {
+                  this.fetchAndUpdateForIdentifier(identifier)
+                }
+              )
+            }
           },
           received: () => {
             const identifier = this.getAttribute('identifier')
