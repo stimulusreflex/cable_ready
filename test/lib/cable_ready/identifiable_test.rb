@@ -3,12 +3,6 @@
 require "test_helper"
 require_relative "../../../lib/cable_ready"
 
-class User
-  include ActiveModel::Model
-
-  attr_accessor :id
-end
-
 class CableReady::IdentifiableTest < ActiveSupport::TestCase
   include CableReady::Identifiable
 
