@@ -83,7 +83,7 @@ module CableReady
         when Proc
           options[:if] = option
         else
-          raise ArgumentError, "Invalid broadcast option #{option}"
+          raise ArgumentError, "Invalid enable_updates option #{option}"
         end
 
         reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_collections)
