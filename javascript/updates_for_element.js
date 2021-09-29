@@ -13,7 +13,7 @@ const template = `
 <slot></slot>
 `
 
-const debounceEvents = (callback, delay = 1000) => {
+const debounceEvents = (callback, delay) => {
   let timeoutId
   let identifiers = new Set()
 
@@ -50,21 +50,12 @@ class UpdatesForElement extends HTMLElement {
         },
         {
           connected: () => {
-            if (this.hasAttribute('debounce')) {
-              document.addEventListener(
-                'cable-ready:updates-for',
-                debounceEvents(identifier => {
-                  this.fetchAndUpdateForIdentifier(identifier)
-                })
-              )
-            } else {
-              document.addEventListener(
-                'cable-ready:updates-for',
-                ({ detail: { identifier } }) => {
-                  this.fetchAndUpdateForIdentifier(identifier)
-                }
-              )
-            }
+            document.addEventListener(
+              'cable-ready:updates-for',
+              debounceEvents(identifier => {
+                this.fetchAndUpdateForIdentifier(identifier)
+              }, this.debounce)
+            )
           },
           received: () => {
             const identifier = this.getAttribute('identifier')
@@ -125,6 +116,12 @@ class UpdatesForElement extends HTMLElement {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
+  }
+
+  get debounce () {
+    return this.hasAttribute('debounce')
+      ? parseInt(this.getAttribute('debounce'))
+      : 20
   }
 }
 
