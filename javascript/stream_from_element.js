@@ -1,9 +1,10 @@
-import { perform } from './cable_ready'
-import { consumer } from './action_cable'
+import CableReady from '.'
+import actionCable from './action_cable'
 
 class StreamFromElement extends HTMLElement {
-  connectedCallback () {
+  async connectedCallback () {
     if (this.preview) return
+    const consumer = await actionCable.getConsumer()
     if (consumer) {
       this.channel = consumer.subscriptions.create(
         {
@@ -12,13 +13,13 @@ class StreamFromElement extends HTMLElement {
         },
         {
           received (data) {
-            if (data.cableReady) perform(data.operations)
+            if (data.cableReady) CableReady.perform(data.operations)
           }
         }
       )
     } else {
       console.error(
-        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:stream_from` to fix this.'
+        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
       )
     }
   }

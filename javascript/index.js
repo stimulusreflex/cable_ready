@@ -4,6 +4,7 @@ import * as Utils from './utils'
 import OperationStore, { addOperation, addOperations } from './operation_store'
 import { perform, performAsync, initialize } from './cable_ready'
 import './stream_from_element'
+import './updates_for_element'
 
 export { Utils, MorphCallbacks }
 

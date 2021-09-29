@@ -145,7 +145,7 @@ GEM
     multi_json (1.15.0)
     multipart-post (2.1.1)
     nio4r (2.5.8)
-    nokogiri (1.12.3)
+    nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     octokit (4.21.0)
@@ -227,6 +227,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.4.2)
     standard (1.1.7)
       rubocop (= 1.18.4)
       rubocop-performance (= 1.11.4)
@@ -254,6 +255,7 @@ DEPENDENCIES
   pry
   pry-nav
   rake
+  sqlite3
   standardrb
 
 BUNDLED WITH
