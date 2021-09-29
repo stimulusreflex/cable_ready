@@ -30,20 +30,23 @@ class UpdatesForElement extends HTMLElement {
           identifier: this.getAttribute('identifier')
         },
         {
-          received: () => {
-            const identifier = this.getAttribute('identifier')
-            const query = `updates-for[identifier="${identifier}"]`
-            const blocks = document.querySelectorAll(query)
-            if (blocks[0] !== this) return
+          connected: () => {
+            document.addEventListener(
+              'cable-ready:updates-for',
+              async ({ detail: { identifier } }) => {
+                const query = `updates-for[identifier="${identifier}"]`
+                const blocks = document.querySelectorAll(query)
+                if (blocks[0] !== this) return
 
-            const template = document.createElement('template')
-            fetch(
-              this.hasAttribute('url')
-                ? this.getAttribute('url')
-                : window.location.href
-            )
-              .then(response => response.text())
-              .then(html => {
+                const template = document.createElement('template')
+
+                const response = await fetch(
+                  this.hasAttribute('url')
+                    ? this.getAttribute('url')
+                    : window.location.href
+                )
+                const html = await response.text()
+
                 template.innerHTML = String(html).trim()
                 const fragments = template.content.querySelectorAll(query)
                 for (let i = 0; i < blocks.length; i++) {
@@ -62,7 +65,17 @@ class UpdatesForElement extends HTMLElement {
                   dispatch(blocks[i], 'cable-ready:after-update', operation)
                   assignFocus(operation.focusSelector)
                 }
+              }
+            )
+          },
+          received: () => {
+            const identifier = this.getAttribute('identifier')
+
+            document.dispatchEvent(
+              new CustomEvent('cable-ready:updates-for', {
+                detail: { identifier }
               })
+            )
           }
         }
       )
