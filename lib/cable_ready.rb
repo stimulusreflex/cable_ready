@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "rails/engine"
-require "debouncer/debounceable"
+require "debouncer"
 require "open-uri"
 require "active_record"
 require "action_view"

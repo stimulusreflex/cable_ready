@@ -1,10 +1,6 @@
 module CableReady
   module Updatable
     class ModelUpdatableCallbacks
-      extend Debouncer::Debounceable
-
-      debounce :attempt_broadcast, 0.02, grouped: true
-
       def initialize(operation, enabled_operations = %i[create update destroy])
         @operation = operation
         @enabled_operations = enabled_operations
@@ -14,10 +10,6 @@ module CableReady
         return unless @enabled_operations.include?(@operation)
 
         send("broadcast_#{@operation}", model)
-      end
-
-      def attempt_broadcast(identifier)
-        ActionCable.server.broadcast(identifier, {})
       end
 
       private
@@ -30,6 +22,10 @@ module CableReady
       def broadcast_update(model)
         attempt_broadcast model.class
         attempt_broadcast model.to_global_id
+      end
+
+      def attempt_broadcast(identifier)
+        @debouncer.group(identifier).call identifier
       end
     end
   end

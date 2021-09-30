@@ -9,5 +9,9 @@ module ExtendHasMany
       options[:extend] = Array(options[:extend]).push(ClassMethods)
       super(*args, **options, &block)
     end
+
+    def debouncer
+      @debouncer ||= Debouncer.new(0.02) { |identifier| ActionCable.server.broadcast(identifier, {}) }
+    end
   end
 end
