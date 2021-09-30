@@ -41,6 +41,10 @@ class UpdatesForElement extends HTMLElement {
     }
   }
 
+  disconnectedCallback () {
+    if (this.channel) this.channel.unsubscribe()
+  }
+
   update () {
     const identifier = this.getAttribute('identifier')
     const query = `updates-for[identifier="${identifier}"]`
@@ -72,8 +76,8 @@ class UpdatesForElement extends HTMLElement {
       })
   }
 
-  disconnectedCallback () {
-    if (this.channel) this.channel.unsubscribe()
+  get url () {
+    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get preview () {
@@ -81,10 +85,6 @@ class UpdatesForElement extends HTMLElement {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
-  }
-
-  get url () {
-    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get debounce () {
