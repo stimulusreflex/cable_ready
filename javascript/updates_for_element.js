@@ -2,7 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import actionCable from './action_cable'
-import { assignFocus, dispatch } from './utils'
+import { Boris, assignFocus, dispatch } from './utils'
 
 const template = `
 <style>
@@ -12,15 +12,6 @@ const template = `
 </style>
 <slot></slot>
 `
-
-// Boris de bouncer
-function Boris (func, timeout) {
-  let timer
-  return (...args) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => func.apply(this, args), timeout)
-  }
-}
 
 class UpdatesForElement extends HTMLElement {
   constructor () {
