@@ -101,6 +101,15 @@ const after = (target, operation) =>
     operation
   )
 
+// Boris de bouncer
+function Boris (func, timeout) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => func.apply(this, args), timeout)
+  }
+}
+
 export {
   isTextInput,
   assignFocus,
@@ -110,5 +119,6 @@ export {
   processElements,
   operate,
   before,
-  after
+  after,
+  Boris
 }
