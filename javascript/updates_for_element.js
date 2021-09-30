@@ -45,35 +45,34 @@ class UpdatesForElement extends HTMLElement {
     if (this.channel) this.channel.unsubscribe()
   }
 
-  update () {
+  async update () {
     const identifier = this.getAttribute('identifier')
     const query = `updates-for[identifier="${identifier}"]`
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
 
     const template = document.createElement('template')
-    fetch(this.url)
-      .then(response => response.text())
-      .then(html => {
-        template.innerHTML = String(html).trim()
-        const fragments = template.content.querySelectorAll(query)
-        for (let i = 0; i < blocks.length; i++) {
-          activeElement.set(document.activeElement)
-          const operation = {
-            element: blocks[i],
-            html: fragments[i],
-            permanentAttributeName: 'data-ignore-updates',
-            focusSelector: null
-          }
-          dispatch(blocks[i], 'cable-ready:before-update', operation)
-          morphdom(blocks[i], fragments[i], {
-            childrenOnly: true,
-            onBeforeElUpdated: shouldMorph(operation)
-          })
-          dispatch(blocks[i], 'cable-ready:after-update', operation)
-          assignFocus(operation.focusSelector)
-        }
+    const response = await fetch(this.url)
+    const html = await response.text()
+
+    template.innerHTML = String(html).trim()
+    const fragments = template.content.querySelectorAll(query)
+    for (let i = 0; i < blocks.length; i++) {
+      activeElement.set(document.activeElement)
+      const operation = {
+        element: blocks[i],
+        html: fragments[i],
+        permanentAttributeName: 'data-ignore-updates',
+        focusSelector: null
+      }
+      dispatch(blocks[i], 'cable-ready:before-update', operation)
+      morphdom(blocks[i], fragments[i], {
+        childrenOnly: true,
+        onBeforeElUpdated: shouldMorph(operation)
       })
+      dispatch(blocks[i], 'cable-ready:after-update', operation)
+      assignFocus(operation.focusSelector)
+    }
   }
 
   get url () {
