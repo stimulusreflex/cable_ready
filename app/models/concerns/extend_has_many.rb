@@ -10,7 +10,7 @@ module ExtendHasMany
       super(*args, **options, &block)
     end
 
-    def debouncer
+    def cable_ready_debouncer
       @debouncer ||= Debouncer.new(0.02) { |identifier| ActionCable.server.broadcast(identifier, {}) }
     end
   end

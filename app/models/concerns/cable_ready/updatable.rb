@@ -45,7 +45,7 @@ module CableReady
 
       def cable_ready_update_collection(resource, name)
         identifier = resource.to_global_id.to_s + ":" + name.to_s
-        debouncer.group(identifier).call identifier
+        cable_ready_debouncer.group(identifier).call identifier
       end
 
       def enrich_association_with_updates(name, option)
