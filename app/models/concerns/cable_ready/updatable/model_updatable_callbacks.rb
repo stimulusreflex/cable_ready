@@ -4,6 +4,7 @@ module CableReady
       def initialize(operation, enabled_operations = %i[create update destroy])
         @operation = operation
         @enabled_operations = enabled_operations
+        @debouncer = Debouncer.new(0.02) { |identifier| ActionCable.server.broadcast(identifier, {}) }
       end
 
       def after_commit(model)
