@@ -13,22 +13,12 @@ const template = `
 <slot></slot>
 `
 
-const debounceEvents = (callback, delay) => {
-  let timeoutId
-  let identifiers = new Set()
-
-  return ({ detail: { identifier } }) => {
-    clearTimeout(timeoutId)
-
-    identifiers.add(identifier)
-    timeoutId = setTimeout(() => {
-      timeoutId = null
-
-      identifiers.forEach(identifier => {
-        callback(identifier)
-      })
-      identifiers = new Set()
-    }, parseInt(delay))
+// Boris de bouncer
+function Boris (func, timeout) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => func.apply(this, args), timeout)
   }
 }
 
@@ -37,6 +27,7 @@ class UpdatesForElement extends HTMLElement {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
+    this.update = Boris(this.update.bind(this), this.debounce)
   }
 
   async connectedCallback () {
@@ -49,23 +40,7 @@ class UpdatesForElement extends HTMLElement {
           identifier: this.getAttribute('identifier')
         },
         {
-          connected: () => {
-            document.addEventListener(
-              'cable-ready:updates-for',
-              debounceEvents(identifier => {
-                this.fetchAndUpdateForIdentifier(identifier)
-              }, this.debounce)
-            )
-          },
-          received: () => {
-            const identifier = this.getAttribute('identifier')
-
-            document.dispatchEvent(
-              new CustomEvent('cable-ready:updates-for', {
-                detail: { identifier }
-              })
-            )
-          }
+          received: this.update
         }
       )
     } else {
@@ -75,40 +50,39 @@ class UpdatesForElement extends HTMLElement {
     }
   }
 
-  disconnectedCallback () {
-    if (this.channel) this.channel.unsubscribe()
-  }
-
-  async fetchAndUpdateForIdentifier (identifier) {
+  update () {
+    const identifier = this.getAttribute('identifier')
     const query = `updates-for[identifier="${identifier}"]`
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
 
     const template = document.createElement('template')
-
-    const response = await fetch(
-      this.hasAttribute('url') ? this.getAttribute('url') : window.location.href
-    )
-    const html = await response.text()
-
-    template.innerHTML = String(html).trim()
-    const fragments = template.content.querySelectorAll(query)
-    for (let i = 0; i < blocks.length; i++) {
-      activeElement.set(document.activeElement)
-      const operation = {
-        element: blocks[i],
-        html: fragments[i],
-        permanentAttributeName: 'data-ignore-updates',
-        focusSelector: null
-      }
-      dispatch(blocks[i], 'cable-ready:before-update', operation)
-      morphdom(blocks[i], fragments[i], {
-        childrenOnly: true,
-        onBeforeElUpdated: shouldMorph(operation)
+    fetch(this.url)
+      .then(response => response.text())
+      .then(html => {
+        template.innerHTML = String(html).trim()
+        const fragments = template.content.querySelectorAll(query)
+        for (let i = 0; i < blocks.length; i++) {
+          activeElement.set(document.activeElement)
+          const operation = {
+            element: blocks[i],
+            html: fragments[i],
+            permanentAttributeName: 'data-ignore-updates',
+            focusSelector: null
+          }
+          dispatch(blocks[i], 'cable-ready:before-update', operation)
+          morphdom(blocks[i], fragments[i], {
+            childrenOnly: true,
+            onBeforeElUpdated: shouldMorph(operation)
+          })
+          dispatch(blocks[i], 'cable-ready:after-update', operation)
+          assignFocus(operation.focusSelector)
+        }
       })
-      dispatch(blocks[i], 'cable-ready:after-update', operation)
-      assignFocus(operation.focusSelector)
-    }
+  }
+
+  disconnectedCallback () {
+    if (this.channel) this.channel.unsubscribe()
   }
 
   get preview () {
@@ -116,6 +90,10 @@ class UpdatesForElement extends HTMLElement {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
+  }
+
+  get url () {
+    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get debounce () {
