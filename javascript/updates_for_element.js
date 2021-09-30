@@ -2,7 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import actionCable from './action_cable'
-import { assignFocus, dispatch } from './utils'
+import { Boris, assignFocus, dispatch } from './utils'
 
 const template = `
 <style>
@@ -13,30 +13,12 @@ const template = `
 <slot></slot>
 `
 
-const debounceEvents = (callback, delay) => {
-  let timeoutId
-  let identifiers = new Set()
-
-  return ({ detail: { identifier } }) => {
-    clearTimeout(timeoutId)
-
-    identifiers.add(identifier)
-    timeoutId = setTimeout(() => {
-      timeoutId = null
-
-      identifiers.forEach(identifier => {
-        callback(identifier)
-      })
-      identifiers = new Set()
-    }, parseInt(delay))
-  }
-}
-
 class UpdatesForElement extends HTMLElement {
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
+    this.update = Boris(this.update.bind(this), this.debounce)
   }
 
   async connectedCallback () {
@@ -49,23 +31,7 @@ class UpdatesForElement extends HTMLElement {
           identifier: this.getAttribute('identifier')
         },
         {
-          connected: () => {
-            document.addEventListener(
-              'cable-ready:updates-for',
-              debounceEvents(identifier => {
-                this.fetchAndUpdateForIdentifier(identifier)
-              }, this.debounce)
-            )
-          },
-          received: () => {
-            const identifier = this.getAttribute('identifier')
-
-            document.dispatchEvent(
-              new CustomEvent('cable-ready:updates-for', {
-                detail: { identifier }
-              })
-            )
-          }
+          received: this.update
         }
       )
     } else {
@@ -79,16 +45,14 @@ class UpdatesForElement extends HTMLElement {
     if (this.channel) this.channel.unsubscribe()
   }
 
-  async fetchAndUpdateForIdentifier (identifier) {
+  async update () {
+    const identifier = this.getAttribute('identifier')
     const query = `updates-for[identifier="${identifier}"]`
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
 
     const template = document.createElement('template')
-
-    const response = await fetch(
-      this.hasAttribute('url') ? this.getAttribute('url') : window.location.href
-    )
+    const response = await fetch(this.url)
     const html = await response.text()
 
     template.innerHTML = String(html).trim()
@@ -109,6 +73,10 @@ class UpdatesForElement extends HTMLElement {
       dispatch(blocks[i], 'cable-ready:after-update', operation)
       assignFocus(operation.focusSelector)
     }
+  }
+
+  get url () {
+    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get preview () {
