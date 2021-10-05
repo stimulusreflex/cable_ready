@@ -2,7 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import actionCable from './action_cable'
-import { Boris, assignFocus, dispatch } from './utils'
+import { debounce, assignFocus, dispatch } from './utils'
 
 const template = `
 <style>
@@ -13,12 +13,16 @@ const template = `
 <slot></slot>
 `
 
+function url (ele) {
+  return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
+}
+
 class UpdatesForElement extends HTMLElement {
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
-    this.update = Boris(this.update.bind(this), this.debounce)
+    this.update = debounce(this.update.bind(this), this.debounce)
   }
 
   async connectedCallback () {
@@ -51,13 +55,19 @@ class UpdatesForElement extends HTMLElement {
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
 
+    const html = {}
     const template = document.createElement('template')
-    const response = await fetch(this.url)
-    const html = await response.text()
 
-    template.innerHTML = String(html).trim()
-    const fragments = template.content.querySelectorAll(query)
     for (let i = 0; i < blocks.length; i++) {
+      blocks[i].setAttribute('updating', 'updating')
+
+      if (!html.hasOwnProperty(url(blocks[i]))) {
+        const response = await fetch(url(blocks[i]))
+        html[url(blocks[i])] = await response.text()
+      }
+
+      template.innerHTML = String(html[url(blocks[i])]).trim()
+      const fragments = template.content.querySelectorAll(query)
       activeElement.set(document.activeElement)
       const operation = {
         element: blocks[i],
@@ -70,13 +80,10 @@ class UpdatesForElement extends HTMLElement {
         childrenOnly: true,
         onBeforeElUpdated: shouldMorph(operation)
       })
+      blocks[i].removeAttribute('updating')
       dispatch(blocks[i], 'cable-ready:after-update', operation)
       assignFocus(operation.focusSelector)
     }
-  }
-
-  get url () {
-    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get preview () {

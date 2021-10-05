@@ -101,8 +101,7 @@ const after = (target, operation) =>
     operation
   )
 
-// Boris de bouncer
-function Boris (func, timeout) {
+function debounce (func, timeout) {
   let timer
   return (...args) => {
     clearTimeout(timer)
@@ -120,5 +119,5 @@ export {
   operate,
   before,
   after,
-  Boris
+  debounce
 }

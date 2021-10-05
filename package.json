@@ -25,7 +25,6 @@
   "author": "Nathan Hopkins <natehop@gmail.com>",
   "main": "./javascript/index.js",
   "module": "./javascript/index.js",
-  "sideEffects": false,
   "scripts": {
     "lint": "yarn run prettier-standard:check",
     "format": "yarn run prettier-standard:format",
