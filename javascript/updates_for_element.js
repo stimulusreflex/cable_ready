@@ -22,11 +22,12 @@ class UpdatesForElement extends HTMLElement {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
-    this.update = debounce(this.update.bind(this), this.debounce)
   }
 
   async connectedCallback () {
     if (this.preview) return
+    this.update = debounce(this.update.bind(this), this.debounce)
+
     const consumer = await actionCable.getConsumer()
     if (consumer) {
       this.channel = consumer.subscriptions.create(
@@ -78,11 +79,13 @@ class UpdatesForElement extends HTMLElement {
       dispatch(blocks[i], 'cable-ready:before-update', operation)
       morphdom(blocks[i], fragments[i], {
         childrenOnly: true,
-        onBeforeElUpdated: shouldMorph(operation)
+        onBeforeElUpdated: shouldMorph(operation),
+        onElUpdated: _ => {
+          blocks[i].removeAttribute('updating')
+          dispatch(blocks[i], 'cable-ready:after-update', operation)
+          assignFocus(operation.focusSelector)
+        }
       })
-      blocks[i].removeAttribute('updating')
-      dispatch(blocks[i], 'cable-ready:after-update', operation)
-      assignFocus(operation.focusSelector)
     }
   }
 
