@@ -72,6 +72,12 @@ class UpdatesForElement extends HTMLElement {
 
       template.innerHTML = String(html[url(blocks[i])]).trim()
       const fragments = template.content.querySelectorAll(query)
+
+      if (fragments.length <= i) {
+        console.warn('Update aborted due to mismatched number of elements')
+        return
+      }
+
       activeElement.set(document.activeElement)
       const operation = {
         element: blocks[i],
