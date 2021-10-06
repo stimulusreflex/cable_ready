@@ -2,7 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import actionCable from './action_cable'
-import { Boris, assignFocus, dispatch } from './utils'
+import { debounce, assignFocus, dispatch } from './utils'
 
 const template = `
 <style>
@@ -13,16 +13,21 @@ const template = `
 <slot></slot>
 `
 
+function url (ele) {
+  return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
+}
+
 class UpdatesForElement extends HTMLElement {
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
-    this.update = Boris(this.update.bind(this), this.debounce)
   }
 
   async connectedCallback () {
     if (this.preview) return
+    this.update = debounce(this.update.bind(this), this.debounce)
+
     const consumer = await actionCable.getConsumer()
     if (consumer) {
       this.channel = consumer.subscriptions.create(
@@ -51,13 +56,19 @@ class UpdatesForElement extends HTMLElement {
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
 
+    const html = {}
     const template = document.createElement('template')
-    const response = await fetch(this.url)
-    const html = await response.text()
 
-    template.innerHTML = String(html).trim()
-    const fragments = template.content.querySelectorAll(query)
     for (let i = 0; i < blocks.length; i++) {
+      blocks[i].setAttribute('updating', 'updating')
+
+      if (!html.hasOwnProperty(url(blocks[i]))) {
+        const response = await fetch(url(blocks[i]))
+        html[url(blocks[i])] = await response.text()
+      }
+
+      template.innerHTML = String(html[url(blocks[i])]).trim()
+      const fragments = template.content.querySelectorAll(query)
       activeElement.set(document.activeElement)
       const operation = {
         element: blocks[i],
@@ -68,15 +79,14 @@ class UpdatesForElement extends HTMLElement {
       dispatch(blocks[i], 'cable-ready:before-update', operation)
       morphdom(blocks[i], fragments[i], {
         childrenOnly: true,
-        onBeforeElUpdated: shouldMorph(operation)
+        onBeforeElUpdated: shouldMorph(operation),
+        onElUpdated: _ => {
+          blocks[i].removeAttribute('updating')
+          dispatch(blocks[i], 'cable-ready:after-update', operation)
+          assignFocus(operation.focusSelector)
+        }
       })
-      dispatch(blocks[i], 'cable-ready:after-update', operation)
-      assignFocus(operation.focusSelector)
     }
-  }
-
-  get url () {
-    return this.hasAttribute('url') ? this.getAttribute('url') : location.href
   }
 
   get preview () {
