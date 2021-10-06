@@ -111,6 +111,3 @@ export default class UpdatesForElement extends HTMLElement {
       : 20
   }
 }
-
-if (!customElements.get('updates-for'))
-  customElements.define('updates-for', UpdatesForElement)

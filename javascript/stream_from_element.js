@@ -35,6 +35,3 @@ export default class StreamFromElement extends HTMLElement {
     )
   }
 }
-
-if (!customElements.get('stream-from'))
-  customElements.define('stream-from', StreamFromElement)
