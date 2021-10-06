@@ -17,7 +17,7 @@ function url (ele) {
   return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
 }
 
-class UpdatesForElement extends HTMLElement {
+export default class UpdatesForElement extends HTMLElement {
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
