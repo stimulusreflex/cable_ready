@@ -2,7 +2,7 @@ import morphdom from 'morphdom'
 import { shouldMorph } from './morph_callbacks'
 import activeElement from './active_element'
 import actionCable from './action_cable'
-import { debounce, assignFocus, dispatch } from './utils'
+import { debounce, assignFocus, dispatch, handleErrors } from './utils'
 
 const template = `
 <style>
@@ -64,6 +64,9 @@ class UpdatesForElement extends HTMLElement {
 
       if (!html.hasOwnProperty(url(blocks[i]))) {
         const response = await fetch(url(blocks[i]))
+          .then(handleErrors)
+          .catch(e => console.error(`Could not fetch ${url(blocks[i])}`))
+        if (response === undefined) return
         html[url(blocks[i])] = await response.text()
       }
 
@@ -103,6 +106,5 @@ class UpdatesForElement extends HTMLElement {
   }
 }
 
-if (!window.customElements.get('updates-for')) {
-  window.customElements.define('updates-for', UpdatesForElement)
-}
+if (!customElements.get('updates-for'))
+  customElements.define('updates-for', UpdatesForElement)

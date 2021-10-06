@@ -109,6 +109,11 @@ function debounce (func, timeout) {
   }
 }
 
+function handleErrors (response) {
+  if (!response.ok) throw Error(response.statusText)
+  return response
+}
+
 export {
   isTextInput,
   assignFocus,
@@ -119,5 +124,6 @@ export {
   operate,
   before,
   after,
-  debounce
+  debounce,
+  handleErrors
 }
