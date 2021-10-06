@@ -1,7 +1,7 @@
 import CableReady from '.'
 import actionCable from './action_cable'
 
-class StreamFromElement extends HTMLElement {
+export default class StreamFromElement extends HTMLElement {
   async connectedCallback () {
     if (this.preview) return
     const consumer = await actionCable.getConsumer()
@@ -35,6 +35,3 @@ class StreamFromElement extends HTMLElement {
     )
   }
 }
-
-if (!customElements.get('stream-from'))
-  customElements.define('stream-from', StreamFromElement)
