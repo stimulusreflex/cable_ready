@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cable_ready (5.0.0.pre4)
+    cable_ready (5.0.0.pre5)
       rails (>= 5.2)
       thread-local (>= 1.1.0)
 
@@ -136,7 +136,7 @@ GEM
     magic_frozen_string_literal (1.2.0)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
+    marcel (1.0.2)
     method_source (0.9.2)
     mini_mime (1.1.1)
     minitest (5.14.4)
