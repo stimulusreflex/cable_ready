@@ -17,8 +17,8 @@ export default class SubscribingElement extends HTMLElement {
     )
   }
 
-  async consumer () {
-    return await actionCable.getConsumer()
+  consumer () {
+    return actionCable.getConsumer()
   }
 
   get preview () {

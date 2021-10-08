@@ -29,7 +29,7 @@ export default class UpdatesForElement extends SubscribingElement {
     if (this.preview) return
     this.update = debounce(this.update.bind(this), this.debounce)
 
-    const consumer = this.consumer()
+    const consumer = await this.consumer()
     if (consumer) {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
