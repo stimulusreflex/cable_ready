@@ -2,8 +2,8 @@ import { xpathToElement, dispatch } from './utils'
 import activeElement from './active_element'
 import OperationStore from './operation_store'
 import actionCable from './action_cable'
-import StreamFromElement from './stream_from_element'
-import UpdatesForElement from './updates_for_element'
+import StreamFromElement from './elements/stream_from_element'
+import UpdatesForElement from './elements/updates_for_element'
 
 const perform = (
   operations,

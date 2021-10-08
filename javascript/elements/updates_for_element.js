@@ -1,8 +1,9 @@
 import morphdom from 'morphdom'
-import { shouldMorph } from './morph_callbacks'
-import activeElement from './active_element'
-import actionCable from './action_cable'
-import { debounce, assignFocus, dispatch, handleErrors } from './utils'
+
+import SubscribingElement from './subscribing_element'
+import { shouldMorph } from '../morph_callbacks'
+import activeElement from '../active_element'
+import { debounce, assignFocus, dispatch, handleErrors } from '../utils'
 
 const template = `
 <style>
@@ -17,7 +18,7 @@ function url (ele) {
   return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
 }
 
-export default class UpdatesForElement extends HTMLElement {
+export default class UpdatesForElement extends SubscribingElement {
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
@@ -28,26 +29,14 @@ export default class UpdatesForElement extends HTMLElement {
     if (this.preview) return
     this.update = debounce(this.update.bind(this), this.debounce)
 
-    const consumer = await actionCable.getConsumer()
+    const consumer = await this.consumer()
     if (consumer) {
-      this.channel = consumer.subscriptions.create(
-        {
-          channel: 'CableReady::Stream',
-          identifier: this.getAttribute('identifier')
-        },
-        {
-          received: this.update
-        }
-      )
+      this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
         'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
       )
     }
-  }
-
-  disconnectedCallback () {
-    if (this.channel) this.channel.unsubscribe()
   }
 
   async update () {
@@ -96,13 +85,6 @@ export default class UpdatesForElement extends HTMLElement {
         }
       })
     }
-  }
-
-  get preview () {
-    return (
-      document.documentElement.hasAttribute('data-turbolinks-preview') ||
-      document.documentElement.hasAttribute('data-turbo-preview')
-    )
   }
 
   get debounce () {
