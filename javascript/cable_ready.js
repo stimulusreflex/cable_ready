@@ -84,3 +84,5 @@ const initialize = (initializeOptions = {}) => {
 }
 
 export { perform, performAsync, initialize }
+
+export const consumer = actionCable.getConsumer()

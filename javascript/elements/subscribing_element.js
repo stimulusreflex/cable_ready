@@ -1,4 +1,4 @@
-import actionCable from '../action_cable'
+import CableReady from '..'
 
 export default class SubscribingElement extends HTMLElement {
   disconnectedCallback () {
@@ -15,10 +15,6 @@ export default class SubscribingElement extends HTMLElement {
         received: receivedCallback
       }
     )
-  }
-
-  consumer () {
-    return actionCable.getConsumer()
   }
 
   get preview () {
