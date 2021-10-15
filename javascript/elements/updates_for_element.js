@@ -53,7 +53,11 @@ export default class UpdatesForElement extends SubscribingElement {
       blocks[i].setAttribute('updating', 'updating')
 
       if (!html.hasOwnProperty(url(blocks[i]))) {
-        const response = await fetch(url(blocks[i]))
+        const response = await fetch(url(blocks[i]), {
+          headers: {
+            'X-Cable-Ready': 'update'
+          }
+        })
           .then(handleErrors)
           .catch(e => console.error(`Could not fetch ${url(blocks[i])}`))
         if (response === undefined) return
