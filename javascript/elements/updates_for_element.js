@@ -76,8 +76,7 @@ export default class UpdatesForElement extends SubscribingElement {
       const operation = {
         element: blocks[i],
         html: fragments[i],
-        permanentAttributeName: 'data-ignore-updates',
-        focusSelector: null
+        permanentAttributeName: 'data-ignore-updates'
       }
       dispatch(blocks[i], 'cable-ready:before-update', operation)
       morphdom(blocks[i], fragments[i], {
