@@ -40,7 +40,7 @@ const perform = (
             })
         } else {
           console.error(
-            `CableReady couldn't find the "${name}" operation. Make sure you haven't misspelled the operation name and that you've added all required operations.`
+            `CableReady couldn't find the "${name}" operation. Make sure you use the camelized form when calling an operation method.`
           )
         }
       }
