@@ -30,6 +30,11 @@ const verifyNotMutable = (detail, fromEl, toEl) => {
   return true
 }
 
+const verifyNotContentEditable = (detail, fromEl, toEl) => {
+  if (fromEl === activeElement.element && fromEl.isContentEditable) return false
+  return true
+}
+
 const verifyNotPermanent = (detail, fromEl, toEl) => {
   const { permanentAttributeName } = detail
   if (!permanentAttributeName) return true
@@ -37,7 +42,7 @@ const verifyNotPermanent = (detail, fromEl, toEl) => {
   const permanent = fromEl.closest(`[${permanentAttributeName}]`)
 
   // only morph attributes on the active non-permanent text input
-  if (!permanent && isTextInput(fromEl) && fromEl === activeElement.element) {
+  if (!permanent && fromEl === activeElement.element && isTextInput(fromEl)) {
     const ignore = { value: true }
     Array.from(toEl.attributes).forEach(attribute => {
       if (!ignore[attribute.name])
@@ -49,7 +54,11 @@ const verifyNotPermanent = (detail, fromEl, toEl) => {
   return !permanent
 }
 
-const shouldMorphCallbacks = [verifyNotMutable, verifyNotPermanent]
+const shouldMorphCallbacks = [
+  verifyNotMutable,
+  verifyNotPermanent,
+  verifyNotContentEditable
+]
 const didMorphCallbacks = []
 
 export {
@@ -58,5 +67,6 @@ export {
   shouldMorph,
   didMorph,
   verifyNotMutable,
+  verifyNotContentEditable,
   verifyNotPermanent
 }
