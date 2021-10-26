@@ -1,5 +1,59 @@
 # Changelog
 
+## [v5.0.0.pre7](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre7) (2021-10-26)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre6...v5.0.0.pre7)
+
+**Merged pull requests:**
+
+- Add custom header to fetch [\#159](https://github.com/stimulusreflex/cable_ready/pull/159) ([julianrubisch](https://github.com/julianrubisch))
+
+## [v5.0.0.pre6](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre6) (2021-10-14)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre5...v5.0.0.pre6)
+
+**Merged pull requests:**
+
+- Re-export consumer [\#158](https://github.com/stimulusreflex/cable_ready/pull/158) ([julianrubisch](https://github.com/julianrubisch))
+- Consolidate elements into a base class [\#157](https://github.com/stimulusreflex/cable_ready/pull/157) ([julianrubisch](https://github.com/julianrubisch))
+
+## [v5.0.0.pre5](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre5) (2021-10-07)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre4...v5.0.0.pre5)
+
+**Implemented enhancements:**
+
+- error handling for updates\_for edge cases [\#155](https://github.com/stimulusreflex/cable_ready/pull/155) ([leastbad](https://github.com/leastbad))
+- post-pre4 updates [\#154](https://github.com/stimulusreflex/cable_ready/pull/154) ([leastbad](https://github.com/leastbad))
+
+**Fixed bugs:**
+
+- Given multiple updates\_for blocks with custom urls, only the first is re-fetched [\#153](https://github.com/stimulusreflex/cable_ready/issues/153)
+
+**Merged pull requests:**
+
+- Export elements [\#156](https://github.com/stimulusreflex/cable_ready/pull/156) ([julianrubisch](https://github.com/julianrubisch))
+
+## [v5.0.0.pre4](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre4) (2021-10-01)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre3...v5.0.0.pre4)
+
+**Implemented enhancements:**
+
+- Receive morph updates from model/PORO callbacks [\#145](https://github.com/stimulusreflex/cable_ready/pull/145) ([leastbad](https://github.com/leastbad))
+
+**Closed issues:**
+
+- Uncaught TypeError: operations.forEach is not a function [\#149](https://github.com/stimulusreflex/cable_ready/issues/149)
+
+**Merged pull requests:**
+
+- Optionally debounce updates [\#151](https://github.com/stimulusreflex/cable_ready/pull/151) ([julianrubisch](https://github.com/julianrubisch))
+- Fix updates for lazy loading [\#150](https://github.com/stimulusreflex/cable_ready/pull/150) ([julianrubisch](https://github.com/julianrubisch))
+- Bump nokogiri from 1.12.3 to 1.12.5 [\#148](https://github.com/stimulusreflex/cable_ready/pull/148) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Readme\] Make badges link to RubyGems and npm packages [\#147](https://github.com/stimulusreflex/cable_ready/pull/147) ([palkan](https://github.com/palkan))
+- Fix wrong CableReady import [\#146](https://github.com/stimulusreflex/cable_ready/pull/146) ([n-rodriguez](https://github.com/n-rodriguez))
+
 ## [v5.0.0.pre3](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre3) (2021-08-22)
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre2...v5.0.0.pre3)

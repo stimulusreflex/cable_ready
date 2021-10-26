@@ -16,6 +16,8 @@ Rake::TestTask.new(:test) do |t|
 end
 
 GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-  config.user = "hopsoft"
+  config.user = "stimulusreflex"
   config.project = "cable_ready"
+  config.exclude_labels = %w[duplicate question invalid wontfix nodoc]
+  config.token = ENV["GITHUB_CHANGELOG_GENERATOR_TOKEN"]
 end
