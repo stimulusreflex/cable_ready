@@ -84,11 +84,11 @@ Please run `./bin/standardize` prior submitting pull requests.
 
 1. Make sure that you run `yarn` and `bundle` to pick up the latest.
 1. Bump version number at `lib/cable_ready/version.rb`. Pre-release versions use `.preN`
-1. Change package version in `package.json`. Pre-release versions use `-preN`
 1. Run `rake build`
 1. Commit and push changes to GitHub
 1. Run `rake release`
 1. Run `yarn publish --no-git-tag-version`
+1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
 
 ## 📝 License
 
