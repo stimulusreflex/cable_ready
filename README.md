@@ -89,6 +89,7 @@ Please run `./bin/standardize` prior submitting pull requests.
 1. Run `rake release`
 1. Run `yarn publish --no-git-tag-version`
 1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
+1. Run `GITHUB_CHANGELOG_GENERATOR_TOKEN=SECRET rake changelog`
 1. Commit and push changes to github
 
 ## 📝 License
