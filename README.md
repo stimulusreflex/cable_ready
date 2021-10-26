@@ -2,10 +2,10 @@
   <img src="https://gitcdn.link/repo/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
-    <a href="https://rubygems.org/gems/cable_ready"> 
+    <a href="https://rubygems.org/gems/cable_ready">
       <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
-    </a>  
-    <a href="https://www.npmjs.com/package/cable_ready"> 
+    </a>
+    <a href="https://www.npmjs.com/package/cable_ready">
       <img src="https://img.shields.io/npm/v/cable_ready.svg?color=blue" />
     </a>
     <a href="https://www.npmjs.com/package/cable_ready">
@@ -83,12 +83,13 @@ Please run `./bin/standardize` prior submitting pull requests.
 ### 📦 Releasing
 
 1. Make sure that you run `yarn` and `bundle` to pick up the latest.
-2. Bump version number at `lib/cable_ready/version.rb`. Pre-release versions use `.preN`
-3. Run `rake build`
-4. Run `rake release`
-5. Change package version in `package.json`. Pre-release versions use `-preN`
-6. Commit and push changes to the `package.json` file
-7. Run `yarn publish --no-git-tag-version`
+1. Bump version number at `lib/cable_ready/version.rb`. Pre-release versions use `.preN`
+1. Run `rake build`
+1. Commit and push changes to the `lib/cable_ready/version.rb` file
+1. Run `rake release`
+1. Change package version in `package.json`. Pre-release versions use `-preN`
+1. Commit and push changes to the `package.json` file
+1. Run `yarn publish --no-git-tag-version`
 
 ## 📝 License
 
