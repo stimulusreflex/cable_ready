@@ -8,7 +8,7 @@ module CableReady
       ActionCable.server.broadcast identifier, {
         "cableReady" => true,
         "operations" => operations_payload,
-        "version" => CableReady::VERSION.gsub(".pre", "-pre")
+        "version" => CableReady::VERSION
       }
       reset! if clear
     end
@@ -17,7 +17,7 @@ module CableReady
       identifier.broadcast_to model, {
         "cableReady" => true,
         "operations" => operations_payload,
-        "version" => CableReady::VERSION.gsub(".pre", "-pre")
+        "version" => CableReady::VERSION
       }
       reset! if clear
     end
