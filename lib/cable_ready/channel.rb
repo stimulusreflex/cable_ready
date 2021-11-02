@@ -5,12 +5,20 @@ module CableReady
     attr_reader :identifier
 
     def broadcast(clear: true)
-      ActionCable.server.broadcast identifier, {"cableReady" => true, "operations" => operations_payload}
+      ActionCable.server.broadcast identifier, {
+        "cableReady" => true,
+        "operations" => operations_payload,
+        "version" => CableReady::VERSION.gsub(".pre", "-pre")
+      }
       reset! if clear
     end
 
     def broadcast_to(model, clear: true)
-      identifier.broadcast_to model, {"cableReady" => true, "operations" => operations_payload}
+      identifier.broadcast_to model, {
+        "cableReady" => true,
+        "operations" => operations_payload,
+        "version" => CableReady::VERSION.gsub(".pre", "-pre")
+      }
       reset! if clear
     end
 

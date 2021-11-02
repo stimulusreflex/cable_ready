@@ -2,8 +2,6 @@
 
 class CableReady::SanityChecker
   LATEST_VERSION_FORMAT = /^(\d+\.\d+\.\d+)$/
-  NODE_VERSION_FORMAT = /(\d+\.\d+\.\d+.*):/
-  JSON_VERSION_FORMAT = /(\d+\.\d+\.\d+.*)"/
 
   class << self
     def check!
@@ -13,7 +11,6 @@ class CableReady::SanityChecker
       return if called_by_rake?
 
       instance = new
-      instance.check_package_versions_match
       instance.check_new_version_available
     end
 
@@ -25,28 +22,6 @@ class CableReady::SanityChecker
 
     def called_by_rake?
       File.basename($PROGRAM_NAME) == "rake"
-    end
-  end
-
-  def check_package_versions_match
-    if npm_version.nil?
-      warn_and_exit <<~WARN
-        👉 Can't locate the cable_ready npm package.
-
-          yarn add cable_ready@#{gem_version}
-
-        Either add it to your package.json as a dependency or use "yarn link cable_ready" if you are doing development.
-      WARN
-    end
-
-    if package_version_mismatch?
-      warn_and_exit <<~WARN
-        👉 The cable_ready npm package version (#{npm_version}) does not match the Rubygem version (#{gem_version}).
-
-        To update the cable_ready npm package:
-
-          yarn upgrade cable_ready@#{gem_version}
-      WARN
     end
   end
 
@@ -75,43 +50,10 @@ class CableReady::SanityChecker
 
   private
 
-  def package_version_mismatch?
-    npm_version != gem_version
-  end
-
   def using_preview_release?
     preview = CableReady::VERSION.match?(LATEST_VERSION_FORMAT) == false
     puts "👉 CableReady #{CableReady::VERSION} update check skipped: pre-release build" if preview
     preview
-  end
-
-  def gem_version
-    @_gem_version ||= CableReady::VERSION.gsub(".pre", "-pre")
-  end
-
-  def npm_version
-    @_npm_version ||= find_npm_version
-  end
-
-  def find_npm_version
-    if (match = search_file(package_json_path, regex: /version/))
-      match[JSON_VERSION_FORMAT, 1]
-    elsif (match = search_file(yarn_lock_path, regex: /^cable_ready/))
-      match[NODE_VERSION_FORMAT, 1]
-    end
-  end
-
-  def search_file(path, regex:)
-    return if File.exist?(path) == false
-    File.foreach(path).grep(regex).first
-  end
-
-  def package_json_path
-    Rails.root.join("node_modules", "cable_ready", "package.json")
-  end
-
-  def yarn_lock_path
-    Rails.root.join("yarn.lock")
   end
 
   def initializer_missing?
