@@ -1,5 +1,4 @@
 import { Controller } from 'stimulus'
-import { version } from '../package.json'
 import CableReady from 'cable_ready'
 
 export default class extends Controller {
@@ -15,9 +14,7 @@ export default class extends Controller {
         },
         {
           received (data) {
-            if (data.cableReady && data.version === version)
-              CableReady.perform(data.operations)
-            else console.error('CableReady gem/npm package version mismatch.')
+            if (data.cableReady) CableReady.perform(data.operations)
           }
         }
       )
