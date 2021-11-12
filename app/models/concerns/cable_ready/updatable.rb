@@ -45,7 +45,7 @@ module CableReady
 
       def cable_ready_update_collection(resource, name, model)
         identifier = resource.to_global_id.to_s + ":" + name.to_s
-        ActionCable.server.broadcast(identifier, {changed: model.previous_changes.keys})
+        ActionCable.server.broadcast(identifier, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
       end
 
       def enrich_association_with_updates(name, option)
