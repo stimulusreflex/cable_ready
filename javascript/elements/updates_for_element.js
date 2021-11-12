@@ -47,7 +47,12 @@ export default class UpdatesForElement extends SubscribingElement {
     if (blocks[0] !== this) return
 
     const only = this.getAttribute('only')
-    if (only && data.changed && !data.changed.includes(only)) return
+    if (
+      only &&
+      data.changed &&
+      !only.split(' ').some(attribute => data.changed.includes(attribute))
+    )
+      return
 
     const html = {}
     const template = document.createElement('template')
