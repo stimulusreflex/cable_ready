@@ -10,12 +10,13 @@ module CableReady
       end
 
       def broadcast_for!(model, operation)
+
         @registered_collections.select { |c| c[:options][:on].include?(operation) }
           .each do |collection|
           resource = find_resource_for_update(collection, model)
           next if resource.nil?
 
-          collection[:klass].cable_ready_update_collection(resource, collection[:name]) if collection[:options][:if].call(resource)
+          collection[:klass].cable_ready_update_collection(resource, collection[:name], model) if collection[:options][:if].call(resource)
         end
       end
 

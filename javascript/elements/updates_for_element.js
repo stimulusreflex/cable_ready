@@ -40,11 +40,14 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
-  async update () {
+  async update (data) {
     const identifier = this.getAttribute('identifier')
     const query = `updates-for[identifier="${identifier}"]`
     const blocks = document.querySelectorAll(query)
     if (blocks[0] !== this) return
+
+    const only = this.getAttribute('only')
+    if (only && data.changed && !data.changed.includes(only)) return
 
     const html = {}
     const template = document.createElement('template')
