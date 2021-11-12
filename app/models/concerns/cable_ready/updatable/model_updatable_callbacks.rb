@@ -21,7 +21,7 @@ module CableReady
 
       def broadcast_update(model)
         ActionCable.server.broadcast(model.class, {})
-        ActionCable.server.broadcast(model.to_global_id, {})
+        ActionCable.server.broadcast(model.to_global_id, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
       end
     end
   end

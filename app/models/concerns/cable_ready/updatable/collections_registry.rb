@@ -15,7 +15,7 @@ module CableReady
           resource = find_resource_for_update(collection, model)
           next if resource.nil?
 
-          collection[:klass].cable_ready_update_collection(resource, collection[:name]) if collection[:options][:if].call(resource)
+          collection[:klass].cable_ready_update_collection(resource, collection[:name], model) if collection[:options][:if].call(resource)
         end
       end
 

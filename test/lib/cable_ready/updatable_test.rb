@@ -13,7 +13,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
   test "updates the collection when an item is added" do
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
-    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {changed: ["id", "title", "user_id", "created_at", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
     user = User.create(name: "John Doe")
@@ -26,7 +26,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     post = user.posts.create(title: "Lorem")
 
     mock_server = mock("server")
-    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {changed: ["id", "title", "user_id", "created_at", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
 
@@ -38,7 +38,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     post = user.posts.create(title: "Lorem")
 
     mock_server = mock("server")
-    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/User/1:posts", {changed: ["title", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
 
@@ -50,7 +50,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
 
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
-    mock_server.expects(:broadcast).with(user.to_global_id, {}).once
+    mock_server.expects(:broadcast).with(user.to_global_id, {changed: ["name", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
 
@@ -63,10 +63,10 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
 
     mock_server = mock("server")
     mock_server.expects(:broadcast).with(User, {}).once
-    mock_server.expects(:broadcast).with(user.to_global_id, {}).once
-    mock_server.expects(:broadcast).with("gid://dummy/Team/1:users", {}).once
+    mock_server.expects(:broadcast).with(user.to_global_id, {changed: ["name", "updated_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Team/1:users", {changed: ["name", "updated_at"]}).once
     mock_server.expects(:broadcast).with(Team, {}).once
-    mock_server.expects(:broadcast).with(team.to_global_id, {}).once
+    mock_server.expects(:broadcast).with(team.to_global_id, {changed: ["id", "created_at", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
 
@@ -94,7 +94,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     section.updates_enabled = true
 
     mock_server.expects(:broadcast).with(Section, {}).once
-    mock_server.expects(:broadcast).with(section.to_global_id, {}).once
+    mock_server.expects(:broadcast).with(section.to_global_id, {changed: ["title", "updated_at", "updates_enabled"]}).once
     section.update(title: "First Section")
   end
 
