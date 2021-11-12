@@ -10,7 +10,6 @@ module CableReady
       end
 
       def broadcast_for!(model, operation)
-
         @registered_collections.select { |c| c[:options][:on].include?(operation) }
           .each do |collection|
           resource = find_resource_for_update(collection, model)

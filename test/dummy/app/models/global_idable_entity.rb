@@ -10,6 +10,10 @@ class GlobalIdableEntity
     new if id == "fake-id"
   end
 
+  def previous_changes
+    {}
+  end
+
   def fake_update
     ModelUpdatableCallbacks.new(:update).after_commit(self)
   end
