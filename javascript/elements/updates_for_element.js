@@ -73,6 +73,35 @@ export default class UpdatesForElement extends SubscribingElement {
       }
 
       template.innerHTML = String(html[url(blocks[i])]).trim()
+
+      const reloadingTurboFrames = [
+        ...template.content.querySelectorAll(
+          'turbo-frame[src]:not([loading="lazy"])'
+        )
+      ]
+
+      await Promise.all(
+        reloadingTurboFrames.map(frame => {
+          return new Promise(async resolve => {
+            const frameResponse = await fetch(frame.getAttribute('src'), {
+              headers: { 'Turbo-Frame': frame.id }
+            })
+
+            const frameTemplate = document.createElement('template')
+            frameTemplate.innerHTML = await frameResponse.text()
+
+            template.content.querySelector(
+              `turbo-frame#${frame.id}`
+            ).innerHTML = String(
+              frameTemplate.content.querySelector(`turbo-frame#${frame.id}`)
+                .innerHTML
+            ).trim()
+
+            resolve()
+          })
+        })
+      )
+
       const fragments = template.content.querySelectorAll(query)
 
       if (fragments.length <= i) {
