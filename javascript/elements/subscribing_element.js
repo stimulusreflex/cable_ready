@@ -1,5 +1,3 @@
-import CableReady from '..'
-
 export default class SubscribingElement extends HTMLElement {
   disconnectedCallback () {
     if (this.channel) this.channel.unsubscribe()

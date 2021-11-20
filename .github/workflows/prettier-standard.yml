@@ -14,10 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Setup Node
-      uses: actions/setup-node@v1
+    - name: Setup node
+      uses: actions/setup-node@v2
       with:
-        version: '12.x'
+        node-version: '12'
+        cache: 'yarn'
     - run: yarn
       working-directory: javascript/
     - run: yarn lint

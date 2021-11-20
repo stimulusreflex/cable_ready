@@ -12,3 +12,4 @@ node_modules/
 .byebug_history
 *.log
 /.dir-locals.el
+/dist

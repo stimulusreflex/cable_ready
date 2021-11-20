@@ -2,8 +2,6 @@ import { xpathToElement, dispatch } from './utils'
 import activeElement from './active_element'
 import OperationStore from './operation_store'
 import actionCable from './action_cable'
-import StreamFromElement from './elements/stream_from_element'
-import UpdatesForElement from './elements/updates_for_element'
 
 const perform = (
   operations,
@@ -72,17 +70,6 @@ const performAsync = (
   })
 }
 
-const initialize = (initializeOptions = {}) => {
-  const { consumer } = initializeOptions
-  actionCable.setConsumer(consumer)
-
-  if (!customElements.get('stream-from'))
-    customElements.define('stream-from', StreamFromElement)
-
-  if (!customElements.get('updates-for'))
-    customElements.define('updates-for', UpdatesForElement)
-}
-
-export { perform, performAsync, initialize }
+export { perform, performAsync }
 
 export const consumer = actionCable.getConsumer()

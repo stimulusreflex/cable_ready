@@ -1,6 +1,6 @@
 import morphdom from 'morphdom'
 
-import CableReady from '..'
+import { consumer as CableReadyConsumer } from '../cable_ready'
 import SubscribingElement from './subscribing_element'
 import { shouldMorph } from '../morph_callbacks'
 import activeElement from '../active_element'
@@ -30,7 +30,7 @@ export default class UpdatesForElement extends SubscribingElement {
     if (this.preview) return
     this.update = debounce(this.update.bind(this), this.debounce)
 
-    const consumer = await CableReady.consumer
+    const consumer = await CableReadyConsumer
     if (consumer) {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {

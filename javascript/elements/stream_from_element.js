@@ -1,10 +1,13 @@
-import CableReady from '..'
+import {
+  consumer as CableReadyConsumer,
+  perform as CableReadyPerform
+} from '../cable_ready'
 import SubscribingElement from './subscribing_element'
 
 export default class StreamFromElement extends SubscribingElement {
   async connectedCallback () {
     if (this.preview) return
-    const consumer = await CableReady.consumer
+    const consumer = await CableReadyConsumer
     if (consumer) {
       this.createSubscription(
         consumer,
@@ -19,6 +22,6 @@ export default class StreamFromElement extends SubscribingElement {
   }
 
   performOperations (data) {
-    if (data.cableReady) CableReady.perform(data.operations)
+    if (data.cableReady) CableReadyPerform(data.operations)
   }
 }
