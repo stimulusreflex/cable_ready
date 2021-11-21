@@ -4,7 +4,7 @@ import CableReady from '..'
 import SubscribingElement from './subscribing_element'
 import { shouldMorph } from '../morph_callbacks'
 import activeElement from '../active_element'
-import { debounce, assignFocus, dispatch, handleErrors } from '../utils'
+import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
 
 const template = `
 <style>
@@ -61,20 +61,9 @@ export default class UpdatesForElement extends SubscribingElement {
       blocks[i].setAttribute('updating', 'updating')
 
       if (!html.hasOwnProperty(url(blocks[i]))) {
-        try {
-          const response = await fetch(url(blocks[i]), {
-            headers: {
-              'X-Cable-Ready': 'update'
-            }
-          })
-          if (response == undefined) return
-
-          handleErrors(response)
-
-          html[url(blocks[i])] = await response.text()
-        } catch (e) {
-          console.error(`Could not fetch ${url(blocks[i])}`)
-        }
+        html[url(blocks[i])] = await graciouslyFetch(url(blocks[i]), {
+          'X-Cable-Ready': 'update'
+        })
       }
 
       template.innerHTML = String(html[url(blocks[i])]).trim()
@@ -88,9 +77,12 @@ export default class UpdatesForElement extends SubscribingElement {
       await Promise.all(
         reloadingTurboFrames.map(frame => {
           return new Promise(async resolve => {
-            const frameResponse = await fetch(frame.getAttribute('src'), {
-              headers: { 'Turbo-Frame': frame.id }
-            })
+            const frameResponse = await graciouslyFetch(
+              frame.getAttribute('src'),
+              {
+                'Turbo-Frame': frame.id
+              }
+            )
 
             const frameTemplate = document.createElement('template')
             frameTemplate.innerHTML = await frameResponse.text()
