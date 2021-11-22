@@ -131,7 +131,7 @@ async function graciouslyFetch (url, additionalHeaders) {
 
     handleErrors(response)
 
-    return response.text()
+    return response
   } catch (e) {
     console.error(`Could not fetch ${url}`)
   }

@@ -61,43 +61,15 @@ export default class UpdatesForElement extends SubscribingElement {
       blocks[i].setAttribute('updating', 'updating')
 
       if (!html.hasOwnProperty(url(blocks[i]))) {
-        html[url(blocks[i])] = await graciouslyFetch(url(blocks[i]), {
+        const response = await graciouslyFetch(url(blocks[i]), {
           'X-Cable-Ready': 'update'
         })
+        html[url(blocks[i])] = await response.text()
       }
 
       template.innerHTML = String(html[url(blocks[i])]).trim()
 
-      const reloadingTurboFrames = [
-        ...template.content.querySelectorAll(
-          'turbo-frame[src]:not([loading="lazy"])'
-        )
-      ]
-
-      await Promise.all(
-        reloadingTurboFrames.map(frame => {
-          return new Promise(async resolve => {
-            const frameResponse = await graciouslyFetch(
-              frame.getAttribute('src'),
-              {
-                'Turbo-Frame': frame.id
-              }
-            )
-
-            const frameTemplate = document.createElement('template')
-            frameTemplate.innerHTML = await frameResponse.text()
-
-            template.content.querySelector(
-              `turbo-frame#${frame.id}`
-            ).innerHTML = String(
-              frameTemplate.content.querySelector(`turbo-frame#${frame.id}`)
-                .innerHTML
-            ).trim()
-
-            resolve()
-          })
-        })
-      )
+      await this.resolveTurboFrames(template.content)
 
       const fragments = template.content.querySelectorAll(query)
 
@@ -123,6 +95,43 @@ export default class UpdatesForElement extends SubscribingElement {
         }
       })
     }
+  }
+
+  async resolveTurboFrames (documentFragment) {
+    const reloadingTurboFrames = [
+      ...documentFragment.querySelectorAll(
+        'turbo-frame[src]:not([loading="lazy"])'
+      )
+    ]
+
+    return Promise.all(
+      reloadingTurboFrames.map(frame => {
+        return new Promise(async resolve => {
+          const frameResponse = await graciouslyFetch(
+            frame.getAttribute('src'),
+            {
+              'Turbo-Frame': frame.id,
+              'X-Cable-Ready': 'update'
+            }
+          )
+
+          const frameTemplate = document.createElement('template')
+          frameTemplate.innerHTML = await frameResponse.text()
+
+          // recurse here to get all nested eager loaded frames
+          await this.resolveTurboFrames(frameTemplate.content)
+
+          documentFragment.querySelector(
+            `turbo-frame#${frame.id}`
+          ).innerHTML = String(
+            frameTemplate.content.querySelector(`turbo-frame#${frame.id}`)
+              .innerHTML
+          ).trim()
+
+          resolve()
+        })
+      })
+    )
   }
 
   get debounce () {
