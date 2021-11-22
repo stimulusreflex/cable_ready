@@ -114,6 +114,29 @@ function handleErrors (response) {
   return response
 }
 
+// A proxy method to wrap a fetch call in error handling
+//
+// * url - the URL to fetch
+// * additionalHeaders - an object of additional headers passed to fetch
+//
+async function graciouslyFetch (url, additionalHeaders) {
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'X-REQUESTED-WITH': 'XmlHttpRequest',
+        ...additionalHeaders
+      }
+    })
+    if (response == undefined) return
+
+    handleErrors(response)
+
+    return response
+  } catch (e) {
+    console.error(`Could not fetch ${url}`)
+  }
+}
+
 export {
   isTextInput,
   assignFocus,
@@ -125,5 +148,6 @@ export {
   before,
   after,
   debounce,
-  handleErrors
+  handleErrors,
+  graciouslyFetch
 }
