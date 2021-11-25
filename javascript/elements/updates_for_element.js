@@ -84,16 +84,26 @@ export default class UpdatesForElement extends SubscribingElement {
         html: fragments[i],
         permanentAttributeName: 'data-ignore-updates'
       }
-      dispatch(blocks[i], 'cable-ready:before-update', operation)
-      morphdom(blocks[i], fragments[i], {
-        childrenOnly: true,
-        onBeforeElUpdated: shouldMorph(operation),
-        onElUpdated: _ => {
-          blocks[i].removeAttribute('updating')
-          dispatch(blocks[i], 'cable-ready:after-update', operation)
-          assignFocus(operation.focusSelector)
-        }
-      })
+
+      if (!blocks[i].dataset.ignoreMorph) {
+        dispatch(blocks[i], 'cable-ready:before-update', operation)
+        morphdom(blocks[i], fragments[i], {
+          childrenOnly: true,
+          onBeforeElUpdated: shouldMorph(operation),
+          onElUpdated: _ => {
+            blocks[i].removeAttribute('updating')
+            dispatch(blocks[i], 'cable-ready:after-update', operation)
+            assignFocus(operation.focusSelector)
+          }
+        })
+      }
+
+      if (blocks[i].dataset.afterUpdateEventSelector) {
+        const elements = blocks[i].querySelectorAll(blocks[i].dataset.afterUpdateEventSelector);
+        elements.forEach(element => {
+          dispatch(element, 'cable-ready:after-update', operation);
+        });
+      }
     }
   }
 
