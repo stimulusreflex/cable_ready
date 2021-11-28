@@ -40,7 +40,7 @@ CableReady operations each have their own mandatory and optional options, along 
 
 ### JSON wire format
 
-As of v5.0, the CableReady JSON wire format is an array of objects, where each object represents one operation. It's very intentionally simple.
+As of v5.0, the CableReady JSON wire format is an array of objects, where each object represents one operation. It's intentionally very simple.
 
 ```json
 [{\"message\":\"Hello!\",\"operation\":\"consoleLog\"}]
@@ -58,7 +58,7 @@ cable_ready[:foo].operation(options).broadcast
 
 In other words, the first method `cable_ready` starts a method chain by returning `self`, and then each operation is a method that also returns the chain started by the initial method. In this way, you can chain together as many operations as you like. Finally, we have a `broadcast` method which takes the current chain and broadcasts it via WebSockets to the `:foo` channel.
 
-Conversely, we also have our "cable car" interface which emits JSON when `to_json` is called:
+We also have our "cable car" interface which emits JSON when `to_json` is called. This makes it perfect for responding to Ajax fetch requests:
 
 ```rb
 cable_car.operation(options).to_json
@@ -80,7 +80,7 @@ The main expectation that should hold between languages is that you will start t
 
 CableReady started its life as a WebSocket library, but the neutral JSON format has potential far beyond just WebSocket usage. We now frequently return CableReady JSON payloads via Ajax as well. There's nothing stopping you from embedding payloads into a DOM element attribute, for example.
 
-We consider the minimum viable CableReady server library must be able to produce compatible JSON. There's no hard requirement that it interface with WebSockets (although we do find this to be a major sweet spot and will do our best to provide support).
+We believe that a minimally viable CableReady server library must be able to produce compatible JSON. There's no hard requirement that it interface with WebSockets, although we do find this to be a major sweet spot and will do our best to provide support.
 
 ### Custom operations
 
