@@ -6,14 +6,14 @@ We would like to announce support for Python, Go, C#, Java, PHP and NodeJS serve
 
 ## Background
 
-CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week offers 36 different "operations".
+CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week and offers 36 different "operations".
 
 CableReady is currently a client-side JS module and a server-side Ruby module.
 
 ## Key concepts
 
 - available everywhere
-- muliple operations per payload or "broadcast"
+- muliple operations per payload
 - schemaless
 - simple JSON wire format
 - method chaining
@@ -22,25 +22,29 @@ CableReady is currently a client-side JS module and a server-side Ruby module.
 
 ### Available everywhere
 
-Rails developers can access a `cable_ready` singleton from just about anywhere in their application, and we believe it's a big part of the secret sauce. While every language and framework has their own idioms, we encourage implementors to seek to remove barriers to calling CableReady anywhere it could be useful.
+Rails developers can access a `cable_ready` singleton from just about anywhere in their application, and we believe it's a big part of the secret sauce. While every language and framework has their own idioms, we encourage implementors to remove barriers and make it easy to call CableReady anywhere it could be useful.
 
 https://cableready.stimulusreflex.com/v/v5/cableready-everywhere
 
-### Operations and broadcasts
+### Operations and their options
 
-Operations are the atomic unit of activity in CableReady. Each operation typically has a very specific focus and often mimics the DOM JS spec for the activity in question. Operations have options passed to them.
+Operations are the basic atomic unit of activity in CableReady. Each operation typically has a very specific focus and often mimics the DOM JS spec for the activity in question. Operations have options passed to them which specify their exact behavior.
 
-One or more operations can be sent together in what we refer to as a broadcast. They will be executed in the order that they were created. Different operations can be mixed together in one broadcast.
+Multiple operations can be prepared together. They will be executed in the order that they were created. Different operation types can be mixed together in one payload.
 
-The Ruby implementation offers two interfaces; the primary mechanism delivers the resulting broadcast to a WebSocket channel, and the other - known as "cable car" - returns a JSON string that can be sent, persisted or displayed for any purpose.
+The Ruby implementation offers two interfaces; the (original) primary mechanism delivers the operations to a WebSocket channel in what we refer to as a "broadcast". The other - known as "cable car" - returns a JSON string that can be sent, persisted or displayed for any purpose.
 
 ### Schemaless
 
-CableReady operations each have their own mandatory and optional options, along with options that are provided to every operation by the library. However, arbitrary extra options can be passed to an operation and they will be passed to the client.
+CableReady operations each have their own mandatory and optional options, along with options that are provided to every operation by the library. However, arbitrary additional options can be passed to an operation and they will be passed to the client. This makes it easy for CableReady to form the basis of much larger projects, such as StimulusReflex.
 
 ### JSON wire format
 
 As of v5.0, the CableReady JSON wire format is an array of objects, where each object represents one operation. It's very intentionally simple.
+
+```json
+[{"message"=>"Hello!", "operation"=>"consoleLog"}]
+```
 
 Each operation has **camelCased** key/value pairs that convey options.
 
