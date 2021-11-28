@@ -1,8 +1,8 @@
 # CableReady Language Implementation Project
 
-We believe that CableReady can become the universal standard tool for developers to dynamically control client browsers from the server. While the project has roots in the Ruby on Rails community, the JS client is unopinionated about which server framework creates the simple JSON structure that it consumes.
+We believe that CableReady can become the universal standard tool for developers to dynamically control client browsers from the server. While the project has roots in the Ruby on Rails community, the JS client is unopinionated about how the simple JSON structure that it consumes was created.
 
-We would like to announce support for Python, Go, C#, Java, PHP and NodeJS server libraries in early 2022. While there's a broad set of features a server library could implement, there's a baseline that we'd like to make sure all implemenations can offer.
+We would like to announce support for Python, Go, C#, Java, PHP and NodeJS server libraries in early 2022. While there's a broad set of features a server library could implement, there's a baseline that we'd like to make sure all implementations can offer.
 
 ## Background
 
