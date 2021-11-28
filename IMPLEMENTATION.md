@@ -46,7 +46,7 @@ As of v5.0, the CableReady JSON wire format is an array of objects, where each o
 [{"message"=>"Hello!", "operation"=>"consoleLog"}]
 ```
 
-Each operation has **camelCased** key/value pairs that convey options.
+Each operation has **camelCased** key/value pairs that convey options. Every operation must have an `operation` value, or the client will raise an exception.
 
 ### Method chaining
 
