@@ -13,7 +13,7 @@ CableReady is currently a client-side JS module and a server-side Ruby module.
 ## Key concepts
 
 - available everywhere
-- muliple operations per payload
+- multiple operations per payload
 - schemaless
 - simple JSON wire format
 - method chaining
