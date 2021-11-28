@@ -43,7 +43,7 @@ CableReady operations each have their own mandatory and optional options, along 
 As of v5.0, the CableReady JSON wire format is an array of objects, where each object represents one operation. It's very intentionally simple.
 
 ```json
-[{"message"=>"Hello!", "operation"=>"consoleLog"}]
+[{\"message\":\"Hello!\",\"operation\":\"consoleLog\"}]
 ```
 
 Each operation has **camelCased** key/value pairs that convey options. Every operation must have an `operation` value, or the client will raise an exception.
@@ -58,10 +58,10 @@ cable_ready[:foo].operation(options).broadcast
 
 In other words, the first method `cable_ready` starts a method chain by returning `self`, and then each operation is a method that also returns the chain started by the initial method. In this way, you can chain together as many operations as you like. Finally, we have a `broadcast` method which takes the current chain and broadcasts it via WebSockets to the `:foo` channel.
 
-Conversely, we also have our "cable car" interface which emits JSON when `dispatch` is called:
+Conversely, we also have our "cable car" interface which emits JSON when `to_json` is called:
 
 ```rb
-cable_car.operation(options).dispatch
+cable_car.operation(options).to_json
 ```
 
 The `cable_car` might be assembled in steps, perhaps via a control loop:
@@ -69,7 +69,7 @@ The `cable_car` might be assembled in steps, perhaps via a control loop:
 ```rb
 inspiration = cable_car.console_log(message: "Hello there!")
 inspiration.console_log(message: "Still here!").dispatch_event(name: "fred", detail: {inspiring: true})
-inspiration.broadcast
+inspiration.to_json
 ```
 
 The main expectation that should hold between languages is that you will start the chain with a command, add one or many operation methods, and then execute the chain.
