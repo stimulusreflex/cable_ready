@@ -87,3 +87,7 @@ We consider the minimum viable CableReady server library must be able to produce
 While CableReady ships with an impressive number of operations out of the box, users should be able to add their own operations. Admittedly, the method used to dynamically create all of the methods for each operation is the [most sophisticated](https://github.com/stimulusreflex/cable_ready/blob/master/lib/cable_ready/operation_builder.rb) one in our framework, but again, we're here to help.
 
 https://cableready.stimulusreflex.com/v/v5/customization#custom-operations
+
+# Get involved!
+
+We have a wonderful community with over 1600 folks on our Discord server, helping people get started. Come join https://discord.gg/stimulus-reflex and drop by the #cable_ready channel with any questions.
