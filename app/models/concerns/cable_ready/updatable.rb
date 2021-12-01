@@ -25,6 +25,13 @@ module CableReady
           after_commit(ModelUpdatableCallbacks.new(:update, enabled_operations), {on: :update, if: options[:if]})
           after_commit(ModelUpdatableCallbacks.new(:destroy, enabled_operations), {on: :destroy, if: options[:if]})
         end
+
+        def self.skip_updates
+          skip_updates_classes.push(self)
+          yield
+        ensure
+          skip_updates_classes.pop
+        end
       end
     end
 
@@ -45,7 +52,7 @@ module CableReady
 
       def cable_ready_update_collection(resource, name, model)
         identifier = resource.to_global_id.to_s + ":" + name.to_s
-        ActionCable.server.broadcast(identifier, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
+        broadcast_updates(identifier, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
       end
 
       def enrich_association_with_updates(name, option)
@@ -92,6 +99,15 @@ module CableReady
           through_association: through_association,
           options: options
         })
+      end
+
+      def broadcast_updates(model_class, options)
+        return if skip_updates_classes.any? { |klass| klass >= self }
+        ActionCable.server.broadcast(model_class, options)
+      end
+
+      def skip_updates_classes
+        Thread.current[:skip_updates_classes] ||= []
       end
     end
   end
