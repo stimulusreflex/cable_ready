@@ -1,4 +1,4 @@
-import { version } from '../package.json'
+import packageInfo from '../package.json'
 import { perform, performAsync } from './cable_ready'
 import { initialize } from './elements'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
@@ -28,7 +28,7 @@ export default {
   initialize,
   addOperation,
   addOperations,
-  version,
+  version: packageInfo.version,
   cable: CableConsumer,
   get DOMOperations () {
     console.warn(
