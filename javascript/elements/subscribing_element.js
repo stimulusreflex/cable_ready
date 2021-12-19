@@ -9,7 +9,7 @@ export default class SubscribingElement extends HTMLElement {
     this.channel = consumer.subscriptions.create(
       {
         channel,
-        identifier: this.getAttribute('identifier')
+        identifier: this.identifier
       },
       {
         received: receivedCallback
@@ -22,5 +22,9 @@ export default class SubscribingElement extends HTMLElement {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
+  }
+
+  get identifier () {
+    return this.getAttribute('identifier')
   }
 }
