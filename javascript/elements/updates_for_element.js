@@ -1,6 +1,6 @@
 import morphdom from 'morphdom'
 
-import { consumer as CableReadyConsumer } from '../cable_ready'
+import { consumer } from '../cable_ready'
 import SubscribingElement from './subscribing_element'
 import { shouldMorph } from '../morph_callbacks'
 import activeElement from '../active_element'
@@ -30,9 +30,9 @@ export default class UpdatesForElement extends SubscribingElement {
     if (this.preview) return
     this.update = debounce(this.update.bind(this), this.debounce)
 
-    const consumer = await CableReadyConsumer
-    if (consumer) {
-      this.createSubscription(consumer, 'CableReady::Stream', this.update)
+    const awaitedConsumer = await consumer
+    if (awaitedConsumer) {
+      this.createSubscription(awaitedConsumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
         'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
