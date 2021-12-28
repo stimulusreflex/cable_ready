@@ -32,7 +32,11 @@ export default class UpdatesForElement extends SubscribingElement {
 
     const awaitedConsumer = await consumer
     if (awaitedConsumer) {
-      this.createSubscription(awaitedConsumer, 'CableReady::Stream', this.update)
+      this.createSubscription(
+        awaitedConsumer,
+        'CableReady::Stream',
+        this.update
+      )
     } else {
       console.error(
         'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
