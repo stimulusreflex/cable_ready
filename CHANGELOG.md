@@ -1,5 +1,19 @@
 # Changelog
 
+## [v5.0.0.pre8](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre8) (2021-11-22)
+
+[Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre7...v5.0.0.pre8)
+
+**Implemented enhancements:**
+
+- updates\_for: Support multiple enable\_updates per model [\#161](https://github.com/stimulusreflex/cable_ready/issues/161)
+- updates\_for :only option [\#163](https://github.com/stimulusreflex/cable_ready/pull/163) ([leastbad](https://github.com/leastbad))
+
+**Merged pull requests:**
+
+- Query all eager loading turbo frames and patch their innerHTML [\#164](https://github.com/stimulusreflex/cable_ready/pull/164) ([julianrubisch](https://github.com/julianrubisch))
+- Move sanity checking to client-server interaction [\#162](https://github.com/stimulusreflex/cable_ready/pull/162) ([leastbad](https://github.com/leastbad))
+
 ## [v5.0.0.pre7](https://github.com/stimulusreflex/cable_ready/tree/v5.0.0.pre7) (2021-10-26)
 
 [Full Changelog](https://github.com/stimulusreflex/cable_ready/compare/v5.0.0.pre6...v5.0.0.pre7)

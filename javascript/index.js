@@ -1,3 +1,4 @@
+import packageInfo from '../package.json'
 import * as MorphCallbacks from './morph_callbacks'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
 import * as Utils from './utils'
@@ -36,6 +37,7 @@ export default {
   consumer,
   addOperation,
   addOperations,
+  version: packageInfo.version,
   get DOMOperations () {
     console.warn(
       'DEPRECATED: Please use `CableReady.operations` instead of `CableReady.DOMOperations`'

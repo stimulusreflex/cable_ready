@@ -4,7 +4,7 @@ import { consumer as CableReadyConsumer } from '../cable_ready'
 import SubscribingElement from './subscribing_element'
 import { shouldMorph } from '../morph_callbacks'
 import activeElement from '../active_element'
-import { debounce, assignFocus, dispatch, handleErrors } from '../utils'
+import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
 
 const template = `
 <style>
@@ -61,18 +61,16 @@ export default class UpdatesForElement extends SubscribingElement {
       blocks[i].setAttribute('updating', 'updating')
 
       if (!html.hasOwnProperty(url(blocks[i]))) {
-        const response = await fetch(url(blocks[i]), {
-          headers: {
-            'X-Cable-Ready': 'update'
-          }
+        const response = await graciouslyFetch(url(blocks[i]), {
+          'X-Cable-Ready': 'update'
         })
-          .then(handleErrors)
-          .catch(e => console.error(`Could not fetch ${url(blocks[i])}`))
-        if (response === undefined) return
         html[url(blocks[i])] = await response.text()
       }
 
       template.innerHTML = String(html[url(blocks[i])]).trim()
+
+      await this.resolveTurboFrames(template.content)
+
       const fragments = template.content.querySelectorAll(query)
 
       if (fragments.length <= i) {
@@ -97,6 +95,43 @@ export default class UpdatesForElement extends SubscribingElement {
         }
       })
     }
+  }
+
+  async resolveTurboFrames (documentFragment) {
+    const reloadingTurboFrames = [
+      ...documentFragment.querySelectorAll(
+        'turbo-frame[src]:not([loading="lazy"])'
+      )
+    ]
+
+    return Promise.all(
+      reloadingTurboFrames.map(frame => {
+        return new Promise(async resolve => {
+          const frameResponse = await graciouslyFetch(
+            frame.getAttribute('src'),
+            {
+              'Turbo-Frame': frame.id,
+              'X-Cable-Ready': 'update'
+            }
+          )
+
+          const frameTemplate = document.createElement('template')
+          frameTemplate.innerHTML = await frameResponse.text()
+
+          // recurse here to get all nested eager loaded frames
+          await this.resolveTurboFrames(frameTemplate.content)
+
+          documentFragment.querySelector(
+            `turbo-frame#${frame.id}`
+          ).innerHTML = String(
+            frameTemplate.content.querySelector(`turbo-frame#${frame.id}`)
+              .innerHTML
+          ).trim()
+
+          resolve()
+        })
+      })
+    )
   }
 
   get debounce () {
