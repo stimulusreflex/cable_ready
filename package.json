@@ -27,7 +27,7 @@
   "module": "./dist/cable_ready.module.js",
   "files": [
     "dist/*",
-    "src/*"
+    "javascript/*"
   ],
   "scripts": {
     "lint": "yarn run prettier-standard:check",
