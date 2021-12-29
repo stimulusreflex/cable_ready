@@ -10,6 +10,7 @@
 node_modules/
 /.dir-locals.el
 /dist
+/package
 .byebug_history
 *~
 *.log
