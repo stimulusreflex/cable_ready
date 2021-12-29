@@ -1,6 +1,6 @@
 import { mutableTags } from './enums'
 import { isTextInput } from './utils'
-import activeElement from './active_element'
+import ActiveElement from './active_element'
 
 // Indicates whether or not we should morph an element via onBeforeElUpdated callback
 // SEE: https://github.com/patrick-steele-idem/morphdom#morphdomfromnode-tonode-options--node
@@ -31,7 +31,7 @@ const verifyNotMutable = (detail, fromEl, toEl) => {
 }
 
 const verifyNotContentEditable = (detail, fromEl, toEl) => {
-  if (fromEl === activeElement.element && fromEl.isContentEditable) return false
+  if (fromEl === ActiveElement.element && fromEl.isContentEditable) return false
   return true
 }
 
@@ -42,7 +42,7 @@ const verifyNotPermanent = (detail, fromEl, toEl) => {
   const permanent = fromEl.closest(`[${permanentAttributeName}]`)
 
   // only morph attributes on the active non-permanent text input
-  if (!permanent && fromEl === activeElement.element && isTextInput(fromEl)) {
+  if (!permanent && fromEl === ActiveElement.element && isTextInput(fromEl)) {
     const ignore = { value: true }
     Array.from(toEl.attributes).forEach(attribute => {
       if (!ignore[attribute.name])

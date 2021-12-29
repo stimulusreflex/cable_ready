@@ -1,7 +1,6 @@
 import { xpathToElement, dispatch } from './utils'
-import activeElement from './active_element'
+import ActiveElement from './active_element'
 import OperationStore from './operation_store'
-import actionCable from './action_cable'
 
 const perform = (
   operations,
@@ -27,7 +26,7 @@ const perform = (
         operation.element = document
       }
       if (operation.element || options.emitMissingElementWarnings) {
-        activeElement.set(document.activeElement)
+        ActiveElement.set(document.activeElement)
         const cableReadyOperation = OperationStore.all[name]
 
         if (cableReadyOperation) {
@@ -76,5 +75,3 @@ const performAsync = (
 }
 
 export { perform, performAsync }
-
-export const consumer = actionCable.getConsumer()

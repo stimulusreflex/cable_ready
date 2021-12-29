@@ -1,11 +1,11 @@
-export let consumer
+let consumer
 
 const wait = () => new Promise(resolve => setTimeout(resolve))
 
 const retryGetConsumer = async () => {
   if (!consumer) {
     await wait()
-    return retryGetConsumer()
+    return await retryGetConsumer()
   } else {
     return consumer
   }
@@ -16,9 +16,9 @@ export default {
     consumer = value
   },
 
-  async getConsumer () {
-    return new Promise((resolve, reject) => {
-      consumer = retryGetConsumer()
+  getConsumer () {
+    return new Promise(async (resolve, reject) => {
+      consumer = await retryGetConsumer()
       resolve(consumer)
     })
   }
