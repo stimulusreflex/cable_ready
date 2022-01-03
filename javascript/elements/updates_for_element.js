@@ -40,7 +40,7 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
-  async update (data) {
+  update (data) {
     activeElement.set(document.activeElement)
     const blocks = document.querySelectorAll(this.query)
     if (blocks[0] !== this) return
