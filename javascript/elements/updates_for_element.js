@@ -135,7 +135,7 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   get query () {
-    return `updates-for[identifier="${this.getAttribute('identifier')}"]`
+    return `updates-for[identifier="${this.identifier}"]`
   }
 
   get debounce () {
