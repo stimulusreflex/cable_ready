@@ -42,14 +42,6 @@ export default class UpdatesForElement extends SubscribingElement {
 
   update (data) {
     activeElement.set(document.activeElement)
-
-    if (
-      this.hasAttribute('ignore-inner-updates') &&
-      this.hasAttribute('performing-inner-update')
-    ) {
-      return
-    }
-
     const blocks = document.querySelectorAll(this.query)
     if (blocks[0] !== this) return
 
