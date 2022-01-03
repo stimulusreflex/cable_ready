@@ -4,6 +4,7 @@ import OperationStore from './operation_store'
 import actionCable from './action_cable'
 import StreamFromElement from './elements/stream_from_element'
 import UpdatesForElement from './elements/updates_for_element'
+import { registerInnerUpdates } from './updatable/inner_updates_compat'
 
 const perform = (
   operations,
@@ -80,6 +81,8 @@ const performAsync = (
 const initialize = (initializeOptions = {}) => {
   const { consumer } = initializeOptions
   actionCable.setConsumer(consumer)
+
+  registerInnerUpdates()
 
   if (!customElements.get('stream-from'))
     customElements.define('stream-from', StreamFromElement)
