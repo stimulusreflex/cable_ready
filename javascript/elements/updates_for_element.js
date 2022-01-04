@@ -40,30 +40,33 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
+  shouldUpdate (data) {
+    const only = this.getAttribute('only')
+
+    return (
+      !(
+        this.hasAttribute('ignore-inner-updates') &&
+        this.hasAttribute('performing-inner-update')
+      ) &&
+      !(
+        only &&
+        data.changed &&
+        !only.split(' ').some(attribute => data.changed.includes(attribute))
+      ) &&
+      this.blocks[0] === this
+    )
+  }
+
   update (data) {
     activeElement.set(document.activeElement)
 
-    if (
-      this.hasAttribute('ignore-inner-updates') &&
-      this.hasAttribute('performing-inner-update')
-    ) {
+    if (!this.shouldUpdate(data)) {
       return
     }
 
-    const blocks = document.querySelectorAll(this.query)
-    if (blocks[0] !== this) return
-
-    const only = this.getAttribute('only')
-    if (
-      only &&
-      data.changed &&
-      !only.split(' ').some(attribute => data.changed.includes(attribute))
-    )
-      return
-
     this.html = {}
 
-    blocks.forEach(this.processBlock.bind(this))
+    this.blocks.forEach(this.processBlock.bind(this))
   }
 
   async processBlock (block, index) {
@@ -144,6 +147,10 @@ export default class UpdatesForElement extends SubscribingElement {
 
   get query () {
     return `updates-for[identifier="${this.identifier}"]`
+  }
+
+  get blocks () {
+    return document.querySelectorAll(this.query)
   }
 
   get debounce () {
