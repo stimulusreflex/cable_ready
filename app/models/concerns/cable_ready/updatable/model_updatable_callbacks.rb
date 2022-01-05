@@ -15,13 +15,13 @@ module CableReady
       private
 
       def broadcast_create(model)
-        ActionCable.server.broadcast(model.class, {})
+        model.class.send(:broadcast_updates, model.class, {})
       end
       alias_method :broadcast_destroy, :broadcast_create
 
       def broadcast_update(model)
-        ActionCable.server.broadcast(model.class, {})
-        ActionCable.server.broadcast(model.to_global_id, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
+        model.class.send(:broadcast_updates, model.class, {})
+        model.class.send(:broadcast_updates, model.to_global_id, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
       end
     end
   end
