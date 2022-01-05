@@ -18,7 +18,9 @@ const template = `
 `
 
 function url (element) {
-  return element.hasAttribute('url') ? element.getAttribute('url') : location.href
+  return element.hasAttribute('url')
+    ? element.getAttribute('url')
+    : location.href
 }
 
 export default class UpdatesForElement extends SubscribingElement {
