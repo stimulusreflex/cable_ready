@@ -1,4 +1,5 @@
 import { xpathToElement, dispatch } from './utils'
+
 import ActiveElement from './active_element'
 import OperationStore from './operation_store'
 
