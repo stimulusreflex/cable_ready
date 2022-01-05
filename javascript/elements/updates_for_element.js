@@ -17,8 +17,8 @@ const template = `
 <slot></slot>
 `
 
-function url (ele) {
-  return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
+function url (element) {
+  return element.hasAttribute('url') ? element.getAttribute('url') : location.href
 }
 
 export default class UpdatesForElement extends SubscribingElement {
@@ -43,10 +43,9 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
-  async update (data) {
-    const identifier = this.getAttribute('identifier')
-    const query = `updates-for[identifier="${identifier}"]`
-    const blocks = document.querySelectorAll(query)
+  update (data) {
+    ActiveElement.set(document.activeElement)
+    const blocks = document.querySelectorAll(this.query)
     if (blocks[0] !== this) return
 
     const only = this.getAttribute('only')
@@ -57,47 +56,49 @@ export default class UpdatesForElement extends SubscribingElement {
     )
       return
 
-    const html = {}
+    this.html = {}
+
+    blocks.forEach(this.processBlock.bind(this))
+  }
+
+  async processBlock (block, index) {
     const template = document.createElement('template')
+    block.setAttribute('updating', 'updating')
 
-    for (let i = 0; i < blocks.length; i++) {
-      blocks[i].setAttribute('updating', 'updating')
-
-      if (!html.hasOwnProperty(url(blocks[i]))) {
-        const response = await graciouslyFetch(url(blocks[i]), {
-          'X-Cable-Ready': 'update'
-        })
-        html[url(blocks[i])] = await response.text()
-      }
-
-      template.innerHTML = String(html[url(blocks[i])]).trim()
-
-      await this.resolveTurboFrames(template.content)
-
-      const fragments = template.content.querySelectorAll(query)
-
-      if (fragments.length <= i) {
-        console.warn('Update aborted due to mismatched number of elements')
-        return
-      }
-
-      ActiveElement.set(document.activeElement)
-      const operation = {
-        element: blocks[i],
-        html: fragments[i],
-        permanentAttributeName: 'data-ignore-updates'
-      }
-      dispatch(blocks[i], 'cable-ready:before-update', operation)
-      morphdom(blocks[i], fragments[i], {
-        childrenOnly: true,
-        onBeforeElUpdated: shouldMorph(operation),
-        onElUpdated: _ => {
-          blocks[i].removeAttribute('updating')
-          dispatch(blocks[i], 'cable-ready:after-update', operation)
-          assignFocus(operation.focusSelector)
-        }
+    if (!this.html.hasOwnProperty(url(block))) {
+      const response = await graciouslyFetch(url(block), {
+        'X-Cable-Ready': 'update'
       })
+      this.html[url(block)] = await response.text()
     }
+
+    template.innerHTML = String(this.html[url(block)]).trim()
+
+    await this.resolveTurboFrames(template.content)
+
+    const fragments = template.content.querySelectorAll(this.query)
+
+    if (fragments.length <= index) {
+      console.warn('Update aborted due to mismatched number of elements')
+      return
+    }
+
+    const operation = {
+      element: block,
+      html: fragments[index],
+      permanentAttributeName: 'data-ignore-updates'
+    }
+
+    dispatch(block, 'cable-ready:before-update', operation)
+    morphdom(block, fragments[index], {
+      childrenOnly: true,
+      onBeforeElUpdated: shouldMorph(operation),
+      onElUpdated: _ => {
+        block.removeAttribute('updating')
+        dispatch(block, 'cable-ready:after-update', operation)
+        assignFocus(operation.focusSelector)
+      }
+    })
   }
 
   async resolveTurboFrames (documentFragment) {
@@ -135,6 +136,10 @@ export default class UpdatesForElement extends SubscribingElement {
         })
       })
     )
+  }
+
+  get query () {
+    return `updates-for[identifier="${this.identifier}"]`
   }
 
   get debounce () {
