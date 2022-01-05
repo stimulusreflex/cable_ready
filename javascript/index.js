@@ -16,7 +16,7 @@ const initialize = (initializeOptions = {}) => {
     CableConsumer.setConsumer(consumer)
   } else {
     console.error(
-      'The `CableReady.initialize({ consumer })` call expects an ActionCable `consumer` to be passed in to function.'
+      'CableReady requires a reference to your Action Cable `consumer` for its helpers to function.\nEnsure that you have imported the `CableReady` package as well as `consumer` from your `channels` folder, then call `CableReady.initialize({ consumer })`.'
     )
   }
 
