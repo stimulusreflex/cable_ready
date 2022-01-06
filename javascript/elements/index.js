@@ -3,8 +3,12 @@ import CableConsumer from '../cable_consumer'
 import StreamFromElement from './stream_from_element'
 import UpdatesForElement from './updates_for_element'
 
+import { registerInnerUpdates } from '../updatable/inner_updates_compat'
+
 const initialize = (initializeOptions = {}) => {
   const { consumer } = initializeOptions
+
+  registerInnerUpdates()
 
   if (consumer) {
     CableConsumer.setConsumer(consumer)

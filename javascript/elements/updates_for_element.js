@@ -45,22 +45,24 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
+  shouldUpdate (data) {
+    return (
+      !this.ignoringInnerUpdates &&
+      this.hasChangesSelectedForUpdate(data) &&
+      this.blocks[0] === this
+    )
+  }
+
   update (data) {
     ActiveElement.set(document.activeElement)
-    const blocks = document.querySelectorAll(this.query)
-    if (blocks[0] !== this) return
 
-    const only = this.getAttribute('only')
-    if (
-      only &&
-      data.changed &&
-      !only.split(' ').some(attribute => data.changed.includes(attribute))
-    )
+    if (!this.shouldUpdate(data)) {
       return
+    }
 
     this.html = {}
 
-    blocks.forEach(this.processBlock.bind(this))
+    this.blocks.forEach(this.processBlock.bind(this))
   }
 
   async processBlock (block, index) {
@@ -140,13 +142,34 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
+  hasChangesSelectedForUpdate (data) {
+    const only = this.getAttribute('only')
+
+    return !(
+      only &&
+      data.changed &&
+      !only.split(' ').some(attribute => data.changed.includes(attribute))
+    )
+  }
+
   get query () {
     return `updates-for[identifier="${this.identifier}"]`
+  }
+
+  get blocks () {
+    return document.querySelectorAll(this.query)
   }
 
   get debounce () {
     return this.hasAttribute('debounce')
       ? parseInt(this.getAttribute('debounce'))
       : 20
+  }
+
+  get ignoringInnerUpdates () {
+    return (
+      this.hasAttribute('ignore-inner-updates') &&
+      this.hasAttribute('performing-inner-update')
+    )
   }
 }
