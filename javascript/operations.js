@@ -159,7 +159,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
-        element.textContent = text || ''
+        element.textContent = (text != null) ? text : ''
         assignFocus(focusSelector)
       })
       after(element, operation)
