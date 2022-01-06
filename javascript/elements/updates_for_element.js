@@ -41,18 +41,9 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   shouldUpdate (data) {
-    const only = this.getAttribute('only')
-
     return (
-      !(
-        this.hasAttribute('ignore-inner-updates') &&
-        this.hasAttribute('performing-inner-update')
-      ) &&
-      !(
-        only &&
-        data.changed &&
-        !only.split(' ').some(attribute => data.changed.includes(attribute))
-      ) &&
+      !this.ignoringInnerUpdates &&
+      !this.maybeFilterAttributes(data) &&
       this.blocks[0] === this
     )
   }
@@ -145,6 +136,16 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
+  maybeFilterAttributes (data) {
+    const only = this.getAttribute('only')
+
+    return (
+      only &&
+      data.changed &&
+      !only.split(' ').some(attribute => data.changed.includes(attribute))
+    )
+  }
+
   get query () {
     return `updates-for[identifier="${this.identifier}"]`
   }
@@ -157,5 +158,12 @@ export default class UpdatesForElement extends SubscribingElement {
     return this.hasAttribute('debounce')
       ? parseInt(this.getAttribute('debounce'))
       : 20
+  }
+
+  get ignoringInnerUpdates () {
+    return (
+      this.hasAttribute('ignore-inner-updates') &&
+      this.hasAttribute('performing-inner-update')
+    )
   }
 }
