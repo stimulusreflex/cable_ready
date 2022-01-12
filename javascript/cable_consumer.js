@@ -21,6 +21,10 @@ export default {
     consumer = value
   },
 
+  get consumer () {
+    return consumer
+  },
+
   async getConsumer () {
     return await getConsumerWithRetry()
   }

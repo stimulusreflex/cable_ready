@@ -29,6 +29,7 @@ export default {
   addOperation,
   addOperations,
   version,
+  cable: CableConsumer,
   get DOMOperations () {
     console.warn(
       'DEPRECATED: Please use `CableReady.operations` instead of `CableReady.DOMOperations`'
@@ -39,6 +40,6 @@ export default {
     return OperationStore.all
   },
   get consumer () {
-    return CableConsumer.getConsumer()
+    return CableConsumer.consumer
   }
 }
