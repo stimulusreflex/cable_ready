@@ -1,14 +1,19 @@
 let consumer
 
-const wait = () => new Promise(resolve => setTimeout(resolve))
+const BACKOFF = [25, 50, 75, 100, 200, 250, 500, 800, 1000, 2000]
 
-const retryGetConsumer = async () => {
-  if (!consumer) {
-    await wait()
-    return await retryGetConsumer()
-  } else {
-    return consumer
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
+const getConsumerWithRetry = async (retry = 0) => {
+  if (consumer) return consumer
+
+  if (retry >= BACKOFF.length) {
+    throw new Error("Couldn't obtain a Action Cable consumer within 5s")
   }
+
+  await wait(BACKOFF[retry])
+
+  return await getConsumerWithRetry(retry + 1)
 }
 
 export default {
@@ -16,10 +21,7 @@ export default {
     consumer = value
   },
 
-  getConsumer () {
-    return new Promise(async (resolve, reject) => {
-      consumer = await retryGetConsumer()
-      resolve(consumer)
-    })
+  async getConsumer () {
+    return await getConsumerWithRetry()
   }
 }

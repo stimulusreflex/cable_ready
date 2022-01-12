@@ -6,7 +6,7 @@ export default class StreamFromElement extends SubscribingElement {
   async connectedCallback () {
     if (this.preview) return
 
-    const consumer = CableConsumer.getConsumer()
+    const consumer = await CableConsumer.getConsumer()
 
     if (consumer) {
       this.createSubscription(
