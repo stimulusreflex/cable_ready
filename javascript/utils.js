@@ -1,5 +1,5 @@
 import { inputTags, textInputTypes } from './enums'
-import activeElement from './active_element'
+import ActiveElement from './active_element'
 
 // Indicates if the passed element is considered a text input.
 //
@@ -16,7 +16,7 @@ const assignFocus = selector => {
     selector && selector.nodeType === Node.ELEMENT_NODE
       ? selector
       : document.querySelector(selector)
-  const focusElement = element || activeElement.element
+  const focusElement = element || ActiveElement.element
   if (focusElement && focusElement.focus) focusElement.focus()
 }
 

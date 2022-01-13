@@ -1,10 +1,7 @@
 import { xpathToElement, dispatch } from './utils'
-import activeElement from './active_element'
+
+import ActiveElement from './active_element'
 import OperationStore from './operation_store'
-import actionCable from './action_cable'
-import StreamFromElement from './elements/stream_from_element'
-import UpdatesForElement from './elements/updates_for_element'
-import { registerInnerUpdates } from './updatable/inner_updates_compat'
 
 const perform = (
   operations,
@@ -30,7 +27,7 @@ const perform = (
         operation.element = document
       }
       if (operation.element || options.emitMissingElementWarnings) {
-        activeElement.set(document.activeElement)
+        ActiveElement.set(document.activeElement)
         const cableReadyOperation = OperationStore.all[name]
 
         if (cableReadyOperation) {
@@ -78,19 +75,4 @@ const performAsync = (
   })
 }
 
-const initialize = (initializeOptions = {}) => {
-  const { consumer } = initializeOptions
-  actionCable.setConsumer(consumer)
-
-  registerInnerUpdates()
-
-  if (!customElements.get('stream-from'))
-    customElements.define('stream-from', StreamFromElement)
-
-  if (!customElements.get('updates-for'))
-    customElements.define('updates-for', UpdatesForElement)
-}
-
-export { perform, performAsync, initialize }
-
-export const consumer = actionCable.getConsumer()
+export { perform, performAsync }

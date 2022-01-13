@@ -1,10 +1,12 @@
 import morphdom from 'morphdom'
 
-import CableReady from '..'
 import SubscribingElement from './subscribing_element'
+
 import { shouldMorph } from '../morph_callbacks'
-import activeElement from '../active_element'
 import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
+
+import ActiveElement from '../active_element'
+import CableConsumer from '../cable_consumer'
 
 const template = `
 <style>
@@ -15,8 +17,10 @@ const template = `
 <slot></slot>
 `
 
-function url (ele) {
-  return ele.hasAttribute('url') ? ele.getAttribute('url') : location.href
+function url (element) {
+  return element.hasAttribute('url')
+    ? element.getAttribute('url')
+    : location.href
 }
 
 export default class UpdatesForElement extends SubscribingElement {
@@ -30,7 +34,8 @@ export default class UpdatesForElement extends SubscribingElement {
     if (this.preview) return
     this.update = debounce(this.update.bind(this), this.debounce)
 
-    const consumer = await CableReady.consumer
+    const consumer = await CableConsumer.getConsumer()
+
     if (consumer) {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
@@ -49,7 +54,7 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   update (data) {
-    activeElement.set(document.activeElement)
+    ActiveElement.set(document.activeElement)
 
     if (!this.shouldUpdate(data)) {
       return
@@ -87,6 +92,7 @@ export default class UpdatesForElement extends SubscribingElement {
       html: fragments[index],
       permanentAttributeName: 'data-ignore-updates'
     }
+
     dispatch(block, 'cable-ready:before-update', operation)
     morphdom(block, fragments[index], {
       childrenOnly: true,

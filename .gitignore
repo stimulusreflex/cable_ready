@@ -8,7 +8,10 @@
 /spec/reports/
 /tmp/
 node_modules/
-*~
-.byebug_history
-*.log
 /.dir-locals.el
+/dist
+/package
+.byebug_history
+*~
+*.log
+*.tgz
