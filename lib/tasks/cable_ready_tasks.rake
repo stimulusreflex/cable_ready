@@ -23,12 +23,14 @@ namespace :cable_ready do
     task :importmap do
       check_cable_and_redis
       run_install_template("cable_ready_with_importmap")
+      run_install_template("cable_ready_entrypoint")
     end
 
     desc "Install CableReady into the app with node"
     task :node do
       check_cable_and_redis
       run_install_template("cable_ready_with_node")
+      run_install_template("cable_ready_entrypoint")
     end
   end
 end
