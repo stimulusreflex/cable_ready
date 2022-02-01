@@ -1,3 +1,11 @@
+def run_install_template(template)
+  system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../install/#{template}.rb", __dir__)}"
+end
+
+def check_cable_and_redis
+  run_install_template("check_cable_and_redis")
+end
+
 namespace :cable_ready do
   desc "Install CableReady into the app"
   task :install do
@@ -13,12 +21,14 @@ namespace :cable_ready do
   namespace :install do
     desc "Install CableReady into the app with asset pipeline"
     task :importmap do
-      system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../install/cable_ready_with_importmap.rb", __dir__)}"
+      check_cable_and_redis
+      run_install_template("cable_ready_with_importmap")
     end
 
     desc "Install CableReady into the app with node"
     task :node do
-      system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../install/cable_ready_with_node.rb", __dir__)}"
+      check_cable_and_redis
+      run_install_template("cable_ready_with_node")
     end
   end
 end
