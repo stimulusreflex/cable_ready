@@ -3,7 +3,13 @@ import morphdom from 'morphdom'
 import SubscribingElement from './subscribing_element'
 
 import { shouldMorph } from '../morph_callbacks'
-import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
+import {
+  debounce,
+  assignFocus,
+  dispatch,
+  graciouslyFetch,
+  sha256
+} from '../utils'
 
 import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
@@ -16,12 +22,6 @@ const template = `
 </style>
 <slot></slot>
 `
-
-function url (element) {
-  return element.hasAttribute('url')
-    ? element.getAttribute('url')
-    : location.href
-}
 
 export default class UpdatesForElement extends SubscribingElement {
   constructor () {
@@ -49,11 +49,11 @@ export default class UpdatesForElement extends SubscribingElement {
     return (
       !this.ignoringInnerUpdates &&
       this.hasChangesSelectedForUpdate(data) &&
-      this.blocks[0] === this
+      this.blocks[0].element === this
     )
   }
 
-  update (data) {
+  async update (data) {
     ActiveElement.set(document.activeElement)
 
     if (!this.shouldUpdate(data)) {
@@ -62,25 +62,73 @@ export default class UpdatesForElement extends SubscribingElement {
 
     this.html = {}
 
-    this.blocks.forEach(this.processBlock.bind(this))
+    const uniqueUrls = [...new Set(this.blocks.map(block => block.url))]
+
+    await Promise.all(
+      uniqueUrls.map(async url => {
+        if (!this.html.hasOwnProperty(url)) {
+          const response = await graciouslyFetch(url, {
+            'X-Cable-Ready': 'update'
+          })
+          this.html[url] = await response.text()
+        }
+      })
+    )
+
+    this.blocks.forEach((block, index) => {
+      block.process(index, this.html)
+    })
   }
 
-  async processBlock (block, index) {
+  hasChangesSelectedForUpdate (data) {
+    const only = this.getAttribute('only')
+
+    return !(
+      only &&
+      data.changed &&
+      !only.split(' ').some(attribute => data.changed.includes(attribute))
+    )
+  }
+
+  get query () {
+    return `updates-for[identifier="${this.identifier}"]`
+  }
+
+  get blocks () {
+    return Array.from(
+      document.querySelectorAll(this.query),
+      element => new Block(element)
+    )
+  }
+
+  get debounce () {
+    return this.hasAttribute('debounce')
+      ? parseInt(this.getAttribute('debounce'))
+      : 20
+  }
+
+  get ignoringInnerUpdates () {
+    return (
+      this.hasAttribute('ignore-inner-updates') &&
+      this.hasAttribute('performing-inner-update')
+    )
+  }
+}
+
+class Block {
+  constructor (element) {
+    this.element = element
+  }
+
+  async process (index, html) {
     const template = document.createElement('template')
-    block.setAttribute('updating', 'updating')
+    this.element.setAttribute('updating', 'updating')
 
-    if (!this.html.hasOwnProperty(url(block))) {
-      const response = await graciouslyFetch(url(block), {
-        'X-Cable-Ready': 'update'
-      })
-      this.html[url(block)] = await response.text()
-    }
-
-    template.innerHTML = String(this.html[url(block)]).trim()
+    template.innerHTML = String(html[this.url]).trim()
 
     await this.resolveTurboFrames(template.content)
 
-    const fragments = template.content.querySelectorAll(this.query)
+    const fragments = template.content.querySelectorAll(this.element.query)
 
     if (fragments.length <= index) {
       console.warn('Update aborted due to mismatched number of elements')
@@ -88,18 +136,18 @@ export default class UpdatesForElement extends SubscribingElement {
     }
 
     const operation = {
-      element: block,
+      element: this.element,
       html: fragments[index],
       permanentAttributeName: 'data-ignore-updates'
     }
 
-    dispatch(block, 'cable-ready:before-update', operation)
-    morphdom(block, fragments[index], {
+    dispatch(this.element, 'cable-ready:before-update', operation)
+    morphdom(this.element, fragments[index], {
       childrenOnly: true,
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
-        block.removeAttribute('updating')
-        dispatch(block, 'cable-ready:after-update', operation)
+        this.element.removeAttribute('updating')
+        dispatch(this.element, 'cable-ready:after-update', operation)
         assignFocus(operation.focusSelector)
       }
     })
@@ -142,34 +190,13 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  hasChangesSelectedForUpdate (data) {
-    const only = this.getAttribute('only')
-
-    return !(
-      only &&
-      data.changed &&
-      !only.split(' ').some(attribute => data.changed.includes(attribute))
-    )
+  get url () {
+    return this.element.hasAttribute('url')
+      ? this.element.getAttribute('url')
+      : location.href
   }
 
-  get query () {
-    return `updates-for[identifier="${this.identifier}"]`
-  }
-
-  get blocks () {
-    return document.querySelectorAll(this.query)
-  }
-
-  get debounce () {
-    return this.hasAttribute('debounce')
-      ? parseInt(this.getAttribute('debounce'))
-      : 20
-  }
-
-  get ignoringInnerUpdates () {
-    return (
-      this.hasAttribute('ignore-inner-updates') &&
-      this.hasAttribute('performing-inner-update')
-    )
+  get identifier () {
+    return this.element.getAttribute('identifier')
   }
 }
