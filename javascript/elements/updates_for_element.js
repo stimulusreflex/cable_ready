@@ -45,45 +45,58 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
-  shouldUpdate (data) {
-    return (
-      !this.ignoringInnerUpdates &&
-      this.hasChangesSelectedForUpdate(data) &&
-      this.blocks[0] === this
-    )
-  }
-
   update (data) {
+    // memoize blocks to avoid unnecessary DOM traversal
+    this.blocks = document.querySelectorAll(this.query)
+
+    // first updates-for element in the DOM *at any given moment* updates all of the others
+    if (this.blocks[0] !== this) return
+
+    // hold a reference to the active element so that it can be restored after the morph
     ActiveElement.set(document.activeElement)
 
-    if (!this.shouldUpdate(data)) {
-      return
-    }
-
+    // store all retrieved HTML in an object keyed by URL to minimize fetch calls
     this.html = {}
 
-    this.blocks.forEach(this.processBlock.bind(this))
+    // track current block index for each URL; referred to as fragments
+    this.index = {}
+
+    this.blocks.forEach(this.processBlock.bind(this, data))
   }
 
-  async processBlock (block, index) {
-    const template = document.createElement('template')
-    block.setAttribute('updating', 'updating')
+  async processBlock (data, block) {
+    // memoize the block's URL to avoid unnecessary DOM interop
+    const blockURL = url(block)
 
-    if (!this.html.hasOwnProperty(url(block))) {
-      const response = await graciouslyFetch(url(block), {
+    // if the block's URL is not in the index, initialize it to 0; otherwise, increment it
+    this.index.hasOwnProperty(blockURL)
+      ? this.index[blockURL]++
+      : (this.index[blockURL] = 0)
+
+    // with the index incremented, we can now safely bail - before a fetch - if there's no work to be done
+    if (!this.shouldUpdate(data, block)) return
+
+    const index = this.index[blockURL]
+
+    // we only want to fetch each URL once
+    if (!this.html.hasOwnProperty(blockURL)) {
+      const response = await graciouslyFetch(blockURL, {
         'X-Cable-Ready': 'update'
       })
-      this.html[url(block)] = await response.text()
+      this.html[blockURL] = await response.text()
     }
 
-    template.innerHTML = String(this.html[url(block)]).trim()
+    block.setAttribute('updating', 'updating')
+
+    const template = document.createElement('template')
+    template.innerHTML = String(this.html[blockURL]).trim()
 
     await this.resolveTurboFrames(template.content)
 
     const fragments = template.content.querySelectorAll(this.query)
 
     if (fragments.length <= index) {
-      console.warn('Update aborted due to mismatched number of elements')
+      console.warn('Update aborted due to insufficient updates-for elements')
       return
     }
 
@@ -142,8 +155,17 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  hasChangesSelectedForUpdate (data) {
-    const only = this.getAttribute('only')
+  shouldUpdate (data, block) {
+    // if everything that could prevent an update is false, update this block
+    return (
+      this.processInnerUpdates(block) &&
+      this.hasChangesSelectedForUpdate(data, block)
+    )
+  }
+
+  hasChangesSelectedForUpdate (data, block) {
+    // if there's an only attribute, only update if at least one of the attributes changed is in the allow list
+    const only = block.getAttribute('only')
 
     return !(
       only &&
@@ -152,24 +174,21 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  get query () {
-    return `updates-for[identifier="${this.identifier}"]`
+  processInnerUpdates (block) {
+    // don't update during a Reflex or Turbolinks redraw
+    return !(
+      block.hasAttribute('ignore-inner-updates') &&
+      block.hasAttribute('performing-inner-update')
+    )
   }
 
-  get blocks () {
-    return document.querySelectorAll(this.query)
+  get query () {
+    return `updates-for[identifier="${this.identifier}"]`
   }
 
   get debounce () {
     return this.hasAttribute('debounce')
       ? parseInt(this.getAttribute('debounce'))
       : 20
-  }
-
-  get ignoringInnerUpdates () {
-    return (
-      this.hasAttribute('ignore-inner-updates') &&
-      this.hasAttribute('performing-inner-update')
-    )
   }
 }
