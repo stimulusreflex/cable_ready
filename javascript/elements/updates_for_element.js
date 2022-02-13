@@ -46,9 +46,6 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   update (data) {
-    // memoize blocks to avoid unnecessary DOM traversal
-    this.blocks = document.querySelectorAll(this.query)
-
     // first updates-for element in the DOM *at any given moment* updates all of the others
     if (this.blocks[0] !== this) return
 
@@ -158,7 +155,7 @@ export default class UpdatesForElement extends SubscribingElement {
   shouldUpdate (data, block) {
     // if everything that could prevent an update is false, update this block
     return (
-      this.processInnerUpdates(block) &&
+      !this.ignoresInnerUpdates(block) &&
       this.hasChangesSelectedForUpdate(data, block)
     )
   }
@@ -174,12 +171,19 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  processInnerUpdates (block) {
+  ignoresInnerUpdates (block) {
     // don't update during a Reflex or Turbolinks redraw
-    return !(
+    return (
       block.hasAttribute('ignore-inner-updates') &&
       block.hasAttribute('performing-inner-update')
     )
+  }
+
+  get blocks () {
+    // memoize blocks to avoid unnecessary DOM traversal
+    if (!this._blocks) this._blocks = document.querySelectorAll(this.query)
+
+    return this._blocks
   }
 
   get query () {
