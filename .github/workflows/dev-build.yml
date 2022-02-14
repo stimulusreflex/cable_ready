@@ -32,8 +32,12 @@ jobs:
           
           tar -xf cable_ready-dev-build.tgz
           
+          echo "Cloning Dev Builds"
           git clone https://github.com/cableready/dev-builds && cd dev-builds
+
+          echo "Removing Origin"
           git remote remove origin
+          echo "Use Dev Builds Token for Push Access"
           git remote add origin https://${{ secrets.CABLEREADY_BOT_DEV_BUILDS_TOKEN }}@github.com/cableready/dev-builds.git
 
           git checkout --orphan "${GITHUB_SHA:0:7}"
