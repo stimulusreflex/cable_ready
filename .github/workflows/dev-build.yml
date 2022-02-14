@@ -34,7 +34,7 @@ jobs:
           
           git clone https://github.com/cableready/dev-builds && cd dev-builds
           git remote remove origin
-          git remote add origin https://${{ secrets.CABLEREADY_BOT_DEV_BUILDS_TOKEN }}@github.com/cableready/dev-builds.git
+          git remote add origin ${{ secrets.CABLEREADY_BOT_DEV_BUILDS_TOKEN }}@github.com:cableready/dev-builds.git
 
           git checkout --orphan "${GITHUB_SHA:0:7}"
           cp -r ../package/. ./
