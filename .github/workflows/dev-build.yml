@@ -1,10 +1,6 @@
 name: dev-builds
-on: 
+on:
   push:
-    branches:
-      - master
-      
-  pull_request:
 
 jobs:
   build:
@@ -17,21 +13,23 @@ jobs:
         with:
           node-version: '16'
           cache: 'yarn'
+
       - name: Build JavaScript package
         run: |
           yarn install
           yarn build
           # yarn test
           yarn pack --filename cable_ready-dev-build.tgz
-      - name: Publish Dev Build 
+
+      - name: Publish Dev Build
         run: |
           name="$(git log -n 1 --format=format:%cn)"
           email="$(git log -n 1 --format=format:%ce)"
           message="$(git log -n 1 --format=format:%s)"
           date="$(git log -n 1 --format=format:%ai)"
-          
+
           tar -xf cable_ready-dev-build.tgz
-          
+
           git clone https://github.com/cableready/dev-builds && cd dev-builds
           git remote remove origin
           git remote add origin https://${{ secrets.CABLEREADY_BOT_DEV_BUILDS_TOKEN }}@github.com/cableready/dev-builds.git
@@ -41,11 +39,11 @@ jobs:
           git add .
 
           # git add dist/ javascript/ README.md CHANGELOG.md LICENSE.txt package.json
-          
+
           git config --global user.name "$name"
           git config --global user.email "$email"
-          
+
           GIT_COMMITER_DATE=${date} git commit -m "cable_ready/${GITHUB_SHA:0:7} ${message}" --date "${date}"
-          
+
           git tag cable_ready/${GITHUB_SHA:0:7} -m "cable_ready/${GITHUB_SHA:0:7} ${message}"
           git push origin cable_ready/${GITHUB_SHA:0:7}
