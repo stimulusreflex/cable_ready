@@ -149,5 +149,6 @@ export {
   after,
   debounce,
   handleErrors,
-  graciouslyFetch
+  graciouslyFetch,
+  kebabize
 }
