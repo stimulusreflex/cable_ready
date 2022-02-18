@@ -45,9 +45,9 @@ export default class UpdatesForElement extends SubscribingElement {
     }
   }
 
-  update (data) {
+  async update (data) {
     // first updates-for element in the DOM *at any given moment* updates all of the others
-    if (this.blocks[0] !== this) return
+    if (this.blocks[0].element !== this) return
 
     // hold a reference to the active element so that it can be restored after the morph
     ActiveElement.set(document.activeElement)
@@ -55,61 +55,95 @@ export default class UpdatesForElement extends SubscribingElement {
     // store all retrieved HTML in an object keyed by URL to minimize fetch calls
     this.html = {}
 
+    const uniqueUrls = [...new Set(this.blocks.map(block => block.url))]
+
+    await Promise.all(
+      uniqueUrls.map(async url => {
+        if (!this.html.hasOwnProperty(url)) {
+          const response = await graciouslyFetch(url, {
+            'X-Cable-Ready': 'update'
+          })
+          this.html[url] = await response.text()
+        }
+      })
+    )
+
     // track current block index for each URL; referred to as fragments
     this.index = {}
 
-    this.blocks.forEach(this.processBlock.bind(this, data))
+    this.blocks.forEach(block => {
+      // if the block's URL is not in the index, initialize it to 0; otherwise, increment it
+      this.index.hasOwnProperty(block.url)
+        ? this.index[block.url]++
+        : (this.index[block.url] = 0)
+
+      block.process(data, this.html, this.index)
+    })
   }
 
-  async processBlock (data, block) {
-    // memoize the block's URL to avoid unnecessary DOM interop
-    const blockURL = url(block)
+  get blocks () {
+    // memoize blocks to avoid unnecessary DOM traversal
+    if (!this._blocks)
+      this._blocks = Array.from(
+        document.querySelectorAll(this.query),
+        element => new Block(element)
+      )
 
-    // if the block's URL is not in the index, initialize it to 0; otherwise, increment it
-    this.index.hasOwnProperty(blockURL)
-      ? this.index[blockURL]++
-      : (this.index[blockURL] = 0)
+    return this._blocks
+  }
 
+  get query () {
+    return `updates-for[identifier="${this.identifier}"]`
+  }
+
+  get identifier () {
+    return this.getAttribute('identifier')
+  }
+
+  get debounce () {
+    return this.hasAttribute('debounce')
+      ? parseInt(this.getAttribute('debounce'))
+      : 20
+  }
+}
+
+class Block {
+  constructor (element) {
+    this.element = element
+  }
+
+  async process (data, html, index) {
     // with the index incremented, we can now safely bail - before a fetch - if there's no work to be done
-    if (!this.shouldUpdate(data, block)) return
+    if (!this.shouldUpdate(data)) return
 
-    const index = this.index[blockURL]
-
-    // we only want to fetch each URL once
-    if (!this.html.hasOwnProperty(blockURL)) {
-      const response = await graciouslyFetch(blockURL, {
-        'X-Cable-Ready': 'update'
-      })
-      this.html[blockURL] = await response.text()
-    }
-
-    block.setAttribute('updating', 'updating')
-
+    const blockIndex = index[this.url]
     const template = document.createElement('template')
-    template.innerHTML = String(this.html[blockURL]).trim()
+    this.element.setAttribute('updating', 'updating')
+
+    template.innerHTML = String(html[this.url]).trim()
 
     await this.resolveTurboFrames(template.content)
 
     const fragments = template.content.querySelectorAll(this.query)
 
-    if (fragments.length <= index) {
-      console.warn('Update aborted due to insufficient updates-for elements')
+    if (fragments.length <= blockIndex) {
+      console.warn('Update aborted due to mismatched number of elements')
       return
     }
 
     const operation = {
-      element: block,
-      html: fragments[index],
+      element: this.element,
+      html: fragments[blockIndex],
       permanentAttributeName: 'data-ignore-updates'
     }
 
-    dispatch(block, 'cable-ready:before-update', operation)
-    morphdom(block, fragments[index], {
+    dispatch(this.element, 'cable-ready:before-update', operation)
+    morphdom(this.element, fragments[blockIndex], {
       childrenOnly: true,
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
-        block.removeAttribute('updating')
-        dispatch(block, 'cable-ready:after-update', operation)
+        this.element.removeAttribute('updating')
+        dispatch(this.element, 'cable-ready:after-update', operation)
         assignFocus(operation.focusSelector)
       }
     })
@@ -152,17 +186,14 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  shouldUpdate (data, block) {
+  shouldUpdate (data) {
     // if everything that could prevent an update is false, update this block
-    return (
-      !this.ignoresInnerUpdates(block) &&
-      this.hasChangesSelectedForUpdate(data, block)
-    )
+    return !this.ignoresInnerUpdates && this.hasChangesSelectedForUpdate(data)
   }
 
-  hasChangesSelectedForUpdate (data, block) {
+  hasChangesSelectedForUpdate (data) {
     // if there's an only attribute, only update if at least one of the attributes changed is in the allow list
-    const only = block.getAttribute('only')
+    const only = this.element.getAttribute('only')
 
     return !(
       only &&
@@ -171,28 +202,25 @@ export default class UpdatesForElement extends SubscribingElement {
     )
   }
 
-  ignoresInnerUpdates (block) {
+  get ignoresInnerUpdates () {
     // don't update during a Reflex or Turbolinks redraw
     return (
-      block.hasAttribute('ignore-inner-updates') &&
-      block.hasAttribute('performing-inner-update')
+      this.element.hasAttribute('ignore-inner-updates') &&
+      this.element.hasAttribute('performing-inner-update')
     )
   }
 
-  get blocks () {
-    // memoize blocks to avoid unnecessary DOM traversal
-    if (!this._blocks) this._blocks = document.querySelectorAll(this.query)
+  get url () {
+    return this.element.hasAttribute('url')
+      ? this.element.getAttribute('url')
+      : location.href
+  }
 
-    return this._blocks
+  get identifier () {
+    return this.element.identifier
   }
 
   get query () {
-    return `updates-for[identifier="${this.identifier}"]`
-  }
-
-  get debounce () {
-    return this.hasAttribute('debounce')
-      ? parseInt(this.getAttribute('debounce'))
-      : 20
+    return this.element.query
   }
 }
