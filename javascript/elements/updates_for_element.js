@@ -127,7 +127,9 @@ class Block {
     const fragments = template.content.querySelectorAll(this.query)
 
     if (fragments.length <= blockIndex) {
-      console.warn('Update aborted due to mismatched number of elements')
+      console.warn(
+        `Update aborted due to insufficient number of elements. The offending url is ${this.url}.`
+      )
       return
     }
 
