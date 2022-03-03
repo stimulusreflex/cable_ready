@@ -46,8 +46,13 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   async update (data) {
+    const blocks = Array.from(
+      document.querySelectorAll(this.query),
+      element => new Block(element)
+    )
+
     // first updates-for element in the DOM *at any given moment* updates all of the others
-    if (this.blocks[0].element !== this) return
+    if (blocks[0].element !== this) return
 
     // hold a reference to the active element so that it can be restored after the morph
     ActiveElement.set(document.activeElement)
@@ -55,7 +60,7 @@ export default class UpdatesForElement extends SubscribingElement {
     // store all retrieved HTML in an object keyed by URL to minimize fetch calls
     this.html = {}
 
-    const uniqueUrls = [...new Set(this.blocks.map(block => block.url))]
+    const uniqueUrls = [...new Set(blocks.map(block => block.url))]
 
     await Promise.all(
       uniqueUrls.map(async url => {
@@ -71,7 +76,7 @@ export default class UpdatesForElement extends SubscribingElement {
     // track current block index for each URL; referred to as fragments
     this.index = {}
 
-    this.blocks.forEach(block => {
+    blocks.forEach(block => {
       // if the block's URL is not in the index, initialize it to 0; otherwise, increment it
       this.index.hasOwnProperty(block.url)
         ? this.index[block.url]++
@@ -79,17 +84,6 @@ export default class UpdatesForElement extends SubscribingElement {
 
       block.process(data, this.html, this.index)
     })
-  }
-
-  get blocks () {
-    // memoize blocks to avoid unnecessary DOM traversal
-    if (!this._blocks)
-      this._blocks = Array.from(
-        document.querySelectorAll(this.query),
-        element => new Block(element)
-      )
-
-    return this._blocks
   }
 
   get query () {
