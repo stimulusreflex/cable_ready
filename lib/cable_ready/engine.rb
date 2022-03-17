@@ -4,7 +4,7 @@ module CableReady
       SanityChecker.check! unless Rails.env.production?
     end
 
-    initializer "renderer" do
+    initializer "cable_ready.renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
           response.content_type ||= Mime[:cable_ready]
