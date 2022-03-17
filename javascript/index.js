@@ -20,7 +20,7 @@ export {
   SubscribingElement
 }
 
-export default {
+const global = {
   perform,
   performAsync,
   shouldMorphCallbacks,
@@ -43,3 +43,7 @@ export default {
     return CableConsumer.consumer
   }
 }
+
+window.CableReady = global
+
+export default global
