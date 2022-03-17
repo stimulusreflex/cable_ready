@@ -1,8 +1,25 @@
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
+import { terser } from 'rollup-plugin-terser'
 
-const basePlugins = [resolve(), commonjs(), json()]
+const pretty = () => {
+  return terser({
+    mangle: false,
+    compress: false,
+    format: {
+      beautify: true,
+      indent_level: 2
+    }
+  })
+}
+
+const minify = () => {
+  return terser({
+    mangle: true,
+    compress: true
+  })
+}
 
 export default [
   {
@@ -15,15 +32,31 @@ export default [
         format: 'umd',
         sourcemap: true,
         exports: 'named',
-        globals: { morphdom: 'morphdom' } // UMD build wants a global...annoying.
+        globals: { morphdom: 'morphdom' },
+        plugins: [pretty()]
       },
       {
         file: 'dist/cable_ready.module.js',
         format: 'es',
-        sourcemap: true
+        sourcemap: true,
+        inlineDynamicImports: true,
+        plugins: [pretty()]
+      },
+      {
+        file: 'app/assets/javascripts/cable_ready.js',
+        format: 'es',
+        inlineDynamicImports: true,
+        plugins: [pretty()]
+      },
+      {
+        file: 'app/assets/javascripts/cable_ready.min.js',
+        format: 'es',
+        sourcemap: true,
+        inlineDynamicImports: true,
+        plugins: [minify()]
       }
     ],
-    plugins: basePlugins,
+    plugins: [commonjs(), resolve(), json()],
     watch: {
       include: 'javascript/**'
     }

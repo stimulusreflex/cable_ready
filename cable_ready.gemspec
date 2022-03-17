@@ -11,7 +11,14 @@ Gem::Specification.new do |gem|
   gem.homepage = "https://github.com/stimulusreflex/cable_ready"
   gem.summary = "Out-of-Band Server Triggered DOM Operations"
 
-  gem.files = Dir["lib/**/*.rb", "app/**/*.rb", "bin/*", "[A-Z]*"]
+  gem.files = Dir[
+    "lib/**/*.rb",
+    "app/**/*.rb",
+    "app/assets/javascripts/*",
+    "bin/*",
+    "[A-Z]*"
+  ]
+
   gem.test_files = Dir["test/**/*.rb"]
 
   rails_version = ">= 5.2"
