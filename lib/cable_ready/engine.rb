@@ -1,3 +1,5 @@
+require "rails/engine"
+
 module CableReady
   class Engine < Rails::Engine
     initializer "cable_ready.sanity_check" do

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails/engine"
 require "open-uri"
 require "active_record"
 require "action_view"
