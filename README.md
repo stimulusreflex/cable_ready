@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://gitcdn.link/repo/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
+  <img src="https://raw.githubusercontent.com/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
     <a href="https://rubygems.org/gems/cable_ready">
@@ -60,12 +60,41 @@ to learn more about ActionCable before proceeding.
 
 ## 🚀 Install
 
+### Rubygem
+
 ```sh
-bundle add cable_ready && yarn add cable_ready
+bundle add cable_ready
+```
+
+### JavaScript
+
+There are a few ways to install the CableReady JavaScript client, depending on your application setup.
+
+#### ESBuild / Webpacker
+
+```sh
+yarn add cable_ready
+```
+
+#### Import maps:
+
+```ruby
+# config/importmap.rb
+
+# ...
+
+pin 'cable_ready', to: 'cable_ready.min.js', preload: true
+```
+
+#### Rails Asset pipeline (Sprockets):
+
+```html+erb
+<!-- app/views/layouts/application.html.erb -->
+
+<%= javascript_include_tag "cable_ready.umd.min.js", "data-turbo-track": "reload" %>
 ```
 
 Checkout the [documentation](https://cableready.stimulusreflex.com) to continue!
-
 
 ## 🙏 Contributing
 
@@ -84,13 +113,13 @@ Please run `./bin/standardize` prior submitting pull requests.
 
 1. Make sure that you run `yarn` and `bundle` to pick up the latest.
 1. Bump version number at `lib/cable_ready/version.rb`. Pre-release versions use `.preN`
-1. Run `rake build`
+1. Run `rake build` and `yarn build`
 1. Commit and push changes to github
 1. Run `rake release`
 1. Run `yarn publish --no-git-tag-version`
 1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
 1. Run `GITHUB_CHANGELOG_GENERATOR_TOKEN=SECRET rake changelog`
-1. Commit and push changes to github
+1. Commit and push changes to GitHub
 
 ## 📝 License
 
