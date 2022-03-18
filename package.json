@@ -23,8 +23,8 @@
   },
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",
-  "main": "./dist/cable_ready.umd.js",
-  "module": "./dist/cable_ready.module.js",
+  "main": "./dist/cable_ready.umd.min.js",
+  "module": "./dist/cable_ready.min.js",
   "files": [
     "dist/*",
     "javascript/*"
