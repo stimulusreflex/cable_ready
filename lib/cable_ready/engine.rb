@@ -19,7 +19,14 @@ module CableReady
 
     initializer "cable_ready.assets" do |app|
       if app.config.respond_to?(:assets)
-        app.config.assets.precompile += %w[cable_ready.js cable_ready.min.js cable_ready.min.js.map]
+        app.config.assets.precompile += %w[
+          cable_ready.js
+          cable_ready.min.js
+          cable_ready.min.js.map
+          cable_ready.umd.js
+          cable_ready.umd.min.js
+          cable_ready.umd.min.js.map
+        ]
       end
     end
 

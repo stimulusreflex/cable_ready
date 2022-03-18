@@ -21,41 +21,51 @@ const minify = () => {
   })
 }
 
+const esConfig = {
+  format: 'es',
+  inlineDynamicImports: true,
+}
+
+const umdConfig = {
+  name: 'CableReady',
+  format: 'umd',
+  exports: 'named',
+  globals: { morphdom: 'morphdom' },
+}
+
+const distFolders = [
+  'dist/',
+  'app/assets/javascripts/'
+]
+
 export default [
   {
     external: ['morphdom'],
     input: 'javascript/index.js',
-    output: [
+    output: distFolders.map(distFolder => [
       {
-        name: 'CableReady',
-        file: 'dist/cable_ready.umd.js',
-        format: 'umd',
-        sourcemap: true,
-        exports: 'named',
-        globals: { morphdom: 'morphdom' },
+        ...esConfig,
+        file: `${distFolder}/cable_ready.js`,
         plugins: [pretty()]
       },
       {
-        file: 'dist/cable_ready.module.js',
-        format: 'es',
+        ...esConfig,
+        file: `${distFolder}/cable_ready.min.js`,
         sourcemap: true,
-        inlineDynamicImports: true,
+        plugins: [minify()]
+      },
+      {
+        ...umdConfig,
+        file: `${distFolder}/cable_ready.umd.js`,
         plugins: [pretty()]
       },
       {
-        file: 'app/assets/javascripts/cable_ready.js',
-        format: 'es',
-        inlineDynamicImports: true,
-        plugins: [pretty()]
-      },
-      {
-        file: 'app/assets/javascripts/cable_ready.min.js',
-        format: 'es',
+        ...umdConfig,
+        file: `${distFolder}/cable_ready.umd.min.js`,
         sourcemap: true,
-        inlineDynamicImports: true,
         plugins: [minify()]
       }
-    ],
+    ]).flat(),
     plugins: [commonjs(), resolve(), json()],
     watch: {
       include: 'javascript/**'
