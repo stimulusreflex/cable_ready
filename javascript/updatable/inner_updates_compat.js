@@ -21,7 +21,7 @@ export const registerInnerUpdates = () => {
 }
 
 const recursiveMarkUpdatesForElements = leaf => {
-  const closestUpdatesFor = leaf.parentElement.closest('updates-for')
+  const closestUpdatesFor = leaf && leaf.parentElement.closest('updates-for')
   if (closestUpdatesFor) {
     closestUpdatesFor.setAttribute('performing-inner-update', '')
     recursiveMarkUpdatesForElements(closestUpdatesFor)
@@ -29,7 +29,7 @@ const recursiveMarkUpdatesForElements = leaf => {
 }
 
 const recursiveUnmarkUpdatesForElements = leaf => {
-  const closestUpdatesFor = leaf.parentElement.closest('updates-for')
+  const closestUpdatesFor = leaf && leaf.parentElement.closest('updates-for')
   if (closestUpdatesFor) {
     closestUpdatesFor.removeAttribute('performing-inner-update')
     recursiveUnmarkUpdatesForElements(closestUpdatesFor)
