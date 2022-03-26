@@ -20,8 +20,9 @@ module CableReady
       alias_method :broadcast_destroy, :broadcast_create
 
       def broadcast_update(model)
-        model.class.send(:broadcast_updates, model.class, {})
-        model.class.send(:broadcast_updates, model.to_global_id, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
+        changeset = model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {}
+        model.class.send(:broadcast_updates, model.class, changeset)
+        model.class.send(:broadcast_updates, model.to_global_id, changeset)
       end
     end
   end
