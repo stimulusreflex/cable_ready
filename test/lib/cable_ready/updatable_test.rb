@@ -49,7 +49,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     user = User.create(name: "John Doe")
 
     mock_server = mock("server")
-    mock_server.expects(:broadcast).with(User, {}).once
+    mock_server.expects(:broadcast).with(User, {changed: ["name", "updated_at"]}).once
     mock_server.expects(:broadcast).with(user.to_global_id, {changed: ["name", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
@@ -62,10 +62,10 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     user = team.users.create(name: "Ada Lovelace")
 
     mock_server = mock("server")
-    mock_server.expects(:broadcast).with(User, {}).once
+    mock_server.expects(:broadcast).with(User, {changed: ["name", "updated_at"]}).once
     mock_server.expects(:broadcast).with(user.to_global_id, {changed: ["name", "updated_at"]}).once
     mock_server.expects(:broadcast).with("gid://dummy/Team/1:users", {changed: ["name", "updated_at"]}).once
-    mock_server.expects(:broadcast).with(Team, {}).once
+    mock_server.expects(:broadcast).with(Team, {changed: ["id", "created_at", "updated_at"]}).once
     mock_server.expects(:broadcast).with(team.to_global_id, {changed: ["id", "created_at", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
@@ -93,7 +93,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     section = Section.create
     section.updates_enabled = true
 
-    mock_server.expects(:broadcast).with(Section, {}).once
+    mock_server.expects(:broadcast).with(Section, {changed: ["title", "updated_at", "updates_enabled"]}).once
     mock_server.expects(:broadcast).with(section.to_global_id, {changed: ["title", "updated_at", "updates_enabled"]}).once
     section.update(title: "First Section")
   end
