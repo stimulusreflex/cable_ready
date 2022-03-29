@@ -115,21 +115,21 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     image = File.open(Rails.root.join("test", "fixtures", "files", "dugong.jpg"))
     dugong = Dugong.create
 
-    mock_server.expects(:broadcast).with("gid://dummy/Dugong/1:images", {:changed=>["id", "name", "record_type", "record_id", "blob_id", "created_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Dugong/1:images", {changed: ["id", "name", "record_type", "record_id", "blob_id", "created_at"]}).once
     ActionCable.stubs(:server).returns(mock_server)
-    
+
     dugong.images.attach(io: image, filename: "dugong.jpg")
   end
-  
+
   test "updates the collection when a file is destroyed" do
     mock_server = mock("server")
     image = File.open(Rails.root.join("test", "fixtures", "files", "dugong.jpg"))
     dugong = Dugong.create
     dugong.images.attach(io: image, filename: "dugong.jpg")
 
-    mock_server.expects(:broadcast).with("gid://dummy/Dugong/1:images", {:changed=>["id", "name", "record_type", "record_id", "blob_id", "created_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Dugong/1:images", {changed: ["id", "name", "record_type", "record_id", "blob_id", "created_at"]}).once
     ActionCable.stubs(:server).returns(mock_server)
-    
+
     dugong.images.first.destroy
   end
 end
