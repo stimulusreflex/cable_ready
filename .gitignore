@@ -15,3 +15,5 @@ node_modules/
 *~
 *.log
 *.tgz
+
+test/dummy/tmp/
