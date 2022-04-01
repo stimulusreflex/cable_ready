@@ -21,3 +21,5 @@ app/assets/javascripts/**
 *~
 *.log
 *.tgz
+
+test/dummy/tmp/

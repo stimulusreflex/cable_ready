@@ -46,6 +46,14 @@ module CableReady
         result
       end
 
+      def has_many_attached(name, **options)
+        option = options.delete(:enable_updates)
+        broadcast = option.present?
+        result = super
+        enrich_attachments_with_updates(name, option) if broadcast
+        result
+      end
+
       def cable_ready_collections
         @cable_ready_collections ||= CollectionsRegistry.new
       end
@@ -66,6 +74,36 @@ module CableReady
           through_association = reflection.through_reflection.name.to_s.singularize
         end
 
+        options = build_options(option)
+
+        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_collections)
+
+        reflection.klass.cable_ready_collections.register({
+          klass: self,
+          foreign_key: reflection.foreign_key,
+          name: name,
+          inverse_association: inverse_of,
+          through_association: through_association,
+          options: options
+        })
+      end
+
+      def enrich_attachments_with_updates(name, option)
+        options = build_options(option)
+
+        ActiveStorage::Attachment.send(:include, CableReady::Updatable) unless ActiveStorage::Attachment.respond_to?(:cable_ready_collections)
+
+        ActiveStorage::Attachment.cable_ready_collections.register({
+          klass: self,
+          foreign_key: "record_id",
+          name: name,
+          inverse_association: "record",
+          through_association: nil,
+          options: options
+        })
+      end
+
+      def build_options(option)
         options = {
           on: [:create, :update, :destroy],
           if: ->(resource) { true }
@@ -89,16 +127,7 @@ module CableReady
           raise ArgumentError, "Invalid enable_updates option #{option}"
         end
 
-        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_collections)
-
-        reflection.klass.cable_ready_collections.register({
-          klass: self,
-          foreign_key: reflection.foreign_key,
-          name: name,
-          inverse_association: inverse_of,
-          through_association: through_association,
-          options: options
-        })
+        options
       end
 
       def broadcast_updates(model_class, options)
