@@ -24,7 +24,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "thread-local", ">= 1.1.0"
 
-  gem.add_development_dependency "github_changelog_generator"
   gem.add_development_dependency "magic_frozen_string_literal"
   gem.add_development_dependency "mocha"
   gem.add_development_dependency "pry"

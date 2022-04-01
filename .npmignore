@@ -4,7 +4,6 @@
 .gitbook
 .gitbook.yml
 .github
-.github_changelog_generator
 .standard.yml
 .tool-versions
 Gemfile*
