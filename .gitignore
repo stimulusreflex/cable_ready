@@ -9,9 +9,15 @@
 /tmp/
 node_modules/
 /.dir-locals.el
-/dist
 /package
 .byebug_history
+
+dist/**
+!dist/.keep
+
+app/assets/javascripts/**
+!app/assets/javascripts/.keep
+
 *~
 *.log
 *.tgz
