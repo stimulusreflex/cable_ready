@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     cable_ready (5.0.0.pre9)
-      actioncable (>= 5.2)
+      actioncable (>= 6.0)
       thread-local (>= 1.1.0)
 
 GEM
@@ -184,7 +184,7 @@ DEPENDENCIES
   mocha
   pry
   pry-nav
-  rails (>= 5.2)
+  rails (>= 6.0)
   rake
   sqlite3
   standardrb
