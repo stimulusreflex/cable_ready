@@ -188,7 +188,7 @@ export default {
           console.warn(`CableReady callMethod failed due to missing '${name}' method for element:`, element)
           return
         }
-        element[name](...args)
+        element[name](...(args || []))
       })
       after(element, operation)
     })
