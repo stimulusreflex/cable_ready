@@ -40,6 +40,7 @@ module CableReady
       Set.new(%i[
         add_css_class
         append
+        call_method
         clear_storage
         console_log
         console_table

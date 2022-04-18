@@ -179,6 +179,21 @@ export default {
     })
   },
 
+  callMethod: operation => {
+    processElements(operation, element => {
+      before(element, operation)
+      operate(operation, () => {
+        const { name, args } = operation
+        if (!element[name]) {
+          console.warn(`CableReady callMethod failed due to missing '${name}' method for element:`, element)
+          return
+        }
+        element[name](...args)
+      })
+      after(element, operation)
+    })
+  },
+
   removeAttribute: operation => {
     processElements(operation, element => {
       before(element, operation)
