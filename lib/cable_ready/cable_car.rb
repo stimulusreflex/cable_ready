@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "thread/local"
+
 module CableReady
   class CableCar < OperationBuilder
     extend Thread::Local

@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 require "open-uri"
-require "thread/local"
-require "monitor"
-require "observer"
-require "singleton"
+
 require "action_cable"
 
 require "active_support/message_verifier"
