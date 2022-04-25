@@ -179,16 +179,23 @@ export default {
     })
   },
 
-  callMethod: operation => {
+  invokeMethod: operation => {
     processElements(operation, element => {
       before(element, operation)
       operate(operation, () => {
-        const { name, args } = operation
-        if (!element[name]) {
-          console.warn(`CableReady callMethod failed due to missing '${name}' method for element:`, element)
-          return
+        const { element, receiver, method, args } = operation
+        const chain = method.split('.')
+        const obj = receiver === 'window' ? window : element
+        const foundMethod = chain.reduce((lastTerm, nextTerm) => (lastTerm[nextTerm] || {}), obj)
+
+        if (foundMethod instanceof Function) {
+          foundMethod(...(args || []))
+        } else {
+          console.warn(
+            `CableReady invokeMethod failed due to missing '${method}' method for:`,
+            receiver === 'window' ? window : element
+          )
         }
-        element[name](...(args || []))
       })
       after(element, operation)
     })

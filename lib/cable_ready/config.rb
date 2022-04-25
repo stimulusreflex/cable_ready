@@ -40,7 +40,6 @@ module CableReady
       Set.new(%i[
         add_css_class
         append
-        call_method
         clear_storage
         console_log
         console_table
@@ -50,6 +49,7 @@ module CableReady
         inner_html
         insert_adjacent_html
         insert_adjacent_text
+        invoke_method
         morph
         notification
         outer_html
