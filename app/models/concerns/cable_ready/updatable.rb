@@ -46,6 +46,14 @@ module CableReady
         result
       end
 
+      def has_one(name, scope = nil, **options, &extension)
+        option = options.delete(:enable_updates)
+        broadcast = option.present?
+        result = super
+        enrich_association_with_updates(name, option) if broadcast
+        result
+      end
+
       def has_many_attached(name, **options)
         option = options.delete(:enable_updates)
         broadcast = option.present?
