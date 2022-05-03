@@ -73,6 +73,41 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     user.update(name: "Jane Doe")
   end
 
+  test "updates a has_one association when it is added" do
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(Supplier, {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Supplier/1:account", {changed: ["id", "account_number", "supplier_id", "created_at", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+    supplier = Supplier.create(name: "ACME Inc.")
+
+    supplier.create_account(account_number: "12345")
+  end
+
+  test "updates a has_one association when it is destroyed" do
+    supplier = Supplier.create(name: "ACME Inc.")
+    account = supplier.create_account(account_number: "12345")
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with("gid://dummy/Supplier/1:account", {changed: ["id", "account_number", "supplier_id", "created_at", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    account.destroy
+  end
+
+  test "updates a has_one association when it is updated" do
+    supplier = Supplier.create(name: "ACME Inc.")
+    account = supplier.create_account(account_number: "12345")
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with("gid://dummy/Supplier/1:account", {changed: ["account_number", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    account.update(account_number: "54321")
+  end
+
   test "respects :on to specify persistence methods" do
     mock_server = mock("server")
 
