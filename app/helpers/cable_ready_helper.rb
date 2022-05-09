@@ -17,6 +17,14 @@ module CableReadyHelper
     tag.updates_for(**options) { capture(&block) }
   end
 
+  def updates_for_if(condition, *keys, **options, &block)
+    if condition
+      updates_for(*keys, **options, &block)
+    else
+      capture(&block)
+    end
+  end
+
   private
 
   def build_options(*keys, html_options)
