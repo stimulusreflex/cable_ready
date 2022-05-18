@@ -3,4 +3,6 @@ class Section < ApplicationRecord
   enable_updates if: -> { updates_enabled }
 
   attribute :updates_enabled, :boolean, default: false
+
+  has_many :blocks, enable_updates: true
 end

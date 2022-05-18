@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_02_072440) do
+ActiveRecord::Schema.define(version: 2022_05_18_072701) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "account_number"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 2022_05_02_072440) do
     t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "blocks", force: :cascade do |t|
+    t.string "body"
+    t.string "type"
+    t.integer "section_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["section_id"], name: "index_blocks_on_section_id"
   end
 
   create_table "dugongs", force: :cascade do |t|
@@ -95,5 +104,6 @@ ActiveRecord::Schema.define(version: 2022_05_02_072440) do
   add_foreign_key "accounts", "suppliers"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blocks", "sections"
   add_foreign_key "posts", "users"
 end
