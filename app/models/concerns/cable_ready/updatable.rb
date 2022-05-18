@@ -40,6 +40,9 @@ module CableReady
     module ClassMethods
       def has_many(name, scope = nil, **options, &extension)
         option = options.delete(:enable_updates)
+
+        # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
+        options.delete(:descendants)
         broadcast = option.present?
         result = super
         enrich_association_with_updates(name, option) if broadcast
@@ -48,6 +51,9 @@ module CableReady
 
       def has_one(name, scope = nil, **options, &extension)
         option = options.delete(:enable_updates)
+
+        # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
+        options.delete(:descendants)
         broadcast = option.present?
         result = super
         enrich_association_with_updates(name, option) if broadcast
@@ -84,16 +90,17 @@ module CableReady
 
         options = build_options(option)
 
-        reflection.klass.send(:include, CableReady::Updatable) unless reflection.klass.respond_to?(:cable_ready_collections)
-
-        reflection.klass.cable_ready_collections.register({
-          klass: self,
-          foreign_key: reflection.foreign_key,
-          name: name,
-          inverse_association: inverse_of,
-          through_association: through_association,
-          options: options
-        })
+        [reflection.klass, *reflection.klass.descendants].each do |klass|
+          klass.send(:include, CableReady::Updatable) unless klass.respond_to?(:cable_ready_collections)
+          klass.cable_ready_collections.register({
+            klass: self,
+            foreign_key: reflection.foreign_key,
+            name: name,
+            inverse_association: inverse_of,
+            through_association: through_association,
+            options: options
+          })
+        end
       end
 
       def enrich_attachments_with_updates(name, option)
@@ -119,7 +126,7 @@ module CableReady
 
         case option
         when TrueClass
-          # proceed!
+        # proceed!
         when FalseClass
           options[:on] = []
         when Array

@@ -171,7 +171,8 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
   test "updates the collection when an item is added to a STI collection" do
     mock_server = mock("server")
 
-    mock_server.expects(:broadcast).with("gid://dummy/Section/1:blocks", {changed: ["id", "body", "section_id", "created_at", "updated_at"]}).twice
+    mock_server.expects(:broadcast).with("gid://dummy/Section/1:blocks", {changed: ["id", "body", "section_id", "created_at", "updated_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Section/1:blocks", {changed: ["id", "body", "type", "section_id", "created_at", "updated_at"]}).once
 
     ActionCable.stubs(:server).returns(mock_server)
 
