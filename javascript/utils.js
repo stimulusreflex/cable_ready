@@ -158,6 +158,7 @@ export {
   assignFocus,
   dispatch,
   xpathToElement,
+  xpathToElementArray,
   getClassNames,
   processElements,
   operate,
