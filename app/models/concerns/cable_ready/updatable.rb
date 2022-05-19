@@ -41,26 +41,22 @@ module CableReady
       def has_many(name, scope = nil, **options, &extension)
         option = options.delete(:enable_updates)
 
-        # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
         descendants = options.delete(:descendants)
-        descendants&.map(&:to_s)&.map(&:constantize)
 
         broadcast = option.present?
         result = super
-        enrich_association_with_updates(name, option) if broadcast
+        enrich_association_with_updates(name, option, descendants) if broadcast
         result
       end
 
       def has_one(name, scope = nil, **options, &extension)
         option = options.delete(:enable_updates)
 
-        # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
         descendants = options.delete(:descendants)
-        descendants&.map(&:to_s)&.map(&:constantize)
 
         broadcast = option.present?
         result = super
-        enrich_association_with_updates(name, option) if broadcast
+        enrich_association_with_updates(name, option, descendants) if broadcast
         result
       end
 
@@ -82,7 +78,7 @@ module CableReady
         broadcast_updates(identifier, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
       end
 
-      def enrich_association_with_updates(name, option)
+      def enrich_association_with_updates(name, option, descendants = nil)
         reflection = reflect_on_association(name)
 
         inverse_of = reflection.inverse_of&.name&.to_s
@@ -95,7 +91,7 @@ module CableReady
 
         options = build_options(option)
 
-        [reflection.klass, *reflection.klass.descendants].each do |klass|
+        [reflection.klass, *descendants&.map(&:to_s)&.map(&:constantize)].each do |klass|
           klass.send(:include, CableReady::Updatable) unless klass.respond_to?(:cable_ready_collections)
           klass.cable_ready_collections.register({
             klass: self,
