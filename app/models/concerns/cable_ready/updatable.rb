@@ -42,7 +42,9 @@ module CableReady
         option = options.delete(:enable_updates)
 
         # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
-        options.delete(:descendants)
+        descendants = options.delete(:descendants)
+        descendants&.map(&:to_s)&.map(&:constantize)
+
         broadcast = option.present?
         result = super
         enrich_association_with_updates(name, option) if broadcast
@@ -53,7 +55,9 @@ module CableReady
         option = options.delete(:enable_updates)
 
         # NOOP: We need the user to specify STI descendants as constants so they are added to object space and can be iterated over when registering collections
-        options.delete(:descendants)
+        descendants = options.delete(:descendants)
+        descendants&.map(&:to_s)&.map(&:constantize)
+
         broadcast = option.present?
         result = super
         enrich_association_with_updates(name, option) if broadcast
@@ -62,6 +66,7 @@ module CableReady
 
       def has_many_attached(name, **options)
         option = options.delete(:enable_updates)
+
         broadcast = option.present?
         result = super
         enrich_attachments_with_updates(name, option) if broadcast

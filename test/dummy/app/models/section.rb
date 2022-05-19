@@ -5,5 +5,5 @@ class Section < ApplicationRecord
 
   attribute :updates_enabled, :boolean, default: false
 
-  has_many :blocks, enable_updates: true, descendants: [Comment]
+  has_many :blocks, enable_updates: true, descendants: [:Comment]
 end
