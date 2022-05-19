@@ -1,4 +1,4 @@
-import { xpathToElement, dispatch } from './utils'
+import { xpathToElement, xpathToElementArray, dispatch } from './utils'
 
 import ActiveElement from './active_element'
 import OperationStore from './operation_store'
@@ -18,11 +18,15 @@ const perform = (
     const name = operation.operation
     try {
       if (operation.selector) {
-        operation.element = operation.xpath
-          ? xpathToElement(operation.selector)
-          : document[
-              operation.selectAll ? 'querySelectorAll' : 'querySelector'
-            ](operation.selector)
+        if (operation.xpath) {
+          operation.element = operation.selectAll
+            ? xpathToElementArray(operation.selector)
+            : xpathToElement(operation.selector)
+        } else {
+          operation.element = operation.selectAll
+            ? document.querySelectorAll(operation.selector)
+            : document.querySelector(operation.selector)
+        }
       } else {
         operation.element = document
       }

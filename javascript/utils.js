@@ -45,6 +45,22 @@ const xpathToElement = xpath => {
   ).singleNodeValue
 }
 
+// Accepts an xPath query and returns all matching elements in the DOM
+//
+const xpathToElementArray = xpath => {
+  const result = document.evaluate(
+    xpath,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null
+  )
+  const elements = []
+  for (let i = 0; i < result.snapshotLength; i++)
+    elements.push(result.snapshotItem(i))
+  return elements
+}
+
 // Return an array with the class names to be used
 //
 // * names - could be a string or an array of strings for multiple classes.
@@ -142,6 +158,7 @@ export {
   assignFocus,
   dispatch,
   xpathToElement,
+  xpathToElementArray,
   getClassNames,
   processElements,
   operate,
