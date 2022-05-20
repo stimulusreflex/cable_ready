@@ -329,11 +329,17 @@ export default {
   redirectTo: operation => {
     before(window, operation)
     operate(operation, () => {
-      let { url, action } = operation
+      let { url, action, turbo } = operation
       action = action || 'advance'
-      if (window.Turbo) window.Turbo.visit(url, { action })
-      if (window.Turbolinks) window.Turbolinks.visit(url, { action })
-      if (!window.Turbo && !window.Turbolinks) window.location.href = url
+      if (typeof turbo === 'undefined') turbo = true
+      
+      if (turbo) {
+        if (window.Turbo) window.Turbo.visit(url, { action })
+        if (window.Turbolinks) window.Turbolinks.visit(url, { action })
+        if (!window.Turbo && !window.Turbolinks) window.location.href = url
+      } else {
+        window.location.href = url
+      }
     })
     after(window, operation)
   },
