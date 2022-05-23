@@ -72,6 +72,21 @@ module CableReady
       @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
     end
 
+    def operations_custom_elements
+      operations = @enqueued_operations.select { |_, list| list.present? }
+      operations.map do |name, operation|
+        operation.map do |enqueued_operation|
+          attrs = enqueued_operation.map do |key, val|
+            %(#{key.dasherize}="#{CGI.escapeHTML(val.to_json)}")
+          end.join(" ")
+
+          <<~HTML
+            <cable-ready-operation operation-name="#{name}" #{attrs}></cable-ready-operation>
+          HTML
+        end
+      end.flatten.join
+    end
+
     def reset!
       @enqueued_operations = []
       @previous_selector = nil
