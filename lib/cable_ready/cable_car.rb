@@ -8,8 +8,8 @@ module CableReady
       super "CableCar"
     end
 
-    def dispatch(elements: false, clear: true)
-      payload = elements ? operations_custom_elements : operations_payload
+    def dispatch(element: false, clear: true)
+      payload = element ? operations_in_custom_element : operations_payload
       reset! if clear
       payload
     end

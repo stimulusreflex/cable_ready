@@ -72,19 +72,8 @@ module CableReady
       @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
     end
 
-    def operations_custom_elements
-      operations = @enqueued_operations.select { |_, list| list.present? }
-      operations.map do |name, operation|
-        operation.map do |enqueued_operation|
-          attrs = enqueued_operation.map do |key, val|
-            %(#{key.dasherize}="#{CGI.escapeHTML(val.to_json)}")
-          end.join(" ")
-
-          <<~HTML
-            <cr-op operation="#{name}" #{attrs}></cr-op>
-          HTML
-        end
-      end.flatten.join
+    def operations_in_custom_element
+      %(<cable-ready><script type="application/json">#{operations_payload.to_json}</script></cable-ready>)
     end
 
     def reset!
