@@ -81,7 +81,7 @@ module CableReady
           end.join(" ")
 
           <<~HTML
-            <cable-ready-operation operation-name="#{name}" #{attrs}></cable-ready-operation>
+            <cr-op operation="#{name}" #{attrs}></cr-op>
           HTML
         end
       end.flatten.join
