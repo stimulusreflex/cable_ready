@@ -3,6 +3,12 @@ import SubscribingElement from './subscribing_element'
 import CableConsumer from '../cable_consumer'
 
 export default class StreamFromElement extends SubscribingElement {
+  static define () {
+    if (!customElements.get('stream-from')) {
+      customElements.define('stream-from', this)
+    }
+  }
+
   async connectedCallback () {
     if (this.preview) return
 

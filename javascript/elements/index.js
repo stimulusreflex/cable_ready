@@ -1,5 +1,6 @@
 import CableConsumer from '../cable_consumer'
 
+import CableReadyElement from './cable_ready_element'
 import StreamFromElement from './stream_from_element'
 import UpdatesForElement from './updates_for_element'
 
@@ -18,13 +19,9 @@ const initialize = (initializeOptions = {}) => {
     )
   }
 
-  if (!customElements.get('stream-from')) {
-    customElements.define('stream-from', StreamFromElement)
-  }
-
-  if (!customElements.get('updates-for')) {
-    customElements.define('updates-for', UpdatesForElement)
-  }
+  CableReadyElement.define()
+  StreamFromElement.define()
+  UpdatesForElement.define()
 }
 
 export { initialize }
