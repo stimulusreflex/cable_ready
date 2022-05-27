@@ -183,17 +183,31 @@ export default {
     processElements(operation, element => {
       before(element, operation)
       operate(operation, () => {
+        let firstObjectInChain
         const { element, receiver, method, args } = operation
         const chain = method.split('.')
-        const obj = receiver === 'window' ? window : element
-        const foundMethod = chain.reduce((lastTerm, nextTerm) => (lastTerm[nextTerm] || {}), obj)
-
+    
+        switch (receiver) {
+          case 'window':
+            firstObjectInChain = window
+            break;
+          case 'document':
+            firstObjectInChain = document
+            break;
+          default:
+            firstObjectInChain = element
+        }
+        let lastObjectInChain = firstObjectInChain
+        const foundMethod = chain.reduce((lastTerm, nextTerm) => {
+          lastObjectInChain = lastTerm
+          return lastTerm[nextTerm] || {}
+        }, firstObjectInChain)
+    
         if (foundMethod instanceof Function) {
-          foundMethod(...(args || []))
+          foundMethod.apply(lastObjectInChain, args || [])
         } else {
           console.warn(
-            `CableReady invokeMethod failed due to missing '${method}' method for:`,
-            receiver === 'window' ? window : element
+            `CableReady invoke_method failed due to missing '${method}' method for:`, firstObjectInChain
           )
         }
       })
