@@ -49,6 +49,7 @@ module CableReady
         inner_html
         insert_adjacent_html
         insert_adjacent_text
+        invoke_method
         morph
         notification
         outer_html
