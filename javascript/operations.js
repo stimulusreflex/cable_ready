@@ -207,7 +207,7 @@ export default {
           foundMethod.apply(lastObjectInChain, args || [])
         } else {
           console.warn(
-            `CableReady invoke_method failed due to missing '${method}' method for:`, firstObjectInChain
+            `CableReady invoke_method operation failed due to missing '${method}' method for:`, firstObjectInChain
           )
         }
       })
