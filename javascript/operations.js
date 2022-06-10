@@ -159,7 +159,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
-        element.textContent = (text != null) ? text : ''
+        element.textContent = text != null ? text : ''
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -174,42 +174,6 @@ export default {
       operate(operation, () => {
         const { name } = operation
         element.classList.add(...getClassNames(name || ''))
-      })
-      after(element, operation)
-    })
-  },
-
-  invokeMethod: operation => {
-    processElements(operation, element => {
-      before(element, operation)
-      operate(operation, () => {
-        let firstObjectInChain
-        const { element, receiver, method, args } = operation
-        const chain = method.split('.')
-    
-        switch (receiver) {
-          case 'window':
-            firstObjectInChain = window
-            break;
-          case 'document':
-            firstObjectInChain = document
-            break;
-          default:
-            firstObjectInChain = element
-        }
-        let lastObjectInChain = firstObjectInChain
-        const foundMethod = chain.reduce((lastTerm, nextTerm) => {
-          lastObjectInChain = lastTerm
-          return lastTerm[nextTerm] || {}
-        }, firstObjectInChain)
-    
-        if (foundMethod instanceof Function) {
-          foundMethod.apply(lastObjectInChain, args || [])
-        } else {
-          console.warn(
-            `CableReady invoke_method operation failed due to missing '${method}' method for:`, firstObjectInChain
-          )
-        }
       })
       after(element, operation)
     })
@@ -304,7 +268,7 @@ export default {
     })
   },
 
-  // DOM Events
+  // DOM Events and Meta-Operations
 
   dispatchEvent: operation => {
     processElements(operation, element => {
@@ -312,6 +276,43 @@ export default {
       operate(operation, () => {
         const { name, detail } = operation
         dispatch(element, name, detail)
+      })
+      after(element, operation)
+    })
+  },
+
+  invokeMethod: operation => {
+    processElements(operation, element => {
+      before(element, operation)
+      operate(operation, () => {
+        let firstObjectInChain
+        const { element, receiver, method, args } = operation
+        const chain = method.split('.')
+
+        switch (receiver) {
+          case 'window':
+            firstObjectInChain = window
+            break
+          case 'document':
+            firstObjectInChain = document
+            break
+          default:
+            firstObjectInChain = element
+        }
+        let lastObjectInChain = firstObjectInChain
+        const foundMethod = chain.reduce((lastTerm, nextTerm) => {
+          lastObjectInChain = lastTerm
+          return lastTerm[nextTerm] || {}
+        }, firstObjectInChain)
+
+        if (foundMethod instanceof Function) {
+          foundMethod.apply(lastObjectInChain, args || [])
+        } else {
+          console.warn(
+            `CableReady invoke_method operation failed due to missing '${method}' method for:`,
+            firstObjectInChain
+          )
+        }
       })
       after(element, operation)
     })
@@ -368,7 +369,7 @@ export default {
       let { url, action, turbo } = operation
       action = action || 'advance'
       if (typeof turbo === 'undefined') turbo = true
-      
+
       if (turbo) {
         if (window.Turbo) window.Turbo.visit(url, { action })
         if (window.Turbolinks) window.Turbolinks.visit(url, { action })
