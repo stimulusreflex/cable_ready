@@ -364,7 +364,11 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.pushState(state || {}, title != null ? title : '', url)
+      history.pushState(
+        state != null ? state : {},
+        title != null ? title : '',
+        url
+      )
     })
     after(window, operation)
   },
