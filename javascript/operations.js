@@ -7,7 +7,10 @@ import {
   processElements,
   before,
   after,
-  operate
+  operate,
+  safeString,
+  safeArray,
+  safeObject
 } from './utils'
 
 export default {
@@ -18,7 +21,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('beforeend', html != null ? html : '')
+        element.insertAdjacentHTML('beforeend', safeString(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -45,7 +48,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.innerHTML = html != null ? html : ''
+        element.innerHTML = safeString(html)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -57,10 +60,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, position, focusSelector } = operation
-        element.insertAdjacentHTML(
-          position || 'beforeend',
-          html != null ? html : ''
-        )
+        element.insertAdjacentHTML(position || 'beforeend', safeString(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -72,10 +72,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, position, focusSelector } = operation
-        element.insertAdjacentText(
-          position || 'beforeend',
-          text != null ? text : ''
-        )
+        element.insertAdjacentText(position || 'beforeend', safeString(text))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -115,7 +112,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = html != null ? html : ''
+        element.outerHTML = safeString(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -127,7 +124,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('afterbegin', html != null ? html : '')
+        element.insertAdjacentHTML('afterbegin', safeString(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -153,7 +150,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = html != null ? html : ''
+        element.outerHTML = safeString(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -165,7 +162,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
-        element.textContent = text != null ? text : ''
+        element.textContent = safeString(text)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -179,7 +176,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.add(...getClassNames(name != null ? name : ''))
+        element.classList.add(...getClassNames(safeString(name)))
       })
       after(element, operation)
     })
@@ -212,7 +209,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.setAttribute(name, value != null ? value : '')
+        element.setAttribute(name, safeString(value))
       })
       after(element, operation)
     })
@@ -223,7 +220,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.dataset[name] = value != null ? value : ''
+        element.dataset[name] = safeString(value)
       })
       after(element, operation)
     })
@@ -234,7 +231,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        if (name in element) element[name] = value != null ? value : ''
+        if (name in element) element[name] = safeString(value)
       })
       after(element, operation)
     })
@@ -245,7 +242,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.style[name] = value != null ? value : ''
+        element.style[name] = safeString(value)
       })
       after(element, operation)
     })
@@ -257,7 +254,7 @@ export default {
       operate(operation, () => {
         const { styles } = operation
         for (let [name, value] of Object.entries(styles))
-          element.style[name] = value != null ? value : ''
+          element.style[name] = safeString(value)
       })
       after(element, operation)
     })
@@ -268,7 +265,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { value } = operation
-        element.value = value != null ? value : ''
+        element.value = safeString(value)
       })
       after(element, operation)
     })
@@ -364,11 +361,7 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.pushState(
-        state != null ? state : {},
-        title != null ? title : '',
-        url
-      )
+      history.pushState(safeObject(state), safeString(title), url)
     })
     after(window, operation)
   },
@@ -413,11 +406,7 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.replaceState(
-        state != null ? state : {},
-        title != null ? title : '',
-        url
-      )
+      history.replaceState(safeObject(state), safeString(title), url)
     })
     after(window, operation)
   },
@@ -435,7 +424,7 @@ export default {
     before(document, operation)
     operate(operation, () => {
       const { cookie } = operation
-      document.cookie = cookie != null ? cookie : ''
+      document.cookie = safeString(cookie)
     })
     after(document, operation)
   },
@@ -454,7 +443,7 @@ export default {
     operate(operation, () => {
       const { key, value, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
-      storage.setItem(key, value != null ? value : '')
+      storage.setItem(key, safeString(value))
     })
     after(document, operation)
   },
@@ -466,8 +455,8 @@ export default {
     operate(operation, () => {
       const { message, level } = operation
       level && ['warn', 'info', 'error'].includes(level)
-        ? console[level](message != null ? message : '')
-        : console.log(message != null ? message : '')
+        ? console[level](safeString(message))
+        : console.log(safeString(message))
     })
     after(document, operation)
   },
@@ -476,7 +465,7 @@ export default {
     before(document, operation)
     operate(operation, () => {
       const { data, columns } = operation
-      console.table(data, columns != null ? columns : [])
+      console.table(data, safeArray(columns))
     })
     after(document, operation)
   },
@@ -487,8 +476,7 @@ export default {
       const { title, options } = operation
       Notification.requestPermission().then(result => {
         operation.permission = result
-        if (result === 'granted')
-          new Notification(title != null ? title : '', options)
+        if (result === 'granted') new Notification(safeString(title), options)
       })
     })
     after(document, operation)

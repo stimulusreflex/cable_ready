@@ -130,6 +130,18 @@ function handleErrors (response) {
   return response
 }
 
+function safeString (str) {
+  return str != null ? str : ''
+}
+
+function safeArray (arr) {
+  return arr != null ? arr : []
+}
+
+function safeObject (obj) {
+  return obj != null ? obj : {}
+}
+
 // A proxy method to wrap a fetch call in error handling
 //
 // * url - the URL to fetch
@@ -167,5 +179,8 @@ export {
   debounce,
   handleErrors,
   graciouslyFetch,
-  kebabize
+  kebabize,
+  safeString,
+  safeArray,
+  safeObject
 }
