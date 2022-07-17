@@ -455,8 +455,8 @@ export default {
     operate(operation, () => {
       const { message, level } = operation
       level && ['warn', 'info', 'error'].includes(level)
-        ? console[level](safeString(message))
-        : console.log(safeString(message))
+        ? console[level](message)
+        : console.log(message)
     })
     after(document, operation)
   },
@@ -476,7 +476,8 @@ export default {
       const { title, options } = operation
       Notification.requestPermission().then(result => {
         operation.permission = result
-        if (result === 'granted') new Notification(safeString(title), options)
+        if (result === 'granted')
+          new Notification(safeString(title), safeObject(options))
       })
     })
     after(document, operation)
