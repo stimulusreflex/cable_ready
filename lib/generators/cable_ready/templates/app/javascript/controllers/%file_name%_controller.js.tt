@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import CableReady from 'cable_ready'
 
 export default class extends Controller {
