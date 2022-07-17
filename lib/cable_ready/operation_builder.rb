@@ -64,7 +64,7 @@ module CableReady
       rescue JSON::ParserError
         {}
       end
-      @enqueued_operations.push(operations)
+      @enqueued_operations.concat(Array.wrap(operations))
       self
     end
 
