@@ -81,6 +81,15 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
     assert_equal({"name" => "passed_option"}, operations.first)
   end
 
+  test "should apply! many operations from an array" do
+    @operation_builder.apply!([{name: "passed_option_1"}, {name: "passed_option_2"}])
+
+    operations = @operation_builder.instance_variable_get(:@enqueued_operations)
+    assert_equal 2, operations.size
+    assert_equal({"name" => "passed_option_1"}, operations.first)
+    assert_equal({"name" => "passed_option_2"}, operations.last)
+  end
+
   test "operations payload should omit empty operations" do
     @operation_builder.add_operation_method("foobar")
     payload = @operation_builder.operations_payload
