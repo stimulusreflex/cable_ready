@@ -65,7 +65,7 @@ const xpathToElementArray = xpath => {
 //
 // * names - could be a string or an array of strings for multiple classes.
 //
-const getClassNames = names => Array(names).flat()
+const getClassNames = names => Array.from(names).flat()
 
 // Perform operation for either the first or all of the elements returned by CSS selector
 //

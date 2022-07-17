@@ -176,7 +176,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.add(...getClassNames(safeString(name)))
+        element.classList.add(...getClassNames([safeString(name)]))
       })
       after(element, operation)
     })
@@ -198,7 +198,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.remove(...getClassNames(name))
+        element.classList.remove(...getClassNames([name]))
       })
       after(element, operation)
     })
