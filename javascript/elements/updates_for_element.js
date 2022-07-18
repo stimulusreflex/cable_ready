@@ -24,6 +24,12 @@ function url (element) {
 }
 
 export default class UpdatesForElement extends SubscribingElement {
+  static define () {
+    if (!customElements.get('updates-for')) {
+      customElements.define('updates-for', this)
+    }
+  }
+
   constructor () {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
