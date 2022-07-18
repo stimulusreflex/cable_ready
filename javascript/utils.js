@@ -131,14 +131,26 @@ function handleErrors (response) {
 }
 
 function safeString (str) {
+  if (typeof str !== 'string') {
+    console.warn(`Operation requires a String, but got ${str} (${typeof str})`)
+    return ''
+  }
   return str != null ? String(str) : ''
 }
 
 function safeArray (arr) {
+  if (!Array.isArray(arr)) {
+    console.warn(`Operation requires an Array, but got ${arr} (${typeof arr})`)
+    return []
+  }
   return arr != null ? Array.from(arr) : []
 }
 
 function safeObject (obj) {
+  if (typeof obj !== 'object') {
+    console.warn(`Operation requires an Object, but got ${obj} (${typeof obj})`)
+    return {}
+  }
   return obj != null ? Object(obj) : {}
 }
 
