@@ -131,15 +131,15 @@ function handleErrors (response) {
 }
 
 function safeString (str) {
-  return str != null ? str : ''
+  return str != null ? String(str) : ''
 }
 
 function safeArray (arr) {
-  return arr != null ? arr : []
+  return arr != null ? Array.from(arr) : []
 }
 
 function safeObject (obj) {
-  return obj != null ? obj : {}
+  return obj != null ? Object(obj) : {}
 }
 
 // A proxy method to wrap a fetch call in error handling
