@@ -362,7 +362,7 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.pushState(safeObject(state), safeString(title), url)
+      history.pushState(safeObject(state), safeString(title), safeString(url))
     })
     after(window, operation)
   },
@@ -372,7 +372,8 @@ export default {
     operate(operation, () => {
       let { url, action, turbo } = operation
       action = action || 'advance'
-      if (typeof turbo === 'undefined') turbo = true
+      url = safeString(url)
+      if (turbo === undefined) turbo = true
 
       if (turbo) {
         if (window.Turbo) window.Turbo.visit(url, { action })
@@ -407,7 +408,11 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.replaceState(safeObject(state), safeString(title), url)
+      history.replaceState(
+        safeObject(state),
+        safeString(title),
+        safeString(url)
+      )
     })
     after(window, operation)
   },
