@@ -130,27 +130,32 @@ function handleErrors (response) {
   return response
 }
 
+function safeScalar (val) {
+  if (
+    val !== undefined &&
+    !['string', 'number', 'boolean'].includes(typeof val)
+  )
+    console.warn(
+      `Operation expects a string, number or boolean, but got ${val} (${typeof val})`
+    )
+  return val != null ? val : ''
+}
+
 function safeString (str) {
-  if (typeof str !== 'string') {
-    console.warn(`Operation requires a String, but got ${str} (${typeof str})`)
-    return ''
-  }
+  if (str !== undefined && typeof str !== 'string')
+    console.warn(`Operation expects a string, but got ${str} (${typeof str})`)
   return str != null ? String(str) : ''
 }
 
 function safeArray (arr) {
-  if (!Array.isArray(arr)) {
-    console.warn(`Operation requires an Array, but got ${arr} (${typeof arr})`)
-    return []
-  }
+  if (arr !== undefined && !Array.isArray(arr))
+    console.warn(`Operation expects an array, but got ${arr} (${typeof arr})`)
   return arr != null ? Array.from(arr) : []
 }
 
 function safeObject (obj) {
-  if (typeof obj !== 'object') {
-    console.warn(`Operation requires an Object, but got ${obj} (${typeof obj})`)
-    return {}
-  }
+  if (obj !== undefined && typeof obj !== 'object')
+    console.warn(`Operation expects an object, but got ${obj} (${typeof obj})`)
   return obj != null ? Object(obj) : {}
 }
 
@@ -192,6 +197,7 @@ export {
   handleErrors,
   graciouslyFetch,
   kebabize,
+  safeScalar,
   safeString,
   safeArray,
   safeObject

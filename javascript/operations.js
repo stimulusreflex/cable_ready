@@ -8,6 +8,7 @@ import {
   before,
   after,
   operate,
+  safeScalar,
   safeString,
   safeArray,
   safeObject
@@ -21,7 +22,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('beforeend', safeString(html))
+        element.insertAdjacentHTML('beforeend', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -48,7 +49,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.innerHTML = safeString(html)
+        element.innerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -60,7 +61,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, position, focusSelector } = operation
-        element.insertAdjacentHTML(position || 'beforeend', safeString(html))
+        element.insertAdjacentHTML(position || 'beforeend', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -72,7 +73,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, position, focusSelector } = operation
-        element.insertAdjacentText(position || 'beforeend', safeString(text))
+        element.insertAdjacentText(position || 'beforeend', safeScalar(text))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -83,7 +84,7 @@ export default {
     processElements(operation, element => {
       const { html } = operation
       const template = document.createElement('template')
-      template.innerHTML = String(html).trim()
+      template.innerHTML = String(safeScalar(html)).trim()
       operation.content = template.content
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
@@ -112,7 +113,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = safeString(html)
+        element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -124,7 +125,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('afterbegin', safeString(html))
+        element.insertAdjacentHTML('afterbegin', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -150,7 +151,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = safeString(html)
+        element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -162,7 +163,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
-        element.textContent = safeString(text)
+        element.textContent = safeScalar(text)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -187,7 +188,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.removeAttribute(name)
+        element.removeAttribute(safeString(name))
       })
       after(element, operation)
     })
@@ -198,7 +199,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.remove(...getClassNames([name]))
+        element.classList.remove(...getClassNames([safeString(name)]))
       })
       after(element, operation)
     })
@@ -209,7 +210,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.setAttribute(name, safeString(value))
+        element.setAttribute(safeString(name), safeScalar(value))
       })
       after(element, operation)
     })
@@ -220,7 +221,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.dataset[name] = safeString(value)
+        element.dataset[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -231,7 +232,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        if (name in element) element[name] = safeString(value)
+        if (name in element) element[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -242,7 +243,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.style[name] = safeString(value)
+        element.style[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -254,7 +255,7 @@ export default {
       operate(operation, () => {
         const { styles } = operation
         for (let [name, value] of Object.entries(styles))
-          element.style[name] = safeString(value)
+          element.style[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -265,7 +266,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { value } = operation
-        element.value = safeString(value)
+        element.value = safeScalar(value)
       })
       after(element, operation)
     })
@@ -278,7 +279,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, detail } = operation
-        dispatch(element, name, detail)
+        dispatch(element, safeString(name), safeObject(detail))
       })
       after(element, operation)
     })
@@ -290,7 +291,7 @@ export default {
       operate(operation, () => {
         let firstObjectInChain
         const { element, receiver, method, args } = operation
-        const chain = method.split('.')
+        const chain = safeString(method).split('.')
 
         switch (receiver) {
           case 'window':
@@ -328,10 +329,10 @@ export default {
       let meta = document.head.querySelector(`meta[name='${name}']`)
       if (!meta) {
         meta = document.createElement('meta')
-        meta.name = name
+        meta.name = safeString(name)
         document.head.appendChild(meta)
       }
-      meta.content = content
+      meta.content = safeScalar(content)
     })
     after(document, operation)
   },
@@ -397,7 +398,7 @@ export default {
     operate(operation, () => {
       const { key, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
-      storage.removeItem(key)
+      storage.removeItem(safeString(key))
     })
     after(document, operation)
   },
@@ -424,7 +425,7 @@ export default {
     before(document, operation)
     operate(operation, () => {
       const { cookie } = operation
-      document.cookie = safeString(cookie)
+      document.cookie = safeScalar(cookie)
     })
     after(document, operation)
   },
@@ -443,7 +444,7 @@ export default {
     operate(operation, () => {
       const { key, value, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
-      storage.setItem(key, safeString(value))
+      storage.setItem(safeString(key), safeScalar(value))
     })
     after(document, operation)
   },
