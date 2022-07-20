@@ -7,7 +7,11 @@ import {
   processElements,
   before,
   after,
-  operate
+  operate,
+  safeScalar,
+  safeString,
+  safeArray,
+  safeObject
 } from './utils'
 
 export default {
@@ -18,7 +22,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('beforeend', html || '')
+        element.insertAdjacentHTML('beforeend', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -45,7 +49,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.innerHTML = html || ''
+        element.innerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -57,7 +61,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, position, focusSelector } = operation
-        element.insertAdjacentHTML(position || 'beforeend', html || '')
+        element.insertAdjacentHTML(position || 'beforeend', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -69,7 +73,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, position, focusSelector } = operation
-        element.insertAdjacentText(position || 'beforeend', text || '')
+        element.insertAdjacentText(position || 'beforeend', safeScalar(text))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -80,7 +84,7 @@ export default {
     processElements(operation, element => {
       const { html } = operation
       const template = document.createElement('template')
-      template.innerHTML = String(html).trim()
+      template.innerHTML = String(safeScalar(html)).trim()
       operation.content = template.content
       const parent = element.parentElement
       const ordinal = Array.from(parent.children).indexOf(element)
@@ -109,7 +113,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = html || ''
+        element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -121,7 +125,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.insertAdjacentHTML('afterbegin', html || '')
+        element.insertAdjacentHTML('afterbegin', safeScalar(html))
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -147,7 +151,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
-        element.outerHTML = html || ''
+        element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
       after(parent.children[ordinal], operation)
@@ -159,7 +163,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { text, focusSelector } = operation
-        element.textContent = text != null ? text : ''
+        element.textContent = safeScalar(text)
         assignFocus(focusSelector)
       })
       after(element, operation)
@@ -173,7 +177,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.add(...getClassNames(name || ''))
+        element.classList.add(...getClassNames([safeString(name)]))
       })
       after(element, operation)
     })
@@ -184,7 +188,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.removeAttribute(name)
+        element.removeAttribute(safeString(name))
       })
       after(element, operation)
     })
@@ -195,7 +199,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.remove(...getClassNames(name))
+        element.classList.remove(...getClassNames([safeString(name)]))
       })
       after(element, operation)
     })
@@ -206,7 +210,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.setAttribute(name, value || '')
+        element.setAttribute(safeString(name), safeScalar(value))
       })
       after(element, operation)
     })
@@ -217,7 +221,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.dataset[name] = value || ''
+        element.dataset[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -228,7 +232,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        if (name in element) element[name] = value || ''
+        if (name in element) element[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -239,7 +243,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, value } = operation
-        element.style[name] = value || ''
+        element.style[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -251,7 +255,7 @@ export default {
       operate(operation, () => {
         const { styles } = operation
         for (let [name, value] of Object.entries(styles))
-          element.style[name] = value || ''
+          element.style[safeString(name)] = safeScalar(value)
       })
       after(element, operation)
     })
@@ -262,7 +266,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { value } = operation
-        element.value = value || ''
+        element.value = safeScalar(value)
       })
       after(element, operation)
     })
@@ -275,7 +279,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name, detail } = operation
-        dispatch(element, name, detail)
+        dispatch(element, safeString(name), safeObject(detail))
       })
       after(element, operation)
     })
@@ -287,7 +291,7 @@ export default {
       operate(operation, () => {
         let firstObjectInChain
         const { element, receiver, method, args } = operation
-        const chain = method.split('.')
+        const chain = safeString(method).split('.')
 
         switch (receiver) {
           case 'window':
@@ -325,10 +329,10 @@ export default {
       let meta = document.head.querySelector(`meta[name='${name}']`)
       if (!meta) {
         meta = document.createElement('meta')
-        meta.name = name
+        meta.name = safeString(name)
         document.head.appendChild(meta)
       }
-      meta.content = content
+      meta.content = safeScalar(content)
     })
     after(document, operation)
   },
@@ -358,7 +362,7 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.pushState(state || {}, title || '', url)
+      history.pushState(safeObject(state), safeString(title), safeString(url))
     })
     after(window, operation)
   },
@@ -368,7 +372,8 @@ export default {
     operate(operation, () => {
       let { url, action, turbo } = operation
       action = action || 'advance'
-      if (typeof turbo === 'undefined') turbo = true
+      url = safeString(url)
+      if (turbo === undefined) turbo = true
 
       if (turbo) {
         if (window.Turbo) window.Turbo.visit(url, { action })
@@ -394,7 +399,7 @@ export default {
     operate(operation, () => {
       const { key, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
-      storage.removeItem(key)
+      storage.removeItem(safeString(key))
     })
     after(document, operation)
   },
@@ -403,7 +408,11 @@ export default {
     before(window, operation)
     operate(operation, () => {
       const { state, title, url } = operation
-      history.replaceState(state || {}, title || '', url)
+      history.replaceState(
+        safeObject(state),
+        safeString(title),
+        safeString(url)
+      )
     })
     after(window, operation)
   },
@@ -421,7 +430,7 @@ export default {
     before(document, operation)
     operate(operation, () => {
       const { cookie } = operation
-      document.cookie = cookie || ''
+      document.cookie = safeScalar(cookie)
     })
     after(document, operation)
   },
@@ -440,7 +449,7 @@ export default {
     operate(operation, () => {
       const { key, value, type } = operation
       const storage = type === 'session' ? sessionStorage : localStorage
-      storage.setItem(key, value || '')
+      storage.setItem(safeString(key), safeScalar(value))
     })
     after(document, operation)
   },
@@ -452,8 +461,8 @@ export default {
     operate(operation, () => {
       const { message, level } = operation
       level && ['warn', 'info', 'error'].includes(level)
-        ? console[level](message || '')
-        : console.log(message || '')
+        ? console[level](message)
+        : console.log(message)
     })
     after(document, operation)
   },
@@ -462,7 +471,7 @@ export default {
     before(document, operation)
     operate(operation, () => {
       const { data, columns } = operation
-      console.table(data, columns || [])
+      console.table(data, safeArray(columns))
     })
     after(document, operation)
   },
@@ -473,7 +482,8 @@ export default {
       const { title, options } = operation
       Notification.requestPermission().then(result => {
         operation.permission = result
-        if (result === 'granted') new Notification(title || '', options)
+        if (result === 'granted')
+          new Notification(safeString(title), safeObject(options))
       })
     })
     after(document, operation)

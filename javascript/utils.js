@@ -65,7 +65,7 @@ const xpathToElementArray = xpath => {
 //
 // * names - could be a string or an array of strings for multiple classes.
 //
-const getClassNames = names => Array(names).flat()
+const getClassNames = names => Array.from(names).flat()
 
 // Perform operation for either the first or all of the elements returned by CSS selector
 //
@@ -130,6 +130,35 @@ function handleErrors (response) {
   return response
 }
 
+function safeScalar (val) {
+  if (
+    val !== undefined &&
+    !['string', 'number', 'boolean'].includes(typeof val)
+  )
+    console.warn(
+      `Operation expects a string, number or boolean, but got ${val} (${typeof val})`
+    )
+  return val != null ? val : ''
+}
+
+function safeString (str) {
+  if (str !== undefined && typeof str !== 'string')
+    console.warn(`Operation expects a string, but got ${str} (${typeof str})`)
+  return str != null ? String(str) : ''
+}
+
+function safeArray (arr) {
+  if (arr !== undefined && !Array.isArray(arr))
+    console.warn(`Operation expects an array, but got ${arr} (${typeof arr})`)
+  return arr != null ? Array.from(arr) : []
+}
+
+function safeObject (obj) {
+  if (obj !== undefined && typeof obj !== 'object')
+    console.warn(`Operation expects an object, but got ${obj} (${typeof obj})`)
+  return obj != null ? Object(obj) : {}
+}
+
 // A proxy method to wrap a fetch call in error handling
 //
 // * url - the URL to fetch
@@ -167,5 +196,9 @@ export {
   debounce,
   handleErrors,
   graciouslyFetch,
-  kebabize
+  kebabize,
+  safeScalar,
+  safeString,
+  safeArray,
+  safeObject
 }
