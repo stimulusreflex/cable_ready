@@ -2,12 +2,14 @@ import { xpathToElement, xpathToElementArray, dispatch } from './utils'
 
 import ActiveElement from './active_element'
 import OperationStore from './operation_store'
+import { decode } from '@msgpack/msgpack'
 
 const perform = (
   operations,
   options = { emitMissingElementWarnings: true }
 ) => {
   const batches = {}
+  operations = decode(operations)
   operations.forEach(operation => {
     if (!!operation.batch)
       batches[operation.batch] = batches[operation.batch]

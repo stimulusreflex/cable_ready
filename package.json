@@ -38,6 +38,7 @@
     "watch": "yarn rollup -wc"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^2.7.2",
     "morphdom": "^2.6.1"
   },
   "devDependencies": {

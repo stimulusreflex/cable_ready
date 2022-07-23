@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "msgpack"
+
 module CableReady
   class Channel < OperationBuilder
     attr_reader :identifier
@@ -7,7 +9,7 @@ module CableReady
     def broadcast(clear: true)
       clients_received = ActionCable.server.broadcast identifier, {
         "cableReady" => true,
-        "operations" => operations_payload,
+        "operations" => operations_payload.to_msgpack,
         "version" => CableReady::VERSION
       }
       reset! if clear
@@ -17,7 +19,7 @@ module CableReady
     def broadcast_to(model, clear: true)
       clients_received = identifier.broadcast_to model, {
         "cableReady" => true,
-        "operations" => operations_payload,
+        "operations" => operations_payload.to_msgpack,
         "version" => CableReady::VERSION
       }
       reset! if clear
