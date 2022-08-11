@@ -1,6 +1,8 @@
 import Operations from './operations'
 
-window.CableReadyOperationsStore = Operations
+if (!window.CableReadyOperationsStore) {
+  window.CableReadyOperationsStore = Operations
+}
 
 const add = newOperations => {
   window.CableReadyOperationsStore = { ...window.CableReadyOperationsStore, ...newOperations }
