@@ -36,7 +36,6 @@
     "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
     "build": "yarn rollup -c",
     "watch": "yarn rollup -wc",
-    "test:old": "yarn run mocha --require @babel/register --require jsdom-global/register --require esm ./javascript/test",
     "test": "web-test-runner javascript/test/**/*.test.js"
   },
   "dependencies": {
