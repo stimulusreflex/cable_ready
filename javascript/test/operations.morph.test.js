@@ -51,7 +51,7 @@ describe('operations', () => {
     })
 
     context('childrenOnly: true', () => {
-      it('should not add attributes to the morph target', async () => {
+      it('should just update the children', async () => {
         const dom = await fixture(
           html`
             <div id="morph">Pre-Operation</div>
@@ -62,14 +62,14 @@ describe('operations', () => {
           {
             operation: 'morph',
             selector: '#morph',
-            html: 'data-muscles will not be set.',
+            html: 'Post-Operation',
             childrenOnly: true
           }
         ]
 
         perform(operations)
 
-        assert.equal(element.innerHTML, 'data-muscles will not be set.')
+        assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(Object.keys(document.body.dataset).length, 0)
       })
 
@@ -84,14 +84,14 @@ describe('operations', () => {
           {
             operation: 'morph',
             selector: '#morph',
-            html: 'data-muscles will not be set.',
+            html: 'Post-Operation',
             childrenOnly: true
           }
         ]
 
         perform(operations)
 
-        assert.equal(element.innerHTML, 'data-muscles will not be set.')
+        assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(element.dataset.muscles, 'pre')
       })
     })
