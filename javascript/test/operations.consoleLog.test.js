@@ -1,6 +1,5 @@
-import assert from 'assert'
+import { html, fixture, assert } from '@open-wc/testing'
 import sinon from 'sinon'
-import { JSDOM } from 'jsdom'
 
 import { perform } from '../cable_ready'
 
@@ -10,8 +9,8 @@ describe('operations', () => {
       sinon.restore()
     })
 
-    it('should console log', () => {
-      const operations = { consoleLog: [{ message: 'Log' }] }
+    it('should console log', async () => {
+      const operations = [{ operation: 'consoleLog', message: 'Log' }]
       sinon.replace(console, 'log', sinon.fake())
 
       perform(operations)
@@ -19,8 +18,10 @@ describe('operations', () => {
       assert(console.log.calledWith('Log'))
     })
 
-    it('should console log with explicit level', () => {
-      const operations = { consoleLog: [{ message: 'Log', level: 'log' }] }
+    it('should console log with explicit level', async () => {
+      const operations = [
+        { operation: 'consoleLog', message: 'Log', level: 'log' }
+      ]
       sinon.replace(console, 'log', sinon.fake())
 
       perform(operations)
@@ -28,8 +29,10 @@ describe('operations', () => {
       assert(console.log.calledWith('Log'))
     })
 
-    it('should console warn', () => {
-      const operations = { consoleLog: [{ message: 'Warn', level: 'warn' }] }
+    it('should console warn', async () => {
+      const operations = [
+        { operation: 'consoleLog', message: 'Warn', level: 'warn' }
+      ]
       sinon.replace(console, 'warn', sinon.fake())
 
       perform(operations)
@@ -37,8 +40,10 @@ describe('operations', () => {
       assert(console.warn.calledWith('Warn'))
     })
 
-    it('should console info', () => {
-      const operations = { consoleLog: [{ message: 'Info', level: 'info' }] }
+    it('should console info', async () => {
+      const operations = [
+        { operation: 'consoleLog', message: 'Info', level: 'info' }
+      ]
       sinon.replace(console, 'info', sinon.fake())
 
       perform(operations)
@@ -46,8 +51,10 @@ describe('operations', () => {
       assert(console.info.calledWith('Info'))
     })
 
-    it('should console error', () => {
-      const operations = { consoleLog: [{ message: 'Error', level: 'error' }] }
+    it('should console error', async () => {
+      const operations = [
+        { operation: 'consoleLog', message: 'Error', level: 'error' }
+      ]
       sinon.replace(console, 'error', sinon.fake())
 
       perform(operations)

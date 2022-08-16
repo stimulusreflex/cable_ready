@@ -1,50 +1,44 @@
-import assert from 'assert'
+import { html, fixture, assert } from '@open-wc/testing'
 import refute from './refute'
-import { JSDOM } from 'jsdom'
 
 import { perform } from '../cable_ready'
 
 const events = [
   {
     selector: 'inner_html',
-    operations: {
-      innerHtml: [
-        {
-          selector: '#inner_html',
-          html: '<i>CableReady rocks innerHtml</i>',
-          focusSelector: '#inner_html-focus'
-        }
-      ]
-    }
+    operations: [
+      {
+        operation: 'innerHtml',
+        selector: '#inner_html',
+        html: '<i>CableReady rocks innerHtml</i>',
+        focusSelector: '#inner_html-focus'
+      }
+    ]
   },
 
   {
     selector: 'insert_adjacent_html',
-    operations: {
-      insertAdjacentHtml: [
-        {
-          selector: '#insert_adjacent_html',
-          html: '<i>CableReady rocks insertAdjacentHtml</i>',
-          focusSelector: '#insert_adjacent_html-focus'
-        }
-      ]
-    }
+    operations: [
+      {
+        operation: 'insertAdjacentHtml',
+        selector: '#insert_adjacent_html',
+        html: '<i>CableReady rocks insertAdjacentHtml</i>',
+        focusSelector: '#insert_adjacent_html-focus'
+      }
+    ]
   }
 ]
 
 describe('operations', () => {
   context('focus', () => {
-    it('should focus target after operation', () => {
-      events.forEach(event => {
+    it('should focus target after operation', async () => {
+      events.forEach(async event => {
         const { selector, operations } = event
 
-        const dom = new JSDOM(
-          `
+        const dom = await fixture(html`
           <div id="${selector}">Pre-Operation</div>
-          <input type="text" id="${selector}-focus">
-          `
-        )
-        global.document = dom.window.document
+          <input type="text" id="${selector}-focus" />
+        `)
 
         const element = document.querySelector(`#${selector}`)
         const focusElement = document.querySelector(`#${selector}-focus`)

@@ -1,44 +1,44 @@
-import assert from 'assert'
+import { html, fixture, assert } from '@open-wc/testing'
 import refute from './refute'
-import { JSDOM } from 'jsdom'
 
 import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('events', () => {
-    it('should emit before and after events on element', () => {
-      const events = [
-        {
-          domContent: '<div id="inner_html"></div>',
-          selector: '#inner_html',
-          name: 'inner-html',
-          eventDetailHtml: '<i>Post-Operation inner_html</i>',
-          operations: {
-            innerHtml: [
-              {
-                selector: '#inner_html',
-                html: '<i>Post-Operation inner_html</i>'
-              }
-            ]
+    it('should emit before and after events on element', async () => {
+      const innerHtmlEvent = {
+        domContent: html`
+          <div id="inner_html"></div>
+        `,
+        selector: '#inner_html',
+        name: 'inner-html',
+        eventDetailHtml: '<i>Post-Operation inner_html</i>',
+        operations: [
+          {
+            operation: 'innerHtml',
+            selector: '#inner_html',
+            html: '<i>Post-Operation inner_html</i>'
           }
-        },
-        {
-          domContent: '<div id="insert_adjacent_html"></div>',
-          selector: '#insert_adjacent_html',
-          name: 'insert-adjacent-html',
-          eventDetailHtml: '<i>Post-Operation insert_adjacent_html</i>',
-          operations: {
-            insertAdjacentHtml: [
-              {
-                selector: '#insert_adjacent_html',
-                html: '<i>Post-Operation insert_adjacent_html</i>'
-              }
-            ]
-          }
-        }
-      ]
+        ]
+      }
 
-      events.forEach(event => {
+      const insertAdjacentHtmlEvent = {
+        domContent: html`
+          <div id="insert_adjacent_html"></div>
+        `,
+        selector: '#insert_adjacent_html',
+        name: 'insert-adjacent-html',
+        eventDetailHtml: '<i>Post-Operation insert_adjacent_html</i>',
+        operations: [
+          {
+            operation: 'insertAdjacentHtml',
+            selector: '#insert_adjacent_html',
+            html: '<i>Post-Operation insert_adjacent_html</i>'
+          }
+        ]
+      }
+
+      const testEvent = async event => {
         const {
           name,
           selector,
@@ -47,9 +47,7 @@ describe('operations', () => {
           eventDetailHtml
         } = event
 
-        const dom = new JSDOM(domContent)
-        global.document = dom.window.document
-
+        const dom = await fixture(domContent)
         const element = document.querySelector(selector)
 
         let beforeEvent = false
@@ -80,57 +78,61 @@ describe('operations', () => {
 
         assert(beforeEvent)
         assert(afterEvent)
-      })
+      }
+
+      await testEvent(innerHtmlEvent)
+      await testEvent(insertAdjacentHtmlEvent)
     })
 
-    it('should bubble up the DOM tree', () => {
-      const events = [
-        {
-          domContent: '<div id="inner_html"></div>',
-          selector: '#inner_html',
-          name: 'inner-html',
-          operations: {
-            innerHtml: [
-              { selector: '#inner_html', html: 'Post-Operation inner_html' }
-            ]
-          }
-        },
-        {
-          domContent: '<div id="insert_adjacent_html"></div>',
-          selector: '#insert_adjacent_html',
-          name: 'insert-adjacent-html',
-          operations: {
-            insertAdjacentHtml: [
-              {
-                selector: '#insert_adjacent_html',
-                html: 'Post-Operation insert_adjacent_html'
-              }
-            ]
-          }
-        }
-      ]
-
-      events.forEach(event => {
-        const { name, selector, domContent, operations } = event
-
-        const dom = new JSDOM(
-          `
-          <div id="parent">
+    it('should bubble up the DOM tree', async () => {
+      const innerHtmlEvent = {
+        domContent: html`
+          <div id="parent-inner-html">
             <div>
-              ${domContent}
+              <div id="inner_html"></div>
             </div>
           </div>
-          `
-        )
+        `,
+        selector: '#inner_html',
+        name: 'inner-html',
+        operations: [
+          {
+            operation: 'innerHtml',
+            selector: '#inner_html',
+            html: 'Post-Operation inner_html'
+          }
+        ]
+      }
 
-        global.document = dom.window.document
+      const insertAdjacentHtmlEvent = {
+        domContent: html`
+          <div id="parent-insert-adjacent-html">
+            <div>
+              <div id="insert_adjacent_html"></div>
+            </div>
+          </div>
+        `,
+        selector: '#insert_adjacent_html',
+        name: 'insert-adjacent-html',
+        operations: [
+          {
+            operation: 'insertAdjacentHtml',
+            selector: '#insert_adjacent_html',
+            html: 'Post-Operation insert_adjacent_html'
+          }
+        ]
+      }
 
+      const testEvent = async event => {
+        const { name, selector, domContent, operations } = event
+
+        const dom = await fixture(domContent)
         const element = document.querySelector(selector)
 
         let beforeEvent = false
         let afterEvent = false
 
-        const parent = document.querySelector('#parent')
+        const parent = document.querySelector(`#parent-${name}`)
 
         parent.addEventListener(`cable-ready:before-${name}`, event => {
           beforeEvent = true
@@ -151,7 +153,10 @@ describe('operations', () => {
 
         assert(beforeEvent)
         assert(afterEvent)
-      })
+      }
+
+      await testEvent(innerHtmlEvent)
+      await testEvent(insertAdjacentHtmlEvent)
     })
   })
 })
