@@ -1,6 +1,6 @@
 {
   "name": "cable_ready",
-  "version": "4.5.0",
+  "version": "5.0.0-pre9",
   "description": "CableReady helps you create great real-time user experiences by making it simple to trigger client-side DOM changes from server-side Ruby.",
   "keywords": [
     "ruby",
@@ -15,20 +15,27 @@
   ],
   "homepage": "https://cableready.stimulusreflex.com/",
   "bugs": {
-    "url": "https://github.com/hopsoft/cable_ready/issues"
+    "url": "https://github.com/stimulusreflex/cable_ready/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com:hopsoft/cable_ready.git"
+    "url": "git+https://github.com:stimulusreflex/cable_ready.git"
   },
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",
-  "main": "./javascript/index.js",
+  "main": "./dist/cable_ready.umd.min.js",
+  "module": "./dist/cable_ready.min.js",
+  "files": [
+    "dist/*",
+    "javascript/*"
+  ],
   "scripts": {
     "lint": "yarn run prettier-standard:check",
     "format": "yarn run prettier-standard:format",
-    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js",
-    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js",
+    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js rollup.config.js",
+    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
+    "build": "yarn rollup -c",
+    "watch": "yarn rollup -wc",
     "test": "yarn run mocha --require @babel/register --require jsdom-global/register --require esm ./javascript/test"
   },
   "dependencies": {
@@ -43,7 +50,12 @@
     "jsdom": "^16.5.3",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.3.2",
-    "prettier-standard": "^16.1.0",
-    "sinon": "^10.0.0"
+    "sinon": "^10.0.0",
+    "@rollup/plugin-commonjs": "^21.0.3",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "prettier-standard": "^16.4.1",
+    "rollup": "^2.70.1",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }

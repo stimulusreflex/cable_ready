@@ -1,17 +1,21 @@
 <p align="center">
-  <img src="https://gitcdn.link/repo/hopsoft/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
+  <img src="https://raw.githubusercontent.com/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
-    <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
-    <img src="https://img.shields.io/npm/v/cable_ready.svg?color=blue" />
+    <a href="https://rubygems.org/gems/cable_ready">
+      <img src="https://img.shields.io/gem/v/cable_ready.svg?color=red" />
+    </a>
+    <a href="https://www.npmjs.com/package/cable_ready">
+      <img src="https://img.shields.io/npm/v/cable_ready.svg?color=blue" />
+    </a>
     <a href="https://www.npmjs.com/package/cable_ready">
       <img alt="downloads" src="https://img.shields.io/npm/dm/cable_ready.svg?color=blue" target="_blank" />
     </a>
-    <a href="https://github.com/hopsoft/cable_ready/blob/master/LICENSE">
+    <a href="https://github.com/stimulusreflex/cable_ready/blob/master/LICENSE">
       <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen.svg" target="_blank" />
     </a>
     <a href="http://blog.codinghorror.com/the-best-code-is-no-code-at-all/" target="_blank">
-      <img alt="Lines of Code" src="https://img.shields.io/badge/lines_of_code-663-brightgreen.svg?style=flat" />
+      <img alt="Lines of Code" src="https://img.shields.io/badge/lines_of_code-1203-brightgreen.svg?style=flat" />
     </a>
     <a href="https://cableready.stimulusreflex.com" target="_blank">
       <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -30,11 +34,11 @@
     <a href="https://www.codacy.com/manual/hopsoft/cable_ready/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hopsoft/cable_ready&amp;utm_campaign=Badge_Grade" target="_blank">
       <img alt="Code Quality" src="https://app.codacy.com/project/badge/Grade/8e6971e3410347eaaa16be2555160b9c"/>
     </a>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/hopsoft/cable_ready/workflows/Prettier-Standard/badge.svg">
-      <img src="https://github.com/hopsoft/cable_ready/workflows/Prettier-Standard/badge.svg" alt="Prettier-Standard" style="max-width:100%;">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg">
+      <img src="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg" alt="Prettier-Standard" style="max-width:100%;">
     </a>
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/hopsoft/cable_ready/workflows/StandardRB/badge.svg">
-      <img src="https://github.com/hopsoft/cable_ready/workflows/StandardRB/badge.svg" alt="StandardRB" style="max-width:100%;">
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/stimulusreflex/cable_ready/workflows/StandardRB/badge.svg">
+      <img src="https://github.com/stimulusreflex/cable_ready/workflows/StandardRB/badge.svg" alt="StandardRB" style="max-width:100%;">
     </a>
   </p>
 </p>
@@ -48,7 +52,7 @@ to learn more about ActionCable before proceeding.
 ## 📚 Docs
 
 - [Official Documentation](https://cableready.stimulusreflex.com)
-- [Documentation Source Code](https://github.com/hopsoft/cable_ready/tree/master/docs)
+- [Documentation Source Code](https://github.com/stimulusreflex/cable_ready/tree/master/docs)
 
 ## 💙 Community
 
@@ -56,12 +60,41 @@ to learn more about ActionCable before proceeding.
 
 ## 🚀 Install
 
+### Rubygem
+
 ```sh
-bundle add cable_ready && yarn add cable_ready
+bundle add cable_ready
+```
+
+### JavaScript
+
+There are a few ways to install the CableReady JavaScript client, depending on your application setup.
+
+#### ESBuild / Webpacker
+
+```sh
+yarn add cable_ready
+```
+
+#### Import maps:
+
+```ruby
+# config/importmap.rb
+
+# ...
+
+pin 'cable_ready', to: 'cable_ready.min.js', preload: true
+```
+
+#### Rails Asset pipeline (Sprockets):
+
+```html+erb
+<!-- app/views/layouts/application.html.erb -->
+
+<%= javascript_include_tag "cable_ready.umd.min.js", "data-turbo-track": "reload" %>
 ```
 
 Checkout the [documentation](https://cableready.stimulusreflex.com) to continue!
-
 
 ## 🙏 Contributing
 
@@ -78,11 +111,15 @@ Please run `./bin/standardize` prior submitting pull requests.
 
 ### 📦 Releasing
 
-1. Bump version number at `lib/cable_ready/version.rb`
-1. Run `rake build`
+1. Make sure that you run `yarn` and `bundle` to pick up the latest.
+1. Bump version number at `lib/cable_ready/version.rb`. Pre-release versions use `.preN`
+1. Run `rake build` and `yarn build`
+1. Commit and push changes to github
 1. Run `rake release`
 1. Run `yarn publish --no-git-tag-version`
-1. Commit and push changes to the `package.json` file
+1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
+1. Commit and push changes to GitHub
+1. Create a new release on GitHub ([here](https://github.com/stimulusreflex/stimulus_reflex/releases)) and generate the changelog for the stable release for it
 
 ## 📝 License
 

@@ -4,7 +4,7 @@ require "rails/generators"
 require "fileutils"
 
 module CableReady
-  class StreamFromGenerator < Rails::Generators::Base
+  class HelpersGenerator < Rails::Generators::Base
     desc "Initializes CableReady with a reference to the shared ActionCable consumer"
     source_root File.expand_path("templates", __dir__)
 

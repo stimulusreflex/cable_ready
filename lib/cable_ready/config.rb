@@ -49,11 +49,14 @@ module CableReady
         inner_html
         insert_adjacent_html
         insert_adjacent_text
+        invoke_method
         morph
         notification
         outer_html
         prepend
         push_state
+        redirect_to
+        reload
         remove
         remove_attribute
         remove_css_class

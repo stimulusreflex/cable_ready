@@ -1,13 +1,28 @@
-import * as MorphCallbacks from './morph_callbacks'
+import packageInfo from '../package.json'
+import { perform, performAsync } from './cable_ready'
+import { initialize } from './elements'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
+
+import * as MorphCallbacks from './morph_callbacks'
 import * as Utils from './utils'
+
 import OperationStore, { addOperation, addOperations } from './operation_store'
-import { perform, performAsync, initialize } from './cable_ready'
-import './stream_from_element'
+import CableReadyElement from './elements/cable_ready_element'
+import StreamFromElement from './elements/stream_from_element'
+import UpdatesForElement from './elements/updates_for_element'
+import SubscribingElement from './elements/subscribing_element'
+import CableConsumer from './cable_consumer'
 
-export { Utils, MorphCallbacks }
+export {
+  Utils,
+  MorphCallbacks,
+  CableReadyElement,
+  StreamFromElement,
+  UpdatesForElement,
+  SubscribingElement
+}
 
-export default {
+const global = {
   perform,
   performAsync,
   shouldMorphCallbacks,
@@ -15,13 +30,22 @@ export default {
   initialize,
   addOperation,
   addOperations,
+  version: packageInfo.version,
+  cable: CableConsumer,
   get DOMOperations () {
     console.warn(
-      'DEPRECATED: Please use `CableReady.operations.jazzHands = ...` instead of `CableReady.DOMOperations.jazzHands = ...`'
+      'DEPRECATED: Please use `CableReady.operations` instead of `CableReady.DOMOperations`'
     )
     return OperationStore.all
   },
   get operations () {
     return OperationStore.all
+  },
+  get consumer () {
+    return CableConsumer.consumer
   }
 }
+
+window.CableReady = global
+
+export default global
