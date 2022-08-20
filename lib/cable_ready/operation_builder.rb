@@ -108,9 +108,10 @@ module CableReady
         @enqueued_operations.map do |operation|
           turbo_action = translate_operation_name(operation["operation"])
           turbo_target, target_attribute = translate_selector(operation)
-          turbo_template = operation["html"] || operation[:html] || operation["message"]
+          turbo_template = operation["html"] || operation[:html]
+          attributes = operation.except("operation", "selector", "html", "domId", "dom_id", :dom_id, :html).deep_transform_keys { |key| key.to_s.dasherize }
 
-          turbo_stream_action_tag(turbo_action, target_attribute => turbo_target, template: turbo_template)
+          turbo_stream_action_tag(turbo_action, target_attribute => turbo_target, template: turbo_template, **attributes)
         end
       else
         @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }

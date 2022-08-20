@@ -58,12 +58,8 @@ class CableReady::OperationBuilderTurboStreamTest < ActiveSupport::TestCase
     @operation_builder.add_operation_method("foobar")
     @operation_builder.foobar({name: "passed_option"})
 
-    # the Turbo Helper current don't supoport custom additional attributes
-    # assert_equal("<turbo-stream action=\"foobar\" targets=\"body\" name=\"passed_option\"><template></template></turbo-stream>", @operation_builder.to_turbo_stream)
-    # assert_equal("<turbo-stream action=\"foobar\" targets=\"body\" name=\"passed_option\"><template></template></turbo-stream>", @operation_builder.to_html)
-
-    assert_equal("<turbo-stream action=\"foobar\" targets=\"body\"><template></template></turbo-stream>", @operation_builder.to_turbo_stream)
-    assert_equal("<turbo-stream action=\"foobar\" targets=\"body\"><template></template></turbo-stream>", @operation_builder.to_html)
+    assert_equal("<turbo-stream name=\"passed_option\" action=\"foobar\" targets=\"body\"><template></template></turbo-stream>", @operation_builder.to_turbo_stream)
+    assert_equal("<turbo-stream name=\"passed_option\" action=\"foobar\" targets=\"body\"><template></template></turbo-stream>", @operation_builder.to_html)
   end
 
   test "operations payload should omit empty operations" do
@@ -77,9 +73,7 @@ class CableReady::OperationBuilderTurboStreamTest < ActiveSupport::TestCase
     @operation_builder.add_operation_method("foo_bar")
     @operation_builder.foo_bar({beep_boop: "passed_option"})
 
-    # the Turbo Helper current don't supoport custom additional attributes
-    # operations = ["<turbo-stream action=\"fooBar\" targets=\"body\" beep-boop=\"passed_option\"><template></template></turbo-stream>"]
-    operations = ["<turbo-stream action=\"fooBar\" targets=\"body\"><template></template></turbo-stream>"]
+    operations = ["<turbo-stream beep-boop=\"passed_option\" action=\"fooBar\" targets=\"body\"><template></template></turbo-stream>"]
 
     assert_equal(operations, @operation_builder.operations_payload)
   end
@@ -185,9 +179,7 @@ class CableReady::OperationBuilderTurboStreamTest < ActiveSupport::TestCase
 
     @operation_builder.console_log(message: "Hello Console", level: "warn")
 
-    # the Turbo Helper current don't supoport custom additional attributes
-    # operations = ["<turbo-stream action=\"consoleLog\" targets=\"body\" level="warn"><template>Hello Console</template></turbo-stream>"]
-    operations = ["<turbo-stream action=\"consoleLog\" targets=\"body\"><template>Hello Console</template></turbo-stream>"]
+    operations = ["<turbo-stream message=\"Hello Console\" level=\"warn\" action=\"consoleLog\" targets=\"body\"><template></template></turbo-stream>"]
 
     assert_equal(operations, @operation_builder.operations_payload)
   end
