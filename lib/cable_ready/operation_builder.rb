@@ -3,6 +3,8 @@
 module CableReady
   class OperationBuilder
     include Identifiable
+    include Turbo::Streams::ActionHelper
+
     attr_reader :identifier, :previous_selector
 
     def self.finalizer_for(identifier)
@@ -58,6 +60,14 @@ module CableReady
       @enqueued_operations.to_json(*args)
     end
 
+    def to_turbo_stream
+      operations_payload.join
+    end
+
+    def to_html
+      to_turbo_stream
+    end
+
     def apply!(operations = "[]")
       operations = begin
         JSON.parse(operations.is_a?(String) ? operations : operations.to_json)
@@ -69,7 +79,42 @@ module CableReady
     end
 
     def operations_payload
-      @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
+      if ::CableReady.config.operation_mode == :turbo_stream
+        def translate_operation_name(name)
+          case name
+          when "innerHtml" then "replace"
+          else name
+          end
+        end
+
+        def single_selector?(selector)
+          selector.starts_with?("#")
+        end
+
+        def translate_selector(operation)
+          dom_id = operation["domId"] || operation[:dom_id] || operation["dom_id"]
+          return [dom_id, :target] if dom_id.present?
+
+          selector = operation["selector"]
+          return ["body", :targets] if selector.nil? || selector.empty?
+
+          if single_selector?(selector)
+            return [selector.from(1), :target]
+          end
+
+          [selector, :targets]
+        end
+
+        @enqueued_operations.map do |operation|
+          turbo_action = translate_operation_name(operation["operation"])
+          turbo_target, target_attribute = translate_selector(operation)
+          turbo_template = operation["html"] || operation[:html] || operation["message"]
+
+          turbo_stream_action_tag(turbo_action, target_attribute => turbo_target, template: turbo_template)
+        end
+      else
+        @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
+      end
     end
 
     def operations_in_custom_element

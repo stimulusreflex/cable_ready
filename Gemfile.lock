@@ -9,6 +9,7 @@ PATH
       activesupport (>= 5.2)
       railties (>= 5.2)
       thread-local (>= 1.1.0)
+      turbo-rails
 
 GEM
   remote: https://rubygems.org/
@@ -170,6 +171,10 @@ GEM
       standard
     thor (1.1.0)
     thread-local (1.1.0)
+    turbo-rails (1.1.1)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)

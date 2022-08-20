@@ -11,6 +11,11 @@ CableReady.configure do |config|
 
   # config.on_new_version_available = :ignore
 
+  # Specify operations payload output format, options:
+  # `:cable_ready` or `:turbo_stream`
+
+  # config.operation_mode = :turbo_stream
+
   # Define your own custom operations
   # https://cableready.stimulusreflex.com/customization#custom-operations
 
