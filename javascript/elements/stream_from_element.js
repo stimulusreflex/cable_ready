@@ -1,6 +1,7 @@
 import { perform } from '../cable_ready'
 import SubscribingElement from './subscribing_element'
 import CableConsumer from '../cable_consumer'
+import MissingElement from '../missing_element'
 
 export default class StreamFromElement extends SubscribingElement {
   static define () {
@@ -18,7 +19,7 @@ export default class StreamFromElement extends SubscribingElement {
       this.createSubscription(
         consumer,
         'CableReady::Stream',
-        this.performOperations
+        this.performOperations.bind(this)
       )
     } else {
       console.error(
@@ -28,6 +29,18 @@ export default class StreamFromElement extends SubscribingElement {
   }
 
   performOperations (data) {
-    if (data.cableReady) perform(data.operations)
+    if (data.cableReady)
+      perform(data.operations, { onMissingElement: this.onMissingElement })
+  }
+
+  get onMissingElement () {
+    const value = this.getAttribute('missing') || MissingElement.behavior
+
+    // stream_from does not support raising exceptions on missing elements because there's no way to catch them
+    if (['warn', 'ignore', 'event'].includes(value)) return value
+    else {
+      console.warn("Invalid 'missing' attribute. Defaulting to 'warn'.")
+      return 'warn'
+    }
   }
 }
