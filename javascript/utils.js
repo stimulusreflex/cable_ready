@@ -159,6 +159,10 @@ function safeObject (obj) {
   return obj != null ? Object(obj) : {}
 }
 
+function fragmentToString (fragment) {
+  return new XMLSerializer().serializeToString(fragment)
+}
+
 // A proxy method to wrap a fetch call in error handling
 //
 // * url - the URL to fetch
@@ -200,5 +204,6 @@ export {
   safeScalar,
   safeString,
   safeArray,
-  safeObject
+  safeObject,
+  fragmentToString
 }
