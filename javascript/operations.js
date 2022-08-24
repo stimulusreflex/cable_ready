@@ -87,7 +87,7 @@ export default {
       template.innerHTML = String(safeScalar(html)).trim()
       operation.content = template.content
       const parent = element.parentElement
-      const ordinal = Array.from(parent.children).indexOf(element)
+      const idx = parent && Array.from(parent.children).indexOf(element)
       before(element, operation)
       operate(operation, () => {
         const { childrenOnly, focusSelector } = operation
@@ -102,21 +102,21 @@ export default {
         )
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], operation)
+      after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
 
   outerHtml: operation => {
     processElements(operation, element => {
       const parent = element.parentElement
-      const ordinal = Array.from(parent.children).indexOf(element)
+      const idx = parent && Array.from(parent.children).indexOf(element)
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], operation)
+      after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
 
@@ -147,14 +147,14 @@ export default {
   replace: operation => {
     processElements(operation, element => {
       const parent = element.parentElement
-      const ordinal = Array.from(parent.children).indexOf(element)
+      const idx = parent && Array.from(parent.children).indexOf(element)
       before(element, operation)
       operate(operation, () => {
         const { html, focusSelector } = operation
         element.outerHTML = safeScalar(html)
         assignFocus(focusSelector)
       })
-      after(parent.children[ordinal], operation)
+      after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
 
