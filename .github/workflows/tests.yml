@@ -9,36 +9,46 @@ on:
       - master
 
 jobs:
+  javascript_test:
+    name: JavaScript Test Action
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12, 16, 16]
+
+    name: Node v${{ matrix.node }}
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node }}
+        cache: 'yarn'
+
+    - name: Yarn install
+      run: yarn
+
+    - name: Run JavaScript Tests
+      run: yarn build
+
+    - name: Run JavaScript Tests
+      run: yarn test
+
   ruby_test:
     name: Ruby Test Action
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version: [2.6, 2.7, '3.0']
-    steps:
-    - uses: actions/checkout@master
-    - name: Set up Ruby ${{ matrix.ruby-version }}
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-    - name: Run ruby tests
-      run: bundle exec rake test
 
-  javascript_build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ '12', '14', '16' ]
-    name: Node v${{ matrix.node }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@master
+      - name: Set up Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
         with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - name: Build JavaScript package
-        run: |
-          yarn install
-          yarn build
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Run ruby tests
+        run: bundle exec rake test

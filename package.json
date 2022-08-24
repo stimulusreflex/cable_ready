@@ -35,17 +35,23 @@
     "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js rollup.config.js",
     "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
     "build": "yarn rollup -c",
-    "watch": "yarn rollup -wc"
+    "watch": "yarn rollup -wc",
+    "test": "web-test-runner javascript/test/**/*.test.js"
   },
   "dependencies": {
     "morphdom": "^2.6.1"
   },
   "devDependencies": {
+    "@open-wc/testing": "^3.1.6",
     "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.1.3",
+    "@web/dev-server-esbuild": "^0.3.2",
+    "@web/dev-server-rollup": "^0.3.19",
+    "@web/test-runner": "^0.14.0",
     "prettier-standard": "^16.4.1",
     "rollup": "^2.70.1",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "sinon": "^10.0.0"
   }
 }
