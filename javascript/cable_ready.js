@@ -1,11 +1,11 @@
 import { xpathToElement, xpathToElementArray, dispatch } from './utils'
-
 import ActiveElement from './active_element'
 import OperationStore from './operation_store'
+import MissingElement from './missing_element'
 
 const perform = (
   operations,
-  options = { emitMissingElementWarnings: true }
+  options = { onMissingElement: MissingElement.behavior }
 ) => {
   const batches = {}
   operations.forEach(operation => {
@@ -30,7 +30,7 @@ const perform = (
       } else {
         operation.element = document
       }
-      if (operation.element || options.emitMissingElementWarnings) {
+      if (operation.element || options.onMissingElement !== 'ignore') {
         ActiveElement.set(document.activeElement)
         const cableReadyOperation = OperationStore.all[name]
 
@@ -55,12 +55,24 @@ const perform = (
         )
         console.error(e)
       } else {
-        console.warn(
-          `CableReady ${name ||
-            'operation'} failed due to missing DOM element for selector: '${
-            operation.selector
-          }'`
-        )
+        const warning = `CableReady ${name ||
+          ''} operation failed due to missing DOM element for selector: '${
+          operation.selector
+        }'`
+        switch (options.onMissingElement) {
+          case 'ignore':
+            break
+          case 'event':
+            dispatch(document, 'cable-ready:missing-element', {
+              warning,
+              operation
+            })
+            break
+          case 'exception':
+            throw warning
+          default:
+            console.warn(warning)
+        }
       }
     }
   })
@@ -68,7 +80,7 @@ const perform = (
 
 const performAsync = (
   operations,
-  options = { emitMissingElementWarnings: true }
+  options = { onMissingElement: MissingElement.behavior }
 ) => {
   return new Promise((resolve, reject) => {
     try {
