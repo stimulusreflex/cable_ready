@@ -54,7 +54,7 @@ describe('operations', () => {
       ids.forEach(id => refute(document.querySelector(id)))
     })
 
-    it('should throw error if element doesnt exist', async () => {
+    it('should emit console warning if element doesnt exist', async () => {
       const dom = await fixture(
         html`
           <div id="parent"></div>
@@ -64,7 +64,7 @@ describe('operations', () => {
       const operations = [{ operation: 'remove', selector: '#doesntexist' }]
       sinon.replace(console, 'warn', sinon.fake())
       const text =
-        "CableReady remove failed due to missing DOM element for selector: '#doesntexist'"
+        "CableReady remove operation failed due to missing DOM element for selector: '#doesntexist'"
 
       perform(operations)
 
