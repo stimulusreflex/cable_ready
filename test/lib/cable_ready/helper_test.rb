@@ -3,7 +3,7 @@
 require "test_helper"
 
 class CableReady::HelperTest < ActionView::TestCase
-  include CableReadyHelper
+  include CableReady::Helper
 
   # stream_from
 
@@ -51,5 +51,17 @@ class CableReady::HelperTest < ActionView::TestCase
     assert_equal "script", script_tag.name
     assert_equal "application/json", script_tag[:type]
     assert_equal [{"operation" => "consoleLog", "message" => "Testy McTestface"}], JSON.parse(script_tag.content)
+  end
+
+  test "raises when including CableReadyHelper" do
+    expection = assert_raises do
+      class RaiseHelperTest # standard:disable Lint/ConstantDefinitionInBlock
+        include ::CableReadyHelper
+      end
+
+      RaiseHelperTest.new
+    end
+
+    assert_equal "`CableReadyHelper` was renamed to `CableReady::Helper`", expection.message
   end
 end
