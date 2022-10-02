@@ -55,7 +55,7 @@ class CableReady::HelperTest < ActionView::TestCase
 
   test "raises when including CableReadyHelper" do
     expection = assert_raises do
-      class RaiseHelperTest
+      class RaiseHelperTest # standard:disable Lint/ConstantDefinitionInBlock
         include ::CableReadyHelper
       end
 
