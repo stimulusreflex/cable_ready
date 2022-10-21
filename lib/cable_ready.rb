@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 require "open-uri"
-require "active_record"
-require "action_view"
-require "active_support/all"
-require "thread/local"
-require "monitor"
-require "observer"
-require "singleton"
+require "action_cable"
+require "active_support/message_verifier"
 require "cable_ready_helper"
 require "cable_ready/version"
 require "cable_ready/identifiable"
