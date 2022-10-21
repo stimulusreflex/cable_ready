@@ -2,19 +2,20 @@ name: StandardRB
 
 on:
   pull_request:
-    branches:
-      - '*'
   push:
-    branches:
-      - master
 
 jobs:
   standard:
     name: StandardRB Check Action
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Standard
-      uses: CultureHQ/actions-bundler@master
-      with:
-        args: install && bundle exec standardrb --format progress
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Run standardrb
+        run: bundle exec standardrb --format progress
