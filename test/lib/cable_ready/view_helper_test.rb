@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class CableReady::HelperTest < ActionView::TestCase
-  include CableReady::Helper
+class CableReady::ViewHelperTest < ActionView::TestCase
+  include CableReady::ViewHelper
 
   # stream_from
 
@@ -62,6 +62,6 @@ class CableReady::HelperTest < ActionView::TestCase
       RaiseHelperTest.new
     end
 
-    assert_equal "`CableReadyHelper` was renamed to `CableReady::Helper`", expection.message
+    assert_equal "`CableReadyHelper` was renamed to `CableReady::ViewHelper`", expection.message
   end
 end

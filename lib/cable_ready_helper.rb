@@ -4,6 +4,6 @@
 
 module CableReadyHelper
   def self.included(base)
-    raise "`CableReadyHelper` was renamed to `CableReady::Helper`"
+    raise "`CableReadyHelper` was renamed to `CableReady::ViewHelper`"
   end
 end
