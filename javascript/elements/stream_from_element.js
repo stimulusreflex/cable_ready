@@ -23,7 +23,7 @@ export default class StreamFromElement extends SubscribingElement {
       )
     } else {
       console.error(
-        'The `stream_from` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
+        'The `stream_from` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }

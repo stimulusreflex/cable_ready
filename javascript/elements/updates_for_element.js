@@ -46,7 +46,7 @@ export default class UpdatesForElement extends SubscribingElement {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
-        'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
+        'The `updates-for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }
