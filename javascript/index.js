@@ -3,6 +3,7 @@ import { perform, performAsync } from './cable_ready'
 import { initialize } from './elements'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
 
+import * as Plugins from './plugins'
 import * as MorphCallbacks from './morph_callbacks'
 import * as Utils from './utils'
 
@@ -16,6 +17,7 @@ import CableConsumer from './cable_consumer'
 export {
   Utils,
   MorphCallbacks,
+  Plugins,
   CableReadyElement,
   StreamFromElement,
   UpdatesForElement,
@@ -28,6 +30,7 @@ const global = {
   shouldMorphCallbacks,
   didMorphCallbacks,
   initialize,
+  registerPlugin: Plugins.register,
   addOperation,
   addOperations,
   version: packageInfo.version,

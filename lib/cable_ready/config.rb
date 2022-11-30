@@ -51,6 +51,7 @@ module CableReady
         insert_adjacent_text
         invoke_method
         morph
+        morphdom
         notification
         outer_html
         prepend

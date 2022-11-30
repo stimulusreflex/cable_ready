@@ -1,4 +1,4 @@
-import morphdom from 'morphdom'
+import Plugins from './plugins'
 import { shouldMorph, didMorph } from './morph_callbacks'
 import {
   assignFocus,
@@ -77,32 +77,6 @@ export default {
         assignFocus(focusSelector)
       })
       after(element, operation)
-    })
-  },
-
-  morph: operation => {
-    processElements(operation, element => {
-      const { html } = operation
-      const template = document.createElement('template')
-      template.innerHTML = String(safeScalar(html)).trim()
-      operation.content = template.content
-      const parent = element.parentElement
-      const idx = parent && Array.from(parent.children).indexOf(element)
-      before(element, operation)
-      operate(operation, () => {
-        const { childrenOnly, focusSelector } = operation
-        morphdom(
-          element,
-          childrenOnly ? template.content : template.innerHTML,
-          {
-            childrenOnly: !!childrenOnly,
-            onBeforeElUpdated: shouldMorph(operation),
-            onElUpdated: didMorph(operation)
-          }
-        )
-        assignFocus(focusSelector)
-      })
-      after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
 
@@ -487,5 +461,60 @@ export default {
       })
     })
     after(document, operation)
+  },
+
+  // Morph operations
+
+  morph: operation => {
+    // TODO: remove this in 7.0
+    processElements(operation, element => {
+      const { html } = operation
+      const template = document.createElement('template')
+      template.innerHTML = String(safeScalar(html)).trim()
+      operation.content = template.content
+      const parent = element.parentElement
+      const idx = parent && Array.from(parent.children).indexOf(element)
+      before(element, operation)
+      operate(operation, () => {
+        const { childrenOnly, focusSelector } = operation
+        Plugins.morphdom(
+          element,
+          childrenOnly ? template.content : template.innerHTML,
+          {
+            childrenOnly: !!childrenOnly,
+            onBeforeElUpdated: shouldMorph(operation),
+            onElUpdated: didMorph(operation)
+          }
+        )
+        assignFocus(focusSelector)
+      })
+      after(parent ? parent.children[idx] : document.documentElement, operation)
+    })
+  },
+
+  morphdom: operation => {
+    processElements(operation, element => {
+      const { html } = operation
+      const template = document.createElement('template')
+      template.innerHTML = String(safeScalar(html)).trim()
+      operation.content = template.content
+      const parent = element.parentElement
+      const idx = parent && Array.from(parent.children).indexOf(element)
+      before(element, operation)
+      operate(operation, () => {
+        const { childrenOnly, focusSelector } = operation
+        Plugins.morphdom(
+          element,
+          childrenOnly ? template.content : template.innerHTML,
+          {
+            childrenOnly: !!childrenOnly,
+            onBeforeElUpdated: shouldMorph(operation),
+            onElUpdated: didMorph(operation)
+          }
+        )
+        assignFocus(focusSelector)
+      })
+      after(parent ? parent.children[idx] : document.documentElement, operation)
+    })
   }
 }
