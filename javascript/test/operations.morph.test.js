@@ -19,7 +19,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReadyperform(operations)
+        CableReady.perform(operations)
 
         assert.equal(element.innerHTML, 'data-muscles will not be set.')
         assert.equal(element.dataset.muscles, 'sore')
@@ -38,7 +38,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReadyperform(operations)
+        CableReady.perform(operations)
 
         assert.equal(element.innerHTML, 'data-muscles will not be set.')
         assert.equal(element.dataset.muscles, 'sore')
@@ -58,7 +58,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReadyperform(operations)
+        CableReady.perform(operations)
 
         assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(Object.keys(document.body.dataset).length, 0)
@@ -78,7 +78,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReadyperform(operations)
+        CableReady.perform(operations)
 
         assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(element.dataset.muscles, 'pre')
