@@ -46,6 +46,7 @@
     "@web/dev-server-esbuild": "^0.3.2",
     "@web/dev-server-rollup": "^0.3.19",
     "@web/test-runner": "^0.14.0",
+    "morphdom": "^2.6.1",
     "prettier-standard": "^16.4.1",
     "rollup": "^2.70.1",
     "rollup-plugin-terser": "^7.0.2",
