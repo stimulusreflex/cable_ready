@@ -9,13 +9,18 @@ describe('operations', () => {
   context('morph', () => {
     context('childrenOnly: false', () => {
       it('should not add attributes to the morph target', async () => {
-        const dom = await fixture(html` <div id="morph">Pre-Operation</div> `)
+        const dom = await fixture(
+          html`
+            <div id="morph">Pre-Operation</div>
+          `
+        )
         const element = document.querySelector('#morph')
         const operations = [
           {
             operation: 'morph',
             selector: '#morph',
-            html: '<div id="morph" data-muscles="sore">data-muscles will not be set.</div>'
+            html:
+              '<div id="morph" data-muscles="sore">data-muscles will not be set.</div>'
           }
         ]
 
@@ -27,14 +32,17 @@ describe('operations', () => {
 
       it('should not override attributes of the morph target', async () => {
         const dom = await fixture(
-          html` <div id="morph" data-muscles="pre">Pre-Operation</div> `
+          html`
+            <div id="morph" data-muscles="pre">Pre-Operation</div>
+          `
         )
         const element = document.querySelector('#morph')
         const operations = [
           {
             operation: 'morph',
             selector: '#morph',
-            html: '<div id="morph" data-muscles="sore">data-muscles will not be set.</div>'
+            html:
+              '<div id="morph" data-muscles="sore">data-muscles will not be set.</div>'
           }
         ]
 
@@ -47,7 +55,11 @@ describe('operations', () => {
 
     context('childrenOnly: true', () => {
       it('should just update the children', async () => {
-        const dom = await fixture(html` <div id="morph">Pre-Operation</div> `)
+        const dom = await fixture(
+          html`
+            <div id="morph">Pre-Operation</div>
+          `
+        )
         const element = document.querySelector('#morph')
         const operations = [
           {
@@ -66,7 +78,9 @@ describe('operations', () => {
 
       it('should not override attributes of the morph target', async () => {
         const dom = await fixture(
-          html` <div id="morph" data-muscles="pre">Pre-Operation</div> `
+          html`
+            <div id="morph" data-muscles="pre">Pre-Operation</div>
+          `
         )
         const element = document.querySelector('#morph')
         const operations = [
