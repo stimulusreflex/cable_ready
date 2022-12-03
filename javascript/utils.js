@@ -78,17 +78,24 @@ const processElements = (operation, callback) => {
   ).forEach(callback)
 }
 
-// camelCase to kebab-case
+// convert string to kebab-case
+// most other implementations (lodash) are focused on camelCase to kebab-case
+// instead, this uses word token boundaries to produce readable URL slugs and keys
+// this implementation will not support Emoji or other non-ASCII characters
 //
-const kebabize = str => {
-  return str
-    .split('')
-    .map((letter, idx) => {
-      return letter.toUpperCase() === letter
-        ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
-        : letter
-    })
-    .join('')
+const kebabize = createCompounder(function (result, word, index) {
+  return result + (index ? '-' : '') + word.toLowerCase()
+})
+
+function createCompounder (callback) {
+  return function (str) {
+    return words(str).reduce(callback, '')
+  }
+}
+
+const words = str => {
+  str = str == null ? '' : str
+  return str.match(/([A-Z]{2,}|[0-9]+|[A-Z]?[a-z]+|[A-Z])/g) || []
 }
 
 // Provide a standardized pipeline of checks and modifications to all operations based on provided options
