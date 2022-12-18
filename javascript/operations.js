@@ -11,7 +11,8 @@ import {
   safeScalar,
   safeString,
   safeArray,
-  safeObject
+  safeObject,
+  safeStringOrArray
 } from './utils'
 
 export default {
@@ -177,7 +178,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.add(...getClassNames([safeString(name)]))
+        element.classList.add(...getClassNames([safeStringOrArray(name)]))
       })
       after(element, operation)
     })
@@ -199,7 +200,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.remove(...getClassNames([safeString(name)]))
+        element.classList.remove(...getClassNames([safeStringOrArray(name)]))
       })
       after(element, operation)
     })
