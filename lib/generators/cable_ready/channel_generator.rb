@@ -7,31 +7,70 @@ class CableReady::ChannelGenerator < Rails::Generators::NamedBase
   class_option :stream_for, type: :string
   class_option :stimulus, type: :boolean
 
+  def destroy_not_supported
+    if behavior == :revoke
+      puts "Sorry, we don't support destroying generated channels.\nDelete the Action Cable channel class, as well as any corresponding JavaScript classes."
+      exit
+    end
+  end
+
   def check_options
-    raise "Can't specify --stream-from and --stream-for at the same time" if options.key?(:stream_from) && options.key?(:stream_for)
+    if options.key?(:stream_from) && options.key?(:stream_for)
+      puts "Can't specify --stream-from and --stream-for at the same time"
+      exit
+    end
   end
 
   def create_channel
-    generate "channel", file_name
+    generate "channel", file_name, "--skip"
   end
 
   def enhance_channels
-    if using_broadcast_to?
-      gsub_file "app/channels/#{file_name}_channel.rb", /# stream_from.*\n/, "stream_for #{resource}.find(params[:id])\n"
-      template "app/javascript/controllers/%file_name%_controller.js" if using_stimulus?
-    else
-      prepend_to_file "app/javascript/channels/#{file_name}_channel.js", "import CableReady from 'cable_ready'\n"
-      inject_into_file "app/javascript/channels/#{file_name}_channel.js", after: "// Called when there's incoming data on the websocket for this channel\n" do
-        <<-JS
-    if (data.cableReady) CableReady.perform(data.operations)
-        JS
-      end
+    @entrypoint = [
+      "app/javascript",
+      "app/frontend"
+    ].find { |path| File.exist?(Rails.root.join(path)) } || "app/javascript"
+    puts "Where do JavaScript files live in your app? Our best guess is: \e[1m#{@entrypoint}\e[22m 🤔"
+    puts "Press enter to accept this, or type a different path."
+    print "> "
+    input = Rails.env.test? ? "tmp/app/javascript" : $stdin.gets.chomp
+    @entrypoint = input unless input.blank?
+    @js_channel = "#{@entrypoint}/channels/#{file_name}_channel.js"
 
-      gsub_file "app/channels/#{file_name}_channel.rb", /# stream_from.*\n/, "stream_from \"#{identifier}\"\n"
+    if using_broadcast_to?
+      if using_stimulus?
+        template("#{@entrypoint}/controllers/%file_name%_controller.js")
+        Rails.root.join(@js_channel).delete
+      else
+        gsub_file "app/channels/#{file_name}_channel.rb", /# stream_from.*\n/, "stream_for #{resource}.find(params[:id])\n", verbose: false
+        gsub_file @js_channel, /"#{resource}Channel"/, verbose: false do
+          <<-JS
+      
+  {
+    channel: "#{resource}Channel",
+    id: 1
+  }
+          JS
+        end
+        doctor_javascript_channel_class
+        puts "\nDon't forget to update the id in the channel subscription: #{@js_channel}\nIt's currently set to 1; you'll want to change that to a dynamic value based on something in your DOM."
+      end
+    else
+      gsub_file "app/channels/#{file_name}_channel.rb", /# stream_from.*\n/, "stream_from \"#{identifier}\"\n", verbose: false
+      doctor_javascript_channel_class
     end
   end
 
   private
+
+  def doctor_javascript_channel_class
+    prepend_to_file @js_channel, "import CableReady from 'cable_ready'\n", verbose: false
+    inject_into_file @js_channel, after: "// Called when there's incoming data on the websocket for this channel\n", verbose: false do
+      <<-JS
+    if (data.cableReady) CableReady.perform(data.operations)
+      JS
+    end
+  end
 
   def option_given?
     options.key?(:stream_from) || options.key?(:stream_for)

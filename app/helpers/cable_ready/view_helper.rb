@@ -4,6 +4,7 @@ module CableReady
   module ViewHelper
     include CableReady::Compoundable
     include CableReady::StreamIdentifier
+    include CableReady::Broadcaster
 
     def stream_from(*keys, html_options: {})
       tag.stream_from(**build_options(*keys, html_options))
@@ -24,14 +25,6 @@ module CableReady
       else
         capture(&block)
       end
-    end
-
-    def cable_car
-      CableReady::CableCar.instance
-    end
-
-    def cable_ready_tag(cable_instance)
-      cable_instance.dispatch(element: true)
     end
 
     private
