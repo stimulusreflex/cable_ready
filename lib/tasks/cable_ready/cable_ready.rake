@@ -78,7 +78,7 @@ namespace :cable_ready do
           kv[1] = if kv[1] == "true"
             true
           else
-            kv[1] == "false" ? false : kv[1]
+            (kv[1] == "false") ? false : kv[1]
           end
           options[kv[0]] = kv[1]
         end

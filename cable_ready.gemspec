@@ -19,8 +19,6 @@ Gem::Specification.new do |gem|
     "[A-Z]*"
   ]
 
-  gem.test_files = Dir["test/**/*.rb"]
-
   rails_version = ">= 5.2"
   gem.add_dependency "actioncable", rails_version
   gem.add_dependency "actionpack", rails_version

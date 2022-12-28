@@ -181,6 +181,7 @@ def gemfile
 end
 
 def prefix
+  # standard:disable Style/RedundantStringEscape
   @prefix ||= {
     "vite" => "..\/",
     "webpacker" => "",
@@ -188,6 +189,7 @@ def prefix
     "importmap" => "",
     "esbuild" => ".\/"
   }[footgun]
+  # standard:enable Style/RedundantStringEscape
 end
 
 def application_record_path
