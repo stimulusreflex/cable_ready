@@ -201,6 +201,7 @@ export default {
       operate(operation, () => {
         const { name } = operation
         element.classList.remove(...getClassNames([safeStringOrArray(name)]))
+        if (element.classList.length === 0) element.removeAttribute('class')
       })
       after(element, operation)
     })
