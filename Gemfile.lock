@@ -168,7 +168,7 @@ GEM
       rubocop-performance (= 1.11.5)
     standardrb (1.0.0)
       standard
-    thor (1.1.0)
+    thor (1.2.1)
     thread-local (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -195,4 +195,4 @@ DEPENDENCIES
   standardrb
 
 BUNDLED WITH
-   2.2.33
+   2.4.1
