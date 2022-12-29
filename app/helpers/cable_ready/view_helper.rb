@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CableReady
-  module Helper
+  module ViewHelper
     include CableReady::Compoundable
     include CableReady::StreamIdentifier
 
