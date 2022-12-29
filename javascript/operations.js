@@ -337,15 +337,6 @@ export default {
     after(document, operation)
   },
 
-  setTitle: operation => {
-    before(document, operation)
-    operate(operation, () => {
-      const { title } = operation
-      document.title = safeScalar(title)
-    })
-    after(document, operation)
-  },
-
   // Browser Manipulations
 
   clearStorage: operation => {

@@ -19,6 +19,7 @@ module GeneratorTestHelpers
       FileUtils.cd(sample_app_path) do
         system "rails new . --minimal --skip-active-record --skip-test-unit --skip-spring --skip-bundle --quiet --force"
       end
+      FileUtils.rm(sample_app_path + "/config/initializers/assets.rb")
     end
 
     def remove_sample_app
