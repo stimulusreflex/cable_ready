@@ -73,6 +73,7 @@ module CableReady
         set_storage_item
         set_style
         set_styles
+        set_title
         set_value
         text_content
       ]).freeze
