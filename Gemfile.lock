@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/marcoroth/turbo-rails.git
+  revision: d38861125d86fb6b4aa70d4db44afd81e609fa03
+  branch: turbo-stream-additional-attributes
+  specs:
+    turbo-rails (1.1.1)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
+
 PATH
   remote: .
   specs:
@@ -9,6 +19,7 @@ PATH
       activesupport (>= 5.2)
       railties (>= 5.2)
       thread-local (>= 1.1.0)
+      turbo-rails
 
 GEM
   remote: https://rubygems.org/
@@ -213,6 +224,7 @@ DEPENDENCIES
   rake
   sqlite3
   standardrb
+  turbo-rails!
 
 BUNDLED WITH
    2.4.1

@@ -22,6 +22,19 @@ require "cable_ready/channels"
 require "cable_ready/cable_car"
 require "cable_ready/stream_identifier"
 
+require "turbo-rails"
+turbo = Gem::Specification.find_by_name("turbo-rails").gem_dir
+
+module Turbo
+  module Streams
+  end
+end
+
+require "#{turbo}/app/helpers/turbo/streams/action_helper"
+require "#{turbo}/app/models/turbo/streams/tag_builder"
+require "#{turbo}/app/helpers/turbo/streams_helper"
+
+
 module CableReady
   class << self
     def config
