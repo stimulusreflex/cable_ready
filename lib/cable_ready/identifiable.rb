@@ -30,19 +30,19 @@ module CableReady
         ar_base?(obj)
       )
     end
-  end
 
-  private
+    private
 
-  def ar_relation?(obj)
-    return false if defined?(ActiveRecord).nil? || defined?(ActiveRecord::Relation).nil?
-
-    obj.is_a?(ActiveRecord::Relation)
-  end
-
-  def ar_base?(obj)
-    return false if defined?(ActiveRecord).nil? || defined?(ActiveRecord::Base).nil?
-
-    obj.is_a?(ActiveRecord::Base)
+    def ar_relation?(obj)
+      return false if defined?(ActiveRecord).nil? || defined?(ActiveRecord::Relation).nil?
+  
+      obj.is_a?(ActiveRecord::Relation)
+    end
+  
+    def ar_base?(obj)
+      return false if defined?(ActiveRecord).nil? || defined?(ActiveRecord::Base).nil?
+  
+      obj.is_a?(ActiveRecord::Base)
+    end
   end
 end
