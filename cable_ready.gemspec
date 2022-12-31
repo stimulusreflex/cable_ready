@@ -19,13 +19,10 @@ Gem::Specification.new do |gem|
     "[A-Z]*"
   ]
 
-  gem.test_files = Dir["test/**/*.rb"]
-
   rails_version = ">= 5.2"
   gem.add_dependency "actioncable", rails_version
   gem.add_dependency "actionpack", rails_version
   gem.add_dependency "actionview", rails_version
-  gem.add_dependency "activerecord", rails_version
   gem.add_dependency "activesupport", rails_version
   gem.add_dependency "railties", rails_version
 
@@ -35,7 +32,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "mocha"
   gem.add_development_dependency "pry"
   gem.add_development_dependency "pry-nav"
-  gem.add_development_dependency "rails", rails_version
   gem.add_development_dependency "rake"
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "standardrb"

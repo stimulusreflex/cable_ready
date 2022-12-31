@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "open-uri"
-require "active_record"
 require "action_view"
 require "active_support/all"
 require "thread/local"
