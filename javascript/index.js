@@ -4,6 +4,12 @@ import { initialize } from './elements'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
 
 import * as Plugins from './plugins'
+
+// TODO: Remove this in v6
+// Kicking the can down the road for now
+import morphdom from 'morphdom'
+Plugins.register('morphdom', morphdom)
+
 import * as MorphCallbacks from './morph_callbacks'
 import * as Utils from './utils'
 

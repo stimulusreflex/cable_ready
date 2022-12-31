@@ -466,7 +466,7 @@ export default {
   // Morph operations
 
   morph: operation => {
-    // TODO: remove this in 7.0
+    // TODO: remove this in 6.0
     processElements(operation, element => {
       const { html } = operation
       const template = document.createElement('template')
@@ -488,6 +488,9 @@ export default {
         )
         assignFocus(focusSelector)
       })
+      console.warn(
+        'The "morph" operation is deprecated in CableReady v5 and will be removed in v6. Use "morphdom" or similar instead.'
+      )
       after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
