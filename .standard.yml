@@ -1,4 +1,2 @@
 ignore:
   - "test/dummy/**/*"
-  - "test/lib/cable_ready/view_helper_test.rb":
-    - Lint/ConstantDefinitionInBlock

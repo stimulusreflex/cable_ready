@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 2.7.0"
 
-  rails_version = ">= 6.0"
+  rails_version = ">= 5.2"
 
   gem.add_dependency "actioncable", rails_version
   gem.add_dependency "thread-local", ">= 1.1.0"
@@ -33,5 +33,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rails", rails_version
   gem.add_development_dependency "rake"
   gem.add_development_dependency "sqlite3"
+  gem.add_development_dependency "standard", "1.19.1"
   gem.add_development_dependency "standardrb"
 end
