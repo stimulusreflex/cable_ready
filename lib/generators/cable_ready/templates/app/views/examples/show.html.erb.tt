@@ -258,14 +258,12 @@
 
         <kbd>rails destroy cable_ready:example</kbd>
 
-        <p>You can install <a href="https://stimulusreflex.com">StimulusReflex</a> on top of your existing CableReady setup:</p>
+        <p style="margin-top: 1rem;">You can install <a href="https://stimulusreflex.com">StimulusReflex</a> on top of your existing CableReady setup:</p>
 
         <kbd>bundle add stimulus_reflex<br>rails stimulus_reflex:install</kbd>
       </article>
 
-      <p>As always, please drop by the <a href="https://discord.gg/stimulus-reflex">StimulusReflex Discord server</a> if you have any questions or need support of any kind. We're incredibly proud of the community that has formed around these libraries, and we discuss everything from JS/Ruby/CSS to View Component/Phlex to databases and CRDTs.</p>
-
-      <p>In particular, we'd love to know what you're building with CableReady. Please tell us, and we might feature you on the project website.</p>
+      <p>As always, please drop by the <a href="https://discord.gg/stimulus-reflex">StimulusReflex Discord server</a> if you have any questions or need support of any kind. We're incredibly proud of the community that has formed around these libraries, and we discuss everything from JS/Ruby/CSS to View Component/Phlex to databases and CRDTs. <b>We'd love to hear what you're building with CableReady.</a></p>
 
       <p>You can find the documentation for CableReady <a href="https://cableready.stimulusreflex.com">here</a>.</p>
     </main>
