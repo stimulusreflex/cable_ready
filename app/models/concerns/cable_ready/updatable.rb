@@ -7,7 +7,7 @@ module CableReady
     extend ::ActiveSupport::Concern
 
     included do |base|
-      if base < ActiveRecord::Base
+      if defined?(ActiveRecord) && base < ActiveRecord::Base
         include ExtendHasMany
 
         after_commit CollectionUpdatableCallbacks.new(:create), on: :create
