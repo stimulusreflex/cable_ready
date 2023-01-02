@@ -9,7 +9,8 @@ describe('operations', () => {
   context('morph', () => {
     context('childrenOnly: false', () => {
       it('should add attributes to the morph target', async () => {
-        const dom = await fixture(html(`<div id="morph">Pre-Operation</div>`))
+        // prettier-ignore
+        const dom = await fixture(html` <div id="morph">Pre-Operation</div> `)
         const element = document.querySelector('#morph')
         const operations = [
           {
@@ -26,8 +27,9 @@ describe('operations', () => {
       })
 
       it('should update attributes of the morph target', async () => {
+        // prettier-ignore
         const dom = await fixture(
-          html(`<div id="morph" data-muscles="pre">Pre-Operation</div>`)
+          html` <div id="morph" data-muscles="pre">Pre-Operation</div> `
         )
         const element = document.querySelector('#morph')
         const operations = [
@@ -47,7 +49,8 @@ describe('operations', () => {
 
     context('childrenOnly: true', () => {
       it('should just update the children', async () => {
-        const dom = await fixture(html(`<div id="morph">Pre-Operation</div>`))
+        // prettier-ignore
+        const dom = await fixture(html` <div id="morph">Pre-Operation</div> `)
         const element = document.querySelector('#morph')
         const operations = [
           {
@@ -65,8 +68,9 @@ describe('operations', () => {
       })
 
       it('should not override attributes of the morph target', async () => {
+        // prettier-ignore
         const dom = await fixture(
-          html(`<div id="morph" data-muscles="pre">Pre-Operation</div>`)
+          html` <div id="morph" data-muscles="pre">Pre-Operation</div> `
         )
         const element = document.querySelector('#morph')
         const operations = [
