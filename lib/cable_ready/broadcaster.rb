@@ -14,5 +14,9 @@ module CableReady
     def cable_car
       CableReady::CableCar.instance
     end
+
+    def cable_ready_tag(cable_instance)
+      cable_instance.dispatch(element: true)
+    end
   end
 end

@@ -26,13 +26,13 @@ module CableReady
       unless lines.find { |line| line.start_with?("import CableReady") }
         matches = lines.select { |line| line =~ /\A(require|import)/ }
         lines.insert lines.index(matches.last).to_i + 1, "import CableReady from 'cable_ready'\n"
-        File.write(filepath, lines.join)
+        filepath.write lines.join
       end
 
       unless lines.find { |line| line.start_with?("import consumer") }
         matches = lines.select { |line| line =~ /\A(require|import)/ }
         lines.insert lines.index(matches.last).to_i + 1, "import consumer from '../channels/consumer'\n"
-        File.write(filepath, lines.join)
+        filepath.write lines.join
       end
 
       unless lines.find { |line| line.include?("CableReady.initialize({ consumer })") }

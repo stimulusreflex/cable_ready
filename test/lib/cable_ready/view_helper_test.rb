@@ -3,7 +3,7 @@
 require "test_helper"
 
 class CableReady::ViewHelperTest < ActionView::TestCase
-  include CableReady::ViewHelper
+  include CableReady::Broadcaster
 
   # stream_from
 

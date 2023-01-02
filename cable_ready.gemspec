@@ -24,6 +24,10 @@ Gem::Specification.new do |gem|
   rails_version = ">= 5.2"
 
   gem.add_dependency "actioncable", rails_version
+  gem.add_dependency "actionpack", rails_version
+  gem.add_dependency "actionview", rails_version
+  gem.add_dependency "activesupport", rails_version
+  gem.add_dependency "railties", rails_version
   gem.add_dependency "thread-local", ">= 1.1.0"
 
   gem.add_development_dependency "magic_frozen_string_literal"
