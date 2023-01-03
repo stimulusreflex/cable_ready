@@ -8,5 +8,5 @@ module CableReady
       locator = verified_stream_identifier(params[:identifier])
       locator.present? ? stream_from(locator) : reject
     end
-  end
+  end if defined?(ActionCable)
 end

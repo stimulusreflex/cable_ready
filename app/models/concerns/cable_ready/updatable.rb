@@ -63,6 +63,7 @@ module CableReady
       end
 
       def has_many_attached(name, **options)
+        raise(RuntimeError, "ActiveStorage must be enabled to use has_many_attached") unless defined?(ActiveStorage)
         option = options.delete(:enable_updates)
 
         broadcast = option.present?
@@ -150,6 +151,7 @@ module CableReady
 
       def broadcast_updates(model_class, options)
         return if skip_updates_classes.any? { |klass| klass >= self }
+        raise(RuntimeError, "ActionCable must be enabled to use Updatable") unless defined?(ActionCable)
         ActionCable.server.broadcast(model_class, options)
       end
 

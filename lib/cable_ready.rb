@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "open-uri"
-require "action_cable"
 require "active_support/message_verifier"
 require "cable_ready_helper"
 require "cable_ready/identifiable"
