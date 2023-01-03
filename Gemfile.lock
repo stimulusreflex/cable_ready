@@ -198,8 +198,6 @@ GEM
     zeitwerk (2.6.6)
 
 PLATFORMS
-  x86_64-darwin-18
-  x86_64-darwin-19
   x86_64-linux
 
 DEPENDENCIES

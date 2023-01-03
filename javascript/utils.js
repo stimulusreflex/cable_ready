@@ -78,17 +78,24 @@ const processElements = (operation, callback) => {
   ).forEach(callback)
 }
 
-// camelCase to kebab-case
+// convert string to kebab-case
+// most other implementations (lodash) are focused on camelCase to kebab-case
+// instead, this uses word token boundaries to produce readable URL slugs and keys
+// this implementation will not support Emoji or other non-ASCII characters
 //
-const kebabize = str => {
-  return str
-    .split('')
-    .map((letter, idx) => {
-      return letter.toUpperCase() === letter
-        ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
-        : letter
-    })
-    .join('')
+const kebabize = createCompounder(function (result, word, index) {
+  return result + (index ? '-' : '') + word.toLowerCase()
+})
+
+function createCompounder (callback) {
+  return function (str) {
+    return words(str).reduce(callback, '')
+  }
+}
+
+const words = str => {
+  str = str == null ? '' : str
+  return str.match(/([A-Z]{2,}|[0-9]+|[A-Z]?[a-z]+|[A-Z])/g) || []
 }
 
 // Provide a standardized pipeline of checks and modifications to all operations based on provided options
@@ -144,6 +151,7 @@ function safeScalar (val) {
 function safeString (str) {
   if (str !== undefined && typeof str !== 'string')
     console.warn(`Operation expects a string, but got ${str} (${typeof str})`)
+
   return str != null ? String(str) : ''
 }
 
@@ -157,6 +165,13 @@ function safeObject (obj) {
   if (obj !== undefined && typeof obj !== 'object')
     console.warn(`Operation expects an object, but got ${obj} (${typeof obj})`)
   return obj != null ? Object(obj) : {}
+}
+
+function safeStringOrArray (elem) {
+  if (elem !== undefined && !Array.isArray(elem) && typeof elem !== 'string')
+    console.warn(`Operation expects an Array or a String, but got ${elem} (${typeof elem})`)
+
+  return elem == null ? '' : Array.isArray(elem) ? Array.from(elem) : String(elem)
 }
 
 function fragmentToString (fragment) {
@@ -205,5 +220,6 @@ export {
   safeString,
   safeArray,
   safeObject,
+  safeStringOrArray,
   fragmentToString
 }

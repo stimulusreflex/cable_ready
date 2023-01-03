@@ -46,7 +46,7 @@ export default class UpdatesForElement extends SubscribingElement {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
-        'The `updates-for` helper cannot connect without an ActionCable consumer.\nPlease run `rails generate cable_ready:helpers` to fix this.'
+        'The `updates-for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }
@@ -55,10 +55,10 @@ export default class UpdatesForElement extends SubscribingElement {
     const blocks = Array.from(
       document.querySelectorAll(this.query),
       element => new Block(element)
-    )
+    ).filter(block => block.shouldUpdate(data))
 
     // first updates-for element in the DOM *at any given moment* updates all of the others
-    if (blocks[0].element !== this) return
+    if (blocks.length === 0 || blocks[0].element !== this) return
 
     // hold a reference to the active element so that it can be restored after the morph
     ActiveElement.set(document.activeElement)
@@ -113,9 +113,6 @@ class Block {
   }
 
   async process (data, html, index) {
-    // with the index incremented, we can now safely bail - before a fetch - if there's no work to be done
-    if (!this.shouldUpdate(data)) return
-
     const blockIndex = index[this.url]
     const template = document.createElement('template')
     this.element.setAttribute('updating', 'updating')
