@@ -1,4 +1,4 @@
-import morphdom from 'morphdom'
+import Plugins from './plugins'
 import { shouldMorph, didMorph } from './morph_callbacks'
 import {
   assignFocus,
@@ -11,7 +11,8 @@ import {
   safeScalar,
   safeString,
   safeArray,
-  safeObject
+  safeObject,
+  safeStringOrArray
 } from './utils'
 
 export default {
@@ -77,32 +78,6 @@ export default {
         assignFocus(focusSelector)
       })
       after(element, operation)
-    })
-  },
-
-  morph: operation => {
-    processElements(operation, element => {
-      const { html } = operation
-      const template = document.createElement('template')
-      template.innerHTML = String(safeScalar(html)).trim()
-      operation.content = template.content
-      const parent = element.parentElement
-      const idx = parent && Array.from(parent.children).indexOf(element)
-      before(element, operation)
-      operate(operation, () => {
-        const { childrenOnly, focusSelector } = operation
-        morphdom(
-          element,
-          childrenOnly ? template.content : template.innerHTML,
-          {
-            childrenOnly: !!childrenOnly,
-            onBeforeElUpdated: shouldMorph(operation),
-            onElUpdated: didMorph(operation)
-          }
-        )
-        assignFocus(focusSelector)
-      })
-      after(parent ? parent.children[idx] : document.documentElement, operation)
     })
   },
 
@@ -177,7 +152,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.add(...getClassNames([safeString(name)]))
+        element.classList.add(...getClassNames([safeStringOrArray(name)]))
       })
       after(element, operation)
     })
@@ -199,7 +174,8 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { name } = operation
-        element.classList.remove(...getClassNames([safeString(name)]))
+        element.classList.remove(...getClassNames([safeStringOrArray(name)]))
+        if (element.classList.length === 0) element.removeAttribute('class')
       })
       after(element, operation)
     })
@@ -333,6 +309,15 @@ export default {
         document.head.appendChild(meta)
       }
       meta.content = safeScalar(content)
+    })
+    after(document, operation)
+  },
+
+  setTitle: operation => {
+    before(document, operation)
+    operate(operation, () => {
+      const { title } = operation
+      document.title = safeScalar(title)
     })
     after(document, operation)
   },
@@ -487,5 +472,63 @@ export default {
       })
     })
     after(document, operation)
+  },
+
+  // Morph operations
+
+  morph: operation => {
+    // TODO: remove this in 6.0
+    processElements(operation, element => {
+      const { html } = operation
+      const template = document.createElement('template')
+      template.innerHTML = String(safeScalar(html)).trim()
+      operation.content = template.content
+      const parent = element.parentElement
+      const idx = parent && Array.from(parent.children).indexOf(element)
+      before(element, operation)
+      operate(operation, () => {
+        const { childrenOnly, focusSelector } = operation
+        Plugins.morphdom(
+          element,
+          childrenOnly ? template.content : template.innerHTML,
+          {
+            childrenOnly: !!childrenOnly,
+            onBeforeElUpdated: shouldMorph(operation),
+            onElUpdated: didMorph(operation)
+          }
+        )
+        assignFocus(focusSelector)
+      })
+      console.warn(
+        'The "morph" operation is deprecated in CableReady v5 and will be removed in v6. Use "morphdom" or similar instead.'
+      )
+      after(parent ? parent.children[idx] : document.documentElement, operation)
+    })
+  },
+
+  morphdom: operation => {
+    processElements(operation, element => {
+      const { html } = operation
+      const template = document.createElement('template')
+      template.innerHTML = String(safeScalar(html)).trim()
+      operation.content = template.content
+      const parent = element.parentElement
+      const idx = parent && Array.from(parent.children).indexOf(element)
+      before(element, operation)
+      operate(operation, () => {
+        const { childrenOnly, focusSelector } = operation
+        Plugins.morphdom(
+          element,
+          childrenOnly ? template.content : template.innerHTML,
+          {
+            childrenOnly: !!childrenOnly,
+            onBeforeElUpdated: shouldMorph(operation),
+            onElUpdated: didMorph(operation)
+          }
+        )
+        assignFocus(focusSelector)
+      })
+      after(parent ? parent.children[idx] : document.documentElement, operation)
+    })
   }
 }

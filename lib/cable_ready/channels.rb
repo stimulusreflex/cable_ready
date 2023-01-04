@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "thread/local"
+
 module CableReady
   # This class is a thread local singleton: CableReady::Channels.instance
   # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started

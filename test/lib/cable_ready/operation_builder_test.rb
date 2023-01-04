@@ -150,9 +150,9 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
 
     @operation_builder.reset!
 
-    @operation_builder.inner_html(html: "<span>winning</span>")
+    @operation_builder.inner_html(html: "<span>winning6</span>")
 
-    assert_equal([{"operation" => "innerHtml", "html" => "<span>winning</span>"}], @operation_builder.operations_payload)
+    assert_equal([{"operation" => "innerHtml", "html" => "<span>winning6</span>"}], @operation_builder.operations_payload)
   end
 
   test "should use previous_selector if present and should use `selector` if explicitly provided" do

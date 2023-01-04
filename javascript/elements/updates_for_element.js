@@ -1,5 +1,4 @@
-import morphdom from 'morphdom'
-
+import Plugins from '../plugins'
 import SubscribingElement from './subscribing_element'
 
 import { shouldMorph } from '../morph_callbacks'
@@ -137,7 +136,7 @@ class Block {
     }
 
     dispatch(this.element, 'cable-ready:before-update', operation)
-    morphdom(this.element, fragments[blockIndex], {
+    Plugins.morphdom(this.element, fragments[blockIndex], {
       childrenOnly: true,
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
@@ -148,11 +147,9 @@ class Block {
     })
   }
 
-  async resolveTurboFrames (documentFragment) {
+  async resolveTurboFrames (docFragment) {
     const reloadingTurboFrames = [
-      ...documentFragment.querySelectorAll(
-        'turbo-frame[src]:not([loading="lazy"])'
-      )
+      ...docFragment.querySelectorAll('turbo-frame[src]:not([loading="lazy"])')
     ]
 
     return Promise.all(
@@ -172,12 +169,11 @@ class Block {
           // recurse here to get all nested eager loaded frames
           await this.resolveTurboFrames(frameTemplate.content)
 
-          documentFragment.querySelector(
-            `turbo-frame#${frame.id}`
-          ).innerHTML = String(
-            frameTemplate.content.querySelector(`turbo-frame#${frame.id}`)
-              .innerHTML
-          ).trim()
+          const selector = `turbo-frame#${frame.id}`
+          const frameContent = frameTemplate.content.querySelector(selector)
+          const content = frameContent ? frameContent.innerHTML.trim() : ''
+
+          docFragment.querySelector(selector).innerHTML = content
 
           resolve()
         })

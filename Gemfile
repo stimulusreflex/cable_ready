@@ -2,5 +2,8 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in cable_ready.gemspec
+group :test do
+  gem "rails", "~> 6.1"
+end
+
 gemspec
