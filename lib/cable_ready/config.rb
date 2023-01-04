@@ -7,7 +7,7 @@ module CableReady
     include Observable
     include Singleton
 
-    attr_accessor :on_failed_sanity_checks, :on_new_version_available
+    attr_accessor :on_failed_sanity_checks, :on_new_version_available, :broadcast_job_queue
     attr_writer :verifier_key
 
     def initialize
@@ -15,6 +15,7 @@ module CableReady
       @operation_names = Set.new(default_operation_names)
       @on_failed_sanity_checks = :exit
       @on_new_version_available = :ignore
+      @broadcast_job_queue = :default
     end
 
     def observers
