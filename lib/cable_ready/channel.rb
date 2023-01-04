@@ -33,8 +33,8 @@ module CableReady
 
     def broadcast_later_to(model, clear: true, queue: nil)
       CableReadyBroadcastJob
-      .set(queue: queue ? queue.to_sym : CableReady.config.broadcast_job_queue)
-      .perform_later(identifier: identifier.name, operations: operations_payload, model: model)
+        .set(queue: queue ? queue.to_sym : CableReady.config.broadcast_job_queue)
+        .perform_later(identifier: identifier.name, operations: operations_payload, model: model)
       reset! if clear
     end
   end
