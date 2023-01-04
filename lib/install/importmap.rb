@@ -38,14 +38,8 @@ backup(importmap_path) do
     say "✅ pin Action Cable"
   end
 
-  if !importmap.include?("pin \"@hotwired/stimulus\"")
-    append_file(importmap_path, <<~RUBY, verbose: false)
-      pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
-    RUBY
-    say "✅ pin Stimulus"
-  end
-
   if !importmap.include?("pin \"cable_ready\"")
+    # https://cdn.jsdelivr.net/npm/cable_ready@5.0.0-pre10/dist/cable_ready.js
     append_file(importmap_path, <<~RUBY, verbose: false)
       pin "cable_ready", to: "https://devbuilds.herokuapp.com/package/npm/cable_ready/latest", preload: true
     RUBY

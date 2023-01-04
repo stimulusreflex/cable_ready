@@ -36,5 +36,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rails", rails_version
   gem.add_development_dependency "rake"
   gem.add_development_dependency "sqlite3"
+  gem.add_development_dependency "standard", "1.19.1"
   gem.add_development_dependency "standardrb"
 end

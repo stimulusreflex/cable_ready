@@ -121,7 +121,7 @@ GEM
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     parallel (1.22.1)
-    parser (3.1.3.0)
+    parser (3.2.0.0)
       ast (~> 2.4.1)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -162,7 +162,7 @@ GEM
     rake (13.0.6)
     regexp_parser (2.6.1)
     rexml (3.2.5)
-    rubocop (1.40.0)
+    rubocop (1.39.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
@@ -181,9 +181,9 @@ GEM
     ruby2_keywords (0.0.5)
     sqlite3 (1.5.4-x86_64-darwin)
     sqlite3 (1.5.4-x86_64-linux)
-    standard (1.20.0)
+    standard (1.19.1)
       language_server-protocol (~> 3.17.0.2)
-      rubocop (= 1.40.0)
+      rubocop (= 1.39.0)
       rubocop-performance (= 1.15.1)
     standardrb (1.0.1)
       standard
@@ -192,7 +192,7 @@ GEM
     timeout (0.3.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.3.0)
+    unicode-display_width (2.4.1)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -212,6 +212,7 @@ DEPENDENCIES
   rails (>= 5.2)
   rake
   sqlite3
+  standard (= 1.19.1)
   standardrb
 
 BUNDLED WITH
