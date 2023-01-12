@@ -14,6 +14,7 @@ require "cable_ready/channel"
 require "cable_ready/channels"
 require "cable_ready/cable_car"
 require "cable_ready/stream_identifier"
+require "cable_ready/version"
 
 module CableReady
   class << self
