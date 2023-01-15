@@ -27,9 +27,9 @@ const assignFocus = selector => {
 // * detail - the event detail
 //
 const dispatch = (element, name, detail = {}) => {
-  const init = { bubbles: true, cancelable: true, detail: detail }
-  const evt = new CustomEvent(name, init)
-  element.dispatchEvent(evt)
+  const init = { bubbles: true, cancelable: true, detail }
+  const event = new CustomEvent(name, init)
+  element.dispatchEvent(event)
   if (window.jQuery) window.jQuery(element).trigger(name, detail)
 }
 
@@ -47,18 +47,21 @@ const xpathToElement = xpath => {
 
 // Accepts an xPath query and returns all matching elements in the DOM
 //
-const xpathToElementArray = xpath => {
-  const result = document.evaluate(
+const xpathToElementArray = (xpath, reverse = false) => {
+  const snapshotList = document.evaluate(
     xpath,
     document,
     null,
     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
     null
   )
-  const elements = []
-  for (let i = 0; i < result.snapshotLength; i++)
-    elements.push(result.snapshotItem(i))
-  return elements
+  const snapshots = []
+
+  for (let i = 0; i < snapshotList.snapshotLength; i++) {
+    snapshots.push(snapshotList.snapshotItem(i))
+  }
+
+  return reverse ? snapshots.reverse() : snapshots
 }
 
 // Return an array with the class names to be used
@@ -124,11 +127,12 @@ const after = (target, operation) =>
     operation
   )
 
-function debounce (func, timeout) {
+function debounce (fn, delay = 250) {
   let timer
   return (...args) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => func.apply(this, args), timeout)
+    const callback = () => fn.apply(this, args)
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(callback, delay)
   }
 }
 
