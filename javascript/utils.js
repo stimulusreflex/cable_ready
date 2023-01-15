@@ -130,7 +130,7 @@ const after = (target, operation) =>
 function debounce (fn, delay = 250) {
   let timer
   return (...args) => {
-    const callback = () => fn.apply(context, args)
+    const callback = () => fn.apply(this, args)
     if (timer) clearTimeout(timer)
     timer = setTimeout(callback, delay)
   }
