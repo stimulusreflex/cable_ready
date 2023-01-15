@@ -47,18 +47,21 @@ const xpathToElement = xpath => {
 
 // Accepts an xPath query and returns all matching elements in the DOM
 //
-const xpathToElementArray = xpath => {
-  const result = document.evaluate(
+const xpathToElementArray = (xpath, reverse = false) => {
+  const snapshotList = document.evaluate(
     xpath,
     document,
     null,
     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
     null
   )
-  const elements = []
-  for (let i = 0; i < result.snapshotLength; i++)
-    elements.push(result.snapshotItem(i))
-  return elements
+  const snapshots = []
+
+  for (let i = 0; i < snapshotList.snapshotLength; i++) {
+    snapshots.push(snapshotList.snapshotItem(i))
+  }
+
+  return reverse ? snapshots.reverse() : snapshots
 }
 
 // Return an array with the class names to be used
