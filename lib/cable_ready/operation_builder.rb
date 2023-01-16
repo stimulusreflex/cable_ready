@@ -72,10 +72,6 @@ module CableReady
       @enqueued_operations.map { |operation| operation.deep_transform_keys! { |key| key.to_s.camelize(:lower) } }
     end
 
-    def operations_in_custom_element
-      %(<cable-ready><script type="application/json">#{operations_payload.to_json}</script></cable-ready>)
-    end
-
     def reset!
       @enqueued_operations = []
       @previous_selector = nil

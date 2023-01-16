@@ -39,20 +39,6 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_equal "div", element.children.first.name
   end
 
-  # cable_ready_tag
-
-  test "cable_ready_tag will render out a custom element" do
-    element = Nokogiri::HTML.fragment(
-      cable_ready_tag(cable_car.console_log(message: "Testy McTestface"))
-    )
-
-    assert_equal "cable-ready", element.children.first.name
-    script_tag = element.children.first.children.first
-    assert_equal "script", script_tag.name
-    assert_equal "application/json", script_tag[:type]
-    assert_equal [{"operation" => "consoleLog", "message" => "Testy McTestface"}], JSON.parse(script_tag.content)
-  end
-
   test "raises when including CableReadyHelper" do
     expection = assert_raises do
       class RaiseHelperTest # standard:disable Lint/ConstantDefinitionInBlock
