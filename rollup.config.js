@@ -33,29 +33,30 @@ const umdConfig = {
   globals: { morphdom: 'morphdom' }
 }
 
+const baseName = 'cable_ready'
 const distFolders = ['dist', 'app/assets/javascripts']
 
 const output = distFolders
   .map(distFolder => [
     {
       ...esConfig,
-      file: `${distFolder}/cable_ready.js`,
+      file: `${distFolder}/${baseName}.js`,
       plugins: [pretty()]
     },
     {
       ...esConfig,
-      file: `${distFolder}/cable_ready.min.js`,
+      file: `${distFolder}/${baseName}.min.js`,
       sourcemap: true,
       plugins: [minify()]
     },
     {
       ...umdConfig,
-      file: `${distFolder}/cable_ready.umd.js`,
+      file: `${distFolder}/${baseName}.umd.js`,
       plugins: [pretty()]
     },
     {
       ...umdConfig,
-      file: `${distFolder}/cable_ready.umd.min.js`,
+      file: `${distFolder}/${baseName}.umd.min.js`,
       sourcemap: true,
       plugins: [minify()]
     }
