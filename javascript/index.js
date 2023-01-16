@@ -9,7 +9,6 @@ import * as MorphCallbacks from './morph_callbacks'
 import * as Utils from './utils'
 
 import OperationStore, { addOperation, addOperations } from './operation_store'
-import CableReadyElement from './elements/cable_ready_element'
 import StreamFromElement from './elements/stream_from_element'
 import UpdatesForElement from './elements/updates_for_element'
 import SubscribingElement from './elements/subscribing_element'
@@ -36,7 +35,6 @@ const initialize = (initializeOptions = {}) => {
 export {
   Utils,
   MorphCallbacks,
-  CableReadyElement,
   StreamFromElement,
   UpdatesForElement,
   SubscribingElement
