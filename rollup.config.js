@@ -33,7 +33,7 @@ const umdConfig = {
   globals: { morphdom: 'morphdom' }
 }
 
-const distFolders = ['dist/', 'app/assets/javascripts/']
+const distFolders = ['dist', 'app/assets/javascripts']
 
 const output = distFolders
   .map(distFolder => [
