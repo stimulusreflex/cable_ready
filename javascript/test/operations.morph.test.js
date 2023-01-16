@@ -1,9 +1,5 @@
 import { html, fixture, assert } from '@open-wc/testing'
-
-import CableReady from '..'
-import morphdom from 'morphdom'
-
-CableReady.registerPlugin('morphdom', morphdom)
+import { perform } from '../cable_ready'
 
 describe('operations', () => {
   context('morph', () => {
@@ -20,7 +16,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert.equal(element.innerHTML, 'data-muscles will be set.')
         assert.equal(element.dataset.muscles, 'sore')
@@ -40,7 +36,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert.equal(element.innerHTML, 'data-muscles will be updated.')
         assert.equal(element.dataset.muscles, 'sore')
@@ -61,7 +57,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(Object.keys(document.body.dataset).length, 0)
@@ -82,7 +78,7 @@ describe('operations', () => {
           }
         ]
 
-        CableReady.perform(operations)
+        perform(operations)
 
         assert.equal(element.innerHTML, 'Post-Operation')
         assert.equal(element.dataset.muscles, 'pre')
