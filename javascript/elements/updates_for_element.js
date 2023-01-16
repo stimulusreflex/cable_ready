@@ -1,4 +1,4 @@
-import Plugins from '../plugins'
+import morphdom from 'morphdom'
 import SubscribingElement from './subscribing_element'
 
 import { shouldMorph } from '../morph_callbacks'
@@ -136,7 +136,7 @@ class Block {
     }
 
     dispatch(this.element, 'cable-ready:before-update', operation)
-    Plugins.morphdom(this.element, fragments[blockIndex], {
+    morphdom(this.element, fragments[blockIndex], {
       childrenOnly: true,
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
@@ -147,9 +147,11 @@ class Block {
     })
   }
 
-  async resolveTurboFrames (docFragment) {
+  async resolveTurboFrames (documentFragment) {
     const reloadingTurboFrames = [
-      ...docFragment.querySelectorAll('turbo-frame[src]:not([loading="lazy"])')
+      ...documentFragment.querySelectorAll(
+        'turbo-frame[src]:not([loading="lazy"])'
+      )
     ]
 
     return Promise.all(

@@ -119,7 +119,7 @@ Please run `./bin/standardize` prior submitting pull requests.
 1. Run `yarn publish --no-git-tag-version`
 1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
 1. Commit and push changes to GitHub
-1. Create a new release on GitHub ([here](https://github.com/stimulusreflex/stimulus_reflex/releases)) and generate the changelog for the stable release for it
+1. Create a new release on GitHub ([here](https://github.com/stimulusreflex/cable_ready/releases)) and generate the changelog for the stable release for it
 
 ## 📝 License
 

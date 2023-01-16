@@ -1,14 +1,9 @@
+import morphdom from 'morphdom'
+
 import packageInfo from '../package.json'
 import { perform, performAsync } from './cable_ready'
 import { defineElements } from './elements'
 import { shouldMorphCallbacks, didMorphCallbacks } from './morph_callbacks'
-
-import * as Plugins from './plugins'
-
-// TODO: Remove this in v6
-// Kicking the can down the road for now
-import morphdom from 'morphdom'
-Plugins.register('morphdom', morphdom)
 
 import * as MorphCallbacks from './morph_callbacks'
 import * as Utils from './utils'
@@ -20,7 +15,7 @@ import SubscribingElement from './elements/subscribing_element'
 import CableConsumer from './cable_consumer'
 
 const initialize = (initializeOptions = {}) => {
-  const { consumer, onMissingElement, plugins } = initializeOptions
+  const { consumer, onMissingElement } = initializeOptions
 
   if (consumer) {
     CableConsumer.setConsumer(consumer)
@@ -30,12 +25,9 @@ const initialize = (initializeOptions = {}) => {
     )
   }
 
-  if (onMissingElement) MissingElement.set(onMissingElement)
-
-  if (plugins)
-    Object.keys(plugins).forEach(plugin =>
-      Plugins.register(plugin, plugins[plugin])
-    )
+  if (onMissingElement) {
+    MissingElement.set(onMissingElement)
+  }
 
   defineElements()
 }
@@ -43,7 +35,6 @@ const initialize = (initializeOptions = {}) => {
 export {
   Utils,
   MorphCallbacks,
-  Plugins,
   StreamFromElement,
   UpdatesForElement,
   SubscribingElement
@@ -55,7 +46,6 @@ const global = {
   shouldMorphCallbacks,
   didMorphCallbacks,
   initialize,
-  registerPlugin: Plugins.register,
   addOperation,
   addOperations,
   version: packageInfo.version,
