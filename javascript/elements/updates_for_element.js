@@ -149,7 +149,9 @@ class Block {
 
   async resolveTurboFrames (documentFragment) {
     const reloadingTurboFrames = [
-      ...documentFragment.querySelectorAll('turbo-frame[src]:not([loading="lazy"])')
+      ...documentFragment.querySelectorAll(
+        'turbo-frame[src]:not([loading="lazy"])'
+      )
     ]
 
     return Promise.all(
