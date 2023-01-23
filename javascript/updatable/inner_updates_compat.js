@@ -18,6 +18,22 @@ export const registerInnerUpdates = () => {
       recursiveUnmarkUpdatesForElements(event.target)
     })
   })
+
+  document.addEventListener('turbo-boost:command:start', event => {
+    recursiveMarkUpdatesForElements(event.target)
+  })
+
+  document.addEventListener('turbo-boost:command:finish', event => {
+    setTimeout(() => {
+      recursiveUnmarkUpdatesForElements(event.target)
+    })
+  })
+
+  document.addEventListener('turbo-boost:command:error', event => {
+    setTimeout(() => {
+      recursiveUnmarkUpdatesForElements(event.target)
+    })
+  })
 }
 
 const recursiveMarkUpdatesForElements = leaf => {
