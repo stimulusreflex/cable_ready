@@ -11,6 +11,11 @@ CableReady.configure do |config|
 
   # config.on_new_version_available = :ignore
 
+  # Enable/disable assets compilation
+  # `true` or `false`
+
+  # config.precompile_assets = true
+
   # Define your own custom operations
   # https://cableready.stimulusreflex.com/customization#custom-operations
 

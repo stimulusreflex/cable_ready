@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "thread/local"
+
 module CableReady
   # This class is a thread local singleton: CableReady::Channels.instance
   # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started
@@ -13,7 +15,7 @@ module CableReady
 
     def [](*keys)
       keys.select!(&:itself)
-      identifier = keys.many? || (keys.one? && keys.first.is_a?(ActiveRecord::Base)) ? compound(keys) : keys.pop
+      identifier = (keys.many? || (keys.one? && keys.first.respond_to?(:to_global_id))) ? compound(keys) : keys.pop
       @channels[identifier] ||= CableReady::Channel.new(identifier)
     end
 

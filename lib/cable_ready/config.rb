@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require "monitor"
+require "observer"
+require "singleton"
+
 module CableReady
   # This class is a process level singleton shared by all threads: CableReady::Config.instance
   class Config
@@ -7,7 +11,7 @@ module CableReady
     include Observable
     include Singleton
 
-    attr_accessor :on_failed_sanity_checks, :on_new_version_available
+    attr_accessor :on_failed_sanity_checks, :on_new_version_available, :precompile_assets
     attr_writer :verifier_key
 
     def initialize
@@ -15,6 +19,7 @@ module CableReady
       @operation_names = Set.new(default_operation_names)
       @on_failed_sanity_checks = :exit
       @on_new_version_available = :ignore
+      @precompile_assets = true
     end
 
     def observers
@@ -54,6 +59,8 @@ module CableReady
         outer_html
         prepend
         push_state
+        redirect_to
+        reload
         remove
         remove_attribute
         remove_css_class
@@ -70,6 +77,7 @@ module CableReady
         set_storage_item
         set_style
         set_styles
+        set_title
         set_value
         text_content
       ]).freeze

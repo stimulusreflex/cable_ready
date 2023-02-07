@@ -1,59 +1,86 @@
-import { xpathToElement } from './utils'
-import activeElement from './active_element'
+import { xpathToElement, xpathToElementArray, dispatch } from './utils'
+import ActiveElement from './active_element'
 import OperationStore from './operation_store'
-import actionCable from './action_cable'
+import MissingElement from './missing_element'
 
 const perform = (
   operations,
-  options = { emitMissingElementWarnings: true }
+  options = { onMissingElement: MissingElement.behavior }
 ) => {
-  for (let name in operations) {
-    if (operations.hasOwnProperty(name)) {
-      const entries = operations[name]
-      for (let i = 0; i < entries.length; i++) {
-        const operation = entries[i]
-        try {
-          if (operation.selector) {
-            operation.element = operation.xpath
-              ? xpathToElement(operation.selector)
-              : document[
-                  operation.selectAll ? 'querySelectorAll' : 'querySelector'
-                ](operation.selector)
-          } else {
-            operation.element = document
-          }
-          if (operation.element || options.emitMissingElementWarnings) {
-            activeElement.set(document.activeElement)
-            const cableReadyOperation = OperationStore.all[name]
+  const batches = {}
+  operations.forEach(operation => {
+    if (!!operation.batch)
+      batches[operation.batch] = batches[operation.batch]
+        ? ++batches[operation.batch]
+        : 1
+  })
+  operations.forEach(operation => {
+    const name = operation.operation
+    try {
+      if (operation.selector) {
+        if (operation.xpath) {
+          operation.element = operation.selectAll
+            ? xpathToElementArray(operation.selector)
+            : xpathToElement(operation.selector)
+        } else {
+          operation.element = operation.selectAll
+            ? document.querySelectorAll(operation.selector)
+            : document.querySelector(operation.selector)
+        }
+      } else {
+        operation.element = document
+      }
+      if (operation.element || options.onMissingElement !== 'ignore') {
+        ActiveElement.set(document.activeElement)
+        const cableReadyOperation = OperationStore.all[name]
 
-            if (cableReadyOperation) {
-              cableReadyOperation(operation, name)
-            } else {
-              console.error(
-                `CableReady couldn't find the "${name}" operation. Make sure you haven't misspelled the operation name and that you've added all required operations.`
-              )
-            }
-          }
-        } catch (e) {
-          if (operation.element) {
-            console.error(
-              `CableReady detected an error in ${name}: ${e.message}. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
-            )
-            console.error(e)
-          } else {
-            console.log(
-              `CableReady ${name} failed due to missing DOM element for selector: '${operation.selector}'`
-            )
-          }
+        if (cableReadyOperation) {
+          cableReadyOperation(operation)
+          if (!!operation.batch && --batches[operation.batch] === 0)
+            dispatch(document, 'cable-ready:batch-complete', {
+              batch: operation.batch
+            })
+        } else {
+          console.error(
+            `CableReady couldn't find the "${name}" operation. Make sure you use the camelized form when calling an operation method.`
+          )
+        }
+      }
+    } catch (e) {
+      if (operation.element) {
+        console.error(
+          `CableReady detected an error in ${name || 'operation'}: ${
+            e.message
+          }. If you need to support older browsers make sure you've included the corresponding polyfills. https://docs.stimulusreflex.com/setup#polyfills-for-ie11.`
+        )
+        console.error(e)
+      } else {
+        const warning = `CableReady ${name ||
+          ''} operation failed due to missing DOM element for selector: '${
+          operation.selector
+        }'`
+        switch (options.onMissingElement) {
+          case 'ignore':
+            break
+          case 'event':
+            dispatch(document, 'cable-ready:missing-element', {
+              warning,
+              operation
+            })
+            break
+          case 'exception':
+            throw warning
+          default:
+            console.warn(warning)
         }
       }
     }
-  }
+  })
 }
 
 const performAsync = (
   operations,
-  options = { emitMissingElementWarnings: true }
+  options = { onMissingElement: MissingElement.behavior }
 ) => {
   return new Promise((resolve, reject) => {
     try {
@@ -64,9 +91,4 @@ const performAsync = (
   })
 }
 
-const initialize = (initializeOptions = {}) => {
-  const { consumer } = initializeOptions
-  actionCable.setConsumer(consumer)
-}
-
-export { perform, performAsync, initialize }
+export { perform, performAsync }

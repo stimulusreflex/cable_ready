@@ -4,7 +4,7 @@ require "rails/generators"
 require "fileutils"
 
 module CableReady
-  class StreamFromGenerator < Rails::Generators::Base
+  class HelpersGenerator < Rails::Generators::Base
     desc "Initializes CableReady with a reference to the shared ActionCable consumer"
     source_root File.expand_path("templates", __dir__)
 
@@ -26,13 +26,13 @@ module CableReady
       unless lines.find { |line| line.start_with?("import CableReady") }
         matches = lines.select { |line| line =~ /\A(require|import)/ }
         lines.insert lines.index(matches.last).to_i + 1, "import CableReady from 'cable_ready'\n"
-        File.open(filepath, "w") { |f| f.write lines.join }
+        filepath.write lines.join
       end
 
       unless lines.find { |line| line.start_with?("import consumer") }
         matches = lines.select { |line| line =~ /\A(require|import)/ }
         lines.insert lines.index(matches.last).to_i + 1, "import consumer from '../channels/consumer'\n"
-        File.open(filepath, "w") { |f| f.write lines.join }
+        filepath.write lines.join
       end
 
       unless lines.find { |line| line.include?("CableReady.initialize({ consumer })") }
