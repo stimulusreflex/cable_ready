@@ -6,7 +6,7 @@ You can figure out [the basics](/hello-world/hello-world.md) in a few moments, b
 
 ## Passing extra options to operations
 
-In addition to the standard, documented options for each operation, you can pass additional application-specific data to the client. These JSON-compatible options will be ignored by CableReady but available via [life-cycle events](/guide/usage.md#listening-for-events) in the `detail` object.
+In addition to the standard, documented options for each operation, you can pass additional application-specific data to the client. These JSON-compatible options will be ignored by CableReady but available via [life-cycle events](/guide/working-with-cableready.md#listening-for-events) in the `detail` object.
 
 You can use these ad hoc options to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
 
@@ -238,7 +238,7 @@ setCookieHandler = event => {
 ```
 
 ::: warning
-If your operation is [processing multiple elements](/guide/usage.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. If you change any values in the `event.detail` object, this new value will be picked up by the other elements associated with the current operation that have not been processed, yet.
+If your operation is [processing multiple elements](/guide/working-with-cableready.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. If you change any values in the `event.detail` object, this new value will be picked up by the other elements associated with the current operation that have not been processed, yet.
 
 You could conceivable change a value during the "before" callback, then change it back to the original value during the "after" callback. [This is almost certainly something you don't want to need to be able to do.](https://rubyonrails.org/doctrine/#provide-sharp-knives)
 :::
@@ -264,7 +264,7 @@ The server will have no idea that the operation was cancelled on the client. If 
 While most developers will never think about or interact with the `cancel` parameter, it's an important tool to have available when building sophisticated client user interfaces.
 
 ::: danger
-As with modifying `detail` data, if your operation is [processing multiple elements](/guide/usage.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. You _could_ cancel an operation for a given element and then un-cancel it for later elements.
+As with modifying `detail` data, if your operation is [processing multiple elements](/guide/working-with-cableready.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. You _could_ cancel an operation for a given element and then un-cancel it for later elements.
 
 You _could_ jump out of an airlock into space, too. Don't say we didn't warn you! 👨‍🚀
 :::
@@ -299,7 +299,7 @@ rails g cable_ready:channel Sailor
 
 The generator is interactive and will take you on a Choose Your Own Adventure through the decision tree of possible outcomes.
 
-The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](/guide/identifiers.md) and [Broadcasting to Resources](/guide/broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
+The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](/guide/stream-identifiers.md) and [Broadcasting to Resources](/guide/broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
 
 #### Broadcasting to a resource
 
@@ -349,7 +349,7 @@ end
 ```
 :::
 
-You are free to customize the string as required by your application. On the client, `Channel` subscription classes load when your app loads and will stay connected, waiting for updates. It's up to you to decide whether this is appropriate for your application, and is out of scope for this section. Again, you'll find all of the details in the [Stream Identifiers](/guide/identifiers.md) chapter.
+You are free to customize the string as required by your application. On the client, `Channel` subscription classes load when your app loads and will stay connected, waiting for updates. It's up to you to decide whether this is appropriate for your application, and is out of scope for this section. Again, you'll find all of the details in the [Stream Identifiers](/guide/stream-identifiers.md) chapter.
 
 Without any further modification, all users will receive all broadcasts sent to this `Channel` on every page:
 

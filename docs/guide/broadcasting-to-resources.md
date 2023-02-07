@@ -195,7 +195,7 @@ end
 ::: info
 Step 3 assumes that `this.application.consumer` is coming from the [controller index](/guide/leveraging-stimulus.md#1-this-application-consumer).
 
-Step 5 assumes that `render` is [delegated to](/guide/usage.md#delegating-render-to-applicationcontroller) `ApplicationController`.
+Step 5 assumes that `render` is [delegated to](/guide/working-with-cableready.md#delegating-render-to-applicationcontroller) `ApplicationController`.
 :::
 
 With easily implemented, many-to-many reactive morph primatives available, developers can start structuring their interfaces differently while making bolder feature scope decisions.
@@ -358,7 +358,7 @@ If you are using Signed Global IDs to do lookups, use of the `dom_id` helper bec
 
 ### Combining `stream_for` and `stream_from`
 
-Building on the "[Multiple Identifiers](/guide/identifiers.md#multiple-identifiers)" and "[Stream Identifiers with logic](/guide/identifiers.md#stream-identifiers-with-logic)" sections on the [Stream Identifiers](/guide/identifiers.md) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
+Building on the "[Multiple Identifiers](/guide/stream-identifiers.md#multiple-identifiers)" and "[Stream Identifiers with logic](/guide/stream-identifiers.md#stream-identifiers-with-logic)" sections on the [Stream Identifiers](/guide/stream-identifiers.md) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
 
 `broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome, we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
 

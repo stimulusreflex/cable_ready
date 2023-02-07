@@ -131,7 +131,7 @@ What's stopping you from having multiple active subscriptions to the same Channe
 After the fever-dream raving about many-to-many Channel subscribers, you would be forgiven if you're shocked that we _still_ haven't explained our favorite CableReady + Stimulus pattern: dispatched event listeners.
 
 ::: info
-This is different from Stimulus controllers which happen to listen for [CableReady operation life-cycle events](/guide/usage.md#life-cycle-events), which are _differently_ cool.
+This is different from Stimulus controllers which happen to listen for [CableReady operation life-cycle events](/guide/working-with-cableready.md#life-cycle-events), which are _differently_ cool.
 :::
 
 CableReady has an understated but wickedly powerful operation called [`dispatch_event`](/reference/operations/event-dispatch.md#dispatch_event). It lets you broadcast an arbitrary instruction to an element in your DOM, complete with a metadata payload.

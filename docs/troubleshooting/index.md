@@ -117,7 +117,7 @@ Don't be the person who performs a Server -&gt; Client -&gt; Server -&gt; Client
 
 ## radiolabel
 
-If you have [Stimulus](/guide/leveraging-stimulus.md#installing-stimulus) running on your application, you should consider installing [radiolabel](https://github.com/leastbad/radiolabel). It is a Stimulus controller that watches for CableReady "after-_operation_" [events](/guide/usage.md#listening-for-events). When it detects an operation that mutates an element, it will create a titled overlay which briefly announces when an element is modified.
+If you have [Stimulus](/guide/leveraging-stimulus.md#installing-stimulus) running on your application, you should consider installing [radiolabel](https://github.com/leastbad/radiolabel). It is a Stimulus controller that watches for CableReady "after-_operation_" [events](/guide/working-with-cableready.md#listening-for-events). When it detects an operation that mutates an element, it will create a titled overlay which briefly announces when an element is modified.
 
 [morph](/reference/operations/dom-mutations.md#morph) operations will be orange, while all others are green.
 

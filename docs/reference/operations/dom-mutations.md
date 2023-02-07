@@ -233,7 +233,7 @@ document.addEventListener('cable-ready:before-morph', event => {
 
 * [https://github.com/patrick-steele-idem/morphdom](https://github.com/patrick-steele-idem/morphdom)
 * [shouldMorph and didMorph callbacks](/guide/customization.md#shouldmorph-and-didmorph)
-* [Single Source of Truth](/guide/usage.md#single-source-of-truth)
+* [Single Source of Truth](/guide/working-with-cableready.md#single-source-of-truth)
 * [Morph Sanity Checklist](/troubleshooting/morph-checklist.md)
 * [When to use a StimulusReflex morph vs. a CableReady operation](https://docs.stimulusreflex.com/reflexes#when-to-use-a-stimulusreflex-morph-vs-a-cableready-operation)
 

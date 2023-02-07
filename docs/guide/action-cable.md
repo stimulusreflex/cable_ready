@@ -58,7 +58,7 @@ consumer.subscriptions.create('ChewiesChannel', {
 
 ## Disconnect a user from their ActionCable Connection
 
-As you can see in the upcoming section on [connection identifiers](/guide/identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
+As you can see in the upcoming section on [connection identifiers](/guide/stream-identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
 
 Forcing a websocket reconnection is mainly useful for upgrading account privileges after successfully authenticating. You could also disconnect former employees after they've been terminated.
 
