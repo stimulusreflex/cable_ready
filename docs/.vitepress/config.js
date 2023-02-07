@@ -92,6 +92,7 @@ export default {
         collapisble: true,
         items: [
           { text: "Release History", link: "/appendencies/release-history" },
+          { text: "implementation", link: "/appendencies/implementation" },
           { text: "Core Team", link: "/appendencies/team" },
         ]
       },

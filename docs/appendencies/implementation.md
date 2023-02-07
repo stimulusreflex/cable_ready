@@ -43,7 +43,7 @@ CableReady operations each have their own mandatory and optional options, along 
 As of v5.0, the CableReady JSON wire format is an array of objects, where each object represents one operation. It's intentionally very simple.
 
 ```json
-[{\"message\":\"Hello!\",\"operation\":\"consoleLog\"}]
+[{ "message": "Hello!", "operation": "consoleLog" }]
 ```
 
 Each operation has **camelCased** key/value pairs that convey options. Every operation must have an `operation` value, or the client will raise an exception.
@@ -88,6 +88,6 @@ While CableReady ships with an impressive number of operations out of the box, u
 
 https://cableready.stimulusreflex.com/v/v5/customization#custom-operations
 
-# Get involved!
+## Get involved!
 
 We have a wonderful community with over 1600 folks on our Discord server, helping people get started. Come join https://discord.gg/stimulus-reflex and drop by the #cable_ready channel with any questions.
