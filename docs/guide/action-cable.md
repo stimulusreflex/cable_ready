@@ -24,13 +24,13 @@ Since it's difficult to improve upon perfection, please consult the StimulusRefl
 
 ## Send data to any ActionCable Channel
 
-There are times where it might be useful to send data directly to any clients subscribed to a given Channel stream identifier. It's even compatible with a CableReady performer since the data you send will \(hopefully\) not have a `cableReady` key present.
+There are times where it might be useful to send data directly to any clients subscribed to a given Channel stream identifier. It's even compatible with a CableReady performer since the data you send will (hopefully) not have a `cableReady` key present.
 
 ```ruby
 ActionCable.server.broadcast("your-stream-identifier", data)
 ```
 
-You can see this technique used in "[Verify ActionCable](troubleshooting/#verify-actioncable)".
+You can see this technique used in "[Verify ActionCable](/troubleshooting/#verify-actioncable)".
 
 If you need to send data to a constant-based stream, you just need to break down the fourth wall and construct your identifier manually. Here we will send data to `current_user` using the `UsersChannel`:
 
@@ -58,16 +58,19 @@ consumer.subscriptions.create('ChewiesChannel', {
 
 ## Disconnect a user from their ActionCable Connection
 
-As you can see in the upcoming section on [connection identifiers](identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
+As you can see in the upcoming section on [connection identifiers](/guide/identifiers.md#stream-identifiers-from-accessors), ActionCable Connections can designate that they are able to be `identified_by` one or more objects. These can be strings or ActiveRecord model resources. It is **only** using one of these connection identifiers that you can forcibly disconnect a client connection entirely.
 
 Forcing a websocket reconnection is mainly useful for upgrading account privileges after successfully authenticating. You could also disconnect former employees after they've been terminated.
 
 TODO: update to recommend client-side solution
 
-This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference \(i.e. a user that is actually connected\) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will simply fail silently:
+This is going to look a lot like an ActiveRecord finder, but it's a trap! _This is no such thing._ The only thing it can look up are connection identifiers that have already been defined on the Connection class. You need a valid resource reference (i.e. a user that is actually connected) to get a match on the ActionCable `remote_connections` mapping. Otherwise, the following will simply fail silently:
 
 ```ruby
-ActionCable.server.remote_connections.where(current_user: User.find(1)).disconnect
+ActionCable.server
+  .remote_connections
+  .where(current_user: User.find(1))
+  .disconnect
 ```
 
 The ActionCable Channel subscriber will immediately start attempting to reconnect to the server, with the usual connection retry rate fall-off curve, just as if you restarted your Puma process.
@@ -78,8 +81,7 @@ It's not clear whether this is a bug or a feature, but ActionCable will not allo
 
 Our suggestion is that you **fix ActionCable** with this initializer, which changes line 6 from `all?` to `any?`
 
-{% code title="config/initializers/action\_cable.rb" %}
-```ruby
+```ruby [config/initializers/action_cable.rb]
 module ActionCable
   class RemoteConnections
     class RemoteConnection
@@ -91,5 +93,3 @@ module ActionCable
   end
 end
 ```
-{% endcode %}
-

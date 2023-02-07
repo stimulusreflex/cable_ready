@@ -4,11 +4,11 @@ description: "Become an identifier wizard \U0001F9D9"
 
 # Stream Identifiers
 
-{% hint style="info" %}
+::: info
 From this point forward, many code samples will show CableReady operation methods being used without any parameters. This is intended as a visual shorthand which can simplify examples and keep the reader in the flow of the concept being explained.
 
-In practice, [all CableReady operations](reference/operations/) require at least one method to be used properly.
-{% endhint %}
+In practice, [all CableReady operations](/reference/operations/index) require at least one method to be used properly.
+:::
 
 ## Queues
 
@@ -25,13 +25,13 @@ cable_ready["sailors"].inner_html
 cable_ready["visitors"].set_style
 ```
 
-{% hint style="info" %}
-As we learned back in [Hello World](hello-world.md), ActionCable Channel classes announce stream identifiers using the `stream_from` and `stream_for` methods.
+::: info
+As we learned back in [Hello World](/hello-world/hello-world), ActionCable Channel classes announce stream identifiers using the `stream_from` and `stream_for` methods.
 
 **Each identifier can only be attached to one Channel.**
-{% endhint %}
+:::
 
-Now, you have "visitors" with two operations, and "sailors" with one, both waiting patiently to be [broadcast](reference/methods.md#broadcast-identifiers-clear-true):
+Now, you have "visitors" with two operations, and "sailors" with one, both waiting patiently to be [broadcast](/reference/methods#broadcast-identifiers-clear-true):
 
 ```ruby
 cable_ready.broadcast
@@ -39,11 +39,11 @@ cable_ready.broadcast
 
 Great: the operations in both queues have been delivered, and they are empty again. Each queue is sent to the client with its own broadcast, but each broadcast can contain many operations from the same queue.
 
-{% hint style="success" %}
-Every CableReady method chain starts with a declared identifer, by way of the `[]` characters that suffix the `cable_ready` method.
-{% endhint %}
+::: tip
+Every CableReady method chain starts with a declared identifier, by way of the `[]` characters that suffix the `cable_ready` method.
+:::
 
-What if you'd wanted to send all of those operations multiple times, though? You can, if you pass `clear: false` as the last [parameter](reference/methods.md#broadcast-identifiers-clear-true) to `broadcast`:
+What if you'd wanted to send all of those operations multiple times, though? You can, if you pass `clear: false` as the last [parameter](/reference/methods#broadcast-identifiers-clear-true) to `broadcast`:
 
 ```ruby
 cable_ready["sailors"].console_log
@@ -58,7 +58,7 @@ Congrats, you have just sent six separate broadcasts; three for each queue. And 
 
 What if you have a whole bunch of queues for different streams on the go, and you don't want to broadcast them all at once? What if you just want to broadcast to "sailors"?
 
-![&quot;sailors&quot;](.gitbook/assets/sailors.jpg)
+!["sailors"](/sailors.jpg)
 
 ```ruby
 cable_ready["sailors"].push_state
@@ -83,7 +83,7 @@ cable_ready.broadcast                                      # sailors, chewies
 
 This resulted in six broadcasts, total: "visitors", "chewies", "chewies", "visitors", "sailors", "chewies".
 
-If you put your [broadcast](reference/methods.md#broadcast-identifiers-clear-true) call on the end of a method chain that has already specified an identifier, you cannot modify the identifier further in your `broadcast` call:
+If you put your [broadcast](/reference/methods.md#broadcast-identifiers-clear-true) call on the end of a method chain that has already specified an identifier, you cannot modify the identifier further in your `broadcast` call:
 
 ```ruby
 cable_ready["chewies"].set_cookie.broadcast("sailors") # ERROR! identifier is already "chewies"
@@ -115,7 +115,7 @@ Each stream identifier has its own operations queue. This means that you could b
 
 ## Dynamic identifiers
 
-Until now, we've been [working with](hello-world.md) Channels that have "glob" identifiers. Everyone subscribing to the Channel can be reached by broadcasting to it's identifier. Time to level up!
+Until now, we've been [working with](/hello-world/hello-world) Channels that have "glob" identifiers. Everyone subscribing to the Channel can be reached by broadcasting to it's identifier. Time to level up!
 
 The argument to `stream_from` is \[just\] a string, which means that we can construct all manner of dynamic identifiers based on information available to us from the Channel and Connection, as well as a `params` hash that comes from the client when the Channel subscription is received.
 
@@ -123,8 +123,8 @@ The `params` you get from an ActionCable Channel subscription request is concept
 
 Consider this `ApplicationCable` definition, which supports Devise authentication but falls back on `request.session.id` so that nobody is turned away:
 
-{% code title="app/channels/application\_cable/connection.rb" %}
-```ruby
+::: code-group
+```ruby [app/channels/application_cable/connection.rb]
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     identified_by :current_user
@@ -138,11 +138,11 @@ module ApplicationCable
   end
 end
 ```
-{% endcode %}
+:::
 
-{% hint style="info" %}
-In the above scenario, you might consider [forcing a reconnect]() when the user successfully logs into their account so that the Connection correctly ties their actions to the correct account.
-{% endhint %}
+::: info
+In the above scenario, you might consider forcing a reconnect when the user successfully logs into their account so that the Connection correctly ties their actions to the correct account.
+:::
 
 We now have a number of options for crafting our `stream_from` string.
 
@@ -155,9 +155,9 @@ connection.identifiers
 => #<Set: {:current_user, :session_id}>
 ```
 
-{% hint style="warning" %}
-Don't shoot the messenger: ActionCable has "Connection identifiers" \(in this case, `:current_user` and `:session_id`\) which refer to the objects defined in `connection.rb` using `identified_by` directives **AND** Channel stream identifiers, which are the mailboxes/routing channels we broadcast to with CableReady \(e.g. "sailors"\). 🤦‍♀️
-{% endhint %}
+::: warning
+Don't shoot the messenger: ActionCable has "Connection identifiers" (in this case, `:current_user` and `:session_id`) which refer to the objects defined in `connection.rb` using `identified_by` directives **AND** Channel stream identifiers, which are the mailboxes/routing channels we broadcast to with CableReady (e.g. "sailors"). 🤦‍♀️
+:::
 
 Two Connection identifiers means two accessors available to us: `session_id` and `current_user`:
 
@@ -165,10 +165,10 @@ Two Connection identifiers means two accessors available to us: `session_id` and
 session_id
 => "377f97791adae1f36be2a106498d8401"
 current_user.login
-=> "leastbad"
+=> "myusername"
 ```
 
-This means that you can set up your Channel stream identifier to support broadcasting to any registered user, assuming that you know their user\_id \(and they are online at the time\):
+This means that you can set up your Channel stream identifier to support broadcasting to any registered user, assuming that you know their `user_id` (and they are online at the time):
 
 ```ruby
 class SailorChannel < ApplicationCable::Channel
@@ -180,31 +180,31 @@ end
 
 ### Stream identifiers with logic
 
-Perhaps we want to be able to broadcast to everyone currently looking at the site \("visitors"\), people who haven't yet signed up \("landlubbers"\) and, of course, "sailors". We can accomplish this by making a decision based on whether there is a `current_user` in scope:
+Perhaps we want to be able to broadcast to everyone currently looking at the site ("visitors"), people who haven't yet signed up ("landlubbers") and, of course, "sailors". We can accomplish this by making a decision based on whether there is a `current_user` in scope:
 
-{% code title="app/channels/sailor\_channel.rb" %}
-```ruby
+::: code-group
+```ruby [app/channels/sailor_channel.rb]
 class SailorChannel < ApplicationCable::Channel
   def subscribed
     stream_from current_user ? "sailors" : "landlubbers"
   end
 end
 ```
-{% endcode %}
+:::
 
-{% hint style="info" %}
-ActionCable can later map between ExampleChannel \("visitors"\) and SailorChannel \("sailors" and "landlubbers"\) because an identifier can only be attached to the first Channel that uses it.
-{% endhint %}
+::: info
+ActionCable can later map between ExampleChannel ("visitors") and SailorChannel ("sailors" and "landlubbers" because an identifier can only be attached to the first Channel that uses it.
+:::
 
 ### Stream identifiers from params
 
 Let's imagine for a moment that in your new application, authenticated users are given a salty sailor nickname, which is stored in a `meta` tag with the name `nickname`. Anonymous visitors to the site have not yet had an opportunity to be given a salty sailor nickname.
 
-{% hint style="info" %}
+::: info
 You can clone a copy of [this token authentication application](https://github.com/leastbad/stimulus_reflex_harness/tree/token_auth) and see a great example of how passing params works. A JWT token is created, stored in a `meta` tag in the `head`, then passed to the Channel subscription as a 2nd parameter.
-{% endhint %}
+:::
 
-We've [already seen](hello-world.md) that the subscription creation method accepts a string like "ExampleChannel". Behind the scenes, that string is converted into an object:
+We've [already seen](/hello-world/hello-world) that the subscription creation method accepts a string like "ExampleChannel". Behind the scenes, that string is converted into an object:
 
 ```javascript
 {channel: "ExampleChannel"}
@@ -228,19 +228,18 @@ consumer.subscriptions.create(
 
 In our Channel class, we can now treat the object passed as a `params` hash:
 
-{% code title="app/channels/sailor\_channel.rb" %}
-```ruby
+::: code-group
+```ruby [app/channels/sailor_channel.rb]
 class SailorChannel < ApplicationCable::Channel
   def subscribed
     stream_from "sailor:#{params[:nickname]}"
   end
 end
 ```
-{% endcode %}
+:::
 
 In conclusion, ActionCable gives you the ability to create stream identifiers for one user, all users, and any ad hoc group in between. So long as the composition has a predictable structure, you have total control over who gets which broadcasts, under which circumstances.
 
 But what if you don't want to broadcast operations to _people_? What if you want to broadcast operations to concepts and ideas? To _things_?
 
 To **resources**? Read on...
-

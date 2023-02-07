@@ -1,18 +1,18 @@
 # Morph Sanity Checklist
 
-[morphdom](https://github.com/patrick-steele-idem/morphdom) can be a fickle muse.
+[`morphdom`](https://github.com/patrick-steele-idem/morphdom) can be a fickle muse.
 
-There are rules you must follow to achieve successful results when using the [morph](../reference/operations/dom-mutations.md#morph) operation, especially when setting `childrenOnly: true` . Confusion arises when developers don't take care to verify that the outer-most container element of the content they are providing must match the element that you're morphing into, even though that outer-most container element will be discarded during the morph process.
+There are rules you must follow to achieve successful results when using the [`morph`](/reference/operations/dom-mutations.md#morph) operation, especially when setting `childrenOnly: true` . Confusion arises when developers don't take care to verify that the outer-most container element of the content they are providing must match the element that you're morphing into, even though that outer-most container element will be discarded during the morph process.
 
 We've done our best to collect most of the typical gotchas one might encounter in one place. The following examples assume the following div is the content which will be morphed.
 
-```markup
+```html
 <div id="foo">Your muscles... they are so tight.</div>
 ```
 
 #### You cannot change the attributes of your morph target.
 
-Even if you maintain the same CSS selector, you cannot modify any attributes \(including data attributes\) of the container element with the `morph` operation.
+Even if you maintain the same CSS selector, you cannot modify any attributes (including data attributes) of the container element with the `morph` operation.
 
 ```ruby
 cable_ready["stream"]
@@ -22,7 +22,7 @@ cable_ready["stream"]
   )
 ```
 
-You might consider using one of the other CableReady operations like [outer\_html](../reference/operations/dom-mutations.md#outer_html) or [set\_attribute](../reference/operations/element-mutations.md#set_attribute) instead.
+You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations.md#outer_html) or [set\_attribute](/reference/operations/element-mutations.md#set_attribute) instead.
 
 #### Your top-level content needs to be an element.
 
@@ -72,7 +72,7 @@ cable_ready["stream"]
   )
 ```
 
-```markup
+```html
 <div id="foo">
   <div id="baz">Let me know if this is too strong.</div>
 </div>
@@ -88,7 +88,7 @@ cable_ready["stream"]
   )
 ```
 
-```markup
+```html
 <div id="foo">muscles</div>
 ```
 
@@ -138,7 +138,6 @@ cable_ready["stream"]
 </div>
 ```
 
-{% hint style="success" %}
+::: tip
 If you spot another weird edge case, please let us know!
-{% endhint %}
-
+:::

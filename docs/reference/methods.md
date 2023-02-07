@@ -7,7 +7,7 @@ cable_ready["MyIdentifier"] # CableReady::Channels instance, string identifier
 cable_ready[UserChannel] # constant identifier, used to broadcast_to a resource
 ```
 
-While data transmission is handled by ActionCable, the client-side [channel subscriber](../hello-world.md#setup) must be configured to pass the received data to the CableReady client.
+While data transmission is handled by ActionCable, the client-side [channel subscriber](/hello-world/hello-world.md#setup) must be configured to pass the received data to the CableReady client.
 
 The default behavior of CableReady is to clear the operation queues for all streams immediately after delivering them. However, the developer can pass `clear: false` as the last keyword parameter to prevent clearing the queue. Not clearing the operations queue leaves it available for potential future `broadcast` methods to repeat.
 
@@ -44,9 +44,9 @@ cable_ready.broadcast # sends third payload
 
 Calling `broadcast` with no parameters delivers all queues identified by strings while ignoring any queues identified by constants.
 
-{% hint style="info" %}
+::: info
 If `broadcast` is called at the end of a method chain, there is no opportunity to change the identifier. In this context, `broadcast` only accepts the optional `clear: false` boolean argument.
-{% endhint %}
+:::
 
 ## broadcast\_later\(clear: true\)
 
@@ -86,9 +86,9 @@ cable_ready.broadcast_to(Comment.find(1)) # sends to VotesChannel
 
 Calling `broadcast_to` with only an ActiveRecord model parameter delivers all queues identified by constants while ignoring any queues identified by strings.
 
-{% hint style="info" %}
+::: info
 If `broadcast_to` is called at the end of a method chain, there is no opportunity to change the identifier. In this context, `broadcast_to` accepts only `model` and the optional `clear: false` boolean argument.
-{% endhint %}
+:::
 
 ## dom\_id\(record, prefix = nil\)
 
@@ -106,11 +106,10 @@ class PostsReflex < ApplicationReflex
     post = Post.last
     # no need to write ugly "#post_#{post.id}"
     morph dom_id(post), render(post)
-    
+
     dom_id(User.all)         # "#users"
     dom_id(User.all, :happy) # "#happy_users"
     dom_id(User, :angry)     # "#angry_user"
   end
 end
 ```
-

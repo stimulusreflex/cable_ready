@@ -36,7 +36,10 @@
     "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
     "build": "yarn rollup -c",
     "watch": "yarn rollup -wc",
-    "test": "web-test-runner javascript/test/**/*.test.js"
+    "test": "web-test-runner javascript/test/**/*.test.js",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "morphdom": "^2.6.1"
@@ -49,9 +52,13 @@
     "@web/dev-server-esbuild": "^0.3.2",
     "@web/dev-server-rollup": "^0.3.19",
     "@web/test-runner": "^0.14.0",
+    "flexsearch": "^0.7.31",
     "prettier-standard": "^16.4.1",
     "rollup": "^2.70.1",
     "rollup-plugin-terser": "^7.0.2",
-    "sinon": "^10.0.0"
+    "sinon": "^10.0.0",
+    "vite": "^4.1.1",
+    "vitepress": "^1.0.0-alpha.45",
+    "vitepress-plugin-search": "^1.0.4-alpha.19"
   }
 }

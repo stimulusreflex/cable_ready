@@ -1,12 +1,12 @@
 # DOM Events
 
-## dispatch\_event
+## `dispatch_event`
 
 Create a custom DOM event in the browser for the purpose of implementing custom functionality.
 
 `dispatch_event` immediately dispatches a DOM CustomEvent in the browser. These events bubble up through the DOM and are cancelable.
 
-If jQuery is in use \(and available in the global `window` scope\) `dispatch_event` will also [trigger a jQuery event](https://api.jquery.com/trigger/) with the same name.
+If jQuery is in use (and available in the global `window` scope) `dispatch_event` will also [trigger a jQuery event](https://api.jquery.com/trigger/) with the same name.
 
 ```ruby
 dispatch_event(
@@ -23,11 +23,11 @@ dispatch_event(
 
 While the event itself is frequently the payload, you can build very powerful functionality by passing a Hash of metadata to the `detail` parameter.
 
-{% hint style="info" %}
-The `detail` parameter will convert `user_id` to `userId` - snake\_case to camelCase - for JS consumption on the client.
-{% endhint %}
+::: info
+The `detail` parameter will convert `user_id` to `userId` - snake_case to camelCase - for JS consumption on the client.
+:::
 
-Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](../../leveraging-stimulus.md#event-listener-controllers).
+Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](/guide/leveraging-stimulus.md#event-listener-controllers).
 
 #### Life-cycle Callback Events
 
@@ -40,9 +40,9 @@ Life-cycle events for `dispatch_event` are raised on `document`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 * [https://github.com/caroso1222/notyf](https://github.com/caroso1222/notyf)
-* [Dispatched event listener controllers](../../leveraging-stimulus.md#event-listener-controllers)
+* [Dispatched event listener controllers](/guide/leveraging-stimulus.md#event-listener-controllers)
 
-## set\_meta
+## `set_meta`
 
 Add a `meta` tag to your document `head`. If a `meta` tag with the same name already exists, update the `content` to a new value.
 
@@ -63,7 +63,7 @@ set_meta(
 Here is a Stimulus controller that watches a `meta` tag for `content` changes, which update the attached element. In this example, imagine a notification "pill" component that is not displayed if there is no text value.
 
 ```javascript
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static values = { tag: String }
@@ -92,7 +92,7 @@ export default class extends Controller {
 }
 ```
 
-```markup
+```html
 <head>
   <meta name="pill-messages" content="4" />
 </head>
@@ -112,4 +112,3 @@ Life-cycle events for `set_meta` are raised on `document`.
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta)
-

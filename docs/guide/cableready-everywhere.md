@@ -18,36 +18,34 @@ In the sections below, you'll learn how to configure `ApplicationController`, `A
 
 First, we recommend that you include CableReady in your `ApplicationController`:
 
-{% code title="app/controllers/application_controller.rb" %}
-```ruby
+::: code-group
+```ruby [app/controllers/application_controller.rb]
 class ApplicationController < ActionController::Base
   include CableReady::Broadcaster
 end
 ```
-{% endcode %}
+:::
 
 Controller actions that handle Ajax requests, as well as web hooks and OAuth endpoints are great places to call CableReady. It's also common to broadcast CableReady operations to groups of users and/or resources inside controller actions.
 
-If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced (incorrectly) that the broadcast did not work. See [this advice on Rails remote forms](troubleshooting/#remote-forms-in-rails-6-1) in the Troubleshooting chapter as well.
+If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced (incorrectly) that the broadcast did not work. See [this advice on Rails remote forms](/troubleshooting/#remote-forms-in-rails-6-1) in the Troubleshooting chapter as well.
 
-If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active\_job\_basics.html#enqueue-the-job) method. There's also [a good example](leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
+If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active\_job\_basics.html#enqueue-the-job) method. There's also [a good example](/guide/leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
 
 ### Ajax
 
 Fans of [Turbo Streams](https://turbo.hotwired.dev/handbook/streams) will be excited to know that it is easy to use CableReady with standard Rails controller actions. Here's how to do it:
 
-```markup
+```html
 <%= link_to "Console message", "users/#{current_user.id}/message", method: :patch %>
 ```
 
-{% code title="config/routes.rb" %}
-```ruby
+::: code-group
+```ruby [config/routes.rb]
 patch 'users/:id/message', to: 'users#message', constraints: lambda { |request| request.xhr? }
 ```
-{% endcode %}
 
-{% code title="app/controllers/users_controller.rb" %}
-```ruby
+```ruby [app/controllers/users_controller.rb]
 class UsersController < ApplicationController
   def message
     cable_ready[UsersChannel].console_log(message: "Hi!").broadcast_to(current_user)
@@ -55,35 +53,34 @@ class UsersController < ApplicationController
   end
 end
 ```
-{% endcode %}
+:::
 
 Not too shabby, right?
 
 ### Cable Car
 
-While Cable Car is covered fully in [its own chapter](cable-car.md), it's really easy to return a payload that can be parsed as JSON and passed directly to `CableReady.perform()` on the client.
+While Cable Car is covered fully in [its own chapter](/guide/cable-car.md), it's really easy to return a payload that can be parsed as JSON and passed directly to `CableReady.perform()` on the client.
 
-```markup
+::: code-group
+
+```javascript [JavaScript]
 fetch('users/42/message', {method: 'PATCH'})
   .then(response => response.json())
   .then(data => CableReady.perform(data))
 ```
 
-{% code title="config/routes.rb" %}
-```ruby
+```ruby [config/routes.rb]
 patch 'users/:id/message', to: 'users#message'
 ```
-{% endcode %}
 
-{% code title="app/controllers/users_controller.rb" %}
-```ruby
+```ruby [app/controllers/users_controller.rb]
 class UsersController < ApplicationController
   def message
     render operations: cable_car.console_log(message: "Hi!")
   end
 end
 ```
-{% endcode %}
+:::
 
 ## Jobs
 
@@ -91,38 +88,36 @@ Using ActiveJob - especially when it's backed by the awesome [Sidekiq](https://s
 
 Make sure that `CableReady::Broadcaster` is included in your `ApplicationJob`, and delegate `render` to `ApplicationController`:
 
-{% code title="app/jobs/application_job.rb" %}
-```ruby
+::: code-group
+```ruby [app/jobs/application_job.rb]
 class ApplicationJob < ActiveJob::Base
   include CableReady::Broadcaster
   delegate :render, to: :ApplicationController
 end
 ```
-{% endcode %}
+:::
 
 Here's a _genuinely_ contrived example of using a Job to drive CableReady:
 
-{% code title="app/views/home/index.html.erb" %}
-```markup
+::: code-group
+```html [app/views/home/index.html.erb]
 What could possibly happen?<br>
 <div id="content"></div>
 ```
-{% endcode %}
 
-{% code title="app/controllers/home_controller.rb" %}
-```ruby
+```ruby [app/controllers/home_controller.rb]
 class HomeController < ApplicationController
   def index
     ExampleJob.set(wait: 5.seconds).perform_later current_user.id
   end
 end
 ```
-{% endcode %}
+:::
 
-If anyone starts lecturing you about the urgent and unquestionable need for the separation of business logic from presentation, [tell them that you have work to do](troubleshooting/#dont-perform-purity-rituals).
+If anyone starts lecturing you about the urgent and unquestionable need for the separation of business logic from presentation, [tell them that you have work to do](/troubleshooting/#dont-perform-purity-rituals).
 
-{% code title="app/jobs/example_job.rb" %}
-```ruby
+::: code-group
+```ruby [app/jobs/example_job.rb]
 class ExampleJob < ApplicationJob
   include CableReady::Broadcaster
   queue_as :default
@@ -136,7 +131,7 @@ class ExampleJob < ApplicationJob
   end
 end
 ```
-{% endcode %}
+:::
 
 ## mrujs
 
@@ -158,21 +153,21 @@ TODO
 
 Make sure that `CableReady::Broadcaster` is included in your `ApplicationRecord`, and delegate `render` to `ApplicationController`:
 
-{% code title="app/models/application_record.rb" %}
-```ruby
+::: code-group
+```ruby [app/models/application_record.rb]
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
   include CableReady::Broadcaster
   delegate :render, to: :ApplicationController
-  
+
   def sgid
     to_sgid(expires_in: nil).to_s
   end
 end
 ```
-{% endcode %}
+:::
 
-We also recommend that you add a `sgid` method to your models, to make it easier to work with [Secure Global IDs when handling broadcasting to resources](broadcasting-to-resources.md#using-signed-global-id-for-lookups). By default, Rails uses the current time to set sgids to expire after a month by default. This means that every time you'd run `to_sgid`, you would get a different result, which is not useful for our purposes - we need repeatable values.
+We also recommend that you add a `sgid` method to your models, to make it easier to work with [Secure Global IDs when handling broadcasting to resources](/guide/broadcasting-to-resources.md#using-signed-global-id-for-lookups). By default, Rails uses the current time to set sgids to expire after a month by default. This means that every time you'd run `to_sgid`, you would get a different result, which is not useful for our purposes - we need repeatable values.
 
 ### Callbacks
 
@@ -212,7 +207,7 @@ class Post < ApplicationRecord
       html: render(self)
     ).broadcast_to(self)
   end
-  
+
   def to_partial_path
     "navbar/posts"
   end
@@ -223,10 +218,10 @@ All excitement aside, we'd still recommend using those callbacks to queue up Act
 
 ### State machines
 
-Another promising use of CableReady inside of your models is [state machine](https://github.com/state-machines/state\_machines) transition callbacks:
+Another promising use of CableReady inside of your models is [state machine](https://github.com/state-machines/state_machines) transition callbacks:
 
-{% code title="app/models/post.rb" %}
-```ruby
+::: code-group
+```ruby [app/models/post.rb]
   state_machine initial: :pending do
     event :accept do
       transition [:pending] => :active
@@ -239,14 +234,14 @@ Another promising use of CableReady inside of your models is [state machine](htt
     end
   end
 ```
-{% endcode %}
+:::
 
 ## ActionCable
 
 Make sure that `CableReady::Broadcaster` is included in your `ApplicationCable`, and delegate `render` to `ApplicationController`:
 
-{% code title="app/channels/application_cable/channel.rb" %}
-```ruby
+::: code-group
+```ruby [app/channels/application_cable/channel.rb]
 module ApplicationCable
   class Channel < ActionCable::Channel::Base
     include CableReady::Broadcaster
@@ -254,12 +249,12 @@ module ApplicationCable
   end
 end
 ```
-{% endcode %}
+:::
 
 In a new twist, let's empower this channel to receive data from the clients:
 
-{% code title="app/channels/sailors_channel.rb" %}
-```ruby
+::: code-group
+```ruby [app/channels/sailors_channel.rb]
 class SailorsChannel < ApplicationCable::Channel
   def subscribed
     stream_from "sailors"
@@ -271,13 +266,13 @@ class SailorsChannel < ApplicationCable::Channel
 end
 
 ```
-{% endcode %}
+:::
 
 This controller can send text back up to the server when the `greet` method is fired:
 
-{% code title="app/javascript/controllers/sailors_controller.js" %}
-```javascript
-import { Controller } from 'stimulus'
+::: code-group
+```javascript [app/javascript/controllers/sailors_controller.js]
+import { Controller } from '@hotwired/stimulus'
 import CableReady from 'cable_ready'
 
 export default class extends Controller {
@@ -288,25 +283,25 @@ export default class extends Controller {
       }
     })
   }
-  
+
   greet (event) {
     this.channel.send(event.target.value)
   }
-  
+
   disconnect () {
     this.channel.unsubscribe()
   }
 }
 ```
-{% endcode %}
+:::
 
 Finally, let's wire up the input element's change event to the `greet` method:
 
-{% code title="index.html.erb" %}
-```markup
+::: code-group
+```html [index.html.erb]
 <input type="text" data-controller="sailors" data-action="change->sailors#greet">
 ```
-{% endcode %}
+:::
 
 ## ActionMailbox
 
@@ -324,4 +319,4 @@ TODO
 
 StimulusReflex users must **not** include `CableReady::Broadcaster` in their Reflex classes, as it makes special versions of the CableReady methods available.
 
-If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/rtfm/cableready#using-cableready-inside-a-reflex-action)".
+If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/guide/cableready.html#using-cableready-inside-a-reflex-action)".

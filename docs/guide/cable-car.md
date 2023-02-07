@@ -2,7 +2,7 @@
 
 When we made custom operations possible in CableReady, we saw an explosion of creative and powerful extensions. What we didn't expect was how people started to use operations in clever ways that we hadn't anticipated; the drugs kicked in hard the first time we saw someone calling `CableReady.perform()` _inside an operation_.
 
-![](.gitbook/assets/bats.jpg)
+![](/bats.jpg)
 
 CableReady-the-Library - which was created for ActionCable - had become just one of several possible delivery mechanisms for CableReady-the-Format. \(Convention? Protocol? Standard? Data structure?\)
 
@@ -26,7 +26,7 @@ operations = cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
 
 #### Wait, what's in that Array?!
 
-The Array contains an Object for every operation currently enqueued. Each Object contains, at minimum, a key called `operation` which identifies the operation type. Depending on the operation, additional 
+The Array contains an Object for every operation currently enqueued. Each Object contains, at minimum, a key called `operation` which identifies the operation type. Depending on the operation, additional
 
 ```javascript
 {"innerHtml"=>[{"html"=>"<b>Users</b>", "selector"=>"#users"}]}
@@ -63,14 +63,14 @@ How cool is that? Next, we'll look at how to put this technique to work.
 
 Accessing CableReady with `fetch` is a snap. We need a button to kick things off, and an empty DIV element named `users` to receive updates. The button calls `go` on a Stimulus controller:
 
-```markup
+```html
 <button data-controller="cable-car" data-action="cable-car#go">Cable Car</button>
 <div id="users"></div>
 ```
 
-{% code title="cable\_car\_controller.js" %}
-```javascript
-import { Controller } from 'stimulus'
+::: code-group
+```javascript [cable_car_controller.js]
+import { Controller } from '@hotwired/stimulus'
 import CableReady from 'cable_ready'
 
 export default class extends Controller {
@@ -81,19 +81,19 @@ export default class extends Controller {
   }
 }
 ```
-{% endcode %}
+:::
 
 No need to get fancy: we parse the String that comes back as JSON, and pass it straight into `CableReady.perform`.
 
 On the server side, we need to make sure that the request is sent to the right controller:
 
-{% code title="config/routes.rb" %}
-```ruby
+::: code-group
+```ruby [config/routes.rb]
 Rails.application.routes.draw do
-  get "ride", to: "home#ride" 
+  get "ride", to: "home#ride"
 end
 ```
-{% endcode %}
+:::
 
 Finally, we render the operations like a boss:
 
@@ -111,5 +111,4 @@ That's it! Honestly, the only way it could be easier is if you just used Stimulu
 
 ## Operation Serialization
 
-[Earlier](cable-car.md#wait-whats-in-that-hash), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?
-
+[Earlier](cable-car.md#wait-what-s-in-that-array), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?

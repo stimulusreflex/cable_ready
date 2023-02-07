@@ -1,6 +1,6 @@
 # Element Property Mutations
 
-## add\_css\_class
+## `add_css_class`
 
 Adds a CSS class to an element. If the class already exists on the element, callback events will be emitted but no change will occur on the element itself.
 
@@ -27,7 +27,7 @@ add_css_class(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
-## remove\_attribute
+## `remove_attribute`
 
 Removes an attribute from an element.
 
@@ -52,7 +52,7 @@ remove_attribute(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute)
 
-## remove\_css\_class
+## `remove_css_class`
 
 Removes a CSS class from an element.
 
@@ -79,7 +79,7 @@ remove_css_class(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
-## set\_attribute
+## `set_attribute`
 
 Sets an attribute on an element.
 
@@ -98,11 +98,11 @@ set_attribute(
 
 Setting an attribute changes the element's HTML, and you will see it reflected in your browser's element inspector. Conversely, properties reflect the live state of the DOM element created by interpreting the HTML.
 
-While there is frequently a 1:1 mapping between attributes and properties, there is [a long list of gotchas](https://javascript.info/dom-attributes-and-properties). For example, changing the `value` attribute of a text input element does not change the current `value` property, or vice versa. Many debugging sessions conclude with frustration over the many attribute vs property gotchas. 
+While there is frequently a 1:1 mapping between attributes and properties, there is [a long list of gotchas](https://javascript.info/dom-attributes-and-properties). For example, changing the `value` attribute of a text input element does not change the current `value` property, or vice versa. Many debugging sessions conclude with frustration over the many attribute vs property gotchas.
 
-{% hint style="warning" %}
+::: warning
 To set the value of a Boolean attribute, such as `disabled`, you can specify any value. An empty string or the name of the attribute are recommended values. All that matters is that if the attribute is present at all, _regardless of its actual value_, its value is considered to be `true`. The absence of the attribute means its value is `false`. By setting the value of the `disabled` attribute to the empty string \(`""`\), we are setting `disabled` to `true`, which results in the button being disabled.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -113,7 +113,7 @@ To set the value of a Boolean attribute, such as `disabled`, you can specify any
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute)
 
-## set\_dataset\_property
+## `set_dataset_property`
 
 Sets an dataset property \(data-\* attribute\) on an element.
 
@@ -161,7 +161,7 @@ This technique can be seen in action in the [stimulus-hotkeys](https://www.npmjs
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)
 
-## set\_property
+## `set_property`
 
 Sets a valid property on an element to a new value.
 
@@ -191,9 +191,9 @@ While DOM elements have many standard properties, you can assign additional prop
 
 #### Reference
 
-* [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working\_with\_Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+* [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
 
-## set\_style
+## `set_style`
 
 Sets a single style on an element.
 
@@ -219,9 +219,9 @@ set_style(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style](https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style)
 
-## set\_styles
+## `set_styles`
 
-Sets multiple styles on an element. 
+Sets multiple styles on an element.
 
 ```ruby
 set_styles(
@@ -247,7 +247,7 @@ set_styles(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style](https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style)
 
-## set\_value
+## `set_value`
 
 Sets the value of an element.
 
@@ -263,9 +263,9 @@ set_value(
 )
 ```
 
-{% hint style="warning" %}
+::: warning
 Remember, setting the `value` property of a DOM element will not add or modify any `value` attribute on the element.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -275,4 +275,3 @@ Remember, setting the `value` property of a DOM element will not add or modify a
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
-

@@ -1,6 +1,6 @@
 # DOM Mutations
 
-## append
+## `append`
 
 Inserts HTML into the DOM, inside the target element, after its last child.
 
@@ -27,7 +27,7 @@ append(
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement)
 * [https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append](https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append)
 
-## graft
+## `graft`
 
 Reparent the target element and its children to a new parent element in the DOM.
 
@@ -55,7 +55,7 @@ graft(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
 
-## inner\_html
+## `inner_html`
 
 Sets the innerHTML of a DOM element.
 
@@ -81,7 +81,7 @@ inner_html(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
-## [insert\_adjacent\_html](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+## [`insert_adjacent_html`](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
 Inserts HTML into the DOM relative to an element. Positions are as follows, defaulting to `beforeend`:
 
@@ -113,7 +113,7 @@ insert_adjacent_html(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
-## insert\_adjacent\_text
+## `insert_adjacent_text`
 
 Inserts text into the DOM relative to an element. Positions are as follows, defaulting to `beforeend`:
 
@@ -145,7 +145,7 @@ insert_adjacent_text(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentText)
 
-## morph
+## `morph`
 
 Fast lightweight DOM diffing/patching without a virtual DOM.
 
@@ -172,39 +172,35 @@ When morphing an element with `children_only: true` you need to make sure that t
 
 Consider the following example of `#foo`, a successful morphing candidate:
 
-{% code title="show.html.erb" %}
-```markup
+::: code-group
+```html [show.html.erb]
 <div>
   <%= render partial: "foo", locals: {message: "Am I the medium or the massage?"} %>
 </div>
 ```
-{% endcode %}
 
-{% code title="\_foo.html.erb" %}
-```markup
+```html [_foo.html.erb]
 <div id="foo">
   <span><%= message %></span>
 </div>
 ```
-{% endcode %}
+:::
 
 If the `<div id="foo">` was located in `show.html.erb` the morph would **not** succeed because the top-level container that you're replacing would not be present in the replacement HTML.
 
 If you need to render a collection of partials, you'll have to wrap the render method in a container because you cannot have the top-level container in each partial:
 
-{% code title="show.html.erb" %}
-```markup
+::: code-group
+```html [show.html.erb]
 <div id="bar">
   <%= render collection: @bars %>
 </div>
 ```
-{% endcode %}
 
-{% code title="\_bar.html.erb" %}
-```markup
+```html [_bar.html.erb]
 <span><%= bar.message %></span>
 ```
-{% endcode %}
+:::
 
 ```ruby
 morph(
@@ -236,12 +232,12 @@ document.addEventListener('cable-ready:before-morph', event => {
 #### Reference
 
 * [https://github.com/patrick-steele-idem/morphdom](https://github.com/patrick-steele-idem/morphdom)
-* [shouldMorph and didMorph callbacks](../../customization.md#shouldmorph-and-didmorph)
-* [Single Source of Truth](../../usage.md#single-source-of-truth)
-* [Morph Sanity Checklist](../../troubleshooting/morph-checklist.md)
+* [shouldMorph and didMorph callbacks](/guide/customization.md#shouldmorph-and-didmorph)
+* [Single Source of Truth](/guide/usage.md#single-source-of-truth)
+* [Morph Sanity Checklist](/troubleshooting/morph-checklist.md)
 * [When to use a StimulusReflex morph vs. a CableReady operation](https://docs.stimulusreflex.com/reflexes#when-to-use-a-stimulusreflex-morph-vs-a-cableready-operation)
 
-## outer\_html
+## `outer_html`
 
 Replaces a DOM element with new HTML.
 
@@ -267,7 +263,7 @@ outer_html(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML)
 
-## prepend
+## `prepend`
 
 Inserts HTML into the DOM, inside the target element, before its first child.
 
@@ -294,7 +290,7 @@ prepend(
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement)
 * [https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend](https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend)
 
-## remove
+## `remove`
 
 Removes an element from the DOM.
 
@@ -319,7 +315,7 @@ remove(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
 
-## replace
+## `replace`
 
 Replaces a DOM element with new HTML. This operation is an alias of [outer\_html](dom-mutations.md#outer_html) and has the same implementation.
 
@@ -345,13 +341,13 @@ replace(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML)
 
-## text\_content
+## `text_content`
 
 Sets the text content of a DOM element.
 
-{% hint style="info" %}
+::: info
 CableReady sets `textContent` instead of `innerText`. You can learn more [here](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#Differences_from_innerText), or just move on with your day. ☀️
-{% endhint %}
+:::
 
 ```ruby
 text_content(
@@ -374,4 +370,3 @@ text_content(
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
-

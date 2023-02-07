@@ -1,6 +1,6 @@
 # Browser Manipulations
 
-## clear\_storage
+## `clear_storage`
 
 Removes all key/values pair on the local persistant storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.
 
@@ -27,9 +27,9 @@ Life-cycle events for `clear_storage` are raised on `document`.
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
 
-## go
+## `go`
 
-Load a specific page from the session history. You can use it to move forwards and backwards through the history depending on the value of a parameter. 
+Load a specific page from the session history. You can use it to move forwards and backwards through the history depending on the value of a parameter.
 
 `delta` is the position in the history to which you want to move, relative to the current page. A negative value moves backwards, a positive value moves forwards. `delta: -1` is equivalent to pressing the browsers "Back" button.
 
@@ -54,9 +54,9 @@ Life-cycle events for `go` are raised on `window`. Add a listener for the [`pops
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/History/go](https://developer.mozilla.org/en-US/docs/Web/API/History/go)
-* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
-## push\_state
+## `push_state`
 
 Add an entry to the browser's session history stack.
 
@@ -75,9 +75,9 @@ push_state(
 )
 ```
 
-{% hint style="warning" %}
+::: warning
  Note that `push_state` never causes a [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/Events/hashchange) event to be fired, even if the new URL differs from the old URL only in its hash.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -89,9 +89,9 @@ Life-cycle events for `push_state` are raised on `window`. Add a listener for th
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/History/pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
-* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
-## redirect\_to
+## `redirect_to`
 
 Initiate navigation to a new URL. Techniques will be used in the following order:
 
@@ -115,9 +115,9 @@ redirect_to(
 )
 ```
 
-{% hint style="warning" %}
+::: warning
 Note that, if your redirect is handled by `window.location.href`, there can be no reliable opportunity to emit or capture an `after-redirect-to` event.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -132,7 +132,7 @@ Life-cycle events for `redirect_to` are raised on `window`.
 * [https://github.com/turbolinks/turbolinks\#turbolinksvisit](https://github.com/turbolinks/turbolinks#turbolinksvisit)
 * [https://turbo.hotwired.dev/reference/drive\#turbodrivevisit](https://turbo.hotwired.dev/reference/drive#turbodrivevisit)
 
-## reload
+## `reload`
 
 This will force a hard refresh of the current page at the moment the operation is executed. It is the programmatic equivalent of hitting the browser's Refresh button.
 
@@ -148,9 +148,9 @@ reload(
 )
 ```
 
-{% hint style="warning" %}
+::: warning
 There can be no reliable opportunity to emit or capture an `after-reload` event unless the operation is flagged `cancel`.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -163,7 +163,7 @@ Life-cycle events for `reload` are raised on `window`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Location/reload](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload)
 
-## remove\_storage\_item
+## `remove_storage_item`
 
 Remove a key/value pair on the local persistant storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.
 
@@ -191,15 +191,15 @@ Life-cycle events for `remove_storage_item` are raised on `document`.
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
 
-## replace\_state
+## `replace_state`
 
 Modify the current browser history entry. The browser will not load the page specified by the `url` and indeed, it doesn't actually have to exist.
 
 You can associate arbitrary data with the history entry by passing a Hash to the optional `state` parameter.
 
-{% hint style="info" %}
+::: info
 Most of the time, you probably want to use `push_state`.
-{% endhint %}
+:::
 
 ```ruby
 replace_state(
@@ -222,9 +222,9 @@ Life-cycle events for `replace_state` are raised on `window`. Add a listener for
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState)
-* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate\_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
+* [https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event)
 
-## scroll\_into\_view
+## `scroll_into_view`
 
 Scroll the viewport so that the element with the specified anchor \(`id` attribute\) is in view.
 
@@ -243,15 +243,15 @@ scroll_into_view(
 
 #### Example
 
-```markup
+```html
 <div id="i-am-an-anchor">⚓</div>
 ```
 
 The default behavior is to instantly jump to the element such that the top of the element is touching the top of the browser viewport.
 
-{% hint style="success" %}
+::: tip
 If you're looking for a more _human_ experience, give `behavior: "smooth", block: "center"` a try.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -262,7 +262,7 @@ If you're looking for a more _human_ experience, give `behavior: "smooth", block
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView)
 
-## set\_cookie
+## `set_cookie`
 
 Writes a cookie to the document cookie store.
 
@@ -275,9 +275,9 @@ set_cookie(
 )
 ```
 
-{% hint style="info" %}
+::: info
 Note that you can only set/update a single cookie at a time using this method.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -290,7 +290,7 @@ Life-cycle events for `set_cookie` are raised on `document`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
 
-## set\_focus
+## `set_focus`
 
 Set focus on the specified element, if it can be focused. The focused element is the element which will receive keyboard and similar events by default.
 
@@ -313,7 +313,7 @@ set_focus(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus](https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus)
 
-## set\_storage\_item
+## `set_storage_item`
 
 Create or update a key/value pair on the local persistant storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.
 
@@ -341,4 +341,3 @@ Life-cycle events for `set_storage_item` are raised on `document`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
-

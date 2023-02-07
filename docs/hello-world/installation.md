@@ -1,16 +1,16 @@
 # Installation
 
-{% hint style="success" %}
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries \(such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)\), CableReady is already installed and you can move on to [Hello World](hello-world.md). 🎉
-{% endhint %}
+::: tip
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries (such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)), CableReady is already installed and you can move on to [Hello World](hello-world.md). 🎉
+:::
 
 ## Client and Server Packages
 
-CableReady has both client \([npm package](https://www.npmjs.com/package/cable_ready)\) and server \([Ruby gem](https://rubygems.org/gems/cable_ready)\) components which need to be installed. It is vitally important that you **make sure that your server and client versions match exactly**.
+CableReady has both client ([npm package](https://www.npmjs.com/package/cable_ready)) and server ([Ruby gem](https://rubygems.org/gems/cable_ready)) components which need to be installed. It is vitally important that you **make sure that your server and client versions match exactly**.
 
-{% hint style="danger" %}
+::: danger
 There can be issues with conflicting versions introduced when we're testing a pre-release build, since yarn will typically install the most recent package available, while Rubygems will install the last official release. 🤯
-{% endhint %}
+:::
 
 ```bash
 bundle add cable_ready
@@ -25,24 +25,24 @@ CableReady v5 introduces the `stream_from` helper, which allows Rails developers
 
 You should only need to run this once:
 
-```ruby
+```bash
 rails g cable_ready:stream_from
 ```
 
 If there's any issue, you need to make sure that your `index.js` or `application.js` includes the following:
 
-{% code title="app/javascript/controllers/index.js" %}
-```javascript
+::: code-group
+```javascript [app/javascript/controllers/index.js]
 import consumer from '../channels/consumer'
 import CableReady from 'cable_ready'
 
 CableReady.initialize({ consumer })
 ```
-{% endcode %}
+:::
 
 ## CableReady Initializer
 
-CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](customization.md#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
+CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](/guide/customization.md#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
 
 ```bash
 rails g cable_ready:initializer
@@ -58,14 +58,14 @@ If you have special needs, you can override this setting in your initializer. `:
 
 CableReady can also let you know when new, stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or even `:exit` so that you're never left behind.
 
-{% code title="config/initializers/cable\_ready.rb" %}
-```ruby
+::: code-group
+```ruby [config/initializers/cable_ready.rb]
 CableReady.configure do |config|
   config.on_failed_sanity_checks = :warn
   config.on_new_version_available = :warn
 end
 ```
-{% endcode %}
+:::
 
 ### Upgrading to v5.0.0
 
@@ -78,15 +78,15 @@ end
 
 ## ActionCable
 
-CableReady depends on the [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) framework \(installed by default as part of [Ruby on Rails](https://rubyonrails.org/)\) to handle sending data to the client over websockets. You must have ActionCable installed on both the client and server... and it will be unless you've disabled it.
+CableReady depends on the [ActionCable](https://guides.rubyonrails.org/action_cable_overview.html) framework (installed by default as part of [Ruby on Rails](https://rubyonrails.org/)) to handle sending data to the client over websockets. You must have ActionCable installed on both the client and server... and it will be unless you've disabled it.
 
-You can check your `package.json` to verify that `@rails/actioncable` is installed. If you have trouble with ActionCable, consider [verifying that it's installed correctly](troubleshooting/#verify-actioncable).
+You can check your `package.json` to verify that `@rails/actioncable` is installed. If you have trouble with ActionCable, consider [verifying that it's installed correctly](/troubleshooting/#verify-actioncable).
 
 ### AnyCable
 
-If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io) or [AnyCable Pro](https://anycable.io/#opensource), which boasts lower memory consumption, Apollo GraphQL compatibility and support for a binary transport protocol. 
+If you are preparing to deploy your site into production, you are advised to consider using [AnyCable](https://anycable.io) or [AnyCable Pro](https://anycable.io/#opensource), which boasts lower memory consumption, Apollo GraphQL compatibility and support for a binary transport protocol.
 
-![](.gitbook/assets/anycable.png)
+![](/anycable.png)
 
 ## Redis
 
@@ -94,21 +94,19 @@ If you are preparing to deploy your site into production, you are advised to con
 
 While Redis in development is not mandatory for standalone CableReady use, we do recommend it:
 
-{% code title="Gemfile" %}
-```ruby
+::: code-group
+```ruby [Gemfile]
 gem "redis", ">= 4.0", :require => ["redis", "redis/connection/hiredis"]
 gem "hiredis"
 ```
-{% endcode %}
 
-{% code title="config/cable.yml" %}
-```yaml
+```yaml [config/cable.yml]
 development:
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
   channel_prefix: your_application_development
 ```
-{% endcode %}
+:::
 
 ## Rails 5.2
 
@@ -126,12 +124,11 @@ The CableReady documentation assumes that you are running Rails 6.x. It is possi
 
 If you need to provide support for older browsers, you can `yarn add @cable_ready/polyfills` and include them **before** your Stimulus controllers \(if any\) and CableReady channels:
 
-{% code title="app/javascript/packs/application.js" %}
-```javascript
+::: code-group
+```javascript [app/javascript/packs/application.js]
 // other stuff
 import '@cable_ready/polyfills'
 import 'channels'
 import 'controllers'
 ```
-{% endcode %}
-
+:::
