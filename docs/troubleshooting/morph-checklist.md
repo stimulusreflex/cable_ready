@@ -2,7 +2,7 @@
 
 [`morphdom`](https://github.com/patrick-steele-idem/morphdom) can be a fickle muse.
 
-There are rules you must follow to achieve successful results when using the [`morph`](/reference/operations/dom-mutations.md#morph) operation, especially when setting `childrenOnly: true` . Confusion arises when developers don't take care to verify that the outer-most container element of the content they are providing must match the element that you're morphing into, even though that outer-most container element will be discarded during the morph process.
+There are rules you must follow to achieve successful results when using the [`morph`](/reference/operations/dom-mutations#morph) operation, especially when setting `childrenOnly: true` . Confusion arises when developers don't take care to verify that the outer-most container element of the content they are providing must match the element that you're morphing into, even though that outer-most container element will be discarded during the morph process.
 
 We've done our best to collect most of the typical gotchas one might encounter in one place. The following examples assume the following div is the content which will be morphed.
 
@@ -22,7 +22,7 @@ cable_ready["stream"]
   )
 ```
 
-You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations.md#outer_html) or [`set_attribute`](/reference/operations/element-mutations.md#set_attribute) instead.
+You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations#outer_html) or [`set_attribute`](/reference/operations/element-mutations#set_attribute) instead.
 
 #### Your top-level content needs to be an element.
 

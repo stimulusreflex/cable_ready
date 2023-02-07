@@ -27,7 +27,7 @@ While the event itself is frequently the payload, you can build very powerful fu
 The `detail` parameter will convert `user_id` to `userId` - snake_case to camelCase - for JS consumption on the client.
 :::
 
-Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](/guide/leveraging-stimulus.md#event-listener-controllers).
+Developers frequently use `dispatch_event` to notify the client when long-running server  processes are completed. You can see an example in [Leveraging Stimulus](/guide/leveraging-stimulus#event-listener-controllers).
 
 #### Life-cycle Callback Events
 
@@ -40,7 +40,7 @@ Life-cycle events for `dispatch_event` are raised on `document`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 * [https://github.com/caroso1222/notyf](https://github.com/caroso1222/notyf)
-* [Dispatched event listener controllers](/guide/leveraging-stimulus.md#event-listener-controllers)
+* [Dispatched event listener controllers](/guide/leveraging-stimulus#event-listener-controllers)
 
 ## `set_meta`
 

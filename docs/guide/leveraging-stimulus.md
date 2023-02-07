@@ -2,7 +2,7 @@
 
 ## Installing Stimulus
 
-It's no secret that Team CableReady is a big fan of the [Stimulus](https://stimulus.hotwire.dev/) JavaScript framework. It makes possible our frequent need to provide abstract functionality and attach it to a DOM element as a behavior. It is the most effective way to maximize CableReady's potential, by allowing developers to wire up connections between DOM mutations and event handling. Not only does \[almost\] every CableReady operation emit before and after events, the [`dispatch_event`](/reference/operations/event-dispatch.md#dispatch_event) operation becomes incredibly powerful when paired with a Stimulus controller that receives it and can then bridge that event with `this.element` on a 1:1 basis.
+It's no secret that Team CableReady is a big fan of the [Stimulus](https://stimulus.hotwire.dev/) JavaScript framework. It makes possible our frequent need to provide abstract functionality and attach it to a DOM element as a behavior. It is the most effective way to maximize CableReady's potential, by allowing developers to wire up connections between DOM mutations and event handling. Not only does \[almost\] every CableReady operation emit before and after events, the [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) operation becomes incredibly powerful when paired with a Stimulus controller that receives it and can then bridge that event with `this.element` on a 1:1 basis.
 
 While Stimulus is not installed by default in a new Rails app, you can install it easily by running:
 
@@ -44,7 +44,7 @@ There are, however, many reasons to move ActionCable Channel subscriptions (and 
 * the opportunity to programmatically manipulate Channel subscriptions - and the Connection itself
 * flexibility when handling the elevation of an anonymous visitor to a user with privileges
 
-This is all possible - and scalable - because all Channels share the same memoized Connection, which lives at the page level. (More on this [in a moment](leveraging-stimulus.md#1-this-application-consumer)!)
+This is all possible - and scalable - because all Channels share the same memoized Connection, which lives at the page level. (More on this [in a moment](leveraging-stimulus#1-this-application-consumer)!)
 
 ::: info
 It's normal to `import` CableReady into multiple ActionCable Channel classes and Stimulus controllers at the same time, since they are all sharing the same code and resources.
@@ -120,21 +120,21 @@ It also means that we have the opportunity to unsubscribe from a Channel when th
 
 #### 4. A 1:1 relationship between a Channel subscription and a DOM element
 
-Less a code trick than a design pattern, you will learn more about this on the [Broadcasting to Resources](/guide/broadcasting-to-resources.md#fewer-promises-more-consciousness-expanding-code-samples-plz) page. Hint: an element that is intimately connected to a Channel subscription is a Channel that can update itself on the client, no matter how many people are looking at it.
+Less a code trick than a design pattern, you will learn more about this on the [Broadcasting to Resources](/guide/broadcasting-to-resources#fewer-promises-more-consciousness-expanding-code-samples-plz) page. Hint: an element that is intimately connected to a Channel subscription is a Channel that can update itself on the client, no matter how many people are looking at it.
 
 #### 5. The opportunity to have multiple concurrent instances, each with their own Channel subscription
 
-What's stopping you from having multiple active subscriptions to the same Channel but with different `params`? Absolutely nothing. Why isn't this concept touted as a flagship feature of ActionCable? 🍑🍆 if I know, but it's an absolute _game-changer_ when combined with Stimulus. You'll see why in [Broadcasting to Resources](/guide/broadcasting-to-resources.md#3-prepare-subscriber).
+What's stopping you from having multiple active subscriptions to the same Channel but with different `params`? Absolutely nothing. Why isn't this concept touted as a flagship feature of ActionCable? 🍑🍆 if I know, but it's an absolute _game-changer_ when combined with Stimulus. You'll see why in [Broadcasting to Resources](/guide/broadcasting-to-resources#3-prepare-subscriber).
 
 ## Dispatched event listener controllers
 
 After the fever-dream raving about many-to-many Channel subscribers, you would be forgiven if you're shocked that we _still_ haven't explained our favorite CableReady + Stimulus pattern: dispatched event listeners.
 
 ::: info
-This is different from Stimulus controllers which happen to listen for [CableReady operation life-cycle events](/guide/working-with-cableready.md#life-cycle-events), which are _differently_ cool.
+This is different from Stimulus controllers which happen to listen for [CableReady operation life-cycle events](/guide/working-with-cableready#life-cycle-events), which are _differently_ cool.
 :::
 
-CableReady has an understated but wickedly powerful operation called [`dispatch_event`](/reference/operations/event-dispatch.md#dispatch_event). It lets you broadcast an arbitrary instruction to an element in your DOM, complete with a metadata payload.
+CableReady has an understated but wickedly powerful operation called [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event). It lets you broadcast an arbitrary instruction to an element in your DOM, complete with a metadata payload.
 
 Part of what makes `dispatch_event` so exciting is that you can enjoy many of the same results and benefits as a full ActionCable Channel subscriber, just by handling targeted events in an intelligent way.
 
@@ -196,7 +196,7 @@ Ask yourself: "who is the customer for this controller?" If you are the customer
 :::
 
 ::: warning
-You could make a strong argument for implementing the notification toaster example above as an [ActionCable Channel subscription class](/guide/leveraging-stimulus.md#actioncable-channel-subscription-classes) that doesn't have to be assigned to a DOM element. It's always a trade-off between flexibility and reusability. This is a simplified example; in practice, similar controllers are used to achieve context-specific functionality.
+You could make a strong argument for implementing the notification toaster example above as an [ActionCable Channel subscription class](/guide/leveraging-stimulus#actioncable-channel-subscription-classes) that doesn't have to be assigned to a DOM element. It's always a trade-off between flexibility and reusability. This is a simplified example; in practice, similar controllers are used to achieve context-specific functionality.
 
 If you find yourself creating an ActionCable Channel subscriber controller that's intended to live on the body element, take a moment to consider whether it should "just" be an ActionCable Channel subscription class.
 :::
@@ -253,7 +253,7 @@ This technique is not well-suited to scenarios where sensitive data is being tra
 
 The recent release of Stimulus v2 finally brought the [Values](https://stimulus.hotwire.dev/reference/values) API. Values maps a data attribute on the DOM element which holds the controller instance to a typed internal value. Updating the data attribute on the DOM element automatically fires a `ValueChanged` callback, if one is available. 👍
 
-Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations.md#set_dataset_property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
+Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations#set_dataset_property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
 
 A real-world example of value-setting is the [stimulus-hotkeys](https://github.com/leastbad/stimulus-hotkeys) controller, which maps keystroke combinations to methods on arbitrary Stimulus controllers. It is configured by setting the "binding" value to a JSON object that maps all of the associated key-&gt;action combinations, for example: `{"p": "#foo->example#ping"}` wires up the "p" key to fire the `ping` method on the `example` controller that lives on an element with the `id` "foo". Are you with me so far? 😅
 

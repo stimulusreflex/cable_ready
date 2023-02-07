@@ -7,7 +7,7 @@ cable_ready["MyIdentifier"] # CableReady::Channels instance, string identifier
 cable_ready[UserChannel] # constant identifier, used to broadcast_to a resource
 ```
 
-While data transmission is handled by ActionCable, the client-side [channel subscriber](/hello-world/hello-world.md#setup) must be configured to pass the received data to the CableReady client.
+While data transmission is handled by ActionCable, the client-side [channel subscriber](/hello-world/hello-world#setup) must be configured to pass the received data to the CableReady client.
 
 The default behavior of CableReady is to clear the operation queues for all streams immediately after delivering them. However, the developer can pass `clear: false` as the last keyword parameter to prevent clearing the queue. Not clearing the operations queue leaves it available for potential future `broadcast` methods to repeat.
 

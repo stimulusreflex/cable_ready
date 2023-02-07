@@ -2,11 +2,11 @@
 
 CableReady is a simple library with a lot of power.
 
-You can figure out [the basics](/hello-world/hello-world.md) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony insulin shock, too.
+You can figure out [the basics](/hello-world/hello-world) in a few moments, but there is a wealth of optional features and enough syntactic sugar to give a large ant colony insulin shock, too.
 
 ## Passing extra options to operations
 
-In addition to the standard, documented options for each operation, you can pass additional application-specific data to the client. These JSON-compatible options will be ignored by CableReady but available via [life-cycle events](/guide/working-with-cableready.md#listening-for-events) in the `detail` object.
+In addition to the standard, documented options for each operation, you can pass additional application-specific data to the client. These JSON-compatible options will be ignored by CableReady but available via [life-cycle events](/guide/working-with-cableready#listening-for-events) in the `detail` object.
 
 You can use these ad hoc options to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
 
@@ -40,7 +40,7 @@ inner_html("#red", selector: "#green", html: "<blink>Green wins!</blink>")
 
 ### `selector` will accept AR models and relations
 
-You can pass selector (parameter and key/value, both) anything you can pass to [`dom_id`](/reference/methods.md#dom_id-record-prefix-nil), including models (like `User.first`, which beomes `#user_1`) and relations (`User.all` becomes `#users`).
+You can pass selector (parameter and key/value, both) anything you can pass to [`dom_id`](/reference/methods#dom_id-record-prefix-nil), including models (like `User.first`, which beomes `#user_1`) and relations (`User.all` becomes `#users`).
 
 ```ruby
 inner_html(User.first, html: "<span>Your mother</span>")
@@ -63,7 +63,7 @@ set_focus("#smelly")
 
 ### Operating on multiple elements
 
-Many [DOM Mutation](/reference/operations/dom-mutations.md) and [Element Property Mutation](/reference/operations/element-mutations.md) operations support a `select_all` option which instructs CableReady to operate on [one or many DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) returned by the `selector` query.
+Many [DOM Mutation](/reference/operations/dom-mutations) and [Element Property Mutation](/reference/operations/element-mutations) operations support a `select_all` option which instructs CableReady to operate on [one or many DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) returned by the `selector` query.
 
 This technique is quite powerful because it can scoop up elements from multiple locations in the DOM based on their element type, id property, CSS class list or attributes. For example, you could grab every element with an instance of a Stimulus controller called `sushi`:
 
@@ -173,15 +173,15 @@ These events bubble and can be cancelled.
 
 If jQuery is detected on the current page, jQuery events will be [triggered](https://api.jquery.com/trigger/) immediately after the DOM events. These jQuery events have the same name and `detail` accessors as their DOM event siblings.
 
-A small number of operations, such as [`dispatch_event`](/reference/operations/event-dispatch.md#dispatch_event) and [`console_log`](/reference/operations/notifications.md#console_log), do not emit events. It's up to you to make sure that any [custom operations](customization.md#custom-operations) you create raise events, if desired.
+A small number of operations, such as [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) and [`console_log`](/reference/operations/notifications#console_log), do not emit events. It's up to you to make sure that any [custom operations](customization#custom-operations) you create raise events, if desired.
 
 ::: info
-Don't confuse Life-cycle events emitted by operations with the [dynamically defined events](/guide/leveraging-stimulus.md#dispatched-event-listener-controllers) you can send using `dispatch_event` operations. The ways you can capture them are the same, but Life-cycle events are part of the CableReady library behaviour whereas dispatched events are ad hoc and not constrained to CableReady operations.
+Don't confuse Life-cycle events emitted by operations with the [dynamically defined events](/guide/leveraging-stimulus#dispatched-event-listener-controllers) you can send using `dispatch_event` operations. The ways you can capture them are the same, but Life-cycle events are part of the CableReady library behaviour whereas dispatched events are ad hoc and not constrained to CableReady operations.
 :::
 
 ### Listening for events
 
-You can create a callback function to handle the life-cycle events CableReady emits, and then register that callback as an [event listener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) without any [special tools](/guide/leveraging-stimulus.md).
+You can create a callback function to handle the life-cycle events CableReady emits, and then register that callback as an [event listener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) without any [special tools](/guide/leveraging-stimulus).
 
 Create **named functions** (and avoid anonymous functions) for your callbacks because it's impossible to [remove](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener) an event listener with an anonymous callback.
 
@@ -238,7 +238,7 @@ setCookieHandler = event => {
 ```
 
 ::: warning
-If your operation is [processing multiple elements](/guide/working-with-cableready.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. If you change any values in the `event.detail` object, this new value will be picked up by the other elements associated with the current operation that have not been processed, yet.
+If your operation is [processing multiple elements](/guide/working-with-cableready#operating-on-multiple-elements), each element will emit its own "before" and "after" events. If you change any values in the `event.detail` object, this new value will be picked up by the other elements associated with the current operation that have not been processed, yet.
 
 You could conceivable change a value during the "before" callback, then change it back to the original value during the "after" callback. [This is almost certainly something you don't want to need to be able to do.](https://rubyonrails.org/doctrine/#provide-sharp-knives)
 :::
@@ -264,28 +264,28 @@ The server will have no idea that the operation was cancelled on the client. If 
 While most developers will never think about or interact with the `cancel` parameter, it's an important tool to have available when building sophisticated client user interfaces.
 
 ::: danger
-As with modifying `detail` data, if your operation is [processing multiple elements](/guide/working-with-cableready.md#operating-on-multiple-elements), each element will emit its own "before" and "after" events. You _could_ cancel an operation for a given element and then un-cancel it for later elements.
+As with modifying `detail` data, if your operation is [processing multiple elements](/guide/working-with-cableready#operating-on-multiple-elements), each element will emit its own "before" and "after" events. You _could_ cancel an operation for a given element and then un-cancel it for later elements.
 
 You _could_ jump out of an airlock into space, too. Don't say we didn't warn you! 👨‍🚀
 :::
 
 ## Single Source of Truth
 
-CableReady was created with a deep and informed belief that web[applications that maintain state on the server are fundamentally easier to design, build and maintain](/guide/advocating-for-reactive-rails.md).
+CableReady was created with a deep and informed belief that web[applications that maintain state on the server are fundamentally easier to design, build and maintain](/guide/advocating-for-reactive-rails).
 
 However, one of the stranger edge-cases that must be handled in a websockets-enabled world is the potential for a server update to overwrite the value of a text input _while the user is typing into it_. It's a jarring example because it's an end-result that was almost completely impossible to achieve in the Ajax era. Despite our wildest brainstorms, we have yet to identify even a single scenario where a user would consider having their effort undone to be positive.
 
-As a result, CableReady's popular [morph](/reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](/guide/customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active (have focus).
+As a result, CableReady's popular [morph](/reference/operations/dom-mutations#morph) operation comes pre-installed with a [shouldMorph callback](/guide/customization#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active (have focus).
 
 Since forms are rarely designed to be edited by multiple concurrent users 😱 it's unlikely that you'll have to spend time thinking about this issue. If you're one of the lucky ones, you can use CableReady and StimulusReflex to establish a field-level locking system, or at the very least, update CSS or nearby indicators to show that a particular input is locked, contested or potentially out of date.
 
 ## Focus assignment
 
-The [DOM Mutation](/reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active (receive focus) after the operation completes.
+The [DOM Mutation](/reference/operations/dom-mutations) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active (receive focus) after the operation completes.
 
 If `focusSelector` is not specified, the focus will go to the element that was active immediately before the operation was executed.
 
-It is possible to perform an operation that removes the previously active element, leaving the focus in an ambiguous state. It's also possible to use the [`set_focus`](/reference/operations/browser-manipulations.md#set_focus) operation to manually set the focus at any time.
+It is possible to perform an operation that removes the previously active element, leaving the focus in an ambiguous state. It's also possible to use the [`set_focus`](/reference/operations/browser-manipulations#set_focus) operation to manually set the focus at any time.
 
 ## Channel generator
 
@@ -299,7 +299,7 @@ rails g cable_ready:channel Sailor
 
 The generator is interactive and will take you on a Choose Your Own Adventure through the decision tree of possible outcomes.
 
-The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](/guide/stream-identifiers.md) and [Broadcasting to Resources](/guide/broadcasting-to-resources.md). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
+The first consideration is whether you want your `Channel` to stream to a resource using `broadcast_to` or will you `broadcast` from a string identifier? The details of these concepts are explored fully in [Stream Identifiers](/guide/stream-identifiers) and [Broadcasting to Resources](/guide/broadcasting-to-resources). You can provide one of either `--stream-from` or `--stream-for` with a value, or it will prompt you if you don't specify.
 
 #### Broadcasting to a resource
 
@@ -317,7 +317,7 @@ end
 
 The generator will then ask if you're going to use Stimulus to subscribe to the `Channel`. Even though CableReady does not require that you use Stimulus, we definitely recommend it as the blessed path. In this case, if you answer no, the generator is finished and you're on your own when it comes to subscribing. You'll have a
 
-If you answer yes, it will create [a Stimulus controller that will subscribe to your Channel](/guide/leveraging-stimulus.md#introducing-the-stimulus-cableready-controller). The idea is that in your `app/javascript/controllers/index.js`, you will import the ActionCable `consumer.js` and [attach it to your Stimulus application](/guide/leveraging-stimulus.md#1-this-application-consumer). This makes the connection available to all Stimulus controllers while ensuring that all subscriptions share the same ActionCable `Connection`.
+If you answer yes, it will create [a Stimulus controller that will subscribe to your Channel](/guide/leveraging-stimulus#introducing-the-stimulus-cableready-controller). The idea is that in your `app/javascript/controllers/index.js`, you will import the ActionCable `consumer.js` and [attach it to your Stimulus application](/guide/leveraging-stimulus#1-this-application-consumer). This makes the connection available to all Stimulus controllers while ensuring that all subscriptions share the same ActionCable `Connection`.
 
 All you need to do is create an instance of the Stimulus controller on the markup (using a partial or ViewComponent) that sets the `data-{controller}-id-value` attribute:
 
@@ -349,7 +349,7 @@ end
 ```
 :::
 
-You are free to customize the string as required by your application. On the client, `Channel` subscription classes load when your app loads and will stay connected, waiting for updates. It's up to you to decide whether this is appropriate for your application, and is out of scope for this section. Again, you'll find all of the details in the [Stream Identifiers](/guide/stream-identifiers.md) chapter.
+You are free to customize the string as required by your application. On the client, `Channel` subscription classes load when your app loads and will stay connected, waiting for updates. It's up to you to decide whether this is appropriate for your application, and is out of scope for this section. Again, you'll find all of the details in the [Stream Identifiers](/guide/stream-identifiers) chapter.
 
 Without any further modification, all users will receive all broadcasts sent to this `Channel` on every page:
 
@@ -377,4 +377,4 @@ A CableReady operation is a reaction to some server-side code (which must be imp
 
 [![](https://img.youtube.com/vi/dPzv2qsj5L8/maxresdefault.jpg)](https://www.youtube.com/watch?v=dPzv2qsj5L8)
 
-If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/guide/cableready.html)".
+If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/guide/cableready)".

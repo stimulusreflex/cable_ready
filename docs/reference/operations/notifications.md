@@ -125,7 +125,7 @@ Play an .mp3 or .ogg audio file in the browser.
 ::: danger
 `play_sound` has been **removed** from the core library as of CableReady v5.0.0.
 
-Don't fret, though; it's just been extracted to its own [package](https://www.npmjs.com/package/@cable_ready/audio_operations). You can find instructions on how to [import it](/guide/customization.md#importing-audiooperations), or use it as the basis for your own `play_sound` [custom operation](/guide/customization.md#custom-operations) on the [Customization](/guide/customization.md) page.
+Don't fret, though; it's just been extracted to its own [package](https://www.npmjs.com/package/@cable_ready/audio_operations). You can find instructions on how to [import it](/guide/customization#importing-audiooperations), or use it as the basis for your own `play_sound` [custom operation](/guide/customization#custom-operations) on the [Customization](/guide/customization) page.
 :::
 
 The [sound](https://www.dropbox.com/s/jka3a37ibbqiaqv/stimulus_reflex_sound_logo.mp3?dl=1) starts playing when the minimum viable amount of the sound file has been downloaded. If another sound request comes in while the first one is still playing, the first one stops.
@@ -158,7 +158,7 @@ Life-cycle events for `play_sound` are raised on `document`.
 
 After adding `play_sound` to the library, people came out of the woodwork to say that our clever implementation was messing up their audio player, or not working well with IE11. We experimented with several workarounds to opt-in and opt-out, but ultimately decided that this provided the perfect opportunity to build out our vision for a general purpose packaged operation API. We think it turned out great!
 
-Find a step-by-step example on how to import AudioOperations [here](/guide/customization.md#importing-audiooperations).
+Find a step-by-step example on how to import AudioOperations [here](/guide/customization#importing-audiooperations).
 
 #### Reference
 

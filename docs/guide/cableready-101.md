@@ -1,15 +1,15 @@
 # Channels 101
 
-While `stream_from` is great, there are many techniques _only_ possible if you leverage [ActionCable](/guide/action-cable.md#the-missing-manual) Connections, Channels and Subscriptions.
+While `stream_from` is great, there are many techniques _only_ possible if you leverage [ActionCable](/guide/action-cable#the-missing-manual) Connections, Channels and Subscriptions.
 
 ::: info
-CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](/hello-world/hello-world.md) chapter.
+CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](/hello-world/hello-world) chapter.
 :::
 
 ## So, what's a channel?
 
 ::: tip
-There's an entire [chapter](/guide/action-cable.md#the-missing-manual) dedicated to explaining ActionCable, but this should be enough to get started. 😅
+There's an entire [chapter](/guide/action-cable#the-missing-manual) dedicated to explaining ActionCable, but this should be enough to get started. 😅
 :::
 
 An ActionCable [Channel](https://api.rubyonrails.org/v6.1.4/classes/ActionCable/Channel/Base.html) is a Ruby class you create with a goal in mind. Achieving that goal revolves around sending and receiving messages from a list of subscribers that are connected over WebSockets.
@@ -148,6 +148,6 @@ cable_ready["visitors"]
 
 That's really all you need to get started with CableReady.
 
-You can look over the next sections to learn more techniques, such as [broadcasting to resources](/guide/broadcasting-to-resources.md#stream_for-and-broadcast_to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
+You can look over the next sections to learn more techniques, such as [broadcasting to resources](/guide/broadcasting-to-resources#stream_for-and-broadcast_to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
 
 ![](/hasselhoff.jpg)

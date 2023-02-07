@@ -232,9 +232,9 @@ document.addEventListener('cable-ready:before-morph', event => {
 #### Reference
 
 * [https://github.com/patrick-steele-idem/morphdom](https://github.com/patrick-steele-idem/morphdom)
-* [shouldMorph and didMorph callbacks](/guide/customization.md#shouldmorph-and-didmorph)
-* [Single Source of Truth](/guide/working-with-cableready.md#single-source-of-truth)
-* [Morph Sanity Checklist](/troubleshooting/morph-checklist.md)
+* [shouldMorph and didMorph callbacks](/guide/customization#shouldmorph-and-didmorph)
+* [Single Source of Truth](/guide/working-with-cableready#single-source-of-truth)
+* [Morph Sanity Checklist](/troubleshooting/morph-checklist)
 * [When to use a StimulusReflex morph vs. a CableReady operation](https://docs.stimulusreflex.com/reflexes#when-to-use-a-stimulusreflex-morph-vs-a-cableready-operation)
 
 ## `outer_html`
@@ -317,7 +317,7 @@ remove(
 
 ## `replace`
 
-Replaces a DOM element with new HTML. This operation is an alias of [`outer_html`](dom-mutations.md#outer_html) and has the same implementation.
+Replaces a DOM element with new HTML. This operation is an alias of [`outer_html`](dom-mutations#outer_html) and has the same implementation.
 
 ```ruby
 replace(

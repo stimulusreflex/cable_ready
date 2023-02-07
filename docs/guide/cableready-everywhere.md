@@ -30,7 +30,7 @@ Controller actions that handle Ajax requests, as well as web hooks and OAuth end
 
 If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced (incorrectly) that the broadcast did not work. See [this advice on Rails remote forms](/troubleshooting/#remote-forms-in-rails-6-1) in the Troubleshooting chapter as well.
 
-If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active_job_basics.html#enqueue-the-job) method. There's also [a good example](/guide/leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
+If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active_job_basics.html#enqueue-the-job) method. There's also [a good example](/guide/leveraging-stimulus#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
 
 ### Ajax
 
@@ -59,7 +59,7 @@ Not too shabby, right?
 
 ### Cable Car
 
-While Cable Car is covered fully in [its own chapter](/guide/cable-car.md), it's really easy to return a payload that can be parsed as JSON and passed directly to `CableReady.perform()` on the client.
+While Cable Car is covered fully in [its own chapter](/guide/cable-car), it's really easy to return a payload that can be parsed as JSON and passed directly to `CableReady.perform()` on the client.
 
 ::: code-group
 
@@ -167,7 +167,7 @@ end
 ```
 :::
 
-We also recommend that you add a `sgid` method to your models, to make it easier to work with [Secure Global IDs when handling broadcasting to resources](/guide/broadcasting-to-resources.md#using-signed-global-id-for-lookups). By default, Rails uses the current time to set sgids to expire after a month by default. This means that every time you'd run `to_sgid`, you would get a different result, which is not useful for our purposes - we need repeatable values.
+We also recommend that you add a `sgid` method to your models, to make it easier to work with [Secure Global IDs when handling broadcasting to resources](/guide/broadcasting-to-resources#using-signed-global-id-for-lookups). By default, Rails uses the current time to set sgids to expire after a month by default. This means that every time you'd run `to_sgid`, you would get a different result, which is not useful for our purposes - we need repeatable values.
 
 ### Callbacks
 
@@ -311,4 +311,4 @@ TODO
 
 StimulusReflex users must **not** include `CableReady::Broadcaster` in their Reflex classes, as it makes special versions of the CableReady methods available.
 
-If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/guide/cableready.html#using-cableready-inside-a-reflex-action)".
+If you would like to read more about using StimulusReflex with CableReady, please consult "[Using CableReady inside a Reflex action](https://docs.stimulusreflex.com/guide/cableready#using-cableready-inside-a-reflex-action)".

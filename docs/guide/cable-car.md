@@ -111,4 +111,4 @@ That's it! Honestly, the only way it could be easier is if you just used Stimulu
 
 ## Operation Serialization
 
-[Earlier](/guide/cable-car.md#wait-what-s-in-that-array), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?
+[Earlier](/guide/cable-car#wait-what-s-in-that-array), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?

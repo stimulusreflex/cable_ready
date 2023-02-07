@@ -1,7 +1,7 @@
 # Installation
 
 ::: tip
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries (such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)), CableReady is already installed and you can move on to [Hello World](/hello-world/hello-world.md). 🎉
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries (such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)), CableReady is already installed and you can move on to [Hello World](/hello-world/hello-world). 🎉
 :::
 
 ## Client and Server Packages
@@ -42,7 +42,7 @@ CableReady.initialize({ consumer })
 
 ## CableReady Initializer
 
-CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](/guide/customization.md#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
+CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](/guide/customization#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
 
 ```bash
 rails g cable_ready:initializer

@@ -6,7 +6,7 @@ description: "\U0001F469‍\U0001F469‍\U0001F467\U0001F469‍\U0001F469‍\U00
 
 ## `stream_for` and `broadcast_to`
 
-Up until now, we've been [broadcasting](/reference/methods.md#broadcast-identifiers-clear-true) CableReady operations to Channels using string-based stream identifiers like "sailors". [30 Helens agree](https://www.youtube.com/watch?v=INi4r2z7yGg): "sailors" will get you to your chosen port of call.
+Up until now, we've been [broadcasting](/reference/methods#broadcast-identifiers-clear-true) CableReady operations to Channels using string-based stream identifiers like "sailors". [30 Helens agree](https://www.youtube.com/watch?v=INi4r2z7yGg): "sailors" will get you to your chosen port of call.
 
 ActionCable - and by extension, CableReady - also [support](https://guides.rubyonrails.org/action_cable_overview.html#streams) broadcasting to a Rails resource, like `Helen.find(30)` or `current_user`. It does this using the [Global ID](https://github.com/rails/globalid) functionality in Rails, which allows you to create a unique string that can identify an ActiveRecord model.
 
@@ -38,7 +38,7 @@ consumer.subscriptions.create(
 )
 ```
 
-Now, we're able to [`broadcast_to`](/reference/methods.md#broadcast_to-model-identifiers-clear-true) the Channel so that **anyone currently subscribed to that resource** will receive the operations:
+Now, we're able to [`broadcast_to`](/reference/methods#broadcast_to-model-identifiers-clear-true) the Channel so that **anyone currently subscribed to that resource** will receive the operations:
 
 ```ruby
 helen = Helen.find(30)
@@ -96,7 +96,7 @@ Setting up this pattern \[which Facebook broke the web to implement\] with Cable
 2. Add a Stimulus controller that is also an ActionCable subscription consumer and a CableReady performer to the outermost element of the item partial or ViewComponent
 3. Set the consumer to subscribe to its own Channel with model id metadata from the rendered markup
 4. Allow users to add/remove specific resource instances, perhaps via a `has_many` relationship or even an integer array attribute
-5. Everyone who changes attributes of the item (think Likes) triggers a `broadcast_to` that [`morph`](/reference/operations/dom-mutations.md#morph)s the markup of the resource for anyone who has that instance displayed on their screen
+5. Everyone who changes attributes of the item (think Likes) triggers a `broadcast_to` that [`morph`](/reference/operations/dom-mutations#morph)s the markup of the resource for anyone who has that instance displayed on their screen
 
 ### Fewer promises, more consciousness-expanding code samples plz
 
@@ -193,9 +193,9 @@ end
 :::
 
 ::: info
-Step 3 assumes that `this.application.consumer` is coming from the [controller index](/guide/leveraging-stimulus.md#1-this-application-consumer).
+Step 3 assumes that `this.application.consumer` is coming from the [controller index](/guide/leveraging-stimulus#1-this-application-consumer).
 
-Step 5 assumes that `render` is [delegated to](/guide/working-with-cableready.md#delegating-render-to-applicationcontroller) `ApplicationController`.
+Step 5 assumes that `render` is [delegated to](/guide/working-with-cableready#delegating-render-to-applicationcontroller) `ApplicationController`.
 :::
 
 With easily implemented, many-to-many reactive morph primatives available, developers can start structuring their interfaces differently while making bolder feature scope decisions.
@@ -260,7 +260,7 @@ You can [clone and experiment with the "streamfor" sample application](https://g
 
 ## `broadcast_to` multiple resources
 
-Like [`broadcast`](/reference/methods.md#broadcast-identifiers-clear-true), [`broadcast_to`](/reference/methods.md#broadcast_to-model-identifiers-clear-true) supports streaming to multiple constant-based identifiers at once, as well as holding back the purging of the queues with `clear: false`. When called without any identifiers, it will broadcast all queues with constant-based stream names.
+Like [`broadcast`](/reference/methods#broadcast-identifiers-clear-true), [`broadcast_to`](/reference/methods#broadcast_to-model-identifiers-clear-true) supports streaming to multiple constant-based identifiers at once, as well as holding back the purging of the queues with `clear: false`. When called without any identifiers, it will broadcast all queues with constant-based stream names.
 
 ```ruby
 cable_ready[SweetChannel].morph
@@ -283,7 +283,7 @@ For example, hitting "Publish" or flipping a resource from Public to Private wit
 
 It's a solid practice to obscure potentially sensitive model `id` metadata in your views. For some applications, [slugs](https://github.com/norman/friendly_id) are a good approach. Other times, [Signed Global ID](https://github.com/rails/globalid)s (aka `sgid`) are a powerful choice because you cannot reverse engineer the model or id from the resulting string. You can even generate `sgid`s which are use-limited.
 
-If you set up your `ApplicationRecord` as we suggested in [CableReady Everywhere](/guide/cableready-everywhere.md#activerecord), you can just use the `sgid` method on your model:
+If you set up your `ApplicationRecord` as we suggested in [CableReady Everywhere](/guide/cableready-everywhere#activerecord), you can just use the `sgid` method on your model:
 
 ::: code-group
 ```html [app/views/helens/_helen.html.erb]
@@ -358,7 +358,7 @@ If you are using Signed Global IDs to do lookups, use of the `dom_id` helper bec
 
 ### Combining `stream_for` and `stream_from`
 
-Building on the "[Multiple Identifiers](/guide/stream-identifiers.md#multiple-identifiers)" and "[Stream Identifiers with logic](/guide/stream-identifiers.md#stream-identifiers-with-logic)" sections on the [Stream Identifiers](/guide/stream-identifiers.md) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
+Building on the "[Multiple Identifiers](/guide/stream-identifiers#multiple-identifiers)" and "[Stream Identifiers with logic](/guide/stream-identifiers#stream-identifiers-with-logic)" sections on the [Stream Identifiers](/guide/stream-identifiers) page, it is possible to `stream_for` multiple resources in one Channel, making use of ternary logic operators and any other decision making structure that might be applicable to your application. After all, if you have instantiated a model instance, you've ready used a substantial amount of logic that is hidden away behind syntactic magic.
 
 `broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome, we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
 

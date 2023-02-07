@@ -83,7 +83,7 @@ cable_ready.broadcast                                      # sailors, chewies
 
 This resulted in six broadcasts, total: "visitors", "chewies", "chewies", "visitors", "sailors", "chewies".
 
-If you put your [broadcast](/reference/methods.md#broadcast-identifiers-clear-true) call on the end of a method chain that has already specified an identifier, you cannot modify the identifier further in your `broadcast` call:
+If you put your [broadcast](/reference/methods#broadcast-identifiers-clear-true) call on the end of a method chain that has already specified an identifier, you cannot modify the identifier further in your `broadcast` call:
 
 ```ruby
 cable_ready["chewies"].set_cookie.broadcast("sailors") # ERROR! identifier is already "chewies"

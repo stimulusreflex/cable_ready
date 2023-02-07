@@ -107,7 +107,7 @@ cable_ready["visitors"]
 
 ## Importing custom operations from npm packages
 
-In addition to defining custom operations in your `application.js`, you can now load them from npm packages. The first example of this is the [`play_sound`](/reference/operations/notifications.md#play_sound) operation, which was removed from CableReady core in v5.0.0; some people didn't love our implementation, and we wanted them to be able to write their own - or skip it entirely.
+In addition to defining custom operations in your `application.js`, you can now load them from npm packages. The first example of this is the [`play_sound`](/reference/operations/notifications#play_sound) operation, which was removed from CableReady core in v5.0.0; some people didn't love our implementation, and we wanted them to be able to write their own - or skip it entirely.
 
 `play_sound` now lives in the [`cableready/audio_operations`](https://github.com/cableready/audio_operations) repo on GitHub, which you can both import and clone to use as the basis for your own custom operations packages.
 
@@ -158,7 +158,7 @@ There is also a corresponding callback function that will run only if an element
 
 ### `shouldMorph` Callbacks
 
-CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/hopsoft/cable_ready/blob/master/javascript/callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](/guide/working-with-cableready.md#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
+CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/hopsoft/cable_ready/blob/master/javascript/callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](/guide/working-with-cableready#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
 
 These callbacks need to return true if the element should be morphed, or else return false to skip it. All callbacks **must** return a boolean value, even if the purpose of of the callback is to perform some kind of meta-transformation on the elements, as you'll see with the Alpine example in a moment.
 
