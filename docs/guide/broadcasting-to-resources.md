@@ -362,7 +362,7 @@ Building on the "[Multiple Identifiers](/guide/identifiers.md#multiple-identifie
 
 `broadcast_to` is designed to enable shared experiences around resources. A resource that doesn't exist yet is fundamentally difficult to collaborate on. Yet, when you create an empty Google Doc and share editing rights, the document already exists in every meaningful way. If we want a similar outcome, we have to find creative ways to operate on resources that aren't persisted and might not pass validations.
 
-In many cases, the best solution would be to save the new resource before displaying it to the user\(s\). You can delete unused stub resources with a recurring cleanup job.
+In many cases, the best solution would be to save the new resource before displaying it to the user(s). You can delete unused stub resources with a recurring cleanup job.
 
 If pre-saving is not feasible for your application, perhaps you could generate a UUID on the client and use that to create a temporarily subscription. If a UUID `param` arrives, establish the subscription and then create the model instance you need. Send the id of that model back to the client:
 

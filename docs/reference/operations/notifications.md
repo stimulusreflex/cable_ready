@@ -39,7 +39,7 @@ console_table(
 )
 ```
 
-The Console Inspector will build a simple table of values when provided with relatively normalized data in Array or Object format via the `data` option. You can further specify an array of Strings to create an "allowlist" of columns to display \(and hide the rest\).
+The Console Inspector will build a simple table of values when provided with relatively normalized data in Array or Object format via the `data` option. You can further specify an array of Strings to create an "allowlist" of columns to display (and hide the rest).
 
 #### Life-cycle Callback Events
 

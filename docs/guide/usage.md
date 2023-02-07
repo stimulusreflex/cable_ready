@@ -176,7 +176,7 @@ If jQuery is detected on the current page, jQuery events will be [triggered](htt
 A small number of operations, such as [`dispatch_event`](/reference/operations/event-dispatch.md#dispatch_event) and [`console_log`](/reference/operations/notifications.md#console_log), do not emit events. It's up to you to make sure that any [custom operations](customization.md#custom-operations) you create raise events, if desired.
 
 ::: info
-Don't confuse Life-cycle events emitted by operations with the [dynamically defined events](/guide/leveraging-stimulus.md#dispatched-event-listener-controllers) you can send using dispatch\_event operations. The ways you can capture them are the same, but Life-cycle events are part of the CableReady library behaviour whereas dispatched events are ad hoc and not constrained to CableReady operations.
+Don't confuse Life-cycle events emitted by operations with the [dynamically defined events](/guide/leveraging-stimulus.md#dispatched-event-listener-controllers) you can send using `dispatch_event` operations. The ways you can capture them are the same, but Life-cycle events are part of the CableReady library behaviour whereas dispatched events are ad hoc and not constrained to CableReady operations.
 :::
 
 ### Listening for events
@@ -275,13 +275,13 @@ CableReady was created with a deep and informed belief that web[applications tha
 
 However, one of the stranger edge-cases that must be handled in a websockets-enabled world is the potential for a server update to overwrite the value of a text input _while the user is typing into it_. It's a jarring example because it's an end-result that was almost completely impossible to achieve in the Ajax era. Despite our wildest brainstorms, we have yet to identify even a single scenario where a user would consider having their effort undone to be positive.
 
-As a result, CableReady's popular [morph](/reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](/guide/customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active \(have focus\).
+As a result, CableReady's popular [morph](/reference/operations/dom-mutations.md#morph) operation comes pre-installed with a [shouldMorph callback](/guide/customization.md#shouldmorph-callbacks) called `verifyNotMutable` that actively prevents the server from overwriting input, textarea and select elements while they are active (have focus).
 
 Since forms are rarely designed to be edited by multiple concurrent users 😱 it's unlikely that you'll have to spend time thinking about this issue. If you're one of the lucky ones, you can use CableReady and StimulusReflex to establish a field-level locking system, or at the very least, update CSS or nearby indicators to show that a particular input is locked, contested or potentially out of date.
 
 ## Focus assignment
 
-The [DOM Mutation](/reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active \(receive focus\) after the operation completes.
+The [DOM Mutation](/reference/operations/dom-mutations.md) operations accept an optional `focusSelector` parameter that allows you to specify a CSS selector to which element should be active (receive focus) after the operation completes.
 
 If `focusSelector` is not specified, the focus will go to the element that was active immediately before the operation was executed.
 
@@ -319,7 +319,7 @@ The generator will then ask if you're going to use Stimulus to subscribe to the 
 
 If you answer yes, it will create [a Stimulus controller that will subscribe to your Channel](/guide/leveraging-stimulus.md#introducing-the-stimulus-cableready-controller). The idea is that in your `app/javascript/controllers/index.js`, you will import the ActionCable `consumer.js` and [attach it to your Stimulus application](/guide/leveraging-stimulus.md#1-this-application-consumer). This makes the connection available to all Stimulus controllers while ensuring that all subscriptions share the same ActionCable `Connection`.
 
-All you need to do is create an instance of the Stimulus controller on the markup \(using a partial or ViewComponent\) that sets the `data-{controller}-id-value` attribute:
+All you need to do is create an instance of the Stimulus controller on the markup (using a partial or ViewComponent) that sets the `data-{controller}-id-value` attribute:
 
 ::: code-group
 ```html [app/views/sailors/_sailor.html.erb]

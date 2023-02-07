@@ -48,7 +48,7 @@ You can feel free to remove both of these files after you're done, but leave `ap
 Once your app is properly configured and off to a good start, you might want to consider disabling ActionCable logging by setting the following in an initializer:
 
 ::: code-group
-```ruby [config/initializers/action\_cable.rb]
+```ruby [config/initializers/action_cable.rb]
 ActionCable.server.config.logger = Logger.new(nil)
 ```
 :::
@@ -65,7 +65,7 @@ Another excellent resource is the [Sidekiq wiki page for Heroku](https://github.
 
 The behaviour of form helpers changed slightly in Rails 6.1, as forms are no longer automatically set to be `remote: true` by default. This catches many developers off-guard!
 
-We recommend that Rails developers use UJS/mrujs remote forms wherever possible, especially if they are using Turbolinks / Turbo Drive. This allows forms to be submitted without reloading the page, which is not only much faster \(no more ugly screen refreshes!\) but allows ActionCable Connections to remain open, too.
+We recommend that Rails developers use UJS/mrujs remote forms wherever possible, especially if they are using Turbolinks / Turbo Drive. This allows forms to be submitted without reloading the page, which is not only much faster (no more ugly screen refreshes!) but allows ActionCable Connections to remain open, too.
 
 ```html
 <%= form_with model: @foo, local: false %>

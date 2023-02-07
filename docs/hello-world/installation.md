@@ -1,7 +1,7 @@
 # Installation
 
 ::: tip
-If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries (such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)), CableReady is already installed and you can move on to [Hello World](hello-world.md). 🎉
+If you're running [StimulusReflex](https://docs.stimulusreflex.com) or other CableReady-powered libraries (such as [Optimism](https://optimism.leastbad.com/) or [Futurism](https://github.com/julianrubisch/futurism)), CableReady is already installed and you can move on to [Hello World](/hello-world/hello-world.md). 🎉
 :::
 
 ## Client and Server Packages
@@ -122,7 +122,7 @@ The CableReady documentation assumes that you are running Rails 6.x. It is possi
 
 ## Polyfills for IE11
 
-If you need to provide support for older browsers, you can `yarn add @cable_ready/polyfills` and include them **before** your Stimulus controllers \(if any\) and CableReady channels:
+If you need to provide support for older browsers, you can `yarn add @cable_ready/polyfills` and include them **before** your Stimulus controllers (if any) and CableReady channels:
 
 ::: code-group
 ```javascript [app/javascript/packs/application.js]

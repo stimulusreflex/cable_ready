@@ -74,14 +74,14 @@ include CableReady::Broadcaster
 ```
 
 ::: tip
-On the [CableReady Everywhere](/guide/cableready-everywhere) page, you'll learn how to broadcast from \(pretty much\) anywhere in your application.
+On the [CableReady Everywhere](/guide/cableready-everywhere) page, you'll learn how to broadcast from (pretty much) anywhere in your application.
 :::
 
 #### The 3 parts of a CableReady command
 
 With few exceptions, all CableReady invocations have three predictable segments:
 
-1. Stream identifier\(s\): who \(or what\) will receive operations
+1. Stream identifier(s): who (or what) will receive operations
 2. Operation queueing: one or more operations to broadcast
 3. Broadcast: deliver all queued operations immediately
 
@@ -117,7 +117,7 @@ cable_ready["visitors"]
   .set_style(selector: "body", name: "color", value: "red")
 ```
 
-You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is how you identify the target DOM element\(s\) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
+You can use different operations together, and each operation can have completely different options. The most common option is `selector`, which is how you identify the target DOM element(s) for an operation. In fact, it's so common that you can just pass it as the first parameter, without a key.
 
 ```ruby
 cable_ready["visitors"]
@@ -148,6 +148,6 @@ cable_ready["visitors"]
 
 That's really all you need to get started with CableReady.
 
-You can look over the next sections to learn more techniques, such as [broadcasting to resources](broadcasting-to-resources.md#stream_for-and-broadcast_to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
+You can look over the next sections to learn more techniques, such as [broadcasting to resources](/guide/broadcasting-to-resources.md#stream_for-and-broadcast_to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
 
 ![](/hasselhoff.jpg)

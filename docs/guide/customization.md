@@ -162,7 +162,7 @@ CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes 
 
 These callbacks need to return true if the element should be morphed, or else return false to skip it. All callbacks **must** return a boolean value, even if the purpose of of the callback is to perform some kind of meta-transformation on the elements, as you'll see with the Alpine example in a moment.
 
-Your shouldMorph callback function will receive three parameters: the `options` passed to the `morph` method, `fromEl`, which is the element before it is \(potentially\) morphed, and `toEl`, which is the element `fromEl` will \(potentially\) be morphed into.
+Your shouldMorph callback function will receive three parameters: the `options` passed to the `morph` method, `fromEl`, which is the element before it is (potentially) morphed, and `toEl`, which is the element `fromEl` will (potentially) be morphed into.
 
 The primary use case of a shouldMorph callback is to skip elements that meet a certain criteria - or don't. This could be handy if you need to protect part of the DOM:
 

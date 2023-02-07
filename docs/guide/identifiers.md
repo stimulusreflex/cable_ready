@@ -111,7 +111,7 @@ cable_ready["mike"].morph.broadcast
 cable_ready["ike"].morph.broadcast
 ```
 
-Each stream identifier has its own operations queue. This means that you could build up two queues of different operations, both intended for the same recipient\(s\) but broadcasting at different times.
+Each stream identifier has its own operations queue. This means that you could build up two queues of different operations, both intended for the same recipient(s) but broadcasting at different times.
 
 ## Dynamic identifiers
 
@@ -210,7 +210,7 @@ We've [already seen](/hello-world/hello-world) that the subscription creation me
 {channel: "ExampleChannel"}
 ```
 
-If you pass an object, it's assumed that one of the keys will be `channel` and the value will be the name of the channel. An arbitrary number of additional key/value pairs can _also_ be passed, and that's how we tell the server about our nickname \(which will be blank if it hasn't been set\).
+If you pass an object, it's assumed that one of the keys will be `channel` and the value will be the name of the channel. An arbitrary number of additional key/value pairs can _also_ be passed, and that's how we tell the server about our nickname (which will be blank if it hasn't been set).
 
 ```javascript
 consumer.subscriptions.create(

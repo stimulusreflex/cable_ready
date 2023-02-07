@@ -101,7 +101,7 @@ Setting an attribute changes the element's HTML, and you will see it reflected i
 While there is frequently a 1:1 mapping between attributes and properties, there is [a long list of gotchas](https://javascript.info/dom-attributes-and-properties). For example, changing the `value` attribute of a text input element does not change the current `value` property, or vice versa. Many debugging sessions conclude with frustration over the many attribute vs property gotchas.
 
 ::: warning
-To set the value of a Boolean attribute, such as `disabled`, you can specify any value. An empty string or the name of the attribute are recommended values. All that matters is that if the attribute is present at all, _regardless of its actual value_, its value is considered to be `true`. The absence of the attribute means its value is `false`. By setting the value of the `disabled` attribute to the empty string \(`""`\), we are setting `disabled` to `true`, which results in the button being disabled.
+To set the value of a Boolean attribute, such as `disabled`, you can specify any value. An empty string or the name of the attribute are recommended values. All that matters is that if the attribute is present at all, _regardless of its actual value_, its value is considered to be `true`. The absence of the attribute means its value is `false`. By setting the value of the `disabled` attribute to the empty string (`""`), we are setting `disabled` to `true`, which results in the button being disabled.
 :::
 
 #### Life-cycle Callback Events
@@ -115,7 +115,7 @@ To set the value of a Boolean attribute, such as `disabled`, you can specify any
 
 ## `set_dataset_property`
 
-Sets an dataset property \(data-\* attribute\) on an element.
+Sets an dataset property (`data-*` attribute) on an element.
 
 ```ruby
 set_dataset_property(

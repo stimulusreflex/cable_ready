@@ -22,11 +22,11 @@ cable_ready["stream"]
   )
 ```
 
-You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations.md#outer_html) or [set\_attribute](/reference/operations/element-mutations.md#set_attribute) instead.
+You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations.md#outer_html) or [`set_attribute`](/reference/operations/element-mutations.md#set_attribute) instead.
 
 #### Your top-level content needs to be an element.
 
-It's not enough for the container selector to match. Your content needs to be wrapped in an element \(eg. not a text node\) or else the StimulusReflex `data-reflex-permanent` attribute will not work.
+It's not enough for the container selector to match. Your content needs to be wrapped in an element (eg. not a text node) or else the StimulusReflex `data-reflex-permanent` attribute will not work.
 
 ```ruby
 cable_ready["stream"]
@@ -50,7 +50,7 @@ cable_ready["stream"]
 
 #### Different element type altogether? Who cares, so long as the CSS selector matches?
 
-Go ahead, turn your `div` into a `span`. morphdom just doesn't care.
+Go ahead, turn your `div` into a `span`. `morphdom` just doesn't care.
 
 ```ruby
 cable_ready["stream"]
@@ -60,7 +60,7 @@ cable_ready["stream"]
   )
 ```
 
-#### A new CSS selector \(or no CSS selector\) will be processed as innerHTML
+#### A new CSS selector (or no CSS selector) will be processed as innerHTML
 
 Changing the CSS selector will result in some awkward nesting issues.
 

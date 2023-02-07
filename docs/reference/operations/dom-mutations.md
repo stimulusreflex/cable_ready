@@ -317,7 +317,7 @@ remove(
 
 ## `replace`
 
-Replaces a DOM element with new HTML. This operation is an alias of [outer\_html](dom-mutations.md#outer_html) and has the same implementation.
+Replaces a DOM element with new HTML. This operation is an alias of [`outer_html`](dom-mutations.md#outer_html) and has the same implementation.
 
 ```ruby
 replace(

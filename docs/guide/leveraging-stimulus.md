@@ -207,7 +207,7 @@ The nature of Stimulus makes it exceptionally good at acting as a go-between, pa
 
 One of the author's favorite pairings is the [Timeline](https://greensock.com/docs/v3/GSAP/Timeline) component from the excellent Greensock Animation library. Described as a "high-speed property setter", Timeline provides an expressive API for chaining a series of events placed on - you guessed it - a timeline. Your position on this timeline can be scrubbed, seeked, reversed, looped, repeated, yo-yoed, labelled and tweened to your heart's content.
 
-What most folks don't seem to immediately grasp about Timeline - which is targeted at animators, after all - is that there doesn't actually have to be any visual animation whatsoever. You can use it exclusively to fire JavaScript callback functions with extremely high-fidelity timing accuracy. Here's a sample of the controller that kicks in when you attempt to "Suggest a package" \(see the left column\) on [StimulusConnect](https://stimulusconnect.com/) **without logging in first**:
+What most folks don't seem to immediately grasp about Timeline - which is targeted at animators, after all - is that there doesn't actually have to be any visual animation whatsoever. You can use it exclusively to fire JavaScript callback functions with extremely high-fidelity timing accuracy. Here's a sample of the controller that kicks in when you attempt to "Suggest a package" (see the left column) on [StimulusConnect](https://stimulusconnect.com/) **without logging in first**:
 
 ```javascript
 import { Controller } from '@hotwired/stimulus'

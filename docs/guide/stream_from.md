@@ -1,6 +1,6 @@
 # `stream_from`
 
-There's no limit \(within reason\) to how many subscriptions you can open on a single page, and as you'll soon learn, you can provide several keys which mix many different types, including ActiveRecord model resources, strings, integers, class constants and more.
+There's no limit (within reason) to how many subscriptions you can open on a single page, and as you'll soon learn, you can provide several keys which mix many different types, including ActiveRecord model resources, strings, integers, class constants and more.
 
 ## Example time!
 

@@ -103,7 +103,7 @@ Initiate navigation to a new URL. Techniques will be used in the following order
 
 `Turbolinks.visit` will be used if the target location is on the same domain and the Turbolinks library is available as `window.Turbolinks`.
 
-There is an `action` option which can only be "advance" \(default value, which is comparable to `push_state`\) or `replace` \(which is similar to `replace_state`\).
+There is an `action` option which can only be `advance` (default value, which is comparable to `push_state`) or `replace` (which is similar to `replace_state`).
 
 ```ruby
 redirect_to(
@@ -129,8 +129,8 @@ Life-cycle events for `redirect_to` are raised on `window`.
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/location](https://developer.mozilla.org/en-US/docs/Web/API/Window/location)
-* [https://github.com/turbolinks/turbolinks\#turbolinksvisit](https://github.com/turbolinks/turbolinks#turbolinksvisit)
-* [https://turbo.hotwired.dev/reference/drive\#turbodrivevisit](https://turbo.hotwired.dev/reference/drive#turbodrivevisit)
+* [https://github.com/turbolinks/turbolinks#turbolinksvisit](https://github.com/turbolinks/turbolinks#turbolinksvisit)
+* [https://turbo.hotwired.dev/reference/drive#turbodrivevisit](https://turbo.hotwired.dev/reference/drive#turbodrivevisit)
 
 ## `reload`
 
@@ -226,7 +226,7 @@ Life-cycle events for `replace_state` are raised on `window`. Add a listener for
 
 ## `scroll_into_view`
 
-Scroll the viewport so that the element with the specified anchor \(`id` attribute\) is in view.
+Scroll the viewport so that the element with the specified anchor (`id` attribute) is in view.
 
 ```ruby
 scroll_into_view(

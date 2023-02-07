@@ -4,19 +4,19 @@ When we made custom operations possible in CableReady, we saw an explosion of cr
 
 ![](/bats.jpg)
 
-CableReady-the-Library - which was created for ActionCable - had become just one of several possible delivery mechanisms for CableReady-the-Format. \(Convention? Protocol? Standard? Data structure?\)
+CableReady-the-Library - which was created for ActionCable - had become just one of several possible delivery mechanisms for CableReady-the-Format. (Convention? Protocol? Standard? Data structure?)
 
 **We have exposed the operation queueing API as Cable Car, making CableReady over Ajax a reality.**
 
 ## Introducing `cable_car`
 
-The `CableReady::Broadcaster` Concern now provides a `cable_car` method \(in addition to the familiar `cable_ready` method\) which you can call anywhere in your application.
+The `CableReady::Broadcaster` Concern now provides a `cable_car` method (in addition to the familiar `cable_ready` method) which you can call anywhere in your application.
 
 You use `cable_car` to chain together operations which will ultimately be converted into JSON that the CableReady client can process.
 
 Unlike ActionCable `Channels` - which are delivered over WebSockets - Cable Car isn't opinionated about how you plan to use the JSON it creates. It doesn't have any broadcast capacity of its own, making it a perfect fit for controller actions responding to HTTP requests, ActiveJob scheduling and even persisting operations to your database.
 
-Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier \("no square brackets"\). Instead of sending data with `broadcast`, you generate JSON with `dispatch`:
+Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier ("no square brackets"). Instead of sending data with `broadcast`, you generate JSON with `dispatch`:
 
 ```ruby
 operations = cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
@@ -111,4 +111,4 @@ That's it! Honestly, the only way it could be easier is if you just used Stimulu
 
 ## Operation Serialization
 
-[Earlier](cable-car.md#wait-what-s-in-that-array), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?
+[Earlier](/guide/cable-car.md#wait-what-s-in-that-array), we saw how calling `dispatch` on a `cable_car` method chain produces a Hash that represents all of your queued operations. What if you are not quite ready to send those updates, or want to save them in your database?

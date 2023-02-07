@@ -30,7 +30,7 @@ Controller actions that handle Ajax requests, as well as web hooks and OAuth end
 
 If you perform a CableReady broadcast during a standard page controller action, it will send the broadcast immediately; before the action has completed, before the view template has been rendered and before the HTML has been sent to the client. This can lead to developers becoming convinced (incorrectly) that the broadcast did not work. See [this advice on Rails remote forms](/troubleshooting/#remote-forms-in-rails-6-1) in the Troubleshooting chapter as well.
 
-If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active\_job\_basics.html#enqueue-the-job) method. There's also [a good example](/guide/leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
+If you need the user executing the controller action to see the broadcast, you should [use an ActiveJob](https://app.gitbook.com/@stimulusreflex/s/cableready/\~/drafts/-MPd3ezNjm713wu61\_WO/usage#triggering-cableready-from-a-job) that has been delayed for a few seconds using the [set](https://edgeguides.rubyonrails.org/active_job_basics.html#enqueue-the-job) method. There's also [a good example](/guide/leveraging-stimulus.md#example-3-the-logical-splitter) of using Stimulus to provide an elegant solution to group update issues.
 
 ### Ajax
 
@@ -304,14 +304,6 @@ Finally, let's wire up the input element's change event to the `greet` method:
 :::
 
 ## ActionMailbox
-
-TODO&#x20;
-
-## chrono\_trigger
-
-TODO
-
-## Redis Firehose TBD
 
 TODO
 
