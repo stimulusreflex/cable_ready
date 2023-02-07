@@ -24,14 +24,14 @@ export default {
       { text: 'StimulusReflex', link: 'https://docs.stimulusreflex.com' },
       {
         text: 'v5.0.0',
-        items: [
-          {
-            items: [
-              { text: 'v4.5.0', link: 'https://v4-5-docs.cableready.stimulusreflex.com' },
-              { text: 'v5.0.0', link: 'https://cableready.stimulusreflex.com' },
-            ]
-          }
-        ]
+        // items: [
+        //   {
+        //     items: [
+        //       { text: 'v4.5.0', link: 'https://v4-5-docs.cableready.stimulusreflex.com' },
+        //       { text: 'v5.0.0', link: 'https://cableready.stimulusreflex.com' },
+        //     ]
+        //   }
+        // ]
       }
     ],
     footer: {
