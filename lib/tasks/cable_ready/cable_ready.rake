@@ -27,7 +27,7 @@ CR_FOOTGUNS = {
   "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "example", "spring", "bundle"]
 }
 
-def run_install_template(template, force: false, local: false, trace: false, timeout: 1)
+def run_install_template(template, force: false, trace: false, timeout: 1)
   if Rails.root.join("tmp/cable_ready_installer/halt").exist?
     FileUtils.rm(Rails.root.join("tmp/cable_ready_installer/halt"))
     puts "CableReady installation halted. Please fix the issues above and try again."
@@ -38,7 +38,7 @@ def run_install_template(template, force: false, local: false, trace: false, tim
     return
   end
 
-  system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../../install/#{template}.rb", __dir__)} SKIP_SANITY_CHECK=true LOCAL=true #{"--trace" if trace}"
+  system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../../install/#{template}.rb", __dir__)} SKIP_SANITY_CHECK=true #{"--trace" if trace}"
 
   puts "#{icon} #{CR_STEPS[template]}" unless Rails.root.join("tmp/cable_ready_installer/halt").exist?
 end

@@ -7,7 +7,7 @@ module CableReady
   class ExampleGenerator < Rails::Generators::NamedBase
     source_root File.expand_path("templates", __dir__)
     argument :name, type: :string, default: ""
-    class_options skip_stimulus: false, skip_reflex: false, timeout: 1, local: false
+    class_options skip_stimulus: false, skip_reflex: false, timeout: 1
 
     def execute
       controller_src = fetch("/app/controllers/examples_controller.rb.tt")

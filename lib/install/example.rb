@@ -11,9 +11,7 @@ if !Rails.root.join("app/controllers/examples_controller.rb").exist?
   end
 end
 
-if ENV["LOCAL"] == "true"
-  generate("cable_ready:example", "--local true") if proceed
-elsif proceed
+if proceed
   generate("cable_ready:example")
 end
 
