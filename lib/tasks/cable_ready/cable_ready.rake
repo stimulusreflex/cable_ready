@@ -71,7 +71,7 @@ namespace :cable_ready do
     end
 
     options_path = Rails.root.join("tmp/cable_ready_installer/options")
-    options.reverse_merge!({ "timeout" => 1 })
+    options.reverse_merge!({"timeout" => 1})
     options_path.write(options.to_yaml)
 
     if defined?(StimulusReflex)
