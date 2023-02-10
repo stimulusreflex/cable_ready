@@ -40,6 +40,7 @@ module CableReady
 
     initializer "cable_ready.importmap", before: "importmap" do |app|
       if app.config.respond_to?(:importmap)
+        app.config.importmap.paths << Engine.root.join("lib/cable_ready/importmap.rb")
         app.config.importmap.cache_sweepers << Engine.root.join("app/assets/javascripts")
       end
     end
