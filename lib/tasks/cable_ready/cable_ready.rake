@@ -40,7 +40,7 @@ def run_install_template(template, force: false, trace: false, timeout: 1)
 
   system "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{File.expand_path("../../install/#{template}.rb", __dir__)} SKIP_SANITY_CHECK=true #{"--trace" if trace}"
 
-  puts "#{icon} #{CR_STEPS[template]}" unless Rails.root.join("tmp/cable_ready_installer/halt").exist?
+  puts "#{CR_STEPS[template]}" unless Rails.root.join("tmp/cable_ready_installer/halt").exist?
 end
 
 namespace :cable_ready do
