@@ -7,7 +7,7 @@ module CableReady
   class ExampleGenerator < Rails::Generators::NamedBase
     source_root File.expand_path("templates", __dir__)
     argument :name, type: :string, default: ""
-    class_options skip_stimulus: false, skip_reflex: false, timeout: 1, local: false, branch: CableReady::BRANCH
+    class_options skip_stimulus: false, skip_reflex: false, timeout: 1, local: false
 
     def execute
       controller_src = fetch("/app/controllers/examples_controller.rb.tt")
@@ -43,19 +43,7 @@ module CableReady
     private
 
     def fetch(file)
-      working = Rails.root.join("tmp/cable_ready_installer/working")
-
-      return (source_paths.first + file) if options[:local]
-
-      begin
-        tmp_path = working.to_s + file
-        url = "https://raw.githubusercontent.com/stimulusreflex/cable_ready/#{options[:branch]}/lib/generators/cable_ready/templates#{file.gsub("%", "%25")}"
-        FileUtils.mkdir_p(tmp_path.split("/")[0..-2].join("/"))
-        File.write(tmp_path, URI.open(url, open_timeout: options[:timeout].to_i, read_timeout: options[:timeout].to_i).read) # standard:disable Security/Open
-        tmp_path
-      rescue
-        source_paths.first + file
-      end
+      source_paths.first + file
     end
   end
 end

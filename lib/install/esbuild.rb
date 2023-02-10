@@ -12,12 +12,12 @@ end
 if !lines.index { |line| line =~ /^\s*["']@hotwired\/stimulus["']:/ }
   add_package "@hotwired/stimulus@^3.2"
 end
-# copy esbuild.config.js to app root
-esbuild_src = fetch("/", "esbuild.config.js.tt")
-esbuild_path = Rails.root.join("esbuild.config.js")
+# copy esbuild.config.mjs to app root
+esbuild_src = fetch("/", "esbuild.config.mjs.tt")
+esbuild_path = Rails.root.join("esbuild.config.mjs")
 if esbuild_path.exist?
   if esbuild_path.read == esbuild_src.read
-    say "✅ esbuild.config.js present in app root"
+    say "✅ esbuild.config.mjs present in app root"
   else
     backup(esbuild_path) do
       template(esbuild_src, esbuild_path, verbose: false, entrypoint: entrypoint)

@@ -5,19 +5,8 @@ require "cable_ready/version"
 def fetch(step_path, file)
   relative_path = step_path + file
   location = template_src + relative_path
-  return Pathname.new(location) if ENV["LOCAL"] == "true"
-  opts = YAML.safe_load(options_path.read)
 
-  begin
-    local_file = Pathname.new(working.to_s + relative_path)
-    FileUtils.mkdir_p(working.to_s + relative_path.split("/")[0..-2].join("/"))
-    timeout = opts["timeout"].to_i
-    local_file.write(URI.open("https://raw.githubusercontent.com/stimulusreflex/cable_ready/#{opts["branch"]}/lib/generators/cable_ready/templates#{relative_path}", open_timeout: timeout, read_timeout: timeout).read)
-    local_file
-  rescue
-    create_or_append(network_issue_path, current_template + "\n", verbose: false)
-    Pathname.new(location)
-  end
+  Pathname.new(location)
 end
 
 def complete_step(step)
@@ -118,10 +107,6 @@ end
 
 def footgun
   @footgun ||= File.read("tmp/cable_ready_installer/footgun")
-end
-
-def network_issue_path
-  @network_issue_path ||= Rails.root.join("tmp/cable_ready_installer/network_issue")
 end
 
 def config_path

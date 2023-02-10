@@ -33,11 +33,11 @@ if add.present? || dev.present? || drop.present?
   system "yarn install --silent"
 end
 
-if footgun == "esbuild" && json["scripts"]["build"] != "node esbuild.config.js"
+if footgun == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
   json["scripts"]["build:default"] = json["scripts"]["build"]
-  json["scripts"]["build"] = "node esbuild.config.js"
+  json["scripts"]["build"] = "node esbuild.config.mjs"
   package_json.write JSON.pretty_generate(json)
-  say "✅ Your build script has been updated to use esbuild.config.js"
+  say "✅ Your build script has been updated to use esbuild.config.mjs"
 end
 
 complete_step :yarn

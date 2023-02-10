@@ -34,9 +34,6 @@
 
       const fireworks = new Fireworks(document.querySelector('.fireworks'))
       document.addEventListener('example:destroyed', () => fireworks.launch(12))
-
-      if (window.mrujs === undefined)
-        document.querySelector('#mrujs-warning').style.display = 'block'
     </script>
 
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
@@ -83,9 +80,7 @@
       </article>
 
       <article>
-        <h3>CableCar (aka "Ajax mode") + mrujs</h3>
-
-        <p id="mrujs-warning" style="display: none;">⚠️ It seems as though you did not install <ins>mrujs</ins> in your application. Sadly, this means that many of the live examples will not work. You can run <kbd>rails cable_ready:install:step mrujs <%%= "yarn " unless Rails.root.join("config/importmap.rb").exist? %>bundle</kbd> if you change your mind.</p>
+        <h3>CableCar (aka "Ajax mode")</h3>
 
         <p>If you aren't using Action Cable, the <ins>cable_car</ins> method can render CableReady JSON anywhere in your application.</p>
 
@@ -93,7 +88,7 @@
 
         <div class="grid" style="grid-template-columns: 1fr 2fr; grid-column-gap: 4rem;">
           <div>
-            <h4>form_with via POST</h4>      
+            <h4>form_with via POST</h4>
             <%%= form_with do |form| %>
               <%%= form.submit "Create" %>
             <%% end %>
@@ -118,10 +113,10 @@
             </div>
           </div>
         </div>
-        
-        <p>All examples use the excellent <a href="https://mrujs.com">mrujs</a> to handle the remote forms and links. We recommend that you compare the example controller, ERB template, Puma log output and the generated HTML in your Elements inspector to quickly get a handle on this elegant approach to reactivity.</p>
-        
-        <p>The view helpers infer the correct URL from the current page and HTTP verb. mrujs manages all remote fetches, and <b>will perform any CableReady operations in the response</b>. When you <a href="https://cableready.stimulusreflex.com/reference/operations/event-dispatch#dispatch_event">dispatch events</a>, the fireworks begin.</p>
+
+        <!-- <p>All examples use the excellent <a href="https://mrujs.com">mrujs</a> to handle the remote forms and links. We recommend that you compare the example controller, ERB template, Puma log output and the generated HTML in your Elements inspector to quickly get a handle on this elegant approach to reactivity.</p> -->
+
+        <!-- <p>The view helpers infer the correct URL from the current page and HTTP verb. mrujs manages all remote fetches, and <b>will perform any CableReady operations in the response</b>. When you <a href="https://cableready.stimulusreflex.com/reference/operations/event-dispatch#dispatch_event">dispatch events</a>, the fireworks begin.</p> -->
 
         <p><ins>cable_car</ins> is also really useful for generating CableReady JSON that will be cached, duplicated, mutated, stored, discarded, translated, serialized, streamed and/or queued.</p>
       </article>
@@ -205,37 +200,10 @@
         -->
 
         <p style="margin-top: 1rem;">One major advantage of the Updatable approach is that each visitor sees <b>personalized content</b>. This is difficult with a WebSockets broadcast, where every subscriber receives the same data.</p>
-        
+
         <p>Instead, Updatable notifies all subscribers that an update is available, prompting each client to make a fetch request and refresh sections of the page.</p>
 
         <p>There's more to <a href="https://cableready.stimulusreflex.com/updatable">Updatable</a> than what's covered here... <i>but, not much more</i>. It really is that simple.</p>
-      </article>
-
-      <article>
-        <h3>cable_ready_tag + Turbo Streams</h3>
-
-        <p>You can embed CableReady operations in a static page or template element using a <ins>cable-ready</ins> element.<p>
-
-        <p>This element is a web component that executes CableReady operations after it is appended to the DOM. You can leverage the power of CableReady, even if you're stuck with Turbo Streams.</p>
-
-        <p>Use the <ins>cable_ready_tag</ins> helper to render the element for you:</p>
-
-        <kbd>cable_ready_tag(cable_car.console_log(message: "Testy McTestface"))</kbd>
-
-        <p style="margin-top: 1rem;">This emits the following HTML. <b>You should see it in your Console log already.</b></p>
-
-        <kbd><%%= cable_ready_tag(cable_car.console_log(message: "Testy McTestface")) %></kbd>
-
-        <!-- this is live code, so if @hotwired/turbo-rails is in your JS package, it will execute the operation and then remove itself -->
-        <%%= cable_ready_tag(cable_car.console_log(message: "Testy McTestface")).html_safe %>
-
-        <p style="margin-top: 1rem;">You can render it as a Turbo Stream response in your controller action:</p>
-
-        <kbd>render turbo_stream: turbo_stream.append_all("body", cable_ready_tag(cable_car.console_log(message: "Testy McTestface")))</kbd>
-        
-        <%% if defined?(Turbo) %>
-        <p style="margin-top: 1rem;"><%%= link_to 'Send a Console log message with Turbo Streams', "/example", data: { turbo_stream: true } %> right now.</p>
-        <%% end %>
       </article>
 
       <article>
