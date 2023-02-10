@@ -1,4 +1,5 @@
-import Plugins from './plugins'
+import morphdom from 'morphdom'
+
 import { shouldMorph, didMorph } from './morph_callbacks'
 import {
   assignFocus,
@@ -261,43 +262,6 @@ export default {
     })
   },
 
-  invokeMethod: operation => {
-    processElements(operation, element => {
-      before(element, operation)
-      operate(operation, () => {
-        let firstObjectInChain
-        const { element, receiver, method, args } = operation
-        const chain = safeString(method).split('.')
-
-        switch (receiver) {
-          case 'window':
-            firstObjectInChain = window
-            break
-          case 'document':
-            firstObjectInChain = document
-            break
-          default:
-            firstObjectInChain = element
-        }
-        let lastObjectInChain = firstObjectInChain
-        const foundMethod = chain.reduce((lastTerm, nextTerm) => {
-          lastObjectInChain = lastTerm
-          return lastTerm[nextTerm] || {}
-        }, firstObjectInChain)
-
-        if (foundMethod instanceof Function) {
-          foundMethod.apply(lastObjectInChain, args || [])
-        } else {
-          console.warn(
-            `CableReady invoke_method operation failed due to missing '${method}' method for:`,
-            firstObjectInChain
-          )
-        }
-      })
-      after(element, operation)
-    })
-  },
-
   setMeta: operation => {
     before(document, operation)
     operate(operation, () => {
@@ -477,7 +441,6 @@ export default {
   // Morph operations
 
   morph: operation => {
-    // TODO: remove this in 6.0
     processElements(operation, element => {
       const { html } = operation
       const template = document.createElement('template')
@@ -488,36 +451,7 @@ export default {
       before(element, operation)
       operate(operation, () => {
         const { childrenOnly, focusSelector } = operation
-        Plugins.morphdom(
-          element,
-          childrenOnly ? template.content : template.innerHTML,
-          {
-            childrenOnly: !!childrenOnly,
-            onBeforeElUpdated: shouldMorph(operation),
-            onElUpdated: didMorph(operation)
-          }
-        )
-        assignFocus(focusSelector)
-      })
-      console.warn(
-        'The "morph" operation is deprecated in CableReady v5 and will be removed in v6. Use "morphdom" or similar instead.'
-      )
-      after(parent ? parent.children[idx] : document.documentElement, operation)
-    })
-  },
-
-  morphdom: operation => {
-    processElements(operation, element => {
-      const { html } = operation
-      const template = document.createElement('template')
-      template.innerHTML = String(safeScalar(html)).trim()
-      operation.content = template.content
-      const parent = element.parentElement
-      const idx = parent && Array.from(parent.children).indexOf(element)
-      before(element, operation)
-      operate(operation, () => {
-        const { childrenOnly, focusSelector } = operation
-        Plugins.morphdom(
+        morphdom(
           element,
           childrenOnly ? template.content : template.innerHTML,
           {

@@ -17,10 +17,10 @@
     <a href="http://blog.codinghorror.com/the-best-code-is-no-code-at-all/" target="_blank">
       <img alt="Lines of Code" src="https://img.shields.io/badge/lines_of_code-1203-brightgreen.svg?style=flat" />
     </a>
+    <br />
     <a href="https://cableready.stimulusreflex.com" target="_blank">
       <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
     </a>
-    <br />
     <a href="#badge">
       <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
     </a>
@@ -31,9 +31,6 @@
       <img alt="JavaScript Code Style" src="https://img.shields.io/badge/JavaScript_Code_Style-prettier_standard-ff69b4.svg" />
     </a>
     <br />
-    <a href="https://www.codacy.com/manual/hopsoft/cable_ready/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hopsoft/cable_ready&amp;utm_campaign=Badge_Grade" target="_blank">
-      <img alt="Code Quality" src="https://app.codacy.com/project/badge/Grade/8e6971e3410347eaaa16be2555160b9c"/>
-    </a>
     <a target="_blank" rel="noopener noreferrer" href="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg">
       <img src="https://github.com/stimulusreflex/cable_ready/workflows/Prettier-Standard/badge.svg" alt="Prettier-Standard" style="max-width:100%;">
     </a>
@@ -119,7 +116,7 @@ Please run `./bin/standardize` prior submitting pull requests.
 1. Run `yarn publish --no-git-tag-version`
 1. Yarn will prompt you for the new version. Pre-release versions use `-preN`
 1. Commit and push changes to GitHub
-1. Create a new release on GitHub ([here](https://github.com/stimulusreflex/stimulus_reflex/releases)) and generate the changelog for the stable release for it
+1. Create a new release on GitHub ([here](https://github.com/stimulusreflex/cable_ready/releases)) and generate the changelog for the stable release for it
 
 ## 📝 License
 

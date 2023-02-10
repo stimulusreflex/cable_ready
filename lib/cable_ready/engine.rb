@@ -2,6 +2,21 @@ require "rails/engine"
 
 module CableReady
   class Engine < Rails::Engine
+    # If you don't want to precompile CableReady's assets (eg. because you're using webpack),
+    # you can do this in an initializer:
+    #
+    # config.after_initialize do
+    #   config.assets.precompile -= CableReady::Engine::PRECOMPILE_ASSETS
+    # end
+    PRECOMPILE_ASSETS = %w[
+      cable_ready.js
+      cable_ready.min.js
+      cable_ready.min.js.map
+      cable_ready.umd.js
+      cable_ready.umd.min.js
+      cable_ready.umd.min.js.map
+    ]
+
     initializer "cable_ready.sanity_check" do
       SanityChecker.check! unless Rails.env.production?
     end
@@ -18,15 +33,8 @@ module CableReady
     end
 
     initializer "cable_ready.assets" do |app|
-      if app.config.respond_to?(:assets)
-        app.config.assets.precompile += %w[
-          cable_ready.js
-          cable_ready.min.js
-          cable_ready.min.js.map
-          cable_ready.umd.js
-          cable_ready.umd.min.js
-          cable_ready.umd.min.js.map
-        ]
+      if app.config.respond_to?(:assets) && CableReady.config.precompile_assets
+        app.config.assets.precompile += PRECOMPILE_ASSETS
       end
     end
 
