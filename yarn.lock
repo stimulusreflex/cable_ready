@@ -3071,10 +3071,10 @@ mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-morphdom@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.6.1.tgz#e868e24f989fa3183004b159aed643e628b4306e"
-  integrity sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==
+morphdom@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.7.0.tgz#9ef0c4bc15ac8725df398d127c6984f62e7f89e8"
+  integrity sha512-8L8DwbdjjWwM/aNqj7BSoSn4G7SQLNiDcxCnMWbf506jojR6lNQ5YOmQqXEIE8u3C492UlkN4d0hQwz97+M1oQ==
 
 mri@^1.1.5:
   version "1.2.0"
