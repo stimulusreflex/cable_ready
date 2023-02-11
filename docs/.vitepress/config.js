@@ -7,10 +7,8 @@ export default {
   themeConfig: {
     siteTitle: 'CableReady',
     logo: {
-      light:
-        'https://github.com/stimulusreflex/cable_ready/blob/7616c1886b9228039468d8d26672ee3229b0f4d0/assets/cable-ready-logo.svg?raw=true',
-      dark:
-        'https://github.com/stimulusreflex/cable_ready/raw/7616c1886b9228039468d8d26672ee3229b0f4d0/assets/cable-ready-logo-dark.svg?raw=true'
+      light: '/cable-ready-logo.svg',
+      dark: '/cable-ready-logo-dark.svg'
     },
     outline: [2, 3],
     socialLinks: [

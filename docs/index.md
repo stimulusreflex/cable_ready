@@ -5,8 +5,8 @@ hero:
   tagline: Use simple commands on the server to control client browsers in real-time
   text:
   image:
-    light: https://github.com/stimulusreflex/cable_ready/blob/7616c1886b9228039468d8d26672ee3229b0f4d0/assets/cable-ready-logo.svg?raw=true
-    dark: https://github.com/stimulusreflex/cable_ready/blob/7616c1886b9228039468d8d26672ee3229b0f4d0/assets/cable-ready-logo.svg?raw=true
+    light: /cable-ready-logo.svg
+    dark: /cable-ready-logo-dark.svg
     alt: CableReady Logo
   actions:
     - theme: brand
