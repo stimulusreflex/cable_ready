@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Supplier < ApplicationRecord
   include CableReady::Updatable
   enable_updates
