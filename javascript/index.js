@@ -13,9 +13,12 @@ import StreamFromElement from './elements/stream_from_element'
 import UpdatesForElement from './elements/updates_for_element'
 import SubscribingElement from './elements/subscribing_element'
 import CableConsumer from './cable_consumer'
+import Debug from './debug'
 
 const initialize = (initializeOptions = {}) => {
-  const { consumer, onMissingElement } = initializeOptions
+  const { consumer, onMissingElement, debug } = initializeOptions
+
+  Debug.set(!!debug)
 
   if (consumer) {
     CableConsumer.setConsumer(consumer)
