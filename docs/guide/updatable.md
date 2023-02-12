@@ -267,3 +267,15 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
   <%= simple_format @post.body %>
 <% end %>  
 ```
+
+## Debugging
+
+`CableReady::Updatable` comes with handy diagnostic console outputs that you can enable when initializing the client side module:
+
+```js
+import CableReady from 'cable_ready'
+
+const consumer = // get ActionCableConsumer
+
+CableReady.initialize({ consumer, debug: true })
+```
