@@ -29,7 +29,7 @@ CR_FOOTGUNS = {
   "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "example", "spring", "bundle"]
 }
 
-def run_install_template(template, force: false, trace: false, timeout: 1)
+def run_install_template(template, force: false, trace: false)
   if Rails.root.join("tmp/cable_ready_installer/halt").exist?
     FileUtils.rm(Rails.root.join("tmp/cable_ready_installer/halt"))
     puts "CableReady installation halted. Please fix the issues above and try again."
@@ -73,7 +73,6 @@ namespace :cable_ready do
     end
 
     options_path = Rails.root.join("tmp/cable_ready_installer/options")
-    options.reverse_merge!({"timeout" => 1})
     options_path.write(options.to_yaml)
 
     if defined?(StimulusReflex)
@@ -176,7 +175,7 @@ namespace :cable_ready do
 
     # do the things
     CR_FOOTGUNS[footgun].each do |template|
-      run_install_template(template, local: !!options["local"], trace: !!options["trace"], timeout: options["timeout"].to_i)
+      run_install_template(template, trace: !!options["trace"])
     end
 
     puts
