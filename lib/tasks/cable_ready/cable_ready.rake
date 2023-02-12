@@ -104,7 +104,7 @@ namespace :cable_ready do
       entrypoint = File.read(cached_entrypoint)
       puts "✨ Resuming \e[38;5;220mCableReady\e[0m installation ✨"
       puts
-      puts "If you have any setup issues, please consult \e[4;97mhttps://cableready.stimulusreflex.com/setup\e[0m"
+      puts "If you have any setup issues, please consult \e[4;97mhttps://cableready.stimulusreflex.com/hello-world/setup\e[0m"
       puts "or get help on Discord: \e[4;97mhttps://discord.gg/stimulus-reflex\e[0m. \e[38;5;196mWe are here for you.\e[0m 💙"
       puts
       puts "Resuming installation into \e[1m#{entrypoint}\e[22m"
@@ -113,7 +113,7 @@ namespace :cable_ready do
     else
       puts "✨ Installing \e[38;5;220mCableReady\e[0m ✨"
       puts
-      puts "If you have any setup issues, please consult \e[4;97mhttps://cableready.stimulusreflex.com/setup\e[0m"
+      puts "If you have any setup issues, please consult \e[4;97mhttps://cableready.stimulusreflex.com/hello-world/setup\e[0m"
       puts "or get help on Discord: \e[4;97mhttps://discord.gg/stimulus-reflex\e[0m. \e[38;5;196mWe are here for you.\e[0m 💙"
       if Rails.root.join(".git").exist?
         puts
