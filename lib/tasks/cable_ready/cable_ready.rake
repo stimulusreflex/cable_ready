@@ -11,7 +11,7 @@ CR_STEPS = {
   "config" => "Client initialization",
   "initializers" => "CableReady initializer",
   "development" => "development environment configuration",
-  "spring" => "Launch spring, ruiner of days, into the sun",
+  "spring" => "Disable spring gem. Spring has been removed from Rails 7",
   "mrujs" => "Swap out UJS for mrujs",
   "example" => "Create an example page",
   "broadcaster" => "Make CableReady available to channels, controllers, jobs and models",
@@ -181,7 +181,7 @@ namespace :cable_ready do
     puts
     puts "🎉 \e[1;92mCableReady has been successfully installed!\e[22m 🎉"
     puts
-    puts "👉 \e[4;97mhttps://cableready.stimulusreflex.com/cableready-101\e[0m"
+    puts "👉 \e[4;97mhttps://cableready.stimulusreflex.com/guide/cableready-101\e[0m"
     puts
     puts "Join over 2000 CableReady developers on Discord: \e[4;97mhttps://discord.gg/stimulus-reflex\e[0m"
     puts
@@ -224,10 +224,10 @@ namespace :cable_ready do
       exit
     end
 
-    desc "Re-run specific CableReady install steps" unless defined?(StimulusReflex)
+    desc "Re-run specific CableReady install steps"
     task :step do
       def warning(step = nil)
-        return if step.include?("=")
+        return if step.to_s.include?("=")
         if step
           puts "⚠️ #{step} is not a valid step. Valid steps are: #{CR_STEPS.keys.join(", ")}"
         else

@@ -38,7 +38,7 @@ if proceed
     end
     create_file "tmp/cable_ready_installer/kill_spring", verbose: false
   else
-    say "✅ spring has been successfully 86'd"
+    say "✅ spring has been successfully removed"
   end
 
   if lines.index { |line| line =~ spring_watcher_pattern }
