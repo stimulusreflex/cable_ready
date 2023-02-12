@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 lines = package_json.readlines

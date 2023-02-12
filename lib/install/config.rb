@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 return if pack_path_missing?

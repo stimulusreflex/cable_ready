@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 initializer = action_cable_initializer_working_path.read

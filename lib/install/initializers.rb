@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 cr_initializer_src = fetch("/", "config/initializers/cable_ready.rb")

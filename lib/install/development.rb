@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 # mutate working copy of development.rb to avoid bundle alerts

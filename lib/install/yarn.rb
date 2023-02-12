@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 # run yarn install only when packages are waiting to be added or removed

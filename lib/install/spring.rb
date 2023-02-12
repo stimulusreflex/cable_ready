@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "cable_ready/installer"
 
 spring_pattern = /^[^#]*gem ["']spring["']/
