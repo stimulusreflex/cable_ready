@@ -22,11 +22,11 @@ CR_STEPS = {
 }
 
 CR_FOOTGUNS = {
-  "webpacker" => ["npm_packages", "webpacker", "config", "action_cable", "development", "initializers", "broadcaster", "example", "spring", "yarn", "bundle"],
-  "esbuild" => ["npm_packages", "esbuild", "config", "action_cable", "development", "initializers", "broadcaster", "example", "spring", "yarn", "bundle"],
-  "vite" => ["npm_packages", "vite", "config", "action_cable", "development", "initializers", "broadcaster", "example", "spring", "yarn", "bundle"],
-  "shakapacker" => ["npm_packages", "shakapacker", "config", "action_cable", "development", "initializers", "broadcaster", "example", "spring", "yarn", "bundle"],
-  "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "example", "spring", "bundle"]
+  "webpacker" => ["npm_packages", "webpacker", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
+  "esbuild" => ["npm_packages", "esbuild", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
+  "vite" => ["npm_packages", "vite", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
+  "shakapacker" => ["npm_packages", "shakapacker", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
+  "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "spring", "bundle"]
 }
 
 def run_install_template(template, force: false, trace: false)
@@ -90,7 +90,7 @@ namespace :cable_ready do
       puts
       puts "To restart the installation process, run: \e[38;5;231mrails cable_ready:install:restart\e[0m"
       puts
-      puts "To get started, check out \e[4;97mhttps://cableready.stimulusreflex.com/cableready-101\e[0m"
+      puts "To get started, check out \e[4;97mhttps://cableready.stimulusreflex.com/guide/cableready-101\e[0m"
       puts "or get help on Discord: \e[4;97mhttps://discord.gg/stimulus-reflex\e[0m. \e[38;5;196mWe are here for you.\e[0m 💙"
       puts
       exit
