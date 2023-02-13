@@ -2,6 +2,12 @@
 
 require "cable_ready/installer"
 
+if !package_json.exist?
+  say "⏩ No package.json file found. Skipping."
+
+  return
+end
+
 # run yarn install only when packages are waiting to be added or removed
 add = package_list.exist? ? package_list.readlines.map(&:chomp) : []
 dev = dev_package_list.exist? ? dev_package_list.readlines.map(&:chomp) : []
