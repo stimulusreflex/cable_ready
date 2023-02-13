@@ -14,16 +14,16 @@ module CableReady
         after_commit CollectionUpdatableCallbacks.new(:update), on: :update
         after_commit CollectionUpdatableCallbacks.new(:destroy), on: :destroy
 
-        def self.enable_updates(*options)
+        def self.enable_updates(...)
           warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` class method will be removed from a future version of CableReady 5"
 
-          enable_cable_ready_updates(*options)
+          enable_cable_ready_updates(...)
         end
 
-        def self.skip_updates
+        def self.skip_updates(...)
           warn "DEPRECATED: please use `skip_cable_ready_updates` instead. The `skip_updates` class method will be removed from a future version of CableReady 5"
 
-          skip_cable_ready_updates
+          skip_cable_ready_updates(...)
         end
 
         def self.enable_cable_ready_updates(*options)

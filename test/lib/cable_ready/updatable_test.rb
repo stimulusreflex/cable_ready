@@ -200,11 +200,15 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
 
   test "warns about deprecated skip_updates class method" do
     assert_output(nil, /DEPRECATED: please use `skip_cable_ready_updates` instead. The `skip_updates` class method will be removed from a future version of CableReady 5/) do
-      class TestSkipUpdates < ActiveRecord::Base
-        include CableReady::Updatable
+      assert_raises {
+        class TestSkipUpdates < ActiveRecord::Base
+          include CableReady::Updatable
 
-        skip_updates
-      end
+          skip_updates do
+            raise
+          end
+        end
+      }
     end
   end
 
