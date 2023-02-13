@@ -47,6 +47,7 @@ description: All DOM operations that can be triggered from the server with Cable
 * [`set_cookie`](/reference/operations/browser-manipulations#set_cookie)
 * [`set_focus`](/reference/operations/browser-manipulations#set_focus)
 * [`set_storage_item`](/reference/operations/browser-manipulations#set_storage_item)
+* [`set_title`](/reference/operations/browser-manipulations#set_title)
 
 ## [Notifications](/reference/operations/notifications)
 

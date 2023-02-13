@@ -315,7 +315,7 @@ set_focus(
 
 ## `set_storage_item`
 
-Create or update a key/value pair on the local persistant storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.
+Create or update a key/value pair on the local persistent storage of the user's browser. Defaults to local storage, which is saved across browser sessions. Specify `type: 'session'` if session storage is desired.
 
 Data stored in either local or session storage is specific to the protocol of the page. Integer keys are automatically converted to strings.
 
@@ -341,3 +341,28 @@ Life-cycle events for `set_storage_item` are raised on `document`.
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 * [https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+
+## `set_title`
+
+Sets the content of the `<title>` element of the current page.
+
+```ruby
+set_title(
+  batch:  String,  # [null]    - add the operation to a named batch
+  cancel: Boolean, # [false]   - cancel the operation (for use on client)
+  delay:  Integer, # [0]       - wait for n milliseconds before running
+  title:  String,  # required
+)
+```
+
+#### Life-cycle Callback Events
+
+* `cable-ready:before-set-title`
+* `cable-ready:after-set-title`
+
+Life-cycle events for `set_title` are raised on `document`.
+
+#### Reference
+
+* [https://developer.mozilla.org/en-US/docs/Web/API/Document/title](https://developer.mozilla.org/en-US/docs/Web/API/Document/title)
+* [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)

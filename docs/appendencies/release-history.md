@@ -4,8 +4,13 @@
 
 * New [`cable_car`](/guide/cable-car#introducing-cable_car) mode provides a transport-agnostic operation queueing API, allowing for [CableReady via Ajax](/guide/cable-car#ajax-mode), [Mrujs](https://mrujs.com) and Turbo Frames
 * New [`stream_from`](/guide/stream-from) helper allows broadcasting without any Channel setup
-* [`console_table`](/reference/operations/notifications#console_table), [`redirect_to`](/reference/operations/browser-manipulations#redirect_to) and [`set_meta`](/reference/operations/event-dispatch#set_meta) bring total to [36 operations](/reference/operations/)
-* Simplified JSON wire format is easier to parse and port to other languages __🤩
+* New Operations
+  * [`console_table`](/reference/operations/notifications#console_table)
+  * [`redirect_to`](/reference/operations/browser-manipulations#redirect_to)
+  * [`set_title`](/reference/operations/browser-manipulations#set_title)
+  * [`set_meta`](/reference/operations/event-dispatch#set_meta)
+
+* Simplified JSON wire format is easier to parse and port to other languages 🤩
 * Operations now execute in the [order](/guide/working-with-cableready#operation-execution-order) that they are created, regardless of type
 * New load-time [sanity checker](/hello-world/installation#upgrading-package-versions-and-sanity) module provides early warning of gem/npm version issues and an optional [check](/hello-world/installation#upgrading-to-v-5-0-0) for new CableReady releases
 * Channels and `cable_car` operation queues now support serialization
