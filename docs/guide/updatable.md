@@ -1,6 +1,8 @@
-# Batteries Included Reactivity ✨ - `CableReady::Updatable`
+# `CableReady::Updatable`
 
-Imagine that **whenever the state of your application changes** (for example, a record is added, deleted, or modified), all connected users receive **instant, customized view updates**. 
+## Batteries Included Reactivity ✨
+
+Imagine that **whenever the state of your application changes** (for example, a record is added, deleted, or modified), all connected users receive **instant, customized view updates**.
 
 The complexity of this situation lies in the fact that many views in an application are dependent on the attributes of the current user.
 
@@ -16,7 +18,7 @@ As complicated as this sounds, we want to deliver the pinnacle of developer expe
 If you are in a hurry, here's the gist of what you have to do to enjoy the magic 🪄:
 
 1. In your model, include the `CableReady::Updatable` module
-2. Call `enable_updates` as a class method in your model, or pass `enable_updates: true` to a `has_many` association:
+2. Call `enable_cable_ready_updates` as a class method in your model, or pass `enable_cable_ready_updates: true` to a `has_many` association:
 
 ```rb
 class Comment < ApplicationRecord
@@ -24,13 +26,13 @@ class Comment < ApplicationRecord
 
   belongs_to :feed
 
-  enable_updates
+  enable_cable_ready_updates
 end
 
-class Feed < ApplicationRecord   
+class Feed < ApplicationRecord
   include CableReady::Updatable
-  
-  has_many :comments, enable_updates: true 
+
+  has_many :comments, enable_cable_ready_updates: true
 end
 ```
 
@@ -57,7 +59,7 @@ end
 
 ### Module
 
-**enable_updates**(on:, if:)
+`enable_cable_ready_updates(on:, if:)`
 
 Registers `after_commit` callbacks in the background, which initiate Action Cable pings after each write to the database.
 
@@ -66,15 +68,15 @@ Parameters:
 - `on:` (optional) limits updates to be triggered to a certain action, or a combination (`:create, :update, :destroy`)
 
 ```rb
-enable_updates on: :create
+enable_cable_ready_updates on: :create
 
-enable_updates on: [:update, :destroy]
+enable_cable_ready_updates on: [:update, :destroy]
 ```
 
-- `if:` (optional) a lambda that can be passed to determine whether to deliver updates: 
+- `if:` (optional) a lambda that can be passed to determine whether to deliver updates:
 
 ```rb
-enable_updates if: -> { ready? }
+enable_cable_ready_updates if: -> { ready? }
 ```
 
 ### Association Extensions
@@ -85,7 +87,7 @@ enable_updates if: -> { ready? }
 
 You can pass the following arguments to a `has_many` association:
 
-- `enable_updates: true`: This will create a stream identifier so you can subscribe to updates on a collection:
+- `enable_cable_ready_updates: true`: This will create a stream identifier so you can subscribe to updates on a collection:
 
 ```erb
 <%= updates_for @feed, :comments do %>
@@ -112,7 +114,9 @@ If we want our users to receive `Comment` updates, we would have to specify a `h
 class Section < ApplicationRecord
   include CableReady::Updatable
 
-  has_many :blocks, enable_updates: true, descendants: ["Comment"]
+  has_many :blocks,
+    enable_cable_ready_updates: true,
+    descendants: ["Comment"]
 end
 ```
 
@@ -121,7 +125,7 @@ end
 
 You can pass the following arguments to a `has_one`:
 
-- `enable_updates: true`: This will create a stream identifier so you can subscribe to updates on the dependent record:
+- `enable_cable_ready_updates: true`: This will create a stream identifier so you can subscribe to updates on the dependent record:
 
 ```erb
 <%= updates_for @supplier, :account do %>
@@ -133,12 +137,13 @@ You can pass the following arguments to a `has_one`:
 
 For your convenience, we also provide an extension for an Active Storage `has_many_attached` relation:
 
-- `enable_updates: true`: This will create a stream identifier so you can subscribe to updates on all Active Storage attachments
+- `enable_cable_ready_updates: true`: This will create a stream identifier so you can subscribe to updates on all Active Storage attachments
 
 ```rb
 class Post < ApplicationRecord
   include CableReady::Updatable
-  has_many_attached :images, enable_updates: true
+
+  has_many_attached :images, enable_cable_ready_updates: true
 end
 ```
 
@@ -151,9 +156,9 @@ end
 
 ### View Helper
 
-**updates_for**(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)
+`updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)`
 
-This helper method will render a `updates-for` custom HTML element that contains all the JavaScript behavior to
+This helper method will render a `<updates-for>` custom HTML element that contains all the JavaScript behavior to
 
 1. **connect to a certain resource** via a generated stream identifier for Action Cable
 2. **receive updates** from the server and _morph_ the resulting HTML.
@@ -210,16 +215,16 @@ Observe that of course in such a case the `ActiveRecord::Callbacks` module is mi
 
 ### Skip Updates
 
-Sometimes you have to bulk update records, such as when performing a data migration. Because such tasks can often happen in an _unsuited environment_ (for example, without connection to Redis), it might be preferable to **opt out of updates**. This can be done by wrapping those CRUD mutations in a `skip_updates` block, which is very similar to Active Record's [no_touching](https://github.com/rails/rails/blob/83217025a171593547d1268651b446d3533e2019/activerecord/lib/active_record/no_touching.rb#L23) implementation:
+Sometimes you have to bulk update records, such as when performing a data migration. Because such tasks can often happen in an _unsuited environment_ (for example, without connection to Redis), it might be preferable to **opt out of updates**. This can be done by wrapping those CRUD mutations in a `skip_cable_ready_updates` block, which is very similar to Active Record's [`no_touching`](https://github.com/rails/rails/blob/83217025a171593547d1268651b446d3533e2019/activerecord/lib/active_record/no_touching.rb#L23) implementation:
 
 ```rb
 # Skips broadcasts for all models inheriting from ApplicationRecord:
-ApplicationRecord.skip_updates do
+ApplicationRecord.skip_cable_ready_updates do
   Comment.update_all(status: :published)
 end
 
 # Skips broadcasts for Comment only:
-Comment.skip_updates do
+Comment.skip_cable_ready_updates do
   # will not broadcast
   Comment.update_all(status: :published)
 
@@ -238,7 +243,7 @@ One of the major performance bottlenecks regarding `Updatable` is the fact that 
 
 ## Antipatterns
 
-### Don't Enable Updates Globally 
+### Don't Enable Updates Globally
 
 in `ApplicationRecord` (or similar base classes). This will trigger an Action Cable broadcast to all users, giving Redis and your app server a hard time.
 
@@ -254,7 +259,7 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
 <!-- BAD ❌ -->
 <%= updates_for @post do %>
   <%= @post.updated_at %>
-  
+
   <%= simple_format @post.body %>
 <% end %>
 
@@ -262,7 +267,7 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
 <%= updates_for @post, only: :updated_at do %>
   <%= @post.updated_at %>
 <% end %>
-  
+
 <%= updates_for @post, only: :body do %>
   <%= simple_format @post.body %>
 <% end %>  
@@ -274,8 +279,7 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
 
 ```js
 import CableReady from 'cable_ready'
-
-const consumer = // get ActionCableConsumer
+import consumer from '../channels/consumer'
 
 CableReady.initialize({ consumer, debug: true })
 ```
