@@ -6,12 +6,15 @@ spring_pattern = /^[^#]*gem ["']spring["']/
 
 proceed = false
 lines = gemfile_path.readlines
+
 if lines.index { |line| line =~ spring_pattern }
   proceed = if options.key? "spring"
     options["spring"]
   else
     !no?("✨ Would you like to disable the spring gem? \nIt's been removed from Rails 7, and is the frequent culprit behind countless mystery bugs. (Y/n)")
   end
+else
+  say "⏩ Spring is not installed. Skipping."
 end
 
 if proceed
@@ -45,7 +48,7 @@ if proceed
     remove_gem "spring-watcher-listen"
   end
 else
-  say "⏩ Spring is not installed. Skipping."
+  say "⏩ Skipping."
 end
 
 complete_step :spring
