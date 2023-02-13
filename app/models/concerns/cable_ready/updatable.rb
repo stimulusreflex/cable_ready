@@ -42,7 +42,7 @@ module CableReady
 
         def self.skip_cable_ready_updates
           skip_updates_classes.push(self)
-          yield if block_given?
+          yield
         ensure
           skip_updates_classes.pop
         end
