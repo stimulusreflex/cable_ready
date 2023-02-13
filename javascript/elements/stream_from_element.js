@@ -21,7 +21,7 @@ export default class StreamFromElement extends SubscribingElement {
       )
     } else {
       console.error(
-        'The `stream_from` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
+        'The `cable_ready_stream_from` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }

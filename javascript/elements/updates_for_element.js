@@ -44,7 +44,7 @@ export default class UpdatesForElement extends SubscribingElement {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
-        'The `updates_for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
+        'The `cable_ready_updates_for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }
