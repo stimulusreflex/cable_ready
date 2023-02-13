@@ -60,7 +60,7 @@
 
         <p style="margin-top: 1rem;">Every user looking at a page subscribed to the <ins>:example_page</ins> channel will receive the same broadcasts.</p>
 
-        <p>You can call <ins>cable_ready</ins> <a href="https://cableready.stimulusreflex.com/cableready-everywhere">pretty much anywhere</a> in your application. Try it in your <kbd>rails console</kbd> now:</p>
+        <p>You can call <ins>cable_ready</ins> <a href="https://cableready.stimulusreflex.com/guide/cableready-everywhere.html">pretty much anywhere</a> in your application. Try it in your <kbd>rails console</kbd> now:</p>
 
         <kbd>include CableReady::Broadcaster<br>cable_ready[:example_page].text_content("#stream_from_output", text: "Hello from the console!").broadcast</kbd>
 
@@ -68,7 +68,7 @@
 
         <div id="stream_from_output" style="height: 2rem; font-weight: bolder; border: coral 2px dashed; padding: 0.15rem 0.4rem;"></div>
 
-        <p style="margin-top: 1rem;">While it's easy to <a href="https://cableready.stimulusreflex.com/broadcasting-to-resources">create your own custom Action Cable channels</a>, <ins>stream_from</ins> will be the first tool you reach for, because it doesn't require any additional code.</p>
+        <p style="margin-top: 1rem;">While it's easy to <a href="https://cableready.stimulusreflex.com/guide/broadcasting-to-resources.html">create your own custom Action Cable channels</a>, <ins>stream_from</ins> will be the first tool you reach for, because it doesn't require any additional code.</p>
 
         <p>Specify Active Record models or compound qualifiers to go full-ninja: 🥷</p>
 
@@ -76,7 +76,7 @@
 
         <kbd style="margin-top: 0.3rem;">stream_from @post, :comments</kbd>
 
-        <p style="margin-top: 1rem;">These examples barely scrape the surface of what's possible. Be sure to check out the <a href="https://cableready.stimulusreflex.com/identifiers">Stream Identifiers</a> chapter.</p>
+        <p style="margin-top: 1rem;">These examples barely scrape the surface of what's possible. Be sure to check out the <a href="https://cableready.stimulusreflex.com/guide/stream-identifiers.html">Stream Identifiers</a> chapter.</p>
       </article>
 
       <article>
@@ -124,7 +124,7 @@
       <article>
         <h3>Updatable: magically update the DOM when server-side data changes</h3>
 
-        <p>The <ins>updates_for</ins> helper allow you to designate sections of your page that will <a href="https://cableready.stimulusreflex.com/updatable">update automatically</a> with new content when an Active Record model changes. 🤯</p>
+        <p>The <ins>updates_for</ins> helper allow you to designate sections of your page that will <a href="https://cableready.stimulusreflex.com/guide/updatable.html">update automatically</a> with new content when an Active Record model changes. 🤯</p>
 
         <small>It's difficult to demonstrate this feature without creating a temporary model and a migration; a road to hell, paved with good intentions. However, you likely have these models (or similar) in your application. Uncomment, tweak if necessary and follow along!</small>
 
@@ -203,7 +203,7 @@
 
         <p>Instead, Updatable notifies all subscribers that an update is available, prompting each client to make a fetch request and refresh sections of the page.</p>
 
-        <p>There's more to <a href="https://cableready.stimulusreflex.com/updatable">Updatable</a> than what's covered here... <i>but, not much more</i>. It really is that simple.</p>
+        <p>There's more to <a href="https://cableready.stimulusreflex.com/guide/updatable.html">Updatable</a> than what's covered here... <i>but, not much more</i>. It really is that simple.</p>
       </article>
 
       <article>
@@ -216,7 +216,7 @@
           &nbsp;&nbsp;perform(JSON.parse(operations))<br>
         }</kbd>
 
-        <p style="margin-top: 1rem;">It's common to call <ins>perform</ins> in Action Cable Channel classes, Stimulus controllers, event handlers and even inside <a href="https://cableready.stimulusreflex.com/customization#custom-operations">custom CableReady operations</a>.</p>
+        <p style="margin-top: 1rem;">It's common to call <ins>perform</ins> in Action Cable Channel classes, Stimulus controllers, event handlers and even inside <a href="https://cableready.stimulusreflex.com/guide/customization.html#custom-operations">custom CableReady operations</a>.</p>
 
         <p>And hey... if you find CableReady useful and are comfortable in multiple languages, please consider getting involved in the <a href="https://dev.to/leastbad/the-cableready-language-implementation-project-4hjd">CableReady Language Implementation Project</a>.</p>
       </article>
