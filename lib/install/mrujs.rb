@@ -17,7 +17,7 @@ if !File.exist?(mrujs_path)
 end
 
 if proceed
-  if footgun == "importmap"
+  if bundler == "importmap"
 
     if !importmap_path.exist?
       halt "#{friendly_importmap_path} is missing. You need a valid importmap config file to proceed."

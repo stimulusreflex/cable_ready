@@ -20,7 +20,7 @@ CR_STEPS = {
   "compression" => "Compress WebSockets traffic with gzip"
 }
 
-CR_FOOTGUNS = {
+CR_BUNDLERS = {
   "webpacker" => ["npm_packages", "webpacker", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
   "esbuild" => ["npm_packages", "esbuild", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
   "vite" => ["npm_packages", "vite", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
@@ -53,13 +53,13 @@ namespace :cable_ready do
     FileUtils.mkdir_p(Rails.root.join("tmp/cable_ready_installer/working"))
     install_complete = Rails.root.join("tmp/cable_ready_installer/complete")
 
-    footgun = nil
+    bundler = nil
     options = {}
 
     ARGV.each do |arg|
       # make sure we have a valid build tool specified, or proceed to automatic detection
       if ["webpacker", "esbuild", "vite", "shakapacker", "importmap"].include?(arg)
-        footgun = arg
+        bundler = arg
       else
         kv = arg.split("=")
         if kv.length == 2
@@ -139,17 +139,17 @@ namespace :cable_ready do
     end
 
     # verify their bundler before starting, unless they explicitly specified on CLI
-    if !footgun
+    if !bundler
       # auto-detect build tool based on existing packages and configuration
       if Rails.root.join("config/importmap.rb").exist?
-        footgun = "importmap"
+        bundler = "importmap"
       elsif Rails.root.join("package.json").exist?
         package_json = File.read(Rails.root.join("package.json"))
-        footgun = "webpacker" if package_json.include?('"@rails/webpacker":')
-        footgun = "esbuild" if package_json.include?('"esbuild":')
-        footgun = "vite" if package_json.include?('"vite":')
-        footgun = "shakapacker" if package_json.include?('"shakapacker":')
-        if !footgun
+        bundler = "webpacker" if package_json.include?('"@rails/webpacker":')
+        bundler = "esbuild" if package_json.include?('"esbuild":')
+        bundler = "vite" if package_json.include?('"vite":')
+        bundler = "shakapacker" if package_json.include?('"shakapacker":')
+        if !bundler
           puts "❌ You must be using a node-based bundler such as esbuild, webpacker, vite or shakapacker (package.json) or importmap (config/importmap.rb) to use CableReady."
           exit
         end
@@ -159,7 +159,7 @@ namespace :cable_ready do
       end
 
       puts
-      puts "It looks like you're using \e[1m#{footgun}\e[22m as your bundler. Is that correct? (Y/n)"
+      puts "It looks like you're using \e[1m#{bundler}\e[22m as your bundler. Is that correct? (Y/n)"
       print "> "
       input = $stdin.gets.chomp
       if input.downcase == "n"
@@ -170,12 +170,12 @@ namespace :cable_ready do
       end
     end
 
-    File.write("tmp/cable_ready_installer/footgun", footgun)
+    File.write("tmp/cable_ready_installer/bundler", bundler)
     FileUtils.touch("tmp/cable_ready_installer/backups")
     File.write("tmp/cable_ready_installer/template_src", File.expand_path("../../generators/cable_ready/templates/", __dir__))
 
     # do the things
-    CR_FOOTGUNS[footgun].each do |template|
+    CR_BUNDLERS[bundler].each do |template|
       run_install_template(template, trace: !!options["trace"])
     end
 

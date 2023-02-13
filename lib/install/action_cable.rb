@@ -61,7 +61,7 @@ step_path = "/app/javascript/channels/"
 channels_path = Rails.root.join(entrypoint, "channels")
 consumer_src = fetch(step_path, "consumer.js.tt")
 consumer_path = channels_path / "consumer.js"
-index_src = fetch(step_path, "index.js.#{footgun}.tt")
+index_src = fetch(step_path, "index.js.#{bundler}.tt")
 index_path = channels_path / "index.js"
 friendly_index_path = index_path.relative_path_from(Rails.root).to_s
 

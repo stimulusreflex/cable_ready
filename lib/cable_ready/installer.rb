@@ -107,8 +107,8 @@ def entrypoint
   @entrypoint ||= File.read("tmp/cable_ready_installer/entrypoint")
 end
 
-def footgun
-  @footgun ||= File.read("tmp/cable_ready_installer/footgun")
+def bundler
+  @bundler ||= File.read("tmp/cable_ready_installer/bundler")
 end
 
 def config_path
@@ -175,7 +175,7 @@ def prefix
     "shakapacker" => "",
     "importmap" => "",
     "esbuild" => ".\/"
-  }[footgun]
+  }[bundler]
   # standard:enable Style/RedundantStringEscape
 end
 

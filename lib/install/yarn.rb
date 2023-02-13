@@ -44,7 +44,7 @@ else
 
 end
 
-if footgun == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
+if bundler == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
   json["scripts"]["build:default"] = json["scripts"]["build"]
   json["scripts"]["build"] = "node esbuild.config.mjs"
   package_json.write JSON.pretty_generate(json)
