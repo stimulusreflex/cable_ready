@@ -2,7 +2,7 @@
 
 class Supplier < ApplicationRecord
   include CableReady::Updatable
-  enable_updates
+  enable_cable_ready_updates
 
-  has_one :account, enable_updates: true
+  has_one :account, enable_cable_ready_updates: true
 end
