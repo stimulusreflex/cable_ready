@@ -120,7 +120,7 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     topic.update(title: "Reactive Rails with CableReady")
   end
 
-  test "respects :if on enable_updates" do
+  test "respects :if on enable_cable_ready_updates" do
     mock_server = mock("server")
 
     ActionCable.stubs(:server).returns(mock_server)
@@ -186,4 +186,41 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
 
     assert section.blocks.count == 2
   end
+
+  # standard:disable Lint/ConstantDefinitionInBlock
+  test "warns about deprecated enable_updates class method" do
+    assert_output(nil, /DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` class method will be removed from a future version of CableReady 5/) do
+      class TestEnableUpdates < ActiveRecord::Base
+        include CableReady::Updatable
+
+        enable_updates
+      end
+    end
+  end
+
+  test "warns about deprecated skip_updates class method" do
+    assert_output(nil, /DEPRECATED: please use `skip_cable_ready_updates` instead. The `skip_updates` class method will be removed from a future version of CableReady 5/) do
+      class TestSkipUpdates < ActiveRecord::Base
+        include CableReady::Updatable
+
+        skip_updates
+      end
+    end
+  end
+
+  test "warns about deprecated enable_updates option on relation" do
+    assert_output(nil, /DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` option will be removed from a future version of CableReady 5/) do
+      class Something < ActiveRecord::Base
+      end
+
+      class TestEnableUpdatesOption < ActiveRecord::Base
+        include CableReady::Updatable
+
+        enable_cable_ready_updates
+
+        has_many :something, enable_updates: true
+      end
+    end
+  end
+  # standard:enable Lint/ConstantDefinitionInBlock
 end
