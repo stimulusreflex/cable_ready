@@ -2,5 +2,5 @@
 
 class Dugong < ApplicationRecord
   include CableReady::Updatable
-  has_many_attached :images, enable_updates: true
+  has_many_attached :images, enable_cable_ready_updates: true
 end

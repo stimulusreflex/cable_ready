@@ -14,7 +14,19 @@ module CableReady
         after_commit CollectionUpdatableCallbacks.new(:update), on: :update
         after_commit CollectionUpdatableCallbacks.new(:destroy), on: :destroy
 
-        def self.enable_updates(*options)
+        def self.enable_updates(...)
+          warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` class method will be removed from a future version of CableReady 5"
+
+          enable_cable_ready_updates(...)
+        end
+
+        def self.skip_updates(...)
+          warn "DEPRECATED: please use `skip_cable_ready_updates` instead. The `skip_updates` class method will be removed from a future version of CableReady 5"
+
+          skip_cable_ready_updates(...)
+        end
+
+        def self.enable_cable_ready_updates(*options)
           options = options.extract_options!
           options = {
             on: [:create, :update, :destroy],
@@ -28,7 +40,7 @@ module CableReady
           after_commit(ModelUpdatableCallbacks.new(:destroy, enabled_operations), {on: :destroy, if: options[:if]})
         end
 
-        def self.skip_updates
+        def self.skip_cable_ready_updates
           skip_updates_classes.push(self)
           yield
         ensure
@@ -41,7 +53,12 @@ module CableReady
 
     module ClassMethods
       def has_many(name, scope = nil, **options, &extension)
-        option = options.delete(:enable_updates)
+        option = if options.has_key?(:enable_updates)
+          warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` option will be removed from a future version of CableReady 5"
+          options.delete(:enable_updates)
+        else
+          options.delete(:enable_cable_ready_updates)
+        end
 
         descendants = options.delete(:descendants)
 
@@ -52,7 +69,12 @@ module CableReady
       end
 
       def has_one(name, scope = nil, **options, &extension)
-        option = options.delete(:enable_updates)
+        option = if options.has_key?(:enable_updates)
+          warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` option will be removed from a future version of CableReady 5"
+          options.delete(:enable_updates)
+        else
+          options.delete(:enable_cable_ready_updates)
+        end
 
         descendants = options.delete(:descendants)
 
@@ -64,7 +86,13 @@ module CableReady
 
       def has_many_attached(name, **options)
         raise("ActiveStorage must be enabled to use has_many_attached") unless defined?(ActiveStorage)
-        option = options.delete(:enable_updates)
+
+        option = if options.has_key?(:enable_updates)
+          warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` option will be removed from a future version of CableReady 5"
+          options.delete(:enable_updates)
+        else
+          options.delete(:enable_cable_ready_updates)
+        end
 
         broadcast = option.present?
         result = super
@@ -143,7 +171,7 @@ module CableReady
         when Proc
           options[:if] = option
         else
-          raise ArgumentError, "Invalid enable_updates option #{option}"
+          raise ArgumentError, "Invalid enable_cable_ready_updates option #{option}"
         end
 
         options
