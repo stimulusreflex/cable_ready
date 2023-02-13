@@ -226,7 +226,12 @@ namespace :cable_ready do
       exit
     end
 
-    desc "Re-run specific CableReady install steps"
+    desc <<~DESC
+      Re-run specific CableReady install steps
+
+      #{CR_STEPS.map { |step, description| "#{step.ljust(20)} #{description}" }.join("\n")}
+    DESC
+
     task :step do
       def warning(step = nil)
         return if step.to_s.include?("=")
