@@ -253,7 +253,7 @@ This technique is not well-suited to scenarios where sensitive data is being tra
 
 The recent release of Stimulus v2 finally brought the [Values](https://stimulus.hotwired.dev/reference/values) API. Values maps a data attribute on the DOM element which holds the controller instance to a typed internal value. Updating the data attribute on the DOM element automatically fires a `ValueChanged` callback, if one is available. 👍
 
-Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations#set_dataset-property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
+Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations#set-dataset-property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
 
 A real-world example of value-setting is the [stimulus-hotkeys](https://github.com/leastbad/stimulus-hotkeys) controller, which maps keystroke combinations to methods on arbitrary Stimulus controllers. It is configured by setting the "binding" value to a JSON object that maps all of the associated key-&gt;action combinations, for example: `{"p": "#foo->example#ping"}` wires up the "p" key to fire the `ping` method on the `example` controller that lives on an element with the `id` "foo". Are you with me so far? 😅
 
