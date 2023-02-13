@@ -2,8 +2,6 @@
 
 require "cable_ready/installer"
 
-proceed = false
-
 if application_record_path.exist?
   lines = application_record_path.readlines
 
