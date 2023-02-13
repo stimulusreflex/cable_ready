@@ -6,11 +6,6 @@ CableReady.configure do |config|
   #
   # config.on_failed_sanity_checks = :exit
 
-  # Enable/disable exiting / warning when there's a new CableReady release
-  # `:exit` or `:warn` or `:ignore`
-  #
-  # config.on_new_version_available = :ignore
-
   # Enable/disable assets compilation
   # `true` or `false`
   #
