@@ -45,19 +45,6 @@ if add.present? || remove.present?
   bundle_command("install --quiet", "BUNDLE_IGNORE_MESSAGES" => "1") if hash != gemfile_hash
 end
 
-if application_record_path.exist?
-  lines = application_record_path.readlines
-  if !lines.index { |line| line =~ /^\s*include CableReady::Updatable/ }
-    index = lines.index { |line| line.include?("class ApplicationRecord < ActiveRecord::Base") }
-    lines.insert index + 1, "  include CableReady::Updatable\n"
-    application_record_path.write lines.join
-
-    say "✅ include CableReady::Updatable in Active Record model classes"
-  else
-    say "⏩ CableReady::Updatable has already been included in Active Record model classes. Skipping."
-  end
-end
-
 FileUtils.cp(development_working_path, development_path)
 say "✅ development environment configuration installed"
 

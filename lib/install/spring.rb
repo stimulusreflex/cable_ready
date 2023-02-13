@@ -14,7 +14,7 @@ if lines.index { |line| line =~ spring_pattern }
     !no?("✨ Would you like to disable the spring gem? \nIt's been removed from Rails 7, and is the frequent culprit behind countless mystery bugs. (Y/n)")
   end
 else
-  say "⏩ Spring is not installed. Skipping."
+  say "⏩ Spring is not installed."
 end
 
 if proceed

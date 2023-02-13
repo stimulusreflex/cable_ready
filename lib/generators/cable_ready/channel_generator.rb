@@ -45,7 +45,7 @@ class CableReady::ChannelGenerator < Rails::Generators::NamedBase
         gsub_file "app/channels/#{file_name}_channel.rb", /# stream_from.*\n/, "stream_for #{resource}.find(params[:id])\n", verbose: false
         gsub_file @js_channel, /"#{resource}Channel"/, verbose: false do
           <<-JS
-      
+
   {
     channel: "#{resource}Channel",
     id: 1

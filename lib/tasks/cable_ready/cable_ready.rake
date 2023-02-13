@@ -16,16 +16,17 @@ CR_STEPS = {
   "mrujs" => "Swap out UJS for mrujs",
   "example" => "Create an example page",
   "broadcaster" => "Make CableReady::Broadcaster available to channels, controllers, jobs and models",
+  "updatable" => "Include CableReady::Updatable in Active Record model classes",
   "vite" => "CableReady using Vite",
   "compression" => "Compress WebSockets traffic with gzip"
 }
 
 CR_FOOTGUNS = {
-  "webpacker" => ["npm_packages", "webpacker", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
-  "esbuild" => ["npm_packages", "esbuild", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
-  "vite" => ["npm_packages", "vite", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
-  "shakapacker" => ["npm_packages", "shakapacker", "config", "action_cable", "development", "initializers", "broadcaster", "spring", "yarn", "bundle"],
-  "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "spring", "bundle"]
+  "webpacker" => ["npm_packages", "webpacker", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
+  "esbuild" => ["npm_packages", "esbuild", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
+  "vite" => ["npm_packages", "vite", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
+  "shakapacker" => ["npm_packages", "shakapacker", "config", "action_cable", "development", "initializers", "broadcaster", "updatable", "spring", "yarn", "bundle"],
+  "importmap" => ["config", "action_cable", "importmap", "development", "initializers", "broadcaster", "updatable", "spring", "bundle"]
 }
 
 def run_install_template(template, force: false, trace: false)
