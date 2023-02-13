@@ -247,6 +247,9 @@ namespace :cable_ready do
       ARGV.each do |step|
         CR_STEPS.include?(step) ? run_install_template(step, force: true) : warning(step)
       end
+
+      run_install_template(:bundle, force: true)
+      run_install_template(:yarn, force: true)
       exit
     end
   end
