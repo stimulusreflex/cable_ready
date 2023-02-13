@@ -87,7 +87,7 @@ if index_path.exist?
     backup(index_path, delete: true) do
       copy_file(index_src, index_path, verbose: false)
     end
-    say "#{friendly_index_path} has been created"
+    say "✅ #{friendly_index_path} has been created"
   end
 else
   copy_file(index_src, index_path)
