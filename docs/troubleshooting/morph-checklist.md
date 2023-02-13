@@ -22,7 +22,7 @@ cable_ready["stream"]
   )
 ```
 
-You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations#outer_html) or [`set_attribute`](/reference/operations/element-mutations#set_attribute) instead.
+You might consider using one of the other CableReady operations like [`outer_html`](/reference/operations/dom-mutations#outer-html) or [`set_attribute`](/reference/operations/element-mutations#set-attribute) instead.
 
 #### Your top-level content needs to be an element.
 

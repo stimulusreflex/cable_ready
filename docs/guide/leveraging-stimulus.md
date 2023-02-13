@@ -2,7 +2,7 @@
 
 ## Installing Stimulus
 
-It's no secret that Team CableReady is a big fan of the [Stimulus](https://stimulus.hotwire.dev/) JavaScript framework. It makes possible our frequent need to provide abstract functionality and attach it to a DOM element as a behavior. It is the most effective way to maximize CableReady's potential, by allowing developers to wire up connections between DOM mutations and event handling. Not only does \[almost\] every CableReady operation emit before and after events, the [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) operation becomes incredibly powerful when paired with a Stimulus controller that receives it and can then bridge that event with `this.element` on a 1:1 basis.
+It's no secret that Team CableReady is a big fan of the [Stimulus](https://stimulus.hotwired.dev/) JavaScript framework. It makes possible our frequent need to provide abstract functionality and attach it to a DOM element as a behavior. It is the most effective way to maximize CableReady's potential, by allowing developers to wire up connections between DOM mutations and event handling. Not only does \[almost\] every CableReady operation emit before and after events, the [`dispatch_event`](/reference/operations/event-dispatch#dispatch-event) operation becomes incredibly powerful when paired with a Stimulus controller that receives it and can then bridge that event with `this.element` on a 1:1 basis.
 
 While Stimulus is not installed by default in a new Rails app, you can install it easily by running:
 
@@ -134,7 +134,7 @@ After the fever-dream raving about many-to-many Channel subscribers, you would b
 This is different from Stimulus controllers which happen to listen for [CableReady operation life-cycle events](/guide/working-with-cableready#life-cycle-events), which are _differently_ cool.
 :::
 
-CableReady has an understated but wickedly powerful operation called [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event). It lets you broadcast an arbitrary instruction to an element in your DOM, complete with a metadata payload.
+CableReady has an understated but wickedly powerful operation called [`dispatch_event`](/reference/operations/event-dispatch#dispatch-event). It lets you broadcast an arbitrary instruction to an element in your DOM, complete with a metadata payload.
 
 Part of what makes `dispatch_event` so exciting is that you can enjoy many of the same results and benefits as a full ActionCable Channel subscriber, just by handling targeted events in an intelligent way.
 
@@ -251,9 +251,9 @@ This technique is not well-suited to scenarios where sensitive data is being tra
 
 #### Example 4: The Stimulus value attribute setter
 
-The recent release of Stimulus v2 finally brought the [Values](https://stimulus.hotwire.dev/reference/values) API. Values maps a data attribute on the DOM element which holds the controller instance to a typed internal value. Updating the data attribute on the DOM element automatically fires a `ValueChanged` callback, if one is available. 👍
+The recent release of Stimulus v2 finally brought the [Values](https://stimulus.hotwired.dev/reference/values) API. Values maps a data attribute on the DOM element which holds the controller instance to a typed internal value. Updating the data attribute on the DOM element automatically fires a `ValueChanged` callback, if one is available. 👍
 
-Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations#set_dataset_property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
+Since CableReady has a [`set_dataset_property`](/reference/operations/element-mutations#set_dataset-property) operation, it is possible to create a tight loop between data changing on the server and the internal state of the exposed controller value.
 
 A real-world example of value-setting is the [stimulus-hotkeys](https://github.com/leastbad/stimulus-hotkeys) controller, which maps keystroke combinations to methods on arbitrary Stimulus controllers. It is configured by setting the "binding" value to a JSON object that maps all of the associated key-&gt;action combinations, for example: `{"p": "#foo->example#ping"}` wires up the "p" key to fire the `ping` method on the `example` controller that lives on an element with the `id` "foo". Are you with me so far? 😅
 

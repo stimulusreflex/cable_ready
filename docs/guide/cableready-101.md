@@ -148,6 +148,6 @@ cable_ready["visitors"]
 
 That's really all you need to get started with CableReady.
 
-You can look over the next sections to learn more techniques, such as [broadcasting to resources](/guide/broadcasting-to-resources#stream_for-and-broadcast_to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
+You can look over the next sections to learn more techniques, such as [broadcasting to resources](/guide/broadcasting-to-resources#stream-for-and-broadcast-to), or jump to the [Operations](/reference/operations/index) reference and see everything CableReady can do.
 
 ![](/hasselhoff.jpg)

@@ -38,7 +38,7 @@ consumer.subscriptions.create(
 )
 ```
 
-Now, we're able to [`broadcast_to`](/reference/methods#broadcast_to-model-identifiers-clear-true) the Channel so that **anyone currently subscribed to that resource** will receive the operations:
+Now, we're able to [`broadcast_to`](/reference/methods#broadcast-to-model-identifiers-clear-true) the Channel so that **anyone currently subscribed to that resource** will receive the operations:
 
 ```ruby
 helen = Helen.find(30)
@@ -260,7 +260,7 @@ You can [clone and experiment with the "streamfor" sample application](https://g
 
 ## `broadcast_to` multiple resources
 
-Like [`broadcast`](/reference/methods#broadcast-identifiers-clear-true), [`broadcast_to`](/reference/methods#broadcast_to-model-identifiers-clear-true) supports streaming to multiple constant-based identifiers at once, as well as holding back the purging of the queues with `clear: false`. When called without any identifiers, it will broadcast all queues with constant-based stream names.
+Like [`broadcast`](/reference/methods#broadcast-identifiers-clear-true), [`broadcast_to`](/reference/methods#broadcast-to-model-identifiers-clear-true) supports streaming to multiple constant-based identifiers at once, as well as holding back the purging of the queues with `clear: false`. When called without any identifiers, it will broadcast all queues with constant-based stream names.
 
 ```ruby
 cable_ready[SweetChannel].morph

@@ -110,7 +110,7 @@ There are situations, however, whether the only rational decision is to consciou
 
 A poignant example of this is the conundrum of an ActiveJob broadcasting HTML updates to the DOM. Which solution sounds sane to you?
 
-1. ActiveJob uses CableReady to broadcast a [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) operation with a custom event name and resource id attached as `detail`. The event is picked up by a DOM element with a Stimulus controller which immediately calls `this.stimulate('Insane#hoop_jump', id)` which triggers a Selector Reflex that renders a partial and uses CableReady to send a `morph` operation which updates the DOM element.
+1. ActiveJob uses CableReady to broadcast a [`dispatch_event`](/reference/operations/event-dispatch#dispatch-event) operation with a custom event name and resource id attached as `detail`. The event is picked up by a DOM element with a Stimulus controller which immediately calls `this.stimulate('Insane#hoop_jump', id)` which triggers a Selector Reflex that renders a partial and uses CableReady to send a `morph` operation which updates the DOM element.
 2. ActiveJob uses CableReady to send a `morph` operation which updates the DOM element.
 
 Don't be the person who performs a Server -&gt; Client -&gt; Server -&gt; Client ritual so that you can claim you kept your business logic separate from filthy presentation layer concerns. That's not architectural purity, it's wasting some of the time you have left before you die. ⏳

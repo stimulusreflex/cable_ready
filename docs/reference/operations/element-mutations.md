@@ -136,7 +136,7 @@ The `name` parameter must be passed as camelCase and without the `data-` prefix.
 name: "slideShowIndexValue"
 ```
 
-This method pairs extremely well with the new [Values](https://stimulus.hotwire.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
+This method pairs extremely well with the new [Values](https://stimulus.hotwired.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
 
 ```javascript
 export default class extends Controller {

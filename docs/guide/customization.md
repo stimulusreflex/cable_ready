@@ -107,7 +107,7 @@ cable_ready["visitors"]
 
 ## Importing custom operations from npm packages
 
-In addition to defining custom operations in your `application.js`, you can now load them from npm packages. The first example of this is the [`play_sound`](/reference/operations/notifications#play_sound) operation, which was removed from CableReady core in v5.0.0; some people didn't love our implementation, and we wanted them to be able to write their own - or skip it entirely.
+In addition to defining custom operations in your `application.js`, you can now load them from npm packages. The first example of this is the [`play_sound`](/reference/operations/notifications#play-sound) operation, which was removed from CableReady core in v5.0.0; some people didn't love our implementation, and we wanted them to be able to write their own - or skip it entirely.
 
 `play_sound` now lives in the [`cableready/audio_operations`](https://github.com/cableready/audio_operations) repo on GitHub, which you can both import and clone to use as the basis for your own custom operations packages.
 

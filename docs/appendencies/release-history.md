@@ -5,17 +5,17 @@
 * New [`cable_car`](/guide/cable-car#introducing-cable_car) mode provides a transport-agnostic operation queueing API, allowing for [CableReady via Ajax](/guide/cable-car#ajax-mode), [Mrujs](https://mrujs.com) and Turbo Frames
 * New [`stream_from`](/guide/stream-from) helper allows broadcasting without any Channel setup
 * New Operations
-  * [`console_table`](/reference/operations/notifications#console_table)
-  * [`redirect_to`](/reference/operations/browser-manipulations#redirect_to)
-  * [`set_title`](/reference/operations/browser-manipulations#set_title)
-  * [`set_meta`](/reference/operations/event-dispatch#set_meta)
+  * [`console_table`](/reference/operations/notifications#console-table)
+  * [`redirect_to`](/reference/operations/browser-manipulations#redirect-to)
+  * [`set_title`](/reference/operations/browser-manipulations#set-title)
+  * [`set_meta`](/reference/operations/event-dispatch#set-meta)
 
 * Simplified JSON wire format is easier to parse and port to other languages 🤩
 * Operations now execute in the [order](/guide/working-with-cableready#operation-execution-order) that they are created, regardless of type
 * New load-time [sanity checker](/hello-world/installation#upgrading-package-versions-and-sanity) module provides early warning of gem/npm version issues and an optional [check](/hello-world/installation#upgrading-to-v-5-0-0) for new CableReady releases
 * Channels and `cable_car` operation queues now support serialization
-* Channels now support deferred delivery via ActiveJob thanks to the new [`broadcast_later`](/reference/methods#broadcast_later-clear-true) and [`broadcast_later_to`](/reference/methods#broadcast_later_to-model-clear-true) methods
-* `dom_id` [method](/reference/methods#dom_id-record-prefix-nil) upgraded to handle ActiveRecord Models and Relations
+* Channels now support deferred delivery via ActiveJob thanks to the new [`broadcast_later`](/reference/methods#broadcast-later-clear-true) and [`broadcast_later_to`](/reference/methods#broadcast-later-to-model-clear-true) methods
+* `dom_id` [method](/reference/methods#dom-id-record-prefix-nil) upgraded to handle ActiveRecord Models and Relations
 * Objects passed as selectors to an operation can now expose a `to_dom_selector` or `to_dom_id` method
 * Operations now accept [selector](/guide/working-with-cableready#selector-as-optional-first-argument) as an optional first parameter
 * `selector` option now accepts ActiveRecord [Models and Relations](/guide/working-with-cableready#selector-will-accept-ar-models-and-relations)

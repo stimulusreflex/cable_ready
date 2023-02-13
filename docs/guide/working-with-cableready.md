@@ -173,7 +173,7 @@ These events bubble and can be cancelled.
 
 If jQuery is detected on the current page, jQuery events will be [triggered](https://api.jquery.com/trigger/) immediately after the DOM events. These jQuery events have the same name and `detail` accessors as their DOM event siblings.
 
-A small number of operations, such as [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) and [`console_log`](/reference/operations/notifications#console_log), do not emit events. It's up to you to make sure that any [custom operations](customization#custom-operations) you create raise events, if desired.
+A small number of operations, such as [`dispatch_event`](/reference/operations/event-dispatch#dispatch_event) and [`console_log`](/reference/operations/notifications#console-log), do not emit events. It's up to you to make sure that any [custom operations](customization#custom-operations) you create raise events, if desired.
 
 ::: info
 Don't confuse Life-cycle events emitted by operations with the [dynamically defined events](/guide/leveraging-stimulus#dispatched-event-listener-controllers) you can send using `dispatch_event` operations. The ways you can capture them are the same, but Life-cycle events are part of the CableReady library behaviour whereas dispatched events are ad hoc and not constrained to CableReady operations.
