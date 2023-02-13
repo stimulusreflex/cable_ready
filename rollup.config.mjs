@@ -1,13 +1,14 @@
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 
 const pretty = () => {
   return terser({
     mangle: false,
     compress: false,
     format: {
+      comments: 'all',
       beautify: true,
       indent_level: 2
     }
