@@ -158,7 +158,7 @@ There is also a corresponding callback function that will run only if an element
 
 ### `shouldMorph` Callbacks
 
-CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/hopsoft/cable_ready/blob/master/javascript/callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](/guide/working-with-cableready#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
+CableReady's `onBeforeElUpdated` callback, `shouldMorph`, sequentially executes an array of functions called `shouldMorphCallbacks`. It comes [factory installed](https://github.com/stimulusreflex/cable_ready/blob/main/javascript/morph_callbacks.js) with two callbacks that you can probably leave alone: [`verifyNotMutable`](/guide/working-with-cableready#single-source-of-truth) and `verifyNotPermanent`. If you're not using StimulusReflex, you could experiment with `slice` to remove `verifyNotPermanent` for a small performance boost. 🤷
 
 These callbacks need to return true if the element should be morphed, or else return false to skip it. All callbacks **must** return a boolean value, even if the purpose of of the callback is to perform some kind of meta-transformation on the elements, as you'll see with the Alpine example in a moment.
 

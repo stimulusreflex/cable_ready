@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/stimulusreflex/cable_ready/master/assets/cable-ready-logo-with-copy.svg" width="360" />
+  <img src="https://raw.githubusercontent.com/stimulusreflex/cable_ready/main/assets/cable-ready-logo-with-copy.svg" width="360" />
   <h1 align="center">Welcome to CableReady 👋</h1>
   <p align="center">
     <a href="https://rubygems.org/gems/cable_ready">
@@ -11,7 +11,7 @@
     <a href="https://www.npmjs.com/package/cable_ready">
       <img alt="downloads" src="https://img.shields.io/npm/dm/cable_ready.svg?color=blue" target="_blank" />
     </a>
-    <a href="https://github.com/stimulusreflex/cable_ready/blob/master/LICENSE">
+    <a href="https://github.com/stimulusreflex/cable_ready/blob/main/LICENSE">
       <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen.svg" target="_blank" />
     </a>
     <a href="http://blog.codinghorror.com/the-best-code-is-no-code-at-all/" target="_blank">
@@ -49,7 +49,7 @@ to learn more about ActionCable before proceeding.
 ## 📚 Docs
 
 - [Official Documentation](https://cableready.stimulusreflex.com)
-- [Documentation Source Code](https://github.com/stimulusreflex/cable_ready/tree/master/docs)
+- [Documentation Source Code](https://github.com/stimulusreflex/cable_ready/tree/main/docs)
 
 ## 💙 Community
 

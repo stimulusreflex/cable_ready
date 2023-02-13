@@ -6,7 +6,7 @@ We would like to announce support for Python, Go, C#, Java, PHP and NodeJS serve
 
 ## Background
 
-CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week and offers 36 different [operations](https://cableready.stimulusreflex.com/v/v5/reference/operations).
+CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week and offers 36 different [operations](https://cableready.stimulusreflex.com/reference/operations).
 
 CableReady is currently a client-side JS module and a server-side Ruby module.
 
@@ -24,7 +24,7 @@ CableReady is currently a client-side JS module and a server-side Ruby module.
 
 Rails developers can access a `cable_ready` singleton from just about anywhere in their application, and we believe it's a big part of the secret sauce. While every language and framework has their own idioms, we encourage implementors to remove barriers and make it easy to call CableReady anywhere it could be useful.
 
-https://cableready.stimulusreflex.com/v/v5/cableready-everywhere
+https://cableready.stimulusreflex.com/guide/cableready-everywhere
 
 ### Operations and their options
 
@@ -84,9 +84,9 @@ We believe that a minimally viable CableReady server library must be able to pro
 
 ### Custom operations
 
-While CableReady ships with an impressive number of operations out of the box, users should be able to add their own operations. Admittedly, the method used to dynamically create all of the methods for each operation is the [most sophisticated](https://github.com/stimulusreflex/cable_ready/blob/master/lib/cable_ready/operation_builder.rb) one in our framework, but again, we're here to help.
+While CableReady ships with an impressive number of operations out of the box, users should be able to add their own operations. Admittedly, the method used to dynamically create all of the methods for each operation is the [most sophisticated](https://github.com/stimulusreflex/cable_ready/blob/main/lib/cable_ready/operation_builder.rb) one in our framework, but again, we're here to help.
 
-https://cableready.stimulusreflex.com/v/v5/customization#custom-operations
+https://cableready.stimulusreflex.com/guide/customization#custom-operations
 
 ## Get involved!
 

@@ -18,7 +18,7 @@ export default {
     ],
     editLink: {
       pattern:
-        'https://github.com/stimulusreflex/cable_ready/edit/master/docs/:path',
+        'https://github.com/stimulusreflex/cable_ready/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
     nav: [
