@@ -4,10 +4,8 @@ import CableConsumer from '../cable_consumer'
 import MissingElement from '../missing_element'
 
 export default class StreamFromElement extends SubscribingElement {
-  static define () {
-    if (!customElements.get('cable-ready-stream-from')) {
-      customElements.define('cable-ready-stream-from', this)
-    }
+  static get tagName () {
+    return 'cable-ready-stream-from'
   }
 
   async connectedCallback () {
