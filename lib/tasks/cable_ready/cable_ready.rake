@@ -14,7 +14,6 @@ CR_STEPS = {
   "development" => "development environment configuration",
   "spring" => "Disable spring gem. Spring has been removed from Rails 7",
   "mrujs" => "Swap out UJS for mrujs",
-  "example" => "Create an example page",
   "broadcaster" => "Make CableReady::Broadcaster available to channels, controllers, jobs and models",
   "updatable" => "Include CableReady::Updatable in Active Record model classes",
   "vite" => "CableReady using Vite",
@@ -203,13 +202,6 @@ namespace :cable_ready do
     if Rails.root.join(".git").exist?
       system "git diff > tmp/cable_ready_installer.diff"
       puts "🏮 A diff of all changes has been saved to \e[1mtmp/cable_ready_installer.diff\e[22m"
-      puts
-    end
-
-    if Rails.root.join("app/controllers/examples_controller.rb").exist?
-      launch = Rails.root.join("bin/dev").exist? ? "bin/dev" : "rails s"
-      puts "🚀 Launch \e[1;94m#{launch}\e[0m to access your example page at ⚡ \e[4;97mhttp://localhost:3000/example\e[0m ⚡"
-      puts "Once you're finished with the example, you can remove it with \e[1;94mrails destroy cable_ready:example\e[0m"
       puts
     end
 
