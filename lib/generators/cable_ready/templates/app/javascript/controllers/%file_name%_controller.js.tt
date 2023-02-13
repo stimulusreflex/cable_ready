@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import CableReady from 'cable_ready'
 
 export default class extends Controller {
@@ -20,7 +20,7 @@ export default class extends Controller {
       )
     } else {
       console.error(
-        `The "<%= class_name.underscore.dasherize %>" Stimulus controller cannot connect without an ActionCable consumer.\nPlease set 'application.consumer = consumer' in your index.js to use CableReady streaming.`
+        `The "<%= class_name.underscore.dasherize %>" Stimulus controller requires an Action Cable consumer.\nPlease set 'application.consumer = consumer' in your application.js.`
       )
     }
   }
