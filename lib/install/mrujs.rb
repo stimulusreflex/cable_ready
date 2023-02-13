@@ -6,7 +6,8 @@ return if pack_path_missing?
 
 mrujs_path = config_path / "mrujs.js"
 
-proceed = true
+proceed = false
+
 if !File.exist?(mrujs_path)
   proceed = if options.key? "mrujs"
     options["mrujs"]

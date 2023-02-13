@@ -3,6 +3,7 @@
 require "cable_ready/installer"
 
 proceed = false
+
 if !Rails.root.join("app/controllers/examples_controller.rb").exist?
   puts
 
