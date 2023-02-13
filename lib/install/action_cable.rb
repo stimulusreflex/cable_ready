@@ -4,9 +4,9 @@ require "cable_ready/installer"
 
 # verify that Action Cable is installed
 if defined?(ActionCable::Engine)
-  say "✅ ActionCable::Engine is required and in scope"
+  say "✅ ActionCable::Engine is loaded and in scope"
 else
-  halt "ActionCable::Engine is not required. Please add or uncomment `require \"action_cable/engine\"` to your `config/application.rb`"
+  halt "ActionCable::Engine is not loaded, please add or uncomment `require \"action_cable/engine\"` to your `config/application.rb`"
   return
 end
 
