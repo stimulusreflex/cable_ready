@@ -30,7 +30,7 @@ CR_FOOTGUNS = {
 }
 
 def run_install_template(template, force: false, trace: false)
-  puts "--- [#{template}] ----"
+  puts "--- [#{template} - #{CR_STEPS[template]}] ----"
 
   if Rails.root.join("tmp/cable_ready_installer/halt").exist?
     FileUtils.rm(Rails.root.join("tmp/cable_ready_installer/halt"))
