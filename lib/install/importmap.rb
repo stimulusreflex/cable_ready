@@ -42,14 +42,14 @@ backup(importmap_path) do
 
   if !importmap.include?("pin \"cable_ready\"")
     append_file(importmap_path, <<~RUBY, verbose: false)
-      pin "cable_ready", to: "cable_ready.js", preload: true
+      pin "cable_ready", to: "cable_ready.min.js", preload: true
     RUBY
     say "✅ pin CableReady"
   end
 
   if !importmap.include?("pin \"morphdom\"")
     append_file(importmap_path, <<~RUBY, verbose: false)
-      pin "morphdom", to: "https://ga.jspm.io/npm:morphdom@2.6.1/dist/morphdom.js"
+      pin "morphdom", to: "https://ga.jspm.io/npm:morphdom@2.6.1/dist/morphdom.js", preload: true
     RUBY
     say "✅ pin morphdom"
   end
