@@ -9,7 +9,7 @@ if !Rails.root.join("app/controllers/examples_controller.rb").exist?
   proceed = if options.key? "example"
     options["example"]
   else
-    !no?("Generate an example page with a quick demo? You can remove it later with a single commend. (Y/n)")
+    !no?("✨ Generate an example page with a quick demo? You can remove it later with a single commend. (Y/n)")
   end
 end
 

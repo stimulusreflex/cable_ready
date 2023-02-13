@@ -10,7 +10,7 @@ if lines.index { |line| line =~ spring_pattern }
   proceed = if options.key? "spring"
     options["spring"]
   else
-    !no?("Would you like to disable the spring gem? \nIt's been removed from Rails 7, and is the frequent culprit behind countless mystery bugs. (Y/n)")
+    !no?("✨ Would you like to disable the spring gem? \nIt's been removed from Rails 7, and is the frequent culprit behind countless mystery bugs. (Y/n)")
   end
 end
 

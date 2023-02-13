@@ -92,7 +92,7 @@ if pack.match?(channels_pattern)
     proceed = if options.key? "uncomment"
       options["uncomment"]
     else
-      !no?("Action Cable seems to be commented out in your application.js. Do you want to uncomment it? (Y/n)")
+      !no?("✨ Action Cable seems to be commented out in your application.js. Do you want to uncomment it? (Y/n)")
     end
 
     if proceed

@@ -51,7 +51,7 @@ if pack.match?(controllers_pattern)
     proceed = if options.key? "uncomment"
       options["uncomment"]
     else
-      !no?("Do you want to import your Stimulus controllers in application.js? (Y/n)")
+      !no?("✨ Do you want to import your Stimulus controllers in application.js? (Y/n)")
     end
 
     if proceed

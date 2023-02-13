@@ -9,7 +9,7 @@ if initializer.exclude? "PermessageDeflate.configure"
   proceed = if options.key? "compression"
     options["compression"]
   else
-    !no?("Configure Action Cable to compress your WebSocket traffic with gzip? (Y/n)")
+    !no?("✨ Configure Action Cable to compress your WebSocket traffic with gzip? (Y/n)")
   end
 end
 
