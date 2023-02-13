@@ -6,6 +6,7 @@ import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
 
 import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
+import Log from '../updatable/log'
 
 const template = `
 <style>
@@ -51,13 +52,27 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   async update (data) {
+    this.lastUpdateTimestamp = new Date()
+
     const blocks = Array.from(
       document.querySelectorAll(this.query),
       element => new Block(element)
     ).filter(block => block.shouldUpdate(data))
 
+    Log.request(data, blocks)
+
+    if (blocks.length === 0) {
+      Log.cancel(this.lastUpdateTimestamp, 'All elements filtered out')
+
+      return
+    }
+
     // first updates-for element in the DOM *at any given moment* updates all of the others
-    if (blocks.length === 0 || blocks[0].element !== this) return
+    if (blocks[0].element !== this) {
+      Log.cancel(this.lastUpdateTimestamp, 'Update already requested')
+
+      return
+    }
 
     // hold a reference to the active element so that it can be restored after the morph
     ActiveElement.set(document.activeElement)
@@ -78,6 +93,8 @@ export default class UpdatesForElement extends SubscribingElement {
       })
     )
 
+    Log.response(this.lastUpdateTimestamp, this, uniqueUrls)
+
     // track current block index for each URL; referred to as fragments
     this.index = {}
 
@@ -87,7 +104,7 @@ export default class UpdatesForElement extends SubscribingElement {
         ? this.index[block.url]++
         : (this.index[block.url] = 0)
 
-      block.process(data, this.html, this.index)
+      block.process(data, this.html, this.index, this.lastUpdateTimestamp)
     })
   }
 
@@ -111,7 +128,7 @@ class Block {
     this.element = element
   }
 
-  async process (data, html, index) {
+  async process (data, html, index, startTimestamp) {
     const blockIndex = index[this.url]
     const template = document.createElement('template')
     this.element.setAttribute('updating', 'updating')
@@ -136,6 +153,8 @@ class Block {
     }
 
     dispatch(this.element, 'cable-ready:before-update', operation)
+    Log.morphStart(startTimestamp, this.element)
+
     morphdom(this.element, fragments[blockIndex], {
       childrenOnly: true,
       onBeforeElUpdated: shouldMorph(operation),
@@ -145,6 +164,7 @@ class Block {
         assignFocus(operation.focusSelector)
       }
     })
+    Log.morphEnd(startTimestamp, this.element)
   }
 
   async resolveTurboFrames (documentFragment) {

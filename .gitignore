@@ -21,6 +21,7 @@ app/assets/javascripts/**
 *~
 *.log
 *.tgz
+*.sqlite3
 
 test/dummy/tmp/
 

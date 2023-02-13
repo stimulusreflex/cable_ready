@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CableReady
   module Updatable
     class ModelUpdatableCallbacks

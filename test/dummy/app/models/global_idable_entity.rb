@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GlobalIdableEntity
   include GlobalID::Identification
   include CableReady::Updatable

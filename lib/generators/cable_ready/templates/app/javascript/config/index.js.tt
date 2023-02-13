@@ -1,0 +1,1 @@
+import './cable_ready'

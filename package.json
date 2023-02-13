@@ -42,7 +42,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "morphdom": "^2.6.1"
+    "morphdom": "2.6.1"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.6",
