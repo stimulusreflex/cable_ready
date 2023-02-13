@@ -48,7 +48,7 @@ if application_js_path.exist?
     else
       inject_into_file application_js_path, "import consumer from \"../channels/consumer\"\n", after: "import { Application } from \"@hotwired/stimulus\"\n", verbose: false
       inject_into_file application_js_path, "application.consumer = consumer\n", after: "application.debug = false\n", verbose: false
-      say "#{friendly_application_js_path} has been updated to import the Action Cable consumer"
+      say "✅ #{friendly_application_js_path} has been updated to import the Action Cable consumer"
     end
   end
 else

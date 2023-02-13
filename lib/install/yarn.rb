@@ -33,6 +33,9 @@ if add.present? || dev.present? || drop.present?
   package_json.write JSON.pretty_generate(json)
 
   system "yarn install --silent"
+else
+  say "⏩ No yarn depdencies to add or remove. Skipping."
+
 end
 
 if footgun == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
@@ -40,6 +43,8 @@ if footgun == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
   json["scripts"]["build"] = "node esbuild.config.mjs"
   package_json.write JSON.pretty_generate(json)
   say "✅ Your build script has been updated to use esbuild.config.mjs"
+else
+  say "⏩ Your build script is already setup. Skipping."
 end
 
 complete_step :yarn

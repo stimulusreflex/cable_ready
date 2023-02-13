@@ -12,8 +12,9 @@ if channel_path.exist?
       lines.insert index + 1, "    include CableReady::Broadcaster\n"
       channel_path.write lines.join
     end
+
+    puts "✅ include CableReady::Broadcaster in Action Cable channels"
   end
-  puts "✅ include CableReady::Broadcaster in Action Cable channels"
 end
 
 # include CR::B in Action Controller classes
@@ -26,8 +27,9 @@ if controller_path.exist?
       lines.insert index + 1, "  include CableReady::Broadcaster\n"
       controller_path.write lines.join
     end
+
+    puts "✅ include CableReady::Broadcaster in Action Controller classes"
   end
-  puts "✅ include CableReady::Broadcaster in Action Controller classes"
 end
 
 # include CR::B in Active Job classes, if present
@@ -41,8 +43,9 @@ if defined?(ActiveJob)
         lines.insert index + 1, "  include CableReady::Broadcaster\n"
         job_path.write lines.join
       end
+
+      puts "✅ include CableReady::Broadcaster in Active Job classes"
     end
-    puts "✅ include CableReady::Broadcaster in Active Job classes"
   end
 else
   puts "🤷 Active Job not available. Skipping."
@@ -59,8 +62,9 @@ if defined?(StateMachines)
 
       RUBY
     end
+
+    puts "✅ prepend CableReady::Broadcaster into StateMachines::Machine"
   end
-  puts "✅ prepend CableReady::Broadcaster into StateMachines::Machine"
 else
   puts "🤷 StateMachines not available. Skipping."
 end
@@ -74,8 +78,9 @@ if Rails.root.join(application_record_path).exist?
       lines.insert index + 1, "  include CableReady::Broadcaster\n"
       application_record_path.write lines.join
     end
+
+    puts "✅ include CableReady::Broadcaster in Active Record model classes"
   end
-  puts "✅ include CableReady::Broadcaster in Active Record model classes"
 end
 
 complete_step :broadcaster

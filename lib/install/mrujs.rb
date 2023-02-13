@@ -11,7 +11,7 @@ if !File.exist?(mrujs_path)
   proceed = if options.key? "mrujs"
     options["mrujs"]
   else
-    !no?("Would you like to install and enable mrujs? It's a modern, drop-in replacement for ujs-rails \n... and it just happens to integrate beautifully with CableReady. (Y/n)")
+    !no?("Would you like to install and enable mrujs? It's a modern, drop-in replacement for rails-ujs (Y/n)")
   end
 end
 

@@ -4,7 +4,7 @@ require "cable_ready/installer"
 
 spring_pattern = /^[^#]*gem ["']spring["']/
 
-proceed = true
+proceed = false
 lines = gemfile_path.readlines
 if lines.index { |line| line =~ spring_pattern }
   proceed = if options.key? "spring"
@@ -44,6 +44,8 @@ if proceed
   if lines.index { |line| line =~ spring_watcher_pattern }
     remove_gem "spring-watcher-listen"
   end
+else
+  say "⏩ Spring is not installed. Skipping."
 end
 
 complete_step :spring

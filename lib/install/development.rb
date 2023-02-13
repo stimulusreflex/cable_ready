@@ -12,8 +12,11 @@ if defined?(ActionMailer)
     index = lines.index { |line| line =~ /^Rails.application.configure do/ }
     lines.insert index + 1, "  config.action_mailer.default_url_options = {host: \"localhost\", port: 3000}\n\n"
     development_working_path.write lines.join
+
+    say "✅ Action Mailer default_url_options defined"
+  else
+    say "⏩ Action Mailer default_url_options already defined. Skipping."
   end
-  say "✅ Action Mailer default_url_options defined"
 end
 
 # add default_url_options to development.rb for Action Controller
@@ -22,7 +25,10 @@ unless lines.find { |line| line.include?("config.action_controller.default_url_o
   index = lines.index { |line| line =~ /^Rails.application.configure do/ }
   lines.insert index + 1, "  config.action_controller.default_url_options = {host: \"localhost\", port: 3000}\n"
   development_working_path.write lines.join
+
+  say "✅ Action Controller default_url_options defined"
+else
+  say "⏩ Action Controller default_url_options already defined. Skipping."
 end
-say "✅ Action Controller default_url_options defined"
 
 complete_step :development

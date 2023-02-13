@@ -31,7 +31,7 @@ else
   lines.insert lines.index(matches.last).to_i + 1, index_import
   pack_path.write lines.join
 end
-say "✅ CR configs will be imported in #{friendly_pack_path}"
+say "✅ CableReady configs will be imported in #{friendly_pack_path}"
 
 # create entrypoint/config/cable_ready.js and make sure it's imported in application.js
 copy_file(cable_ready_src, cable_ready_path) unless cable_ready_path.exist?
