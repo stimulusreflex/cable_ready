@@ -6,7 +6,7 @@ module CableReady
     include CableReady::StreamIdentifier
 
     def stream_from(*keys, html_options: {})
-      tag.stream_from(**build_options(*keys, html_options))
+      tag.cable_ready_stream_from(**build_options(*keys, html_options))
     end
 
     def updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)
@@ -15,7 +15,7 @@ module CableReady
       options[:debounce] = debounce if debounce
       options[:only] = only if only
       options[:"ignore-inner-updates"] = "" if ignore_inner_updates
-      tag.updates_for(**options) { capture(&block) }
+      tag.cable_ready_updates_for(**options) { capture(&block) }
     end
 
     def updates_for_if(condition, *keys, **options, &block)

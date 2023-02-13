@@ -25,8 +25,8 @@ function url (element) {
 
 export default class UpdatesForElement extends SubscribingElement {
   static define () {
-    if (!customElements.get('updates-for')) {
-      customElements.define('updates-for', this)
+    if (!customElements.get('cable-ready-updates-for')) {
+      customElements.define('cable-ready-updates-for', this)
     }
   }
 

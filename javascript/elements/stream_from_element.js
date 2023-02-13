@@ -5,8 +5,8 @@ import MissingElement from '../missing_element'
 
 export default class StreamFromElement extends SubscribingElement {
   static define () {
-    if (!customElements.get('stream-from')) {
-      customElements.define('stream-from', this)
+    if (!customElements.get('cable-ready-stream-from')) {
+      customElements.define('cable-ready-stream-from', this)
     }
   }
 
