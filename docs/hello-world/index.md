@@ -6,7 +6,7 @@ description: 'Real-time changes in the browser, controlled by server-side Ruby.'
 
 ## What is CableReady?
 
-CableReady offers 36 different [operations](./#what-can-i-do-with-cableready) that let you **create reactive user experiences** without the need for complex SPA frameworks.
+CableReady offers 38 different [operations](./#what-can-i-do-with-cableready) that let you **create reactive user experiences** without the need for complex SPA frameworks.
 
 The CableReady client is language, framework and transport agnostic. **If your server can create JSON, you can use CableReady.**
 
@@ -51,7 +51,7 @@ CableReady enables a radical new style of development, and **it can make you lit
 
 ## What can I do with CableReady?
 
-CableReady currently boasts **36 different operations** that can be triggered from server-side Ruby code:
+CableReady currently boasts **38 different operations** that can be triggered from server-side Ruby code:
 
 |  | Operations Available |
 | :--- | :--- |

@@ -6,7 +6,7 @@ We would like to announce support for Python, Go, C#, Java, PHP and NodeJS serve
 
 ## Background
 
-CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week and offers 36 different [operations](https://cableready.stimulusreflex.com/reference/operations).
+CableReady was started in 2017 by Nate Hopkins. It predates LiveView and the HTML-on-the-wire trend by 18 months. It sees roughly 15,000 downloads per week and offers 38 different [operations](https://cableready.stimulusreflex.com/reference/operations).
 
 CableReady is currently a client-side JS module and a server-side Ruby module.
 
