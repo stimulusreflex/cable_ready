@@ -4,20 +4,19 @@ include Rails.application.routes.url_helpers
 
 CR_STEPS = {
   "action_cable" => "Action Cable",
-  "webpacker" => "Webpacker",
-  "npm_packages" => "CableReady npm package",
-  "importmap" => "Import Maps",
-  "esbuild" => "esbuild",
+  "webpacker" => "CableReady using Webpacker",
+  "shakapacker" => "CableReady using Shakapacker",
+  "npm_packages" => "Install CableReady npm package",
+  "importmap" => "Install CableReady using importmaps",
+  "esbuild" => "Install CableReady using esbuild",
   "config" => "Client initialization",
-  "initializers" => "CableReady initializer",
+  "initializers" => "Generate and configure initializer",
   "development" => "development environment configuration",
   "spring" => "Disable spring gem. Spring has been removed from Rails 7",
   "mrujs" => "Swap out UJS for mrujs",
   "example" => "Create an example page",
-  "broadcaster" => "Make CableReady available to channels, controllers, jobs and models",
-  "yarn" => "Resolve npm dependency changes",
-  "bundle" => "Resolve gem dependency changes",
-  "vite" => "Vite",
+  "broadcaster" => "Make CableReady::Broadcaster available to channels, controllers, jobs and models",
+  "vite" => "CableReady using Vite",
   "compression" => "Compress WebSockets traffic with gzip"
 }
 
@@ -30,7 +29,7 @@ CR_FOOTGUNS = {
 }
 
 def run_install_template(template, force: false, trace: false)
-  puts "--- [#{template} - #{CR_STEPS[template]}] ----"
+  puts "--- [#{template}] ----"
 
   if Rails.root.join("tmp/cable_ready_installer/halt").exist?
     FileUtils.rm(Rails.root.join("tmp/cable_ready_installer/halt"))
@@ -38,7 +37,7 @@ def run_install_template(template, force: false, trace: false)
     exit
   end
   if Rails.root.join("tmp/cable_ready_installer/#{template}").exist? && !force
-    puts "👍 #{CR_STEPS[template]}"
+    puts "👍 Step #{template} already completed. Skipping."
     return
   end
 
@@ -229,7 +228,7 @@ namespace :cable_ready do
     desc <<~DESC
       Re-run specific CableReady install steps
 
-      #{CR_STEPS.map { |step, description| "#{step.ljust(20)} #{description}" }.join("\n")}
+      #{CR_STEPS.sort.map { |step, description| "#{step.ljust(20)} #{description}" }.join("\n")}
     DESC
 
     task :step do
