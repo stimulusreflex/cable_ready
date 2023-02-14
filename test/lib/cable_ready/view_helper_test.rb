@@ -3,7 +3,6 @@
 require "test_helper"
 
 class CableReady::ViewHelperTest < ActionView::TestCase
-
   # cable_ready_stream_from
 
   test "renders <cable-ready-stream-from> element" do
