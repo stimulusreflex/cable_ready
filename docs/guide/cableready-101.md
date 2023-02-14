@@ -27,7 +27,7 @@ Don't worry if this sounds complicated, because we're going to create a Channel 
 Use the Rails `channel` generator to create an ActionCable [Channel](https://guides.rubyonrails.org/action_cable_overview.html#terminology-channels) class called `ExampleChannel`. If this is the first time you've generated a Channel, a number of important files and folders will be created.
 
 ```bash
-rails g channel example
+rails generate channel example
 ```
 
 In this configuration, every client that subscribes to `ExampleChannel` will receive any broadcasts sent to to the identifier `visitors`. Operations broadcast there will be sent to everyone looking at your site. They will be automatically subscribed to your channel.

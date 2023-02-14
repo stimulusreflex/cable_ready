@@ -294,7 +294,7 @@ CableReady provides a Rails generator that you can use to create ActionCable `Ch
 Just provide it with the name of the channel class that you want to create, or pass `--help` to see all options:
 
 ```bash
-rails g cable_ready:channel Sailor
+rails generate cable_ready:channel Sailor
 ```
 
 The generator is interactive and will take you on a Choose Your Own Adventure through the decision tree of possible outcomes.

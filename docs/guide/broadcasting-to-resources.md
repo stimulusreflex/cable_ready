@@ -232,7 +232,7 @@ end
 ```
 :::
 
-... you can run `rails g channel users` to create a UsersChannel.
+... you can run `rails generate channel users` to create a UsersChannel.
 
 Set up UsersChannel to `stream_for` `current_user`:
 

@@ -26,7 +26,7 @@ CableReady v5 introduces the `stream_from` helper, which allows Rails developers
 You should only need to run this once:
 
 ```bash
-rails g cable_ready:stream_from
+rails generate cable_ready:stream_from
 ```
 
 If there's any issue, you need to make sure that your `index.js` or `application.js` includes the following:
@@ -45,7 +45,7 @@ CableReady.initialize({ consumer })
 CableReady supports an optional Rails initializer which, among other things, allows you to declare [custom operations](/guide/customization#custom-operations). We provide a generator to create a handy blank initializer which has all of the options listed as comments:
 
 ```bash
-rails g cable_ready:initializer
+rails generate cable_ready:initializer
 ```
 
 ## Upgrading, package versions and sanity
@@ -71,8 +71,8 @@ end
 
 * git repos are now living in the [stimulusreflex](https://github.com/stimulusreflex) organization on GitHub
 * make sure that you update `cable_ready` to `5.0.0` in **both** your `Gemfile` and `package.json`
-* create an initializer with `rails g cable_ready:initializer` if needed
-* install `stream_from` support with `rails g cable_ready:stream_from`
+* create an initializer with `rails generate cable_ready:initializer` if needed
+* install `cable_ready_stream_from` support with `rails generate cable_ready:stream_from`
 * install the `@cable_ready/audio_operations` npm package if required
 * convert your custom operations to use the new `CableReady.operations` object
 
