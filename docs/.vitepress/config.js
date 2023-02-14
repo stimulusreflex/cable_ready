@@ -73,7 +73,7 @@ export default {
             text: 'Broadcasting to Resources',
             link: '/guide/broadcasting-to-resources'
           },
-          { text: 'stream_from', link: '/guide/stream-from' },
+          { text: 'cable_ready_stream_from', link: '/guide/cable-ready-stream-from' },
           { text: 'Ride the Cable Car', link: '/guide/cable-car' },
           { text: 'Customization', link: '/guide/customization' },
           {
