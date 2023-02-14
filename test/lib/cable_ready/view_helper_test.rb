@@ -3,8 +3,6 @@
 require "test_helper"
 
 class CableReady::ViewHelperTest < ActionView::TestCase
-  include CableReady::Broadcaster
-
   # stream_from
 
   test "stream_from renders html options" do
@@ -49,5 +47,11 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     end
 
     assert_equal "`CableReadyHelper` was renamed to `CableReady::ViewHelper`", expection.message
+  end
+
+  # ensure dom_id emits no #s
+
+  test "emits the correct dom_id" do
+    assert_equal "new_post", dom_id(Post.new)
   end
 end
