@@ -1,9 +1,9 @@
 # Channels 101
 
-While `stream_from` is great, there are many techniques _only_ possible if you leverage [ActionCable](/guide/action-cable#the-missing-manual) Connections, Channels and Subscriptions.
+While `cable_ready_stream_from` is great, there are many techniques _only_ possible if you leverage [ActionCable](/guide/action-cable#the-missing-manual) Connections, Channels and Subscriptions.
 
 ::: info
-CableReady v5 introduced the `stream_from` helper, which was covered in the previous [Hello World](/hello-world/hello-world) chapter.
+CableReady v5 introduced the `cable_ready_stream_from` view helper, which was covered in the previous [Hello World](/hello-world/hello-world) chapter.
 :::
 
 ## So, what's a channel?

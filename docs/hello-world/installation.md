@@ -19,9 +19,9 @@ yarn add cable_ready
 
 You can manually tweak and/or lock the versions you want to install by modifying `Gemfile` and `package.json` respectively, then re-running `bundle install && yarn install`.
 
-## `stream_from` Helper
+## `cable_ready_stream_from` Helper
 
-CableReady v5 introduces the `stream_from` helper, which allows Rails developers to broadcast operations to DOM targets without having to do any manual Channel setup.
+CableReady v5 introduces the `cable_ready_stream_from` helper, which allows Rails developers to broadcast operations to DOM targets without having to do any manual Channel setup.
 
 You should only need to run this once:
 
