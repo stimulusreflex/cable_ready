@@ -46,6 +46,7 @@ export default {
     sidebar: [
       {
         text: 'Hello World',
+        collapsed: false,
         collapisble: true,
         items: [
           { text: 'Welcome', link: '/hello-world/index' },
@@ -56,28 +57,16 @@ export default {
       },
       {
         text: 'Reference',
+        collapsed: false,
         collapisble: true,
         items: [
           { text: 'Operations', link: '/reference/operations/index' },
           { text: 'Methods', link: '/reference/methods' },
-          {
-            text: 'DOM Mutations',
-            link: '/reference/operations/dom-mutations'
-          },
-          {
-            text: 'Element Property Mutations',
-            link: '/reference/operations/element-mutations'
-          },
-          { text: 'DOM Events', link: '/reference/operations/event-dispatch' },
-          {
-            text: 'Browser Manipulations',
-            link: '/reference/operations/browser-manipulations'
-          },
-          { text: 'Notifications', link: '/reference/operations/notifications' }
         ]
       },
       {
         text: 'Guide',
+        collapsed: false,
         collapisble: true,
         items: [
           { text: 'Channels 101', link: '/guide/cableready-101' },
@@ -114,6 +103,7 @@ export default {
       },
       {
         text: 'Troubleshooting',
+        collapsed: true,
         collapisble: true,
         items: [
           { text: 'Troubleshooting', link: '/troubleshooting/index' },
@@ -125,10 +115,11 @@ export default {
       },
       {
         text: 'Appendencies',
+        collapsed: true,
         collapisble: true,
         items: [
           { text: 'Release History', link: '/appendencies/release-history' },
-          { text: 'implementation', link: '/appendencies/implementation' },
+          { text: 'Implementation', link: '/appendencies/implementation' },
           { text: 'Core Team', link: '/appendencies/team' }
         ]
       }
