@@ -43,13 +43,15 @@ class CableReady::ConfigTest < ActionView::TestCase
     assert_includes CableReady.config.operation_names, :jazz_hands
   end
 
-  test "sets on_new_version_available" do
-    assert_equal :ignore, CableReady.config.on_new_version_available
-
-    CableReady.configure do |config|
-      config.on_new_version_available = :warn
+  test "shows on_new_version_available notice" do
+    assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
+      CableReady.configure do |config|
+        config.on_new_version_available = :ignore
+      end
     end
 
-    assert_equal :warn, CableReady.config.on_new_version_available
+    assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
+      CableReady.config.on_new_version_available
+    end
   end
 end
