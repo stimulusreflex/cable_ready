@@ -8,6 +8,6 @@ module CableReadyHelper
   def self.included(base)
     warn "NOTICE: `CableReadyHelper` was renamed to `CableReady::ViewHelper`. Please update your include accordingly."
 
-    include ::CableReady::ViewHelper
+    base.include(::CableReady::ViewHelper)
   end
 end
