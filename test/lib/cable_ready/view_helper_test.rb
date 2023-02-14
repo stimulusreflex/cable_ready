@@ -55,17 +55,18 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_equal "div", element.name
   end
 
-  test "raises when including CableReadyHelper" do
-    expection = assert_raises do
-      class RaiseHelperTest # standard:disable Lint/ConstantDefinitionInBlock
+  # standard:disable Lint/ConstantDefinitionInBlock
+  test "prints warning when including CableReadyHelper" do
+    assert_output(nil, %(NOTICE: `CableReadyHelper` was renamed to `CableReady::ViewHelper`. Please update your include accordingly.\n)) do
+      class CableReadyHelperTest
         include ::CableReadyHelper
       end
 
-      RaiseHelperTest.new
+      assert_includes CableReadyHelperTest, ::CableReadyHelper
+      assert_includes CableReadyHelperTest, ::CableReady::ViewHelper
     end
-
-    assert_equal "`CableReadyHelper` was renamed to `CableReady::ViewHelper`", expection.message
   end
+  # standard:enable Lint/ConstantDefinitionInBlock
 
   # deprecation warnings
 
