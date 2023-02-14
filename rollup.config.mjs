@@ -1,5 +1,4 @@
 import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import terser from '@rollup/plugin-terser'
 
@@ -69,7 +68,7 @@ export default [
     external: ['morphdom'],
     input: 'javascript/index.js',
     output,
-    plugins: [commonjs(), resolve(), json()],
+    plugins: [resolve(), json()],
     watch: {
       include: 'javascript/**'
     }
