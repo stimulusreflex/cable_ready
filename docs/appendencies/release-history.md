@@ -3,7 +3,8 @@
 ## New Release: v5.0.0
 
 * New [`cable_car`](/guide/cable-car#introducing-cable_car) mode provides a transport-agnostic operation queueing API, allowing for [CableReady via Ajax](/guide/cable-car#ajax-mode), [Mrujs](https://mrujs.com) and Turbo Frames
-* New [`stream_from`](/guide/stream-from) helper allows broadcasting without any Channel setup
+* New [`cable_ready_stream_from`](/guide/cable-ready-stream-from) helper allows broadcasting without any Channel setup
+* New [`CableReady::Updatable`](/guide/updatable)
 * New Operations
   * [`console_table`](/reference/operations/notifications#console-table)
   * [`redirect_to`](/reference/operations/browser-manipulations#redirect-to)

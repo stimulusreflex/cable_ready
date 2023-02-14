@@ -36,12 +36,12 @@ class Feed < ApplicationRecord
 end
 ```
 
-3. Use the `updates_for` view helper to automatically subscribe to any updates the rendered models receive:
+3. Use the `cable_ready_updates_for` view helper to automatically subscribe to any updates the rendered models receive:
 
 ```erb
 <!-- app/views/feeds/show.html.erb -->
 <ul>
-  <%= updates_for @feed, :comments do %>
+  <%= cable_ready_updates_for @feed, :comments do %>
     <%= render @feed.comments %>
   <% end %>
 </ul>
@@ -90,7 +90,7 @@ You can pass the following arguments to a `has_many` association:
 - `enable_cable_ready_updates: true`: This will create a stream identifier so you can subscribe to updates on a collection:
 
 ```erb
-<%= updates_for @feed, :comments do %>
+<%= cable_ready_updates_for @feed, :comments do %>
   <%= render @feed.comments %>
 <% end %>
 ```
@@ -128,7 +128,7 @@ You can pass the following arguments to a `has_one`:
 - `enable_cable_ready_updates: true`: This will create a stream identifier so you can subscribe to updates on the dependent record:
 
 ```erb
-<%= updates_for @supplier, :account do %>
+<%= cable_ready_updates_for @supplier, :account do %>
   <%= render @supplier.account %>
 <% end %>
 ```
@@ -148,7 +148,7 @@ end
 ```
 
 ```erb
-<%= updates_for @post, :images do %>
+<%= cable_ready_updates_for @post, :images do %>
   <!-- render images -->
 <% end %>
 ```
@@ -156,9 +156,9 @@ end
 
 ### View Helper
 
-`updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)`
+`cable_ready_updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)`
 
-This helper method will render a `<updates-for>` custom HTML element that contains all the JavaScript behavior to
+This helper method will render a `<cable-ready-updates-for>` custom HTML element that contains all the JavaScript behavior to
 
 1. **connect to a certain resource** via a generated stream identifier for Action Cable
 2. **receive updates** from the server and _morph_ the resulting HTML.
@@ -170,7 +170,7 @@ Parameters:
 - `debounce:`: (optional) an integer value denoting the **milliseconds** to debounce updates (default 20)
 - `only:`: (optional) enables you to specify an **allow list** of model attributes you want to track updates for
 - `ignore_inner_updates:` (optional), a flag to determine whether to trigger updates for state changes emanating from an _inner_ form submit or reflex (default `false`). Essentially enabling this means **do not fire an update for the user who originated the change**, which can solve typical race conditions.
-- `html_options:`: (optional) a hash of options to pass to the generated `<updates-for>` tag, e.g. `class`, `data: {}` etc.
+- `html_options:`: (optional) a hash of options to pass to the generated `<cable-ready-updates-for>` tag, e.g. `class`, `data: {}` etc.
 
 
 ## How It Works
@@ -252,7 +252,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
-    
+
     fresh_when @article
   end
 end
@@ -285,18 +285,18 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
 
 ```erb
 <!-- BAD ❌ -->
-<%= updates_for @post do %>
+<%= cable_ready_updates_for @post do %>
   <%= @post.updated_at %>
 
   <%= simple_format @post.body %>
 <% end %>
 
 <!-- GOOD 🙌 -->
-<%= updates_for @post, only: :updated_at do %>
+<%= cable_ready_updates_for @post, only: :updated_at do %>
   <%= @post.updated_at %>
 <% end %>
 
-<%= updates_for @post, only: :body do %>
+<%= cable_ready_updates_for @post, only: :body do %>
   <%= simple_format @post.body %>
 <% end %>  
 ```

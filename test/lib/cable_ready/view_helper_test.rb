@@ -3,7 +3,8 @@
 require "test_helper"
 
 class CableReady::ViewHelperTest < ActionView::TestCase
-  # stream_from
+
+  # cable_ready_stream_from
 
   test "renders <cable-ready-stream-from> element" do
     expected = %(<cable-ready-stream-from identifier="ImtleSI=--e3efcba75b971eb15fa7fcc579a16c2b7a3734081bf7dbbace7240ebfbda078d"></cable-ready-stream-from>)
@@ -11,7 +12,7 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_dom_equal expected, cable_ready_stream_from("key")
   end
 
-  test "stream_from renders html options" do
+  test "cable_ready_stream_from renders html options" do
     fragment = Nokogiri::HTML.fragment(cable_ready_stream_from("key", html_options: {class: "block", data: {controller: "modal"}}) {})
     element = fragment.children.first
 
@@ -20,7 +21,7 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_equal "modal", element["data-controller"]
   end
 
-  # updates_for
+  # cable_ready_updates_for
 
   test "renders <cable-ready-updates-for> element" do
     expected = %(<cable-ready-updates-for identifier="ImtleSI=--e3efcba75b971eb15fa7fcc579a16c2b7a3734081bf7dbbace7240ebfbda078d"></cable-ready-updates-for>)
@@ -28,7 +29,7 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_dom_equal expected, cable_ready_updates_for("key") {}
   end
 
-  test "updates_for renders html options" do
+  test "cable_ready_updates_for renders html options" do
     fragment = Nokogiri::HTML.fragment(cable_ready_updates_for("key", html_options: {class: "block", data: {controller: "modal"}}) {})
     element = fragment.children.first
 
@@ -37,9 +38,9 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     assert_equal "modal", element["data-controller"]
   end
 
-  # conditional updates_for
+  # cable_ready_updates_for_if
 
-  test "updates_for_if renders if condition is met" do
+  test "cable_ready_updates_for_if renders if condition is met" do
     fragment = Nokogiri::HTML.fragment(cable_ready_updates_for_if(true, "key") { tag.div })
     element = fragment.children.first
 
@@ -47,7 +48,7 @@ class CableReady::ViewHelperTest < ActionView::TestCase
     refute_equal "div", element.name
   end
 
-  test "updates_for_if doesn't render if condition isn't met" do
+  test "cable_ready_updates_for_if doesn't render if condition isn't met" do
     fragment = Nokogiri::HTML.fragment(cable_ready_updates_for_if(false, "key") { tag.div })
     element = fragment.children.first
 

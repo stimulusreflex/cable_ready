@@ -65,7 +65,7 @@ export default class UpdatesForElement extends SubscribingElement {
       return
     }
 
-    // first updates-for element in the DOM *at any given moment* updates all of the others
+    // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
     if (blocks[0].element !== this) {
       Log.cancel(this.lastUpdateTimestamp, 'Update already requested')
 

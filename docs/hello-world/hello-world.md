@@ -9,7 +9,7 @@ One of the most powerful aspects of CableReady is that it can be called from [an
 Drop a `stream_from` helper into your view whenever you need a [Reactive](https://obie.medium.com/react-is-dead-long-live-reactive-rails-long-live-stimulusreflex-and-viewcomponent-cd061e2b0fe2) UX:
 
 ```html
-<%= stream_from :foo %>
+<%= cable_ready_stream_from :foo %>
 What does the agnostic, dyslexic insomniac do?
 ```
 
