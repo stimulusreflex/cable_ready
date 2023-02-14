@@ -1,4 +1,14 @@
 export default class SubscribingElement extends HTMLElement {
+  static get tagName () {
+    throw new Error('Implement the tagName() getter in the inheriting class')
+  }
+
+  static define () {
+    if (!customElements.get(this.tagName)) {
+      customElements.define(this.tagName, this)
+    }
+  }
+
   disconnectedCallback () {
     if (this.channel) this.channel.unsubscribe()
   }

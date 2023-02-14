@@ -24,10 +24,8 @@ function url (element) {
 }
 
 export default class UpdatesForElement extends SubscribingElement {
-  static define () {
-    if (!customElements.get('updates-for')) {
-      customElements.define('updates-for', this)
-    }
+  static get tagName () {
+    return 'cable-ready-updates-for'
   }
 
   constructor () {
@@ -46,7 +44,7 @@ export default class UpdatesForElement extends SubscribingElement {
       this.createSubscription(consumer, 'CableReady::Stream', this.update)
     } else {
       console.error(
-        'The `updates-for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
+        'The `cable_ready_updates_for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }
@@ -109,7 +107,7 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   get query () {
-    return `updates-for[identifier="${this.identifier}"]`
+    return `${this.tagName}[identifier="${this.identifier}"]`
   }
 
   get identifier () {
