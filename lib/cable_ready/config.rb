@@ -14,6 +14,14 @@ module CableReady
     attr_accessor :on_failed_sanity_checks, :broadcast_job_queue, :precompile_assets
     attr_writer :verifier_key
 
+    def on_new_version_available
+      warn "NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer."
+    end
+
+    def on_new_version_available=(_)
+      warn "NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer."
+    end
+
     def initialize
       super
       @operation_names = Set.new(default_operation_names)

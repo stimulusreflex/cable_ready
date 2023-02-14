@@ -10,8 +10,7 @@ class CableReady::SanityChecker
       return if called_by_generate_config?
       return if called_by_rake?
 
-      instance = new
-      instance.check_new_version_available
+      new
     end
 
     private
