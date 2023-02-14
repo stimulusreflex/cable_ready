@@ -13,18 +13,23 @@
     "client-side",
     "dom"
   ],
-  "homepage": "https://cableready.stimulusreflex.com/",
-  "bugs": {
-    "url": "https://github.com/stimulusreflex/cable_ready/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com:stimulusreflex/cable_ready.git"
-  },
+  "homepage": "https://cableready.stimulusreflex.com",
+  "bugs": "https://github.com/stimulusreflex/cable_ready/issues",
+  "repository": "https://github.com/stimulusreflex/cable_ready",
   "license": "MIT",
   "author": "Nathan Hopkins <natehop@gmail.com>",
-  "main": "./dist/cable_ready.umd.min.js",
-  "module": "./dist/cable_ready.min.js",
+  "contributors": [
+    "Andrew Mason <andrewmcodes@protonmail.com>",
+    "Julian Rubisch <julian@julianrubisch.at>",
+    "Marco Roth <marco.roth@intergga.ch>",
+    "Nathan Hopkins <natehop@gmail.com>"
+  ],
+  "main": "./dist/cable_ready.js",
+  "module": "./dist/cable_ready.js",
+  "browser": "./dist/cable_ready.js",
+  "import": "./dist/cable_ready.js",
+  "unpkg": "./dist/cable_ready.umd.js",
+  "umd": "./dist/cable_ready.umd.js",
   "files": [
     "dist/*",
     "javascript/*"
@@ -49,6 +54,7 @@
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
     "@web/dev-server-esbuild": "^0.3.3",
     "@web/dev-server-rollup": "^0.3.21",
     "@web/test-runner": "^0.15.0",
