@@ -54,15 +54,12 @@ When upgrading CableReady, it's very important that you make sure your gem versi
 
 Since mismatched versions are the first step on the path to hell, by default CableReady won't allow the server to start if your versions are mismatched in the development environment.
 
-If you have special needs, you can override this setting in your initializer. `:warn` will emit the same text-based warning but not prevent the server process from starting. `:ignore` will silence all mismatched version warnings, if you really just DGAF. ¯\\_\(ツ\)\_/¯
-
-CableReady can also let you know when new, stable versions are released during the application start-up process. This opt-in behaviour is `:ignore` by default, but you can set it to `:warn` or even `:exit` so that you're never left behind.
+If you have special needs, you can override this setting in your initializer. `:warn` will emit the same text-based warning but not prevent the server process from starting. `:ignore` will silence all mismatched version warnings.
 
 ::: code-group
 ```ruby [config/initializers/cable_ready.rb]
 CableReady.configure do |config|
   config.on_failed_sanity_checks = :warn
-  config.on_new_version_available = :warn
 end
 ```
 :::

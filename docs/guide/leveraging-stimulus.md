@@ -98,8 +98,14 @@ Stimulus gives us the opportunity to decide when and if a Channel subscription w
 It also means that you have a convenient handle to be able to [send data](https://guides.rubyonrails.org/action_cable_overview.html#rebroadcasting-a-message) to the server or even [call methods](https://guides.rubyonrails.org/action_cable_overview.html#example-1-user-appearances) on the server:
 
 ```javascript
-this.channel.send({ brand: "Tums", ingredient: "1177 mg Calcium Carbonate" })
-this.channel.perform("eat", { flavor: "Orange Rush })
+this.channel.send({
+  brand: "Tums",
+  ingredient: "1177 mg Calcium Carbonate"
+})
+
+this.channel.perform("eat", {
+  flavor: "Orange Rush" 
+})
 ```
 
 ```ruby

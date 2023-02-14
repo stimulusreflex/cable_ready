@@ -27,22 +27,27 @@ There is also [`stream_or_reject_for`](https://api.rubyonrails.org/v6.1.0/classe
 On the client, we subscribe to the Channel in the exact same way as you would with `stream_from`:
 
 ```javascript
-consumer.subscriptions.create(
-  {
-    channel: 'HelensChannel',
-    id: 30
-  },
-  {
-    received (data) { if (data.cableReady) CableReady.perform(data.operations) }
+consumer.subscriptions.create({
+  channel: 'HelensChannel',
+  id: 30
+},
+{
+  received (data) {
+    if (data.cableReady) {
+      CableReady.perform(data.operations)
+    }
   }
-)
+})
 ```
 
 Now, we're able to [`broadcast_to`](/reference/methods#broadcast-to-model-identifiers-clear-true) the Channel so that **anyone currently subscribed to that resource** will receive the operations:
 
 ```ruby
 helen = Helen.find(30)
-cable_ready[HelensChannel].dispatch_event.broadcast_to(helen)
+
+cable_ready[HelensChannel]
+  .dispatch_event
+  .broadcast_to(helen)
 ```
 
 As you can see, we have traded our string-based stream identifiers for constant-based identifiers; specifically, the Channel class constant. This is paired up with the `broadcast_to` method, which requires that you pass a resource to it.
@@ -116,9 +121,12 @@ end
 
 ::: code-group
 ```html [app/views/helens/_helen.html.erb]
-<div data-controller="helen"
-     data-helen-id-value="<%= helen.id %>"
-     id="<%= dom_id(helen) %>">I am Helen #<%= helen.id %>.
+<div
+  data-controller="helen"
+  data-helen-id-value="<%= helen.id %>"
+  id="<%= dom_id(helen) %>"
+>
+  I am Helen #<%= helen.id %>.
 </div>
 ```
 :::
@@ -134,15 +142,16 @@ export default class extends Controller {
   static values = { id: Number }
 
   connect() {
-    this.channel = this.application.consumer.subscriptions.create(
-      {
-        channel: 'HelensChannel',
-        id: this.idValue
-      },
-      {
-        received (data) { if (data.cableReady) CableReady.perform(data.operations) }
+    this.channel = this.application.consumer.subscriptions.create({
+      channel: 'HelensChannel',
+      id: this.idValue
+    }, {
+      received (data) {
+        if (data.cableReady) {
+          CableReady.perform(data.operations)
+        }
       }
-    )
+    })
   }
 
   disconnect() {
@@ -173,10 +182,13 @@ end
 
 ::: code-group
 ```html [app/views/helens/_helen.html.erb]
-<div data-controller="helen"
-     data-helen-id-value="<%= helen.id %>"
-     data-reflex="click->Helen#birthday"
-     id="<%= dom_id(helen) %>">Helen #<%= helen.id %> is <%= helen.age %>.
+<div
+  data-controller="helen"
+  data-helen-id-value="<%= helen.id %>"
+  data-reflex="click->Helen#birthday"
+  id="<%= dom_id(helen) %>"
+>
+  Helen #<%= helen.id %> is <%= helen.age %>.
 </div>
 ```
 :::
@@ -186,6 +198,7 @@ end
 class HelenReflex < ApplicationReflex
   def birthday
     Helen.find(element["data-helen-id-value"]).age.increment!
+
     morph :nothing
   end
 end
@@ -212,7 +225,7 @@ Ironically, Facebook could only make React do all of the real-time magic because
 
 With CableReady, what Facebook spent tens of millions of dollars engineering not so long ago is available to every Rails developer, for free.
 
-## `broadcast_to` `current_user`
+## `broadcast_to current_user`
 
 Many of us use the `current_user` pattern so often that we can almost forget that it's a resource. You know what doesn't forget? CableReady.
 
@@ -234,7 +247,7 @@ end
 
 ... you can run `rails generate channel users` to create a UsersChannel.
 
-Set up UsersChannel to `stream_for` `current_user`:
+Set up `UsersChannel` to `stream_for current_user`:
 
 ```ruby
 class UsersChannel < ApplicationCable::Channel
@@ -287,10 +300,11 @@ If you set up your `ApplicationRecord` as we suggested in [CableReady Everywhere
 
 ::: code-group
 ```html [app/views/helens/_helen.html.erb]
-<div data-controller="helen"
-     data-helen-sgid-value="<%= helen.sgid %>"
-     id="<%= helen.sgid %>">
-</div>
+<div
+  data-controller="helen"
+  data-helen-sgid-value="<%= helen.sgid %>"
+  id="<%= helen.sgid %>"
+></div>
 ```
 :::
 
@@ -305,15 +319,12 @@ export default class extends Controller {
   static values = { sgid: String }
 
   connect() {
-    this.subscription = this.application.consumer.subscriptions.create(
-      {
-        channel: 'HelensChannel',
-        sgid: this.sgidValue
-      },
-      {
-        received (data) { if (data.cableReady) CableReady.perform(data.operations) }
-      }
-    )
+    this.subscription = this.application.consumer.subscriptions.create({
+      channel: 'HelensChannel',
+      sgid: this.sgidValue
+    }, {
+      received (data) { if (data.cableReady) CableReady.perform(data.operations) }
+    })
   }
 
   disconnect() {
@@ -407,22 +418,21 @@ export default class extends Controller {
   }
 
   connect() {
-    this.channel = this.application.consumer.subscriptions.create(
-      {
-        channel: 'HelensChannel',
-        id: this.hasIdValue ? this.idValue : null,
-        uuid: this.uuid
-      },
-      {
-        received (data) {
-          if (data.cableReady) CableReady.perform(data.operations)
-          else {
-            this.idValue = data
-            this.channel.unsubscribe()
-            this.connect()
-          }
+    this.channel = this.application.consumer.subscriptions.create({
+      channel: 'HelensChannel',
+      id: this.hasIdValue ? this.idValue : null,
+      uuid: this.uuid
+    }, {
+      received (data) {
+        if (data.cableReady) {
+          CableReady.perform(data.operations)
+        } else {
+          this.idValue = data
+          this.channel.unsubscribe()
+          this.connect()
         }
       }
+    }
     )
   }
 

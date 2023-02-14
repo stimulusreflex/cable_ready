@@ -55,6 +55,28 @@ export default {
         ]
       },
       {
+        text: 'Reference',
+        collapisble: true,
+        items: [
+          { text: 'Operations', link: '/reference/operations/index' },
+          { text: 'Methods', link: '/reference/methods' },
+          {
+            text: 'DOM Mutations',
+            link: '/reference/operations/dom-mutations'
+          },
+          {
+            text: 'Element Property Mutations',
+            link: '/reference/operations/element-mutations'
+          },
+          { text: 'DOM Events', link: '/reference/operations/event-dispatch' },
+          {
+            text: 'Browser Manipulations',
+            link: '/reference/operations/browser-manipulations'
+          },
+          { text: 'Notifications', link: '/reference/operations/notifications' }
+        ]
+      },
+      {
         text: 'Guide',
         collapisble: true,
         items: [
@@ -88,28 +110,6 @@ export default {
             text: 'Updatable - Batteries Included Reactivity',
             link: '/guide/updatable'
           }
-        ]
-      },
-      {
-        text: 'Reference',
-        collapisble: true,
-        items: [
-          { text: 'Methods', link: '/reference/methods' },
-          { text: 'Operations', link: '/reference/operations/index' },
-          {
-            text: 'DOM Mutations',
-            link: '/reference/operations/dom-mutations'
-          },
-          {
-            text: 'Element Property Mutations',
-            link: '/reference/operations/element-mutations'
-          },
-          { text: 'DOM Events', link: '/reference/operations/event-dispatch' },
-          {
-            text: 'Browser Manipulations',
-            link: '/reference/operations/browser-manipulations'
-          },
-          { text: 'Notifications', link: '/reference/operations/notifications' }
         ]
       },
       {

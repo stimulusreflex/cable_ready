@@ -261,7 +261,9 @@ class SailorsChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    cable_ready["sailors"].console_log(message: "A sailor yells: #{data}").broadcast
+    cable_ready["sailors"]
+      .console_log(message: "A sailor yells: #{data}")
+      .broadcast
   end
 end
 
@@ -299,7 +301,11 @@ Finally, let's wire up the input element's change event to the `greet` method:
 
 ::: code-group
 ```html [index.html.erb]
-<input type="text" data-controller="sailors" data-action="change->sailors#greet">
+<input
+  type="text"
+  data-controller="sailors"
+  data-action="change->sailors#greet"
+/>
 ```
 :::
 

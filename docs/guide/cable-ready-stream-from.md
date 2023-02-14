@@ -12,10 +12,11 @@ First, let's set up a `/photos` index page and quickly sketch a basic `photo` pa
 ```html [app/views/photos/index.html.erb]
 <h1>Photos!</h1>
 
+<%= cable_ready_stream_from Photo %>
+
 <div id="photos">
   <%= render @photos %>
 </div>
-<%= cable_ready_stream_from Photo %>
 ```
 :::
 
@@ -32,7 +33,7 @@ This is _perfect_ for adding new photos to an existing list. We should keep the 
   Likes: <%= photo.likes %>
 
   <%= form_with model: photo, local: false do |form| %>
-
+    ...
   <% end %>
 </div>
 ```

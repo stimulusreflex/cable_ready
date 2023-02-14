@@ -19,7 +19,8 @@ Unlike ActionCable `Channels` - which are delivered over WebSockets - Cable Car 
 Using `cable_car` is very similar to using the `cable_ready` method, except that there is no stream identifier ("no square brackets"). Instead of sending data with `broadcast`, you generate JSON with `dispatch`:
 
 ```ruby
-operations = cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
+operations =
+  cable_car.inner_html("#users", html: "<b>Users</b>").dispatch
 ```
 
 `operations` is an Array that describes a batch of queued operations.
@@ -63,12 +64,15 @@ How cool is that? Next, we'll look at how to put this technique to work.
 
 Accessing CableReady with `fetch` is a snap. We need a button to kick things off, and an empty DIV element named `users` to receive updates. The button calls `go` on a Stimulus controller:
 
-```html
-<button data-controller="cable-car" data-action="cable-car#go">Cable Car</button>
+::: code-group
+```html [View]
+<button data-controller="cable-car" data-action="cable-car#go">
+  Cable Car
+</button>
+
 <div id="users"></div>
 ```
 
-::: code-group
 ```javascript [cable_car_controller.js]
 import { Controller } from '@hotwired/stimulus'
 import CableReady from 'cable_ready'

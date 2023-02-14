@@ -53,7 +53,7 @@ If you need for your custom operation to support multi-element selectors, you wi
 import CableReady from 'cable_ready'
 import { processElements } from 'cable_ready/javascript/utils'
 
-CableReady.DOMOperations.jazzHands = operation => {
+CableReady.operations.jazzHands = operation => {
   processElements(operation, element => {
     console.log('Jazz hands!', element, operation)
   })
@@ -75,17 +75,19 @@ Would you like your custom operations to raise `before` and `after` events? Woul
 
 ::: code-group
 ```javascript [app/javascript/packs/application.js]
-import CableReady from 'cable_ready'
-import { processElements, before, operate, after } from 'cable_ready/javascript/utils'
+import CableReady, { Utils } from 'cable_ready'
+const { before, operate, after, processElements } = Utils
 
-CableReady.DOMOperations.jazzHands = (operation, callee) => {
+CableReady.operations.jazzHands = (operation, callee) => {
   processElements(operation, element => {
-    before(element, callee, operation)
+    before(element, operation)
+
     operate(operation, () => {
       const { name, danceMove } = operation
       console.log(`Jazz hands! ${name} did the ${danceMove}.`)
     })
-    after(element, callee, operation)
+
+    after(element, operation)
   })
 }
 ```
@@ -225,14 +227,13 @@ import consumer from './consumer'
 
 consumer.subscriptions.create('ExampleChannel', {
   received (data) {
-    if (data.cableReady)
-      CableReady.performAsync(data.operations)
-        .then(payload => {
-          console.log(payload)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    if (data.cableReady) {
+      CableReady.performAsync(data.operations).then(payload => {
+        console.log(payload)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 })
 ```
@@ -251,10 +252,11 @@ import consumer from './consumer'
 
 consumer.subscriptions.create('OptimismChannel', {
   received (data) {
-    if (data.cableReady)
+    if (data.cableReady) {
       CableReady.perform(data.operations, {
         emitMissingElementWarnings: false
       })
+    }
   }
 })
 ```

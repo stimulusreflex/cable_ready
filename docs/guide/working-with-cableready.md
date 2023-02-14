@@ -11,10 +11,9 @@ In addition to the standard, documented options for each operation, you can pass
 You can use these ad hoc options to send extra information such as [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)s and even rendered bits of HTML to the client.
 
 ```ruby
-cable_ready["biden"].set_cookie(
+cable_ready["user"].set_cookie(
   cookie: "favorite_food=pasta",
-  dog: "Major",
-  corn_pop: "bad dude"
+  foo: "bar"
 ).broadcast
 ```
 
@@ -29,13 +28,15 @@ If multiple elements are returned, only the first one is used - unless the `sele
 Since most CableReady operations require a `selector`, we made it the optional default first parameter to an operation - saving you some precious keystrokes. Just remember: it has to be first:
 
 ```ruby
-inner_html("#carebears", html: "<b>Don't stare.</b>")
+cable_ready
+  .inner_html("#red", html: "<b>Red wins!</b>")
 ```
 
 Note that if you try to specify `selector` both ways in one operation, the one in the Hash will take priority:
 
 ```ruby
-inner_html("#red", selector: "#green", html: "<blink>Green wins!</blink>")
+cable_ready
+  .inner_html("#red", selector: "#green", html: "<b>Green wins!</b>")
 ```
 
 ### `selector` will accept AR models and relations
@@ -43,7 +44,8 @@ inner_html("#red", selector: "#green", html: "<blink>Green wins!</blink>")
 You can pass selector (parameter and key/value, both) anything you can pass to [`dom_id`](/reference/methods#dom_id-record-prefix-nil), including models (like `User.first`, which beomes `#user_1`) and relations (`User.all` becomes `#users`).
 
 ```ruby
-inner_html(User.first, html: "<span>Your mother</span>")
+cable_ready
+  .inner_html(User.first, html: "<span>John Doe</span>")
 ```
 
 ### `selector` remembers the previous selector
@@ -52,11 +54,12 @@ You know what sucks? Repeating yourself.
 
 Each CableReady channel remembers the `selector` from the previous operation, if any. This means that you can specify a selector at the beginning of a chain, and it will automatically be picked up by succeeding operations until a new selector is used, at which point _that_ selector becomes the default selector for all following operations.
 
- If a new selector is used, all previously used selectors are unmodifed.
+ If a new selector is used, all previously used selectors are unmodified.
 
 ```ruby
-set_focus("#smelly")
-  .inner_html(html: "<span>I rock</span>")
+cable_ready
+  .set_focus("#users")
+  .inner_html(html: "<span>All Users</span>")
   .set_style(name: "color", value: "red")
   .text_content(selector: User.all, text: "Bloom")
 ```
@@ -68,7 +71,8 @@ Many [DOM Mutation](/reference/operations/dom-mutations) and [Element Property M
 This technique is quite powerful because it can scoop up elements from multiple locations in the DOM based on their element type, id property, CSS class list or attributes. For example, you could grab every element with an instance of a Stimulus controller called `sushi`:
 
 ```ruby
-text_content(select_all: true, selector: "[data-controller='sushi']")
+cable_ready
+  .text_content(select_all: true, selector: "[data-controller='sushi']")
 ```
 
 ::: warning
@@ -139,8 +143,9 @@ XPath selectors cannot be used with the `select_all` option, although if this is
 CableReady executes operations in the order that they are created:
 
 ```ruby
-console_log(message: "3").console_log(message: "1")
-console_log(message: "2")
+cable_ready.console_log(message: "3").console_log(message: "1")
+
+cable_ready.console_log(message: "2")
 ```
 
 You will see the following in your Console Inspector:
@@ -208,7 +213,8 @@ Sometimes, it can be hard to get the timing of things \*just right\*. CableReady
 By default, CableReady runs operations in the order that they are received. However, if an integer `delay` is provided, the execution of that operation will be delayed by `n` milliseconds. It is as if that particular operation is wrapped in a `setTimeout`, which is exactly correct.
 
 ```ruby
-console_log(message: "3")
+cable_ready
+  .console_log(message: "3")
   .console_log(message: "2", delay: 1000)
   .console_log(message: "1", delay: 2000)
   .console_log(message: "Blast off?")
