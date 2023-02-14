@@ -241,6 +241,34 @@ Each update to an element will lead to the server-triggered request/response cyc
 ### Use Minimal HTML Payloads
 One of the major performance bottlenecks regarding `Updatable` is the fact that by default it re-fetches the HTML from the current controller action. This can result in large HTML payloads, but can be mitigated if your view is already decomposed into several [eager/lazy loaded Turbo Frames](https://turbo.hotwired.dev/reference/frames#eager-loaded-frame) (or similar) by specifying a custom `url:` parameter.
 
+### Use `ActionController::ConditionalGet`
+Changing a lot of models in quick succession (for example, when using `belongs_to ... touch: true`) can result in "thundering herds" of HTTP requests being thrown at your app server. Often, though, the HTML payload between those has not changed, which is inefficient and leads to a lot of view rendering (read: server CPU time) going down the drain.
+
+`Updatable` does its best to deduplicate and memoize HTML payloads, but it pays off to leverage regular [HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching). The way to accomplish this in Rails is via the [`ActionController::ConditionalGet`](https://api.rubyonrails.org/classes/ActionController/ConditionalGet.html) class using either `fresh_when` or `stale?`:
+
+```rb
+class ArticlesController < ApplicationController
+  etag { current_user&.id }
+
+  def show
+    @article = Article.find(params[:id])
+    
+    fresh_when @article
+  end
+end
+```
+
+This will generate an `ETag` header transmitted with your response (basically a hashed value of the resource's GID and `updated_at`). The browser will then send the ETag in the next request (using the `If-None-Match` header). The server will then compare both new and old ETags, and if nothing changed will respond with a `304 Not Modified` code, omitting the time and CPU intensive view rendering.
+
+**Note:** Be sure to include any additional scoping information, like the current user's ID in the [etag class method](https://api.rubyonrails.org/classes/ActionController/ConditionalGet/ClassMethods.html#method-i-etag) (see example above).
+
+#### Browser Caching
+
+However, this method still occupies the server's resources. If you are feeling audacious, you can also experiment with the `expires_in` method, setting it to a few seconds, assuming your model(s) don't change more frequently. This will allow the browser to use its _internal cache_, not even bugging the server with a request. Be careful though, as you might inadvertently be getting stale content if anything changed on the server in the meantime.
+
+All in all, HTTP caching is a powerful tool that unfortunately a lot of people shy away from, because it can lead to mysterious errors (mostly due to stale content or wrong ETag computation), but it can really pay off if your app servers experience a lot of load. And on top of that, with `ActionController::ConditionalGet`, Rails makes setting it up sufficiently straightforward.
+
+
 ## Antipatterns
 
 ### Don't Enable Updates Globally
