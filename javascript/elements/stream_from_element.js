@@ -4,10 +4,8 @@ import CableConsumer from '../cable_consumer'
 import MissingElement from '../missing_element'
 
 export default class StreamFromElement extends SubscribingElement {
-  static define () {
-    if (!customElements.get('stream-from')) {
-      customElements.define('stream-from', this)
-    }
+  static get tagName () {
+    return 'cable-ready-stream-from'
   }
 
   async connectedCallback () {
@@ -23,7 +21,7 @@ export default class StreamFromElement extends SubscribingElement {
       )
     } else {
       console.error(
-        'The `stream_from` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
+        'The `cable_ready_stream_from` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
     }
   }
