@@ -42,7 +42,7 @@ cable_ready["visitors"]
   .broadcast
 ```
 
-You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/hopsoft/cable_ready/blob/eb1267b02d6e2a1967881012e09c0cafa8c4c197/javascript/cable_ready.js#L133). The `setCookie` and `innerHtml` methods are an excellent starting point.
+You can find inspiration for your own operations by checking out how the "factory default" operations were [implemented](https://github.com/stimulusreflex/cable_ready/blob/5f7287a929a3b26606261685924c7d3e030939ef/javascript/operations.js#L49). The `setCookie` and `innerHtml` methods are an excellent starting point.
 
 ### Multi-element custom operations
 
