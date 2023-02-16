@@ -8,10 +8,14 @@ return if pack_path_missing?
 lines = package_json.readlines
 if !lines.index { |line| line =~ /^\s*["']@hotwired\/stimulus["']:/ }
   add_package "@hotwired/stimulus@^3.2"
+else
+  say "⏩ @hotwired/stimulus npm package is already present. Skipping."
 end
 
 if !lines.index { |line| line =~ /^\s*["']@hotwired\/stimulus-webpack-helpers["']: ["']\^1.0.1["']/ }
   add_package "@hotwired/stimulus-webpack-helpers@^1.0.1"
+else
+  say "⏩ @hotwired/stimulus-webpack-helpers npm package is already present. Skipping."
 end
 
 step_path = "/app/javascript/controllers/"

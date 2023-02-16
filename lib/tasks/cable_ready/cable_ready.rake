@@ -4,8 +4,8 @@ include Rails.application.routes.url_helpers
 
 CR_STEPS = {
   "action_cable" => "Action Cable",
-  "webpacker" => "CableReady using Webpacker",
-  "shakapacker" => "CableReady using Shakapacker",
+  "webpacker" => "Install CableReady using Webpacker",
+  "shakapacker" => "Install CableReady using Shakapacker",
   "npm_packages" => "Install CableReady npm package",
   "importmap" => "Install CableReady using importmaps",
   "esbuild" => "Install CableReady using esbuild",
@@ -16,8 +16,8 @@ CR_STEPS = {
   "mrujs" => "Swap out UJS for mrujs",
   "broadcaster" => "Make CableReady::Broadcaster available to channels, controllers, jobs and models",
   "updatable" => "Include CableReady::Updatable in Active Record model classes",
-  "vite" => "CableReady using Vite",
-  "compression" => "Compress WebSockets traffic with gzip"
+  "vite" => "Install CableReady using Vite",
+  "compression" => "Compress WebSocket traffic with gzip"
 }
 
 CR_BUNDLERS = {
@@ -219,7 +219,7 @@ namespace :cable_ready do
     end
 
     desc <<~DESC
-      Re-run specific CableReady install steps
+      Run specific CableReady install steps
 
       #{CR_STEPS.sort.map { |step, description| "#{step.ljust(20)} #{description}" }.join("\n")}
     DESC
