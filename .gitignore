@@ -24,3 +24,6 @@ app/assets/javascripts/**
 *.sqlite3
 
 test/dummy/tmp/
+
+docs/.vitepress/dist/
+docs/.vitepress/cache/

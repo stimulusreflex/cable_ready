@@ -1,28 +1,20 @@
 # Element Property Mutations
 
-## add\_css\_class
+## `add_css_class`
 
 Adds a CSS class to an element. If the class already exists on the element, callback events will be emitted but no change will occur on the element itself.
 
-```ruby
-cable_ready["MyChannel"].add_css_class(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # [null]   - string containing the CSS class name to add
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
-)
-```
-
-Use an array to add multiple classes to an element.
+Use `name` as an array to add multiple classes to the element.
 
 ```ruby
-cable_ready["MyChannel"].add_css_class(
-  cancel:     true|false,            # [false]  - cancel the operation (for use on client)
-  name:       ["string", "string2"], # [null]   - array with the CSS class names to add
-  select_all: true|false,            # [false]  - operate on list of elements returned from selector
-  selector:   "string",              # required - string containing a CSS selector or XPath expression
-  xpath:      true|false             # [false]  - process the selector as an XPath expression
+add_css_class(
+  batch:      String,          # [null]   - add the operation to a named batch
+  cancel:     Boolean,         # [false]  - cancel the operation (for use on client)
+  delay:      Integer,         # [0]      - wait for n milliseconds before running
+  name:       String or Array, # [null]   - CSS class name(s) to add
+  select_all: Boolean,         # [false]  - operate on list of elements returned from selector
+  selector:   String,          # required - string containing a CSS selector or XPath expression
+  xpath:      Boolean          # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -35,17 +27,19 @@ cable_ready["MyChannel"].add_css_class(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
-## remove\_attribute
+## `remove_attribute`
 
 Removes an attribute from an element.
 
 ```ruby
-cable_ready["MyChannel"].remove_attribute(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - the attribute to remove
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+remove_attribute(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  name:       String,  # required - the attribute to remove
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -58,29 +52,21 @@ cable_ready["MyChannel"].remove_attribute(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute)
 
-## remove\_css\_class
+## `remove_css_class`
 
 Removes a CSS class from an element.
 
-```ruby
-cable_ready["MyChannel"].remove_css_class(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # [null]   - string containing the CSS class name to remove
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
-)
-```
-
-Use an array to removes multiple classes from an element.
+Use `name` as an array to remove multiple classes from the element.
 
 ```ruby
-cable_ready["MyChannel"].remove_css_class(
-  cancel:     true|false,            # [false]  - cancel the operation (for use on client)
-  name:       ["string", "string2"], # [null]   - array with the CSS class names to remove
-  select_all: true|false,            # [false]  - operate on list of elements returned from selector
-  selector:   "string",              # required - string containing a CSS selector or XPath expression
-  xpath:      true|false             # [false]  - process the selector as an XPath expression
+remove_css_class(
+  batch:      String,          # [null]   - add the operation to a named batch
+  cancel:     Boolean,         # [false]  - cancel the operation (for use on client)
+  delay:      Integer,         # [0]      - wait for n milliseconds before running
+  name:       String or Array, # [null]   - CSS class name(s) to remove
+  select_all: Boolean,         # [false]  - operate on list of elements returned from selector
+  selector:   String,          # required - string containing a CSS selector or XPath expression
+  xpath:      Boolean          # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -93,28 +79,30 @@ cable_ready["MyChannel"].remove_css_class(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
 
-## set\_attribute
+## `set_attribute`
 
 Sets an attribute on an element.
 
 ```ruby
-cable_ready["MyChannel"].set_attribute(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - the attribute to set
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  value:      "string",   # [null]   - the value to assign to the attribute
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+set_attribute(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  name:       String,  # required - the attribute to set
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
+  value:      String,  # [null]   - the value to assign to the attribute
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
 Setting an attribute changes the element's HTML, and you will see it reflected in your browser's element inspector. Conversely, properties reflect the live state of the DOM element created by interpreting the HTML.
 
-While there is frequently a 1:1 mapping between attributes and properties, there is [a long list of gotchas](https://javascript.info/dom-attributes-and-properties). For example, changing the `value` attribute of a text input element does not change the current `value` property, or vice versa. Many debugging sessions conclude with frustration over the many attribute vs property gotchas. 
+While there is frequently a 1:1 mapping between attributes and properties, there is [a long list of gotchas](https://javascript.info/dom-attributes-and-properties). For example, changing the `value` attribute of a text input element does not change the current `value` property, or vice versa. Many debugging sessions conclude with frustration over the many attribute vs property gotchas.
 
-{% hint style="warning" %}
-To set the value of a Boolean attribute, such as `disabled`, you can specify any value. An empty string or the name of the attribute are recommended values. All that matters is that if the attribute is present at all, _regardless of its actual value_, its value is considered to be `true`. The absence of the attribute means its value is `false`. By setting the value of the `disabled` attribute to the empty string \(`""`\), we are setting `disabled` to `true`, which results in the button being disabled.
-{% endhint %}
+::: warning
+To set the value of a Boolean attribute, such as `disabled`, you can specify any value. An empty string or the name of the attribute are recommended values. All that matters is that if the attribute is present at all, _regardless of its actual value_, its value is considered to be `true`. The absence of the attribute means its value is `false`. By setting the value of the `disabled` attribute to the empty string (`""`), we are setting `disabled` to `true`, which results in the button being disabled.
+:::
 
 #### Life-cycle Callback Events
 
@@ -125,18 +113,20 @@ To set the value of a Boolean attribute, such as `disabled`, you can specify any
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute)
 
-## set\_dataset\_property
+## `set_dataset_property`
 
-Sets an dataset property \(data-\* attribute\) on an element.
+Sets an dataset property (`data-*` attribute) on an element.
 
 ```ruby
-cable_ready["MyChannel"].set_dataset_property(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - the property to set, camelCased
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  value:      "string",   # [null]   - the value to assign to the dataset
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+set_dataset_property(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  name:       String,  # required - the property to set, camelCased
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
+  value:      String,  # [null]   - the value to assign to the dataset
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -146,7 +136,7 @@ The `name` parameter must be passed as camelCase and without the `data-` prefix.
 name: "slideShowIndexValue"
 ```
 
-This method pairs extremely well with the new [Values](https://stimulus.hotwire.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
+This method pairs extremely well with the new [Values](https://stimulus.hotwired.dev/reference/values) API in Stimulus 2, which allows you to specify certain dataset properties to monitor for changes. In addition to providing an excellent way to pass initialization settings to a controller, Stimulus will also execute a special callback if the dataset value is changed:
 
 ```javascript
 export default class extends Controller {
@@ -171,18 +161,20 @@ This technique can be seen in action in the [stimulus-hotkeys](https://www.npmjs
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)
 
-## set\_property
+## `set_property`
 
 Sets a valid property on an element to a new value.
 
 ```ruby
-cable_ready["MyChannel"].set_property(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - string containing a valid property
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  value:      "string",   # [null]   - the value to assign to the property
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+set_property(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  name:       String,  # required - string containing a valid property
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
+  value:      String,  # [null]   - the value to assign to the property
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -199,20 +191,22 @@ While DOM elements have many standard properties, you can assign additional prop
 
 #### Reference
 
-* [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working\_with\_Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+* [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
 
-## set\_style
+## `set_style`
 
 Sets a single style on an element.
 
 ```ruby
-cable_ready["MyChannel"].set_style(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  name:       "string",   # required - the style to set
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  value:      "string",   # [null]   - the value to assign to the style
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+set_style(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  name:       String,  # required - the style to set
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
+  value:      String,  # [null]   - the value to assign to the style
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -225,20 +219,22 @@ cable_ready["MyChannel"].set_style(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style](https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style)
 
-## set\_styles
+## `set_styles`
 
-Sets multiple styles on an element. 
+Sets multiple styles on an element.
 
 ```ruby
-cable_ready["MyChannel"].set_styles(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
+set_styles(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   String,  # required - string containing a CSS selector or XPath expression
   styles: {
     background: "red",
     color: "white"
   },
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
@@ -251,23 +247,25 @@ cable_ready["MyChannel"].set_styles(
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style](https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/style)
 
-## set\_value
+## `set_value`
 
 Sets the value of an element.
 
 ```ruby
-cable_ready["MyChannel"].set_value(
-  cancel:     true|false, # [false]  - cancel the operation (for use on client)
-  select_all: true|false, # [false]  - operate on list of elements returned from selector
-  selector:   "string",   # required - string containing a CSS selector or XPath expression
-  value:      "string",   # [null]   - the value to assign to the attribute
-  xpath:      true|false  # [false]  - process the selector as an XPath expression
+set_value(
+  batch:      String,  # [null]   - add the operation to a named batch
+  cancel:     Boolean, # [false]  - cancel the operation (for use on client)
+  delay:      Integer, # [0]      - wait for n milliseconds before running
+  select_all: Boolean, # [false]  - operate on list of elements returned from selector
+  selector:   Boolean, # required - string containing a CSS selector or XPath expression
+  value:      String,  # [null]   - the value to assign to the attribute
+  xpath:      Boolean  # [false]  - process the selector as an XPath expression
 )
 ```
 
-{% hint style="warning" %}
+::: warning
 Remember, setting the `value` property of a DOM element will not add or modify any `value` attribute on the element.
-{% endhint %}
+:::
 
 #### Life-cycle Callback Events
 
@@ -277,4 +275,3 @@ Remember, setting the `value` property of a DOM element will not add or modify a
 #### Reference
 
 * [https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
-
