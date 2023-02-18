@@ -20,7 +20,7 @@ To double-murder a metaphor, Channels are to classes what Subscriptions are to i
 
 ## Connection authentication
 
-Since it's difficult to improve upon perfection, please consult the StimulusReflex documentation section on [authenticating users in ActionCable](https://docs.stimulusreflex.com/authentication).
+Since it's difficult to improve upon perfection, please consult the StimulusReflex documentation section on [authenticating users in ActionCable](https://docs.stimulusreflex.com/guide/authentication.html).
 
 ## Send data to any ActionCable Channel
 
