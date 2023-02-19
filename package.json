@@ -35,10 +35,8 @@
     "javascript/*"
   ],
   "scripts": {
-    "lint": "yarn run prettier-standard:check",
-    "format": "yarn run prettier-standard:format",
-    "prettier-standard:check": "yarn run prettier-standard --check ./javascript/**/*.js rollup.config.js",
-    "prettier-standard:format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.js",
+    "lint": "yarn run format --check",
+    "format": "yarn run prettier-standard ./javascript/**/*.js rollup.config.mjs",
     "build": "yarn rollup -c",
     "watch": "yarn rollup -wc",
     "test": "web-test-runner javascript/test/**/*.test.js",
