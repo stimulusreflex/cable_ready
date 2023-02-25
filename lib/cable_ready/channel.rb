@@ -28,7 +28,7 @@ module CableReady
 
     def broadcast_later(clear: true, queue: nil)
       raise("Action Cable must be enabled to use broadcast_later") unless defined?(ActionCable)
-      CableReadyBroadcastJob
+      CableReady::BroadcastJob
         .set(queue: queue ? queue.to_sym : CableReady.config.broadcast_job_queue)
         .perform_later(identifier: identifier, operations: operations_payload)
       reset! if clear
@@ -36,7 +36,7 @@ module CableReady
 
     def broadcast_later_to(model, clear: true, queue: nil)
       raise("Action Cable must be enabled to use broadcast_later_to") unless defined?(ActionCable)
-      CableReadyBroadcastJob
+      CableReady::BroadcastJob
         .set(queue: queue ? queue.to_sym : CableReady.config.broadcast_job_queue)
         .perform_later(identifier: identifier.name, operations: operations_payload, model: model)
       reset! if clear

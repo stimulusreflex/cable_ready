@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 if defined?(ActiveJob::Base)
-  class CableReadyBroadcastJob < ActiveJob::Base
+  class CableReady::BroadcastJob < ActiveJob::Base
     include CableReady::Broadcaster
 
     def perform(identifier:, operations:, model: nil)
