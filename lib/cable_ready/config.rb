@@ -11,7 +11,7 @@ module CableReady
     include Observable
     include Singleton
 
-    attr_accessor :on_failed_sanity_checks, :broadcast_job_queue, :precompile_assets
+    attr_accessor :on_failed_sanity_checks, :broadcast_job_queue, :precompile_assets, :updatable_debounce_time
     attr_writer :verifier_key
 
     def on_new_version_available
@@ -28,6 +28,7 @@ module CableReady
       @on_failed_sanity_checks = :exit
       @broadcast_job_queue = :default
       @precompile_assets = true
+      @updatable_debounce_time = 0.seconds
     end
 
     def observers

@@ -57,7 +57,7 @@ module CableReady
           options = {
             on: [:create, :update, :destroy],
             if: -> { true },
-            debounce: 0.seconds
+            debounce: CableReady.config.updatable_debounce_time
           }.merge(options)
 
           enabled_operations = Array(options[:on])
@@ -228,7 +228,7 @@ module CableReady
       end
 
       def debounce_time
-        @debounce_time ||= 0.seconds
+        @debounce_time ||= CableReady.config.updatable_debounce_time
       end
 
       def skip_updates_classes
