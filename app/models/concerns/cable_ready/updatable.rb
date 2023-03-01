@@ -8,11 +8,19 @@ module CableReady
 
     class MemoryDebounceAdapter
       include Singleton
+      include MonitorMixin
 
-      delegate_missing_to :@keys
+      delegate_missing_to :@dict
 
       def initialize
-        @keys = {}
+        super
+        @dict = {}
+      end
+
+      def []=(key, value)
+        synchronize do
+          @dict[key] = value
+        end
       end
     end
 
