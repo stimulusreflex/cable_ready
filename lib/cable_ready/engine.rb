@@ -32,6 +32,13 @@ module CableReady
     initializer "cable_ready.renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
+          warn "DEPRECATED: CableReady's `render operations:` call has been renamed to `render cable_ready:`. Please update your render call."
+
+          response.content_type ||= Mime[:cable_ready]
+          render json: operations.dispatch
+        end
+
+        ActionController::Renderers.add :cable_ready do |operations, options|
           response.content_type ||= Mime[:cable_ready]
           render json: operations.dispatch
         end
