@@ -22,6 +22,12 @@ module CableReady
           @dict[key] = value
         end
       end
+
+      def [](key)
+        synchronize do
+          @dict[key]
+        end
+      end
     end
 
     mattr_accessor :debounce_adapter, default: MemoryDebounceAdapter.instance
