@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_18_072701) do
+ActiveRecord::Schema.define(version: 2023_03_01_112847) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "account_number"
@@ -64,6 +62,22 @@ ActiveRecord::Schema.define(version: 2022_05_18_072701) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "listings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "listings_actions", force: :cascade do |t|
+    t.integer "listing_id", null: false
+    t.string "kind"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["listing_id"], name: "index_listings_actions_on_listing_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.integer "user_id", null: false
@@ -74,6 +88,12 @@ ActiveRecord::Schema.define(version: 2022_05_18_072701) do
 
   create_table "sections", force: :cascade do |t|
     t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -107,5 +127,7 @@ ActiveRecord::Schema.define(version: 2022_05_18_072701) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "sections"
+  add_foreign_key "listings", "users"
+  add_foreign_key "listings_actions", "listings"
   add_foreign_key "posts", "users"
 end

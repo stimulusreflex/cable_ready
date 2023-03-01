@@ -229,4 +229,30 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     end
   end
   # standard:enable Lint/ConstantDefinitionInBlock
+
+  test "resolves inverse_of correctly" do
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(User, {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/User/1:actions", {changed: ["id", "listing_id", "kind", "created_at", "updated_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Listing/1:actions", {changed: ["id", "listing_id", "kind", "created_at", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+    user = User.create(name: "John Doe")
+    listing = user.listings.create(name: "test listing")
+
+    listing.actions.create(kind: "publish")
+  end
+
+  test "resolves inverse_of for has_many :through correctly" do
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(User, {}).once
+    mock_server.expects(:broadcast).with("gid://dummy/User/1:actions", {changed: ["id", "listing_id", "kind", "created_at", "updated_at"]}).once
+    mock_server.expects(:broadcast).with("gid://dummy/Listing/1:actions", {changed: ["id", "listing_id", "kind", "created_at", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+    user = User.create(name: "John Doe")
+    listing = user.listings.create(name: "test listing")
+
+    listing.actions.create(kind: "publish")
+  end
 end
