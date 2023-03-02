@@ -16,3 +16,5 @@ require "pry"
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
+
+CableReady.config.updatable_debounce_time = 0.seconds

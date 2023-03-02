@@ -28,7 +28,7 @@ module CableReady
       @on_failed_sanity_checks = :exit
       @broadcast_job_queue = :default
       @precompile_assets = true
-      @updatable_debounce_time = 0.seconds
+      @updatable_debounce_time = 0.1.seconds
     end
 
     def observers

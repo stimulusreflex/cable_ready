@@ -2,35 +2,49 @@
 
 require "test_helper"
 
+def revert_config_changes(key)
+  previous_value = CableReady.config.send(key)
+
+  yield
+
+  CableReady.config.send("#{key}=", previous_value)
+end
+
 class CableReady::ConfigTest < ActionView::TestCase
   test "sets on_failed_sanity_checks" do
-    assert_equal :ignore, CableReady.config.on_failed_sanity_checks
+    revert_config_changes(:on_failed_sanity_checks) do
+      assert_equal :ignore, CableReady.config.on_failed_sanity_checks
 
-    CableReady.configure do |config|
-      config.on_failed_sanity_checks = :warn
+      CableReady.configure do |config|
+        config.on_failed_sanity_checks = :warn
+      end
+
+      assert_equal :warn, CableReady.config.on_failed_sanity_checks
     end
-
-    assert_equal :warn, CableReady.config.on_failed_sanity_checks
   end
 
   test "sets broadcast_job_queue" do
-    assert_equal :default, CableReady.config.broadcast_job_queue
+    revert_config_changes(:broadcast_job_queue) do
+      assert_equal :default, CableReady.config.broadcast_job_queue
 
-    CableReady.configure do |config|
-      config.broadcast_job_queue = :something_else
+      CableReady.configure do |config|
+        config.broadcast_job_queue = :something_else
+      end
+
+      assert_equal :something_else, CableReady.config.broadcast_job_queue
     end
-
-    assert_equal :something_else, CableReady.config.broadcast_job_queue
   end
 
   test "sets precompile_assets" do
-    assert CableReady.config.precompile_assets
+    revert_config_changes(:precompile_assets) do
+      assert CableReady.config.precompile_assets
 
-    CableReady.configure do |config|
-      config.precompile_assets = false
+      CableReady.configure do |config|
+        config.precompile_assets = false
+      end
+
+      refute CableReady.config.precompile_assets
     end
-
-    refute CableReady.config.precompile_assets
   end
 
   test "adds add_operation_name" do
@@ -44,14 +58,28 @@ class CableReady::ConfigTest < ActionView::TestCase
   end
 
   test "shows on_new_version_available notice" do
-    assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
-      CableReady.configure do |config|
-        config.on_new_version_available = :ignore
+    revert_config_changes(:on_new_version_available) do
+      assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
+        CableReady.configure do |config|
+          config.on_new_version_available = :ignore
+        end
+      end
+
+      assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
+        CableReady.config.on_new_version_available
       end
     end
+  end
 
-    assert_output(nil, %(NOTICE: The `config.on_new_version_available` option has been removed from the CableReady initializer. You can safely remove this option from your initializer.\n)) do
-      CableReady.config.on_new_version_available
+  test "sets updatable debounce time" do
+    revert_config_changes(:updatable_debounce_time) do
+      assert_equal 0.seconds, CableReady.config.updatable_debounce_time
+
+      CableReady.configure do |config|
+        config.updatable_debounce_time = 1.seconds
+      end
+
+      assert_equal 1.seconds, CableReady.config.updatable_debounce_time
     end
   end
 end
