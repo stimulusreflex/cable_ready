@@ -41,8 +41,8 @@ module CableReady
 
         # lazy load and store through and inverse associations
         if collection.reflection&.through_reflection?
-          collection.inverse_association ||= collection.reflection&.through_reflection.inverse_of&.name&.to_s
-          collection.through_association = collection.reflection&.through_reflection.name.to_s.singularize
+          collection.inverse_association ||= collection.reflection&.through_reflection&.inverse_of&.name&.to_s
+          collection.through_association = collection.reflection&.through_reflection&.name&.to_s&.singularize
         else
           collection.inverse_association ||= collection.reflection&.inverse_of&.name&.to_s
         end
