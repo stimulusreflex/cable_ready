@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_01_080311) do
-
+ActiveRecord::Schema.define(version: 2023_03_01_112847) do
   create_table "accounts", force: :cascade do |t|
     t.string "account_number"
     t.integer "supplier_id", null: false
@@ -60,6 +59,22 @@ ActiveRecord::Schema.define(version: 2023_03_01_080311) do
   create_table "dugongs", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "listings_actions", force: :cascade do |t|
+    t.integer "listing_id", null: false
+    t.string "kind"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["listing_id"], name: "index_listings_actions_on_listing_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -111,5 +126,7 @@ ActiveRecord::Schema.define(version: 2023_03_01_080311) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "sections"
+  add_foreign_key "listings", "users"
+  add_foreign_key "listings_actions", "listings"
   add_foreign_key "posts", "users"
 end

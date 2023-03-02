@@ -143,26 +143,16 @@ module CableReady
       def enrich_association_with_updates(name, option, descendants = nil)
         reflection = reflect_on_association(name)
 
-        inverse_of = reflection.inverse_of&.name&.to_s
-        through_association = nil
-
-        if reflection.through_reflection?
-          inverse_of = reflection.through_reflection.inverse_of&.name&.to_s
-          through_association = reflection.through_reflection.name.to_s.singularize
-        end
-
         options = build_options(option)
 
         [reflection.klass, *descendants&.map(&:to_s)&.map(&:constantize)].each do |klass|
           klass.send(:include, CableReady::Updatable) unless klass.respond_to?(:cable_ready_collections)
-          klass.cable_ready_collections.register({
+          klass.cable_ready_collections.register(Collection.new(
             klass: self,
-            foreign_key: reflection.foreign_key,
             name: name,
-            inverse_association: inverse_of,
-            through_association: through_association,
-            options: options
-          })
+            options: options,
+            reflection: reflection
+          ))
         end
       end
 
@@ -171,14 +161,14 @@ module CableReady
 
         ActiveStorage::Attachment.send(:include, CableReady::Updatable) unless ActiveStorage::Attachment.respond_to?(:cable_ready_collections)
 
-        ActiveStorage::Attachment.cable_ready_collections.register({
+        ActiveStorage::Attachment.cable_ready_collections.register(Collection.new(
           klass: self,
           foreign_key: "record_id",
           name: name,
           inverse_association: "record",
           through_association: nil,
           options: options
-        })
+        ))
       end
 
       def build_options(option)
