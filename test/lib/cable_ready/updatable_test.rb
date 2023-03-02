@@ -255,4 +255,21 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
 
     listing.actions.create(kind: "publish")
   end
+
+  test "only sends out a ping once per debounce period" do
+    site = Site.create(name: "Front Page")
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with(Site, {changed: ["name", "updated_at"]}).twice
+    mock_server.expects(:broadcast).with(site.to_global_id, {changed: ["name", "updated_at"]}).twice
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    # debounce time is 3 seconds, so the last update should trigger its own broadcast
+    site.update(name: "Landing Page 1")
+    travel(1.second)
+    site.update(name: "Landing Page 2")
+    travel(3.seconds)
+    site.update(name: "Landing Page 3")
+  end
 end

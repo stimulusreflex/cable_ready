@@ -19,6 +19,12 @@ module CableReady
       cable_ready.umd.min.js.map
     ]
 
+    initializer "cable_ready.assets" do |app|
+      if app.config.respond_to?(:assets) && CableReady.config.precompile_assets
+        app.config.assets.precompile += PRECOMPILE_ASSETS
+      end
+    end
+
     initializer "cable_ready.sanity_check" do
       SanityChecker.check! unless Rails.env.production?
     end
@@ -31,12 +37,6 @@ module CableReady
         end
 
         Mime::Type.register "application/vnd.cable-ready.json", :cable_ready
-      end
-    end
-
-    initializer "cable_ready.assets" do |app|
-      if app.config.respond_to?(:assets) && CableReady.config.precompile_assets
-        app.config.assets.precompile += PRECOMPILE_ASSETS
       end
     end
 
