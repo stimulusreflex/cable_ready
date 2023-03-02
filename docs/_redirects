@@ -1,0 +1,28 @@
+/hello-world  /hello-world/hello-world
+/installation /hello-world/installation
+/setup        /hello-world/setup
+
+/action-cable                  /guide/action-cable
+/advocating-for-reactive-rails /guide/advocating-for-reactive-rails
+/broadcasting-to-resources     /guide/broadcasting-to-resources
+/cable-car                     /guide/cable-car
+/cable-ready-stream-from       /guide/cable-ready-stream-from
+/cableready-101                /guide/cableready-101
+/cableready-everywhere         /guide/cableready-everywhere
+/customization                 /guide/customization
+/leveraging-stimulus           /guide/leveraging-stimulus
+/identifiers                   /guide/stream-identifiers
+/updatable                     /guide/updatable
+/working-with-cableready       /guide/working-with-cableready
+
+/morph-checklist /troubleshooting/morph-checklist
+
+/implementation  /appendencies/implementation
+/release-history /appendencies/release-history
+/team            /appendencies/team
+
+/operations /reference/operations
+/methods    /reference/methods
+
+/v/v5/reference/operations/* /reference/operations/:splat
+/v/v5/*                      /:splat

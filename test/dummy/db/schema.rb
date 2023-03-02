@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2023_03_01_112847) do
-
   create_table "accounts", force: :cascade do |t|
     t.string "account_number"
     t.integer "supplier_id", null: false

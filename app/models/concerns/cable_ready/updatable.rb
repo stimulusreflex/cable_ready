@@ -6,6 +6,32 @@ module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
 
+    class MemoryDebounceAdapter
+      include Singleton
+      include MonitorMixin
+
+      delegate_missing_to :@dict
+
+      def initialize
+        super
+        @dict = {}
+      end
+
+      def []=(key, value)
+        synchronize do
+          @dict[key] = value
+        end
+      end
+
+      def [](key)
+        synchronize do
+          @dict[key]
+        end
+      end
+    end
+
+    mattr_accessor :debounce_adapter, default: MemoryDebounceAdapter.instance
+
     included do |base|
       if defined?(ActiveRecord) && base < ActiveRecord::Base
         include ExtendHasMany
@@ -30,10 +56,13 @@ module CableReady
           options = options.extract_options!
           options = {
             on: [:create, :update, :destroy],
-            if: -> { true }
+            if: -> { true },
+            debounce: 0.seconds
           }.merge(options)
 
           enabled_operations = Array(options[:on])
+
+          @debounce_time = options[:debounce]
 
           after_commit(ModelUpdatableCallbacks.new(:create, enabled_operations), {on: :create, if: options[:if]})
           after_commit(ModelUpdatableCallbacks.new(:update, enabled_operations), {on: :update, if: options[:if]})
@@ -52,6 +81,8 @@ module CableReady
     private
 
     module ClassMethods
+      include Compoundable
+
       def has_many(name, scope = nil, **options, &extension)
         option = if options.has_key?(:enable_updates)
           warn "DEPRECATED: please use `enable_cable_ready_updates` instead. The `enable_updates` option will be removed from a future version of CableReady 5"
@@ -170,7 +201,24 @@ module CableReady
       def broadcast_updates(model_class, options)
         return if skip_updates_classes.any? { |klass| klass >= self }
         raise("ActionCable must be enabled to use Updatable") unless defined?(ActionCable)
-        ActionCable.server.broadcast(model_class, options)
+
+        if debounce_time > 0.seconds
+          key = compound([model_class, *options])
+          old_wait_until = CableReady::Updatable.debounce_adapter[key]
+          now = Time.now.to_f
+
+          if old_wait_until.nil? || old_wait_until < now
+            new_wait_until = now + debounce_time.to_f
+            CableReady::Updatable.debounce_adapter[key] = new_wait_until
+            ActionCable.server.broadcast(model_class, options)
+          end
+        else
+          ActionCable.server.broadcast(model_class, options)
+        end
+      end
+
+      def debounce_time
+        @debounce_time ||= 0.seconds
       end
 
       def skip_updates_classes
