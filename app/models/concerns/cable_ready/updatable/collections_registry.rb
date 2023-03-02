@@ -37,14 +37,14 @@ module CableReady
       def find_resource_for_update(collection, model)
         collection.reflection ||= collection.klass.reflect_on_association(collection.name)
 
-        collection.foreign_key ||= collection.reflection.foreign_key
+        collection.foreign_key ||= collection.reflection&.foreign_key
 
         # lazy load and store through and inverse associations
         if collection.reflection&.through_reflection?
-          collection.inverse_association ||= collection.reflection.through_reflection.inverse_of&.name&.to_s
-          collection.through_association = collection.reflection.through_reflection.name.to_s.singularize
+          collection.inverse_association ||= collection.reflection&.through_reflection.inverse_of&.name&.to_s
+          collection.through_association = collection.reflection&.through_reflection.name.to_s.singularize
         else
-          collection.inverse_association ||= collection.reflection.inverse_of&.name&.to_s
+          collection.inverse_association ||= collection.reflection&.inverse_of&.name&.to_s
         end
 
         raise ArgumentError, "Could not find inverse_of for #{collection.name}" unless collection.inverse_association
