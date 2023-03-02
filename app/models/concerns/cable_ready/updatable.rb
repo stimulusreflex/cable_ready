@@ -57,7 +57,7 @@ module CableReady
           options = {
             on: [:create, :update, :destroy],
             if: -> { true },
-            debounce: 0.seconds
+            debounce: CableReady.config.updatable_debounce_time
           }.merge(options)
 
           enabled_operations = Array(options[:on])
@@ -202,13 +202,13 @@ module CableReady
         return if skip_updates_classes.any? { |klass| klass >= self }
         raise("ActionCable must be enabled to use Updatable") unless defined?(ActionCable)
 
-        if debounce_time > 0.seconds
+        if debounce_time > 0
           key = compound([model_class, *options])
           old_wait_until = CableReady::Updatable.debounce_adapter[key]
           now = Time.now.to_f
 
           if old_wait_until.nil? || old_wait_until < now
-            new_wait_until = now + debounce_time.to_f
+            new_wait_until = now + debounce_time
             CableReady::Updatable.debounce_adapter[key] = new_wait_until
             ActionCable.server.broadcast(model_class, options)
           end
@@ -218,7 +218,9 @@ module CableReady
       end
 
       def debounce_time
-        @debounce_time ||= 0.seconds
+        @debounce_time ||= CableReady.config.updatable_debounce_time
+
+        @debounce_time.to_f
       end
 
       def skip_updates_classes
