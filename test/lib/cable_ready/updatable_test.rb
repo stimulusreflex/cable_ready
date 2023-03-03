@@ -272,4 +272,19 @@ class CableReady::UpdatableTest < ActiveSupport::TestCase
     travel(3.seconds)
     site.update(name: "Landing Page 3")
   end
+
+  test "only sends out a ping once per debounce period when an item is added to a collection" do
+    site = Site.create(name: "Front Page")
+
+    mock_server = mock("server")
+    mock_server.expects(:broadcast).with("gid://dummy/Site/1:rules", {changed: ["id", "name", "site_id", "created_at", "updated_at"]}).once
+
+    ActionCable.stubs(:server).returns(mock_server)
+
+    site.rules.create(name: "public")
+    travel(1.second)
+    site.rules.create(name: "private")
+    travel(3.seconds)
+    site.rules.create(name: "admin")
+  end
 end

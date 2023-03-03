@@ -38,11 +38,9 @@ module CableReady
 
           enabled_operations = Array(options[:on])
 
-          @debounce_time = options[:debounce]
-
-          after_commit(ModelUpdatableCallbacks.new(:create, enabled_operations), {on: :create, if: options[:if]})
-          after_commit(ModelUpdatableCallbacks.new(:update, enabled_operations), {on: :update, if: options[:if]})
-          after_commit(ModelUpdatableCallbacks.new(:destroy, enabled_operations), {on: :destroy, if: options[:if]})
+          after_commit(ModelUpdatableCallbacks.new(:create, enabled_operations, debounce: options[:debounce]), {on: :create, if: options[:if]})
+          after_commit(ModelUpdatableCallbacks.new(:update, enabled_operations, debounce: options[:debounce]), {on: :update, if: options[:if]})
+          after_commit(ModelUpdatableCallbacks.new(:destroy, enabled_operations, debounce: options[:debounce]), {on: :destroy, if: options[:if]})
         end
 
         def self.skip_cable_ready_updates
@@ -68,10 +66,11 @@ module CableReady
         end
 
         descendants = options.delete(:descendants)
+        debounce_time = options.delete(:debounce)
 
         broadcast = option.present?
         result = super
-        enrich_association_with_updates(name, option, descendants) if broadcast
+        enrich_association_with_updates(name, option, descendants, debounce: debounce_time) if broadcast
         result
       end
 
@@ -84,10 +83,11 @@ module CableReady
         end
 
         descendants = options.delete(:descendants)
+        debounce_time = options.delete(:debounce)
 
         broadcast = option.present?
         result = super
-        enrich_association_with_updates(name, option, descendants) if broadcast
+        enrich_association_with_updates(name, option, descendants, debounce: debounce_time) if broadcast
         result
       end
 
@@ -101,9 +101,11 @@ module CableReady
           options.delete(:enable_cable_ready_updates)
         end
 
+        debounce_time = options.delete(:debounce)
+
         broadcast = option.present?
         result = super
-        enrich_attachments_with_updates(name, option) if broadcast
+        enrich_attachments_with_updates(name, option, debounce: debounce_time) if broadcast
         result
       end
 
@@ -111,12 +113,15 @@ module CableReady
         @cable_ready_collections ||= CollectionsRegistry.new
       end
 
-      def cable_ready_update_collection(resource, name, model)
+      def cable_ready_update_collection(resource, name, model, debounce: CableReady.config.updatable_debounce_time)
         identifier = resource.to_global_id.to_s + ":" + name.to_s
-        broadcast_updates(identifier, model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {})
+        changeset = model.respond_to?(:previous_changes) ? {changed: model.previous_changes.keys} : {}
+        options = changeset.merge({debounce: debounce})
+
+        broadcast_updates(identifier, options)
       end
 
-      def enrich_association_with_updates(name, option, descendants = nil)
+      def enrich_association_with_updates(name, option, descendants = nil, debounce: CableReady.config.updatable_debounce_time)
         reflection = reflect_on_association(name)
 
         options = build_options(option)
@@ -127,12 +132,13 @@ module CableReady
             klass: self,
             name: name,
             options: options,
-            reflection: reflection
+            reflection: reflection,
+            debounce_time: debounce
           ))
         end
       end
 
-      def enrich_attachments_with_updates(name, option)
+      def enrich_attachments_with_updates(name, option, debounce: CableReady.config.updatable_debounce_time)
         options = build_options(option)
 
         ActiveStorage::Attachment.send(:include, CableReady::Updatable) unless ActiveStorage::Attachment.respond_to?(:cable_ready_collections)
@@ -143,7 +149,8 @@ module CableReady
           name: name,
           inverse_association: "record",
           through_association: nil,
-          options: options
+          options: options,
+          debounce_time: debounce
         ))
       end
 
@@ -178,25 +185,22 @@ module CableReady
         return if skip_updates_classes.any? { |klass| klass >= self }
         raise("ActionCable must be enabled to use Updatable") unless defined?(ActionCable)
 
-        if debounce_time > 0
+        debounce_time = options.delete(:debounce)
+        debounce_time ||= CableReady.config.updatable_debounce_time
+
+        if debounce_time.to_f > 0
           key = compound([model_class, *options])
           old_wait_until = CableReady::Updatable.debounce_adapter[key]
           now = Time.now.to_f
 
           if old_wait_until.nil? || old_wait_until < now
-            new_wait_until = now + debounce_time
+            new_wait_until = now + debounce_time.to_f
             CableReady::Updatable.debounce_adapter[key] = new_wait_until
             ActionCable.server.broadcast(model_class, options)
           end
         else
           ActionCable.server.broadcast(model_class, options)
         end
-      end
-
-      def debounce_time
-        @debounce_time ||= CableReady.config.updatable_debounce_time
-
-        @debounce_time.to_f
       end
 
       def skip_updates_classes
