@@ -17,6 +17,8 @@ require "cable_ready/version"
 require "cable_ready_helper"
 
 module CableReady
+  autoload :MemoryCacheDebounceAdapter, "cable_ready/updatable/memory_cache_debounce_adapter"
+
   class << self
     def config
       CableReady::Config.instance
