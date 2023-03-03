@@ -6,31 +6,7 @@ module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
 
-    class MemoryDebounceAdapter
-      include Singleton
-      include MonitorMixin
-
-      delegate_missing_to :@dict
-
-      def initialize
-        super
-        @dict = {}
-      end
-
-      def []=(key, value)
-        synchronize do
-          @dict[key] = value
-        end
-      end
-
-      def [](key)
-        synchronize do
-          @dict[key]
-        end
-      end
-    end
-
-    mattr_accessor :debounce_adapter, default: MemoryDebounceAdapter.instance
+    mattr_accessor :debounce_adapter, default: MemoryCacheDebounceAdapter.instance
 
     included do |base|
       if defined?(ActiveRecord) && base < ActiveRecord::Base
