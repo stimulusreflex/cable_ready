@@ -7,7 +7,7 @@ module CableReady
 
       def initialize
         super
-        @store = ActiveSupport::Cache::MemoryStore.new(expires_in: 5.minutes)
+        @store = ActiveSupport::Cache::MemoryStore.new(expires_in: 5.minutes, size: 8.megabytes)
       end
 
       def []=(key, value)
