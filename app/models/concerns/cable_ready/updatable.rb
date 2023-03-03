@@ -162,7 +162,7 @@ module CableReady
         end
       end
 
-      def enrich_attachments_with_updates(name, option, debounce: 0.seconds)
+      def enrich_attachments_with_updates(name, option, debounce: CableReady.config.updatable_debounce_time)
         options = build_options(option)
 
         ActiveStorage::Attachment.send(:include, CableReady::Updatable) unless ActiveStorage::Attachment.respond_to?(:cable_ready_collections)
