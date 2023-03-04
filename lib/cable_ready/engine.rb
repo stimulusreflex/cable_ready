@@ -41,16 +41,15 @@ module CableReady
           response.content_type ||= Mime[:cable_ready]
           response.headers["X-Cable-Ready-Version"] = CableReady::VERSION
 
-          render json: operations.dispatch
+          render json: operations.respond_to?(:dispatch) ? operations.dispatch : operations
         end
 
         ActionController::Renderers.add :cable_ready do |operations, options|
           response.content_type ||= Mime[:cable_ready]
           response.headers["X-Cable-Ready-Version"] = CableReady::VERSION
 
-          render json: operations.dispatch
+          render json: operations.respond_to?(:dispatch) ? operations.dispatch : operations
         end
-
       end
     end
 
