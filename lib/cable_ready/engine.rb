@@ -29,6 +29,10 @@ module CableReady
       SanityChecker.check! unless Rails.env.production?
     end
 
+    initializer "cable_ready.mimetype" do
+      Mime::Type.register "text/vnd.cable-ready.json", :cable_ready
+    end
+
     initializer "cable_ready.renderer" do
       ActiveSupport.on_load(:action_controller) do
         ActionController::Renderers.add :operations do |operations, options|
@@ -43,7 +47,6 @@ module CableReady
           render json: operations.dispatch
         end
 
-        Mime::Type.register "application/vnd.cable-ready.json", :cable_ready
       end
     end
 
