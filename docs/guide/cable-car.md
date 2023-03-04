@@ -52,8 +52,10 @@ One of the most exciting possibilities for Cable Car is to send operations in re
 
 ```ruby
 class HomeController < ApplicationController
+  include CableReady::Broadcaster
+
   def index
-    render operations: cable_car.console_log(message: "hi")
+    render cable_ready: cable_car.console_log(message: "hi")
   end
 end
 ```
@@ -106,7 +108,7 @@ class HomeController < ApplicationController
   include CableReady::Broadcaster
 
   def ride
-    render operations: cable_car.inner_html("#users", html: "<span>winning</span>")
+    render cable_ready: cable_car.inner_html("#users", html: "<span>winning</span>")
   end
 end
 ```

@@ -75,8 +75,10 @@ patch 'users/:id/message', to: 'users#message'
 
 ```ruby [app/controllers/users_controller.rb]
 class UsersController < ApplicationController
+  include CableReady::Broadcaster
+
   def message
-    render operations: cable_car.console_log(message: "Hi!")
+    render cable_ready: cable_car.console_log(message: "Hi!")
   end
 end
 ```
