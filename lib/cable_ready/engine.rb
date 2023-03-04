@@ -39,11 +39,15 @@ module CableReady
           warn "DEPRECATED: CableReady's `render operations:` call has been renamed to `render cable_ready:`. Please update your render call."
 
           response.content_type ||= Mime[:cable_ready]
+          response.headers["X-Cable-Ready-Version"] = CableReady::VERSION
+
           render json: operations.dispatch
         end
 
         ActionController::Renderers.add :cable_ready do |operations, options|
           response.content_type ||= Mime[:cable_ready]
+          response.headers["X-Cable-Ready-Version"] = CableReady::VERSION
+
           render json: operations.dispatch
         end
 
