@@ -195,7 +195,7 @@ class Block {
           const frameContent = frameTemplate.content.querySelector(selector)
           const content = frameContent ? frameContent.innerHTML.trim() : ''
 
-          docFragment.querySelector(selector).innerHTML = content
+          documentFragment.querySelector(selector).innerHTML = content
 
           resolve()
         })
