@@ -57,7 +57,7 @@
     "@web/test-runner": "^0.15.1",
     "prettier-standard": "^16.4.1",
     "rollup": "^3.19.1",
-    "sinon": "^15.0.1",
+    "sinon": "^15.0.2",
     "vite": "^4.1.4",
     "vitepress": "^1.0.0-alpha.49",
     "vitepress-plugin-search": "^1.0.4-alpha.19"
