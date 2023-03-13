@@ -4205,9 +4205,9 @@ postcss@^8.1.10, postcss@^8.4.18, postcss@^8.4.21:
     source-map-js "^1.0.2"
 
 preact@^10.0.0:
-  version "10.13.0"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.0.tgz#f8bd3cf257a4dbe41da71a52131b79916d4ca89d"
-  integrity sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==
+  version "10.13.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.1.tgz#d220bd8771b8fa197680d4917f3cefc5eed88720"
+  integrity sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -5275,10 +5275,10 @@ vitepress@1.0.0-alpha.13:
     vite "^3.0.8"
     vue "^3.2.37"
 
-vitepress@^1.0.0-alpha.49:
-  version "1.0.0-alpha.49"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.49.tgz#1778b1e5db0f8e27a8c1a1a0eb778bc898ecaa3a"
-  integrity sha512-3nUZJow4qL8NHRWYatqqVj45AJDxWst/TuOj+IbQRhxesEswa+Fpwayj9/FxzRzBl665fuiG5y+QeVhOeUm0OA==
+vitepress@^1.0.0-alpha.56:
+  version "1.0.0-alpha.56"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.56.tgz#250a4388ddf2407ec81da7823ceab5c6822e7054"
+  integrity sha512-FNoanHwmgWn4xZZcc8D34VKWcEs0F7e39xiVUahI7VzzI4VeiB+R/euYtPIUcTxIC2pRDhclw7/DO0JFYSGIpw==
   dependencies:
     "@docsearch/css" "^3.3.3"
     "@docsearch/js" "^3.3.3"
