@@ -80,7 +80,7 @@ yarn add cable_ready
 
 # ...
 
-pin 'cable_ready', to: 'cable_ready.min.js', preload: true
+pin 'cable_ready', to: 'cable_ready.js', preload: true
 ```
 
 #### Rails Asset pipeline (Sprockets):
@@ -88,7 +88,7 @@ pin 'cable_ready', to: 'cable_ready.min.js', preload: true
 ```html+erb
 <!-- app/views/layouts/application.html.erb -->
 
-<%= javascript_include_tag "cable_ready.umd.min.js", "data-turbo-track": "reload" %>
+<%= javascript_include_tag "cable_ready.umd.js", "data-turbo-track": "reload" %>
 ```
 
 Checkout the [documentation](https://cableready.stimulusreflex.com) to continue!
