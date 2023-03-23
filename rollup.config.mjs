@@ -40,7 +40,7 @@ const output = distFolders
       ...umdConfig,
       file: `${distFolder}/${baseName}.umd.js`,
       plugins: [pretty()]
-    },
+    }
   ])
   .flat()
 
