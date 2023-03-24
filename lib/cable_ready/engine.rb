@@ -12,11 +12,7 @@ module CableReady
     # end
     PRECOMPILE_ASSETS = %w[
       cable_ready.js
-      cable_ready.min.js
-      cable_ready.min.js.map
       cable_ready.umd.js
-      cable_ready.umd.min.js
-      cable_ready.umd.min.js.map
     ]
 
     initializer "cable_ready.assets" do |app|

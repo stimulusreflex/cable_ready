@@ -14,13 +14,6 @@ const pretty = () => {
   })
 }
 
-const minify = () => {
-  return terser({
-    mangle: true,
-    compress: true
-  })
-}
-
 const esConfig = {
   format: 'es',
   inlineDynamicImports: true
@@ -44,21 +37,9 @@ const output = distFolders
       plugins: [pretty()]
     },
     {
-      ...esConfig,
-      file: `${distFolder}/${baseName}.min.js`,
-      sourcemap: true,
-      plugins: [minify()]
-    },
-    {
       ...umdConfig,
       file: `${distFolder}/${baseName}.umd.js`,
       plugins: [pretty()]
-    },
-    {
-      ...umdConfig,
-      file: `${distFolder}/${baseName}.umd.min.js`,
-      sourcemap: true,
-      plugins: [minify()]
     }
   ])
   .flat()

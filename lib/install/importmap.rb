@@ -42,7 +42,7 @@ backup(importmap_path) do
 
   if !importmap.include?("pin \"cable_ready\"")
     append_file(importmap_path, <<~RUBY, verbose: false)
-      pin "cable_ready", to: "cable_ready.min.js", preload: true
+      pin "cable_ready", to: "cable_ready.js", preload: true
     RUBY
     say "✅ pin CableReady"
   end
