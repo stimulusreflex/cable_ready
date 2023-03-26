@@ -1,6 +1,6 @@
 {
   "name": "cable_ready",
-  "version": "5.0.0-pre10",
+  "version": "5.0.0-rc1",
   "description": "CableReady helps you create great real-time user experiences by making it simple to trigger client-side DOM changes from server-side Ruby.",
   "keywords": [
     "ruby",
