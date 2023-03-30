@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.summary = "Out-of-Band Server Triggered DOM Operations"
 
   gem.files = Dir[
-    "lib/**/*.{rb,rake}",
+    "lib/**/*.{rb,rake,tt}",
     "app/**/*.rb",
     "app/assets/javascripts/*",
     "bin/*",
