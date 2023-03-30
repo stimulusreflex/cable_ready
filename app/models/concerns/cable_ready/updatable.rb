@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/concern"
+require "cable_ready/updatable/memory_cache_debounce_adapter"
 
 module CableReady
   module Updatable
