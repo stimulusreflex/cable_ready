@@ -6,7 +6,7 @@ module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
 
-    mattr_accessor :debounce_adapter, default: MemoryCacheDebounceAdapter.instance
+    mattr_accessor :debounce_adapter, default: ::CableReady::Updatable::MemoryCacheDebounceAdapter.instance
 
     included do |base|
       if defined?(ActiveRecord) && base < ActiveRecord::Base
