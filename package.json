@@ -59,7 +59,7 @@
     "rollup": "^3.19.1",
     "sinon": "^15.0.2",
     "vite": "^4.1.4",
-    "vitepress": "^1.0.0-alpha.56",
+    "vitepress": "^1.0.0-beta.1",
     "vitepress-plugin-search": "^1.0.4-alpha.19"
   }
 }
