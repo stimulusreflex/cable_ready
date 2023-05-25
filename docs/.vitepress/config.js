@@ -27,17 +27,17 @@ export default {
         link: 'https://github.com/stimulusreflex/cable_ready/releases'
       },
       { text: 'StimulusReflex', link: 'https://docs.stimulusreflex.com' },
-      {
-        text: 'v5.0.0'
-        // items: [
-        //   {
-        //     items: [
-        //       { text: 'v4.5.0', link: 'https://v4-5-docs.cableready.stimulusreflex.com' },
-        //       { text: 'v5.0.0', link: 'https://cableready.stimulusreflex.com' },
-        //     ]
-        //   }
-        // ]
-      }
+      // {
+      //   text: 'v5.0.0',
+      //   items: [
+      //     {
+      //       items: [
+      //         { text: 'v4.5.0', link: 'https://v4-5-docs.cableready.stimulusreflex.com' },
+      //         { text: 'v5.0.0', link: 'https://cableready.stimulusreflex.com' },
+      //       ]
+      //     }
+      //   ]
+      // }
     ],
     footer: {
       message: 'Released under the MIT License.',
