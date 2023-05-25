@@ -49,7 +49,7 @@ export default {
         collapsed: false,
         collapisble: true,
         items: [
-          { text: 'Welcome', link: '/hello-world/index' },
+          { text: 'Welcome', link: '/hello-world/' },
           { text: 'Installation', link: '/hello-world/installation' },
           { text: 'Hello World', link: '/hello-world/hello-world' },
           { text: 'Setup', link: '/hello-world/setup' }
@@ -60,7 +60,7 @@ export default {
         collapsed: false,
         collapisble: true,
         items: [
-          { text: 'Operations', link: '/reference/operations/index' },
+          { text: 'Operations', link: '/reference/operations/' },
           { text: 'Methods', link: '/reference/methods' },
         ]
       },
@@ -106,7 +106,7 @@ export default {
         collapsed: true,
         collapisble: true,
         items: [
-          { text: 'Troubleshooting', link: '/troubleshooting/index' },
+          { text: 'Troubleshooting', link: '/troubleshooting/' },
           {
             text: 'Morph Sanity Checklist',
             link: '/troubleshooting/morph-checklist'
