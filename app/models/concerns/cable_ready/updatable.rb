@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require "active_support/concern"
+require "cable_ready/updatable/memory_cache_debounce_adapter"
 
 module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
 
-    mattr_accessor :debounce_adapter, default: ::CableReady::Updatable::MemoryCacheDebounceAdapter.instance
+    mattr_accessor :debounce_adapter, default: MemoryCacheDebounceAdapter.instance
 
     included do |base|
       if defined?(ActiveRecord) && base < ActiveRecord::Base
