@@ -43,7 +43,10 @@ module CableReady
           options.each { |key, value| options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym) }
         end
         options["selector"] = selector if selector && options.exclude?("selector")
-        options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
+        if previous_selector && options.exclude?("selector")
+          options["selector"] = previous_selector
+          options["xpath"] = true if options["selector"].to_s.starts_with? "/"
+        end
         if options.include?("selector")
           @previous_selector = options["selector"]
           options["selector"] = identifiable?(previous_selector) ? dom_id(previous_selector) : previous_selector

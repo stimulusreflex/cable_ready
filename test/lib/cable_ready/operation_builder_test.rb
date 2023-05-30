@@ -144,6 +144,19 @@ class CableReady::OperationBuilderTest < ActiveSupport::TestCase
     assert_equal(operations, @operation_builder.operations_payload)
   end
 
+  test "should set xpath correctly if re-using previous xpath selector in next operation" do
+    @operation_builder
+      .add_css_class(name: "test", selector: "/html/div[0]", xpath: true)
+      .inner_html(html: "<span>Narrow is the XPATH</span>")
+
+    operations = [
+      {"operation" => "addCssClass", "name" => "test", "selector" => "/html/div[0]", "xpath" => true},
+      {"operation" => "innerHtml", "html" => "<span>Narrow is the XPATH</span>", "selector" => "/html/div[0]", "xpath" => true}
+    ]
+
+    assert_equal(operations, @operation_builder.operations_payload)
+  end
+
   test "should clear previous_selector after calling reset!" do
     @operation_builder.add_operation_method("inner_html")
     @operation_builder.inner_html(selector: "#smelly", html: "<span>I rock</span>")
