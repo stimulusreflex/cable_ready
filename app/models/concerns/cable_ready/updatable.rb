@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 require "active_support/concern"
+require "cable_ready/config"
 
 module CableReady
   module Updatable
     extend ::ActiveSupport::Concern
-
-    mattr_accessor :debounce_adapter, default: ::CableReady::Updatable::MemoryCacheDebounceAdapter.instance
 
     included do |base|
       if defined?(ActiveRecord) && base < ActiveRecord::Base
@@ -190,12 +189,12 @@ module CableReady
 
         if debounce_time.to_f > 0
           key = compound([model_class, *options])
-          old_wait_until = CableReady::Updatable.debounce_adapter[key]
+          old_wait_until = CableReady.config.updatable_debounce_adapter[key]
           now = Time.now.to_f
 
           if old_wait_until.nil? || old_wait_until < now
             new_wait_until = now + debounce_time.to_f
-            CableReady::Updatable.debounce_adapter[key] = new_wait_until
+            CableReady.config.updatable_debounce_adapter[key] = new_wait_until
             ActionCable.server.broadcast(model_class, options)
           end
         else

@@ -55,5 +55,9 @@ module CableReady
         app.config.importmap.cache_sweepers << Engine.root.join("app/assets/javascripts")
       end
     end
+
+    config.after_initialize do
+      CableReady.config.updatable_debounce_adapter ||= CableReady::Updatable::MemoryCacheDebounceAdapter.instance
+    end
   end
 end
