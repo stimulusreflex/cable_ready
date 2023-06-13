@@ -61,11 +61,16 @@ export default class UpdatesForElement extends SubscribingElement {
       element => new Block(element)
     ).filter(block => block.shouldUpdate(data))
 
-    this.triggerElementLog.push(Log.request(data, blocks))
+    this.triggerElementLog.push(
+      `${new Date().toLocaleString()}: ${Log.request(data, blocks)}`
+    )
 
     if (blocks.length === 0) {
       this.triggerElementLog.push(
-        Log.cancel(this.lastUpdateTimestamp, 'All elements filtered out')
+        `${new Date().toLocaleString()}: ${Log.cancel(
+          this.lastUpdateTimestamp,
+          'All elements filtered out'
+        )}`
       )
 
       return
@@ -74,7 +79,10 @@ export default class UpdatesForElement extends SubscribingElement {
     // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
     if (blocks[0].element !== this) {
       this.triggerElementLog.push(
-        Log.cancel(this.lastUpdateTimestamp, 'Update already requested')
+        `${new Date().toLocaleString()}: ${Log.cancel(
+          this.lastUpdateTimestamp,
+          'Update already requested'
+        )}`
       )
 
       return
@@ -100,7 +108,11 @@ export default class UpdatesForElement extends SubscribingElement {
     )
 
     this.triggerElementLog.push(
-      Log.response(this.lastUpdateTimestamp, this, uniqueUrls)
+      `${new Date().toLocaleString()}: ${Log.response(
+        this.lastUpdateTimestamp,
+        this,
+        uniqueUrls
+      )}`
     )
 
     // track current block index for each URL; referred to as fragments
@@ -162,7 +174,10 @@ class Block {
 
     dispatch(this.element, 'cable-ready:before-update', operation)
     this.element.targetElementLog.push(
-      Log.morphStart(startTimestamp, this.element)
+      `${new Date().toLocaleString()}: ${Log.morphStart(
+        startTimestamp,
+        this.element
+      )}`
     )
 
     morphdom(this.element, fragments[blockIndex], {
@@ -176,7 +191,10 @@ class Block {
     })
 
     this.element.targetElementLog.push(
-      Log.morphEnd(startTimestamp, this.element)
+      `${new Date().toLocaleString()}: ${Log.morphEnd(
+        startTimestamp,
+        this.element
+      )}`
     )
   }
 
