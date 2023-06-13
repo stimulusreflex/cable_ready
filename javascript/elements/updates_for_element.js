@@ -7,6 +7,7 @@ import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
 import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
 import Log from '../updatable/log'
+import { BoundedQueue } from '../utils'
 
 const template = `
 <style>
@@ -33,8 +34,8 @@ export default class UpdatesForElement extends SubscribingElement {
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
 
-    this.triggerElementLog = []
-    this.targetElementLog = []
+    this.triggerElementLog = new BoundedQueue(10)
+    this.targetElementLog = new BoundedQueue(10)
   }
 
   async connectedCallback () {
