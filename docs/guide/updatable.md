@@ -301,6 +301,20 @@ For example, instead of wrapping a whole `_post.html.erb` partial, you could onl
 <% end %>  
 ```
 
+## Troubleshooting
+
+### Updates don't work or are rendered in the wrong place
+
+Most probably your browser console also shows a warning:
+
+`Update aborted due to insufficient number of elements. The offending url is ...`
+
+This happens when the HTML payload retrieved by Updatable contains **less** elements with the same identifier as compared to the current view. In that case, Updatable can get confused regarding order of operations.
+
+Typically, what triggers this is **lazy loaded content** (a lazy loaded Turbo Frame, or a Futurism element) inside the DOM tree that contains more `<cable-ready-updates-for>` elements with the same **identifier**. Updatable **cannot** resolve any lazy loaded content (it would have to emulate a whole browser engine to do that) inside one of its elements, hence if there is a discrepancy between the amount of `<cable-ready-updates-for>` elements before and after the update, it assumes something has gone wrong.
+
+**TLDR: Make sure you don't accidentally wrap any lazy loaded content in your updated blocks that might cause conflicts.**
+
 ## Debugging
 
 `CableReady::Updatable` comes with handy diagnostic console outputs that you can enable when initializing the client side module:
