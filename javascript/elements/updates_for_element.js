@@ -139,7 +139,8 @@ class Block {
 
     if (fragments.length <= blockIndex) {
       console.warn(
-        `Update aborted due to insufficient number of elements. The offending url is ${this.url}.`
+        `Update aborted due to insufficient number of elements. The offending url is ${this.url}, the offending element is:`,
+        this.element
       )
       return
     }
