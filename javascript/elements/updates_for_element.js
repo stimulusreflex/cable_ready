@@ -7,6 +7,7 @@ import { debounce, assignFocus, dispatch, graciouslyFetch } from '../utils'
 import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
 import Log from '../updatable/log'
+import { BoundedQueue } from '../utils'
 
 const template = `
 <style>
@@ -32,6 +33,9 @@ export default class UpdatesForElement extends SubscribingElement {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
+
+    this.triggerElementLog = new BoundedQueue(10)
+    this.targetElementLog = new BoundedQueue(10)
   }
 
   async connectedCallback () {
@@ -57,17 +61,29 @@ export default class UpdatesForElement extends SubscribingElement {
       element => new Block(element)
     ).filter(block => block.shouldUpdate(data))
 
-    Log.request(data, blocks)
+    this.triggerElementLog.push(
+      `${new Date().toLocaleString()}: ${Log.request(data, blocks)}`
+    )
 
     if (blocks.length === 0) {
-      Log.cancel(this.lastUpdateTimestamp, 'All elements filtered out')
+      this.triggerElementLog.push(
+        `${new Date().toLocaleString()}: ${Log.cancel(
+          this.lastUpdateTimestamp,
+          'All elements filtered out'
+        )}`
+      )
 
       return
     }
 
     // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
     if (blocks[0].element !== this) {
-      Log.cancel(this.lastUpdateTimestamp, 'Update already requested')
+      this.triggerElementLog.push(
+        `${new Date().toLocaleString()}: ${Log.cancel(
+          this.lastUpdateTimestamp,
+          'Update already requested'
+        )}`
+      )
 
       return
     }
@@ -91,7 +107,13 @@ export default class UpdatesForElement extends SubscribingElement {
       })
     )
 
-    Log.response(this.lastUpdateTimestamp, this, uniqueUrls)
+    this.triggerElementLog.push(
+      `${new Date().toLocaleString()}: ${Log.response(
+        this.lastUpdateTimestamp,
+        this,
+        uniqueUrls
+      )}`
+    )
 
     // track current block index for each URL; referred to as fragments
     this.index = {}
@@ -126,8 +148,8 @@ class Block {
     this.element = element
   }
 
-  async process (data, html, index, startTimestamp) {
-    const blockIndex = index[this.url]
+  async process (data, html, fragmentsIndex, startTimestamp) {
+    const blockIndex = fragmentsIndex[this.url]
     const template = document.createElement('template')
     this.element.setAttribute('updating', 'updating')
 
@@ -151,7 +173,12 @@ class Block {
     }
 
     dispatch(this.element, 'cable-ready:before-update', operation)
-    Log.morphStart(startTimestamp, this.element)
+    this.element.targetElementLog.push(
+      `${new Date().toLocaleString()}: ${Log.morphStart(
+        startTimestamp,
+        this.element
+      )}`
+    )
 
     morphdom(this.element, fragments[blockIndex], {
       childrenOnly: true,
@@ -162,7 +189,13 @@ class Block {
         assignFocus(operation.focusSelector)
       }
     })
-    Log.morphEnd(startTimestamp, this.element)
+
+    this.element.targetElementLog.push(
+      `${new Date().toLocaleString()}: ${Log.morphEnd(
+        startTimestamp,
+        this.element
+      )}`
+    )
   }
 
   async resolveTurboFrames (documentFragment) {

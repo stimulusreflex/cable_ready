@@ -205,6 +205,29 @@ async function graciouslyFetch (url, additionalHeaders) {
   }
 }
 
+class BoundedQueue {
+  constructor (maxSize) {
+    this.maxSize = maxSize
+    this.queue = []
+  }
+
+  push (item) {
+    if (this.isFull()) {
+      // Remove the oldest item to make space for the new one
+      this.shift()
+    }
+    this.queue.push(item)
+  }
+
+  shift () {
+    return this.queue.shift()
+  }
+
+  isFull () {
+    return this.queue.length === this.maxSize
+  }
+}
+
 export {
   isTextInput,
   assignFocus,
@@ -225,5 +248,6 @@ export {
   safeArray,
   safeObject,
   safeStringOrArray,
-  fragmentToString
+  fragmentToString,
+  BoundedQueue
 }
