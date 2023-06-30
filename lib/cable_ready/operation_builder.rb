@@ -3,7 +3,7 @@
 module CableReady
   class OperationBuilder
     include Identifiable
-    attr_reader :identifier, :previous_selector
+    attr_reader :identifier, :previous_selector, :previous_xpath
 
     def self.finalizer_for(identifier)
       proc {
@@ -43,9 +43,13 @@ module CableReady
           options.each { |key, value| options[key] = value.send("to_#{key}".to_sym) if value.respond_to?("to_#{key}".to_sym) }
         end
         options["selector"] = selector if selector && options.exclude?("selector")
-        options["selector"] = previous_selector if previous_selector && options.exclude?("selector")
+        if previous_selector && options.exclude?("selector")
+          options["selector"] = previous_selector
+          options["xpath"] = previous_xpath if previous_xpath
+        end
         if options.include?("selector")
           @previous_selector = options["selector"]
+          @previous_xpath = options["xpath"]
           options["selector"] = identifiable?(previous_selector) ? dom_id(previous_selector) : previous_selector
         end
         options["operation"] = name.to_s.camelize(:lower)
