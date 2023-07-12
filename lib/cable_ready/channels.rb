@@ -2,6 +2,8 @@
 
 require "thread/local"
 
+require "active_support/core_ext/enumerable"
+
 module CableReady
   # This class is a thread local singleton: CableReady::Channels.instance
   # SEE: https://github.com/socketry/thread-local/tree/master/guides/getting-started
