@@ -36,6 +36,30 @@ export default class UpdatesForElement extends SubscribingElement {
 
     this.triggerElementLog = new BoundedQueue(10)
     this.targetElementLog = new BoundedQueue(10)
+
+    this.intersecting = false
+    this.intersectionObserver = new IntersectionObserver(
+      this.intersectionCallback.bind(this),
+      {}
+    )
+
+    this.intersectionObserver.observe(this)
+  }
+
+  intersectionCallback (entries, observe) {
+    entries.forEach(entry => {
+      if (entry.target === this) {
+        if (entry.isIntersecting) {
+          // transition from non-intersecting to intersecting forces update
+          if (!this.intersecting) {
+            this.update({})
+          }
+          this.intersecting = true
+        } else {
+          this.intersecting = false
+        }
+      }
+    })
   }
 
   async connectedCallback () {
@@ -237,7 +261,11 @@ class Block {
 
   shouldUpdate (data) {
     // if everything that could prevent an update is false, update this block
-    return !this.ignoresInnerUpdates && this.hasChangesSelectedForUpdate(data)
+    return (
+      !this.ignoresInnerUpdates &&
+      this.hasChangesSelectedForUpdate(data) &&
+      this.intersecting
+    )
   }
 
   hasChangesSelectedForUpdate (data) {
@@ -271,5 +299,9 @@ class Block {
 
   get query () {
     return this.element.query
+  }
+
+  get intersecting () {
+    return this.element.intersecting
   }
 }
