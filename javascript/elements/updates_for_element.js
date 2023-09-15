@@ -38,28 +38,13 @@ export default class UpdatesForElement extends SubscribingElement {
     this.targetElementLog = new BoundedQueue(10)
 
     this.intersecting = false
+    this.didTransitionToIntersecting = false
     this.intersectionObserver = new IntersectionObserver(
       this.intersectionCallback.bind(this),
       {}
     )
 
     this.intersectionObserver.observe(this)
-  }
-
-  intersectionCallback (entries, observe) {
-    entries.forEach(entry => {
-      if (entry.target === this) {
-        if (entry.isIntersecting) {
-          // transition from non-intersecting to intersecting forces update
-          if (!this.intersecting) {
-            this.update({})
-          }
-          this.intersecting = true
-        } else {
-          this.intersecting = false
-        }
-      }
-    })
   }
 
   async connectedCallback () {
@@ -101,7 +86,8 @@ export default class UpdatesForElement extends SubscribingElement {
     }
 
     // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
-    if (blocks[0].element !== this) {
+    // if the element becomes visible though, we have to overrule and load it
+    if (blocks[0].element !== this && !this.didTransitionToIntersecting) {
       this.triggerElementLog.push(
         `${new Date().toLocaleString()}: ${Log.cancel(
           this.lastUpdateTimestamp,
@@ -149,6 +135,23 @@ export default class UpdatesForElement extends SubscribingElement {
         : (this.index[block.url] = 0)
 
       block.process(data, this.html, this.index, this.lastUpdateTimestamp)
+    })
+  }
+
+  intersectionCallback (entries, observe) {
+    entries.forEach(entry => {
+      if (entry.target === this) {
+        if (entry.isIntersecting) {
+          // transition from non-intersecting to intersecting forces update
+          if (!this.intersecting) {
+            this.didTransitionToIntersecting = true
+            this.update({})
+          }
+          this.intersecting = true
+        } else {
+          this.intersecting = false
+        }
+      }
     })
   }
 
@@ -210,6 +213,7 @@ class Block {
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
         this.element.removeAttribute('updating')
+        this.element.didTransitionToIntersecting = false
         dispatch(this.element, 'cable-ready:after-update', operation)
         assignFocus(operation.focusSelector)
       }
