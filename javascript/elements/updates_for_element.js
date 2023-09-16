@@ -39,12 +39,6 @@ export default class UpdatesForElement extends SubscribingElement {
 
     this.intersecting = false
     this.didTransitionToIntersecting = false
-    this.intersectionObserver = new IntersectionObserver(
-      this.intersectionCallback.bind(this),
-      {}
-    )
-
-    this.intersectionObserver.observe(this)
   }
 
   async connectedCallback () {
@@ -59,6 +53,15 @@ export default class UpdatesForElement extends SubscribingElement {
       console.error(
         'The `cable_ready_updates_for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
+    }
+
+    if (this.observeIntersection) {
+      this.intersectionObserver = new IntersectionObserver(
+        this.intersectionCallback.bind(this),
+        {}
+      )
+
+      this.intersectionObserver.observe(this)
     }
   }
 
@@ -168,6 +171,10 @@ export default class UpdatesForElement extends SubscribingElement {
       ? parseInt(this.getAttribute('debounce'))
       : 20
   }
+
+  get observeIntersection () {
+    return this.hasAttribute('observe-intersection')
+  }
 }
 
 class Block {
@@ -268,7 +275,7 @@ class Block {
     return (
       !this.ignoresInnerUpdates &&
       this.hasChangesSelectedForUpdate(data) &&
-      this.intersecting
+      (!this.observeIntersection || this.intersecting)
     )
   }
 
@@ -307,5 +314,9 @@ class Block {
 
   get intersecting () {
     return this.element.intersecting
+  }
+
+  get observeIntersection () {
+    return this.element.observeIntersection
   }
 }
