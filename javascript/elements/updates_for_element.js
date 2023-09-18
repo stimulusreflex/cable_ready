@@ -8,6 +8,7 @@ import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
 import Log from '../updatable/log'
 import { BoundedQueue } from '../utils'
+import { AppearanceObserver } from '../observers/appearance_observer'
 
 const template = `
 <style>
@@ -37,6 +38,8 @@ export default class UpdatesForElement extends SubscribingElement {
     this.triggerElementLog = new BoundedQueue(10)
     this.targetElementLog = new BoundedQueue(10)
 
+    this.appearanceObserver = new AppearanceObserver(this)
+
     this.intersecting = false
     this.didTransitionToIntersecting = false
   }
@@ -56,12 +59,13 @@ export default class UpdatesForElement extends SubscribingElement {
     }
 
     if (this.observeAppearance) {
-      this.intersectionObserver = new IntersectionObserver(
-        this.intersectionCallback.bind(this),
-        {}
-      )
+      this.appearanceObserver.start()
+    }
+  }
 
-      this.intersectionObserver.observe(this)
+  disconnectedCallback () {
+    if (this.observeAppearance) {
+      this.appearanceObserver.stop()
     }
   }
 
@@ -141,21 +145,17 @@ export default class UpdatesForElement extends SubscribingElement {
     })
   }
 
-  intersectionCallback (entries, observe) {
-    entries.forEach(entry => {
-      if (entry.target === this) {
-        if (entry.isIntersecting) {
-          // transition from non-intersecting to intersecting forces update
-          if (!this.intersecting) {
-            this.didTransitionToIntersecting = true
-            this.update({})
-          }
-          this.intersecting = true
-        } else {
-          this.intersecting = false
-        }
-      }
-    })
+  appearedInViewport () {
+    if (!this.intersecting) {
+      // transition from non-intersecting to intersecting forces update
+      this.didTransitionToIntersecting = true
+      this.update({})
+    }
+    this.intersecting = true
+  }
+
+  disappearedFromViewport () {
+    this.intersecting = false
   }
 
   get query () {
