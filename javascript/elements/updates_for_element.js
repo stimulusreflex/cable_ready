@@ -40,8 +40,8 @@ export default class UpdatesForElement extends SubscribingElement {
 
     this.appearanceObserver = new AppearanceObserver(this)
 
-    this.intersecting = false
-    this.didTransitionToIntersecting = false
+    this.visible = false
+    this.didTransitionToVisible = false
   }
 
   async connectedCallback () {
@@ -94,7 +94,7 @@ export default class UpdatesForElement extends SubscribingElement {
 
     // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
     // if the element becomes visible though, we have to overrule and load it
-    if (blocks[0].element !== this && !this.didTransitionToIntersecting) {
+    if (blocks[0].element !== this && !this.didTransitionToVisible) {
       this.triggerElementLog.push(
         `${new Date().toLocaleString()}: ${Log.cancel(
           this.lastUpdateTimestamp,
@@ -146,16 +146,16 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   appearedInViewport () {
-    if (!this.intersecting) {
-      // transition from non-intersecting to intersecting forces update
-      this.didTransitionToIntersecting = true
+    if (!this.visible) {
+      // transition from invisible to visible forces update
+      this.didTransitionToVisible = true
       this.update({})
     }
-    this.intersecting = true
+    this.visible = true
   }
 
   disappearedFromViewport () {
-    this.intersecting = false
+    this.visible = false
   }
 
   get query () {
@@ -220,7 +220,7 @@ class Block {
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
         this.element.removeAttribute('updating')
-        this.element.didTransitionToIntersecting = false
+        this.element.didTransitionToVisible = false
         dispatch(this.element, 'cable-ready:after-update', operation)
         assignFocus(operation.focusSelector)
       }
@@ -275,7 +275,7 @@ class Block {
     return (
       !this.ignoresInnerUpdates &&
       this.hasChangesSelectedForUpdate(data) &&
-      (!this.observeAppearance || this.intersecting)
+      (!this.observeAppearance || this.visible)
     )
   }
 
@@ -312,8 +312,8 @@ class Block {
     return this.element.query
   }
 
-  get intersecting () {
-    return this.element.intersecting
+  get visible () {
+    return this.element.visible
   }
 
   get observeAppearance () {
