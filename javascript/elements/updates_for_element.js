@@ -55,7 +55,7 @@ export default class UpdatesForElement extends SubscribingElement {
       )
     }
 
-    if (this.observeIntersection) {
+    if (this.observeAppearance) {
       this.intersectionObserver = new IntersectionObserver(
         this.intersectionCallback.bind(this),
         {}
@@ -172,8 +172,8 @@ export default class UpdatesForElement extends SubscribingElement {
       : 20
   }
 
-  get observeIntersection () {
-    return this.hasAttribute('observe-intersection')
+  get observeAppearance () {
+    return this.hasAttribute('observe-appearance')
   }
 }
 
@@ -275,7 +275,7 @@ class Block {
     return (
       !this.ignoresInnerUpdates &&
       this.hasChangesSelectedForUpdate(data) &&
-      (!this.observeIntersection || this.intersecting)
+      (!this.observeAppearance || this.intersecting)
     )
   }
 
@@ -316,7 +316,7 @@ class Block {
     return this.element.intersecting
   }
 
-  get observeIntersection () {
-    return this.element.observeIntersection
+  get observeAppearance () {
+    return this.element.observeAppearance
   }
 }
