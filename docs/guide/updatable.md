@@ -156,7 +156,7 @@ end
 
 ### View Helper
 
-`cable_ready_updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)`
+`cable_ready_updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, observe_appearance: false,  html_options: {}, &block)`
 
 This helper method will render a `<cable-ready-updates-for>` custom HTML element that contains all the JavaScript behavior to
 
