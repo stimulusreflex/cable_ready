@@ -170,6 +170,7 @@ Parameters:
 - `debounce:`: (optional) an integer value denoting the **milliseconds** to debounce updates (default 20)
 - `only:`: (optional) enables you to specify an **allow list** of model attributes you want to track updates for
 - `ignore_inner_updates:` (optional), a flag to determine whether to trigger updates for state changes emanating from an _inner_ form submit or reflex (default `false`). Essentially enabling this means **do not fire an update for the user who originated the change**, which can solve typical race conditions.
+- `observe_appearance`: (optional), a flag that determines whether this element should observe its visibility in the viewport. If switched on, this element will ignore updates if it is **invisible**, i.e. below the fold, or in a hidden browser tab/window. Such an element will default to lazy loading when it first becomes visible, and then start listening for updates. Thus, it optimizes the number of requests that this element possible makes.
 - `html_options:`: (optional) a hash of options to pass to the generated `<cable-ready-updates-for>` tag, e.g. `class`, `data: {}` etc.
 
 
