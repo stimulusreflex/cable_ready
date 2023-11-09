@@ -27,12 +27,13 @@ module CableReady
       tag.cable_ready_stream_from(**build_options(*keys, html_options))
     end
 
-    def cable_ready_updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, html_options: {}, &block)
+    def cable_ready_updates_for(*keys, url: nil, debounce: nil, only: nil, ignore_inner_updates: false, observe_appearance: false, html_options: {}, &block)
       options = build_options(*keys, html_options)
       options[:url] = url if url
       options[:debounce] = debounce if debounce
       options[:only] = only if only
       options[:"ignore-inner-updates"] = "" if ignore_inner_updates
+      options[:"observe-appearance"] = "" if observe_appearance
       tag.cable_ready_updates_for(**options) { capture(&block) }
     end
 

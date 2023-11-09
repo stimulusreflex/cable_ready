@@ -8,6 +8,7 @@ import ActiveElement from '../active_element'
 import CableConsumer from '../cable_consumer'
 import Log from '../updatable/log'
 import { BoundedQueue } from '../utils'
+import { AppearanceObserver } from '../observers/appearance_observer'
 
 const template = `
 <style>
@@ -36,6 +37,11 @@ export default class UpdatesForElement extends SubscribingElement {
 
     this.triggerElementLog = new BoundedQueue(10)
     this.targetElementLog = new BoundedQueue(10)
+
+    this.appearanceObserver = new AppearanceObserver(this)
+
+    this.visible = false
+    this.didTransitionToVisible = false
   }
 
   async connectedCallback () {
@@ -50,6 +56,16 @@ export default class UpdatesForElement extends SubscribingElement {
       console.error(
         'The `cable_ready_updates_for` helper cannot connect. You must initialize CableReady with an Action Cable consumer.'
       )
+    }
+
+    if (this.observeAppearance) {
+      this.appearanceObserver.start()
+    }
+  }
+
+  disconnectedCallback () {
+    if (this.observeAppearance) {
+      this.appearanceObserver.stop()
     }
   }
 
@@ -77,7 +93,8 @@ export default class UpdatesForElement extends SubscribingElement {
     }
 
     // first <cable-ready-updates-for> element in the DOM *at any given moment* updates all of the others
-    if (blocks[0].element !== this) {
+    // if the element becomes visible though, we have to overrule and load it
+    if (blocks[0].element !== this && !this.didTransitionToVisible) {
       this.triggerElementLog.push(
         `${new Date().toLocaleString()}: ${Log.cancel(
           this.lastUpdateTimestamp,
@@ -128,6 +145,19 @@ export default class UpdatesForElement extends SubscribingElement {
     })
   }
 
+  appearedInViewport () {
+    if (!this.visible) {
+      // transition from invisible to visible forces update
+      this.didTransitionToVisible = true
+      this.update({})
+    }
+    this.visible = true
+  }
+
+  disappearedFromViewport () {
+    this.visible = false
+  }
+
   get query () {
     return `${this.tagName}[identifier="${this.identifier}"]`
   }
@@ -140,6 +170,10 @@ export default class UpdatesForElement extends SubscribingElement {
     return this.hasAttribute('debounce')
       ? parseInt(this.getAttribute('debounce'))
       : 20
+  }
+
+  get observeAppearance () {
+    return this.hasAttribute('observe-appearance')
   }
 }
 
@@ -186,6 +220,7 @@ class Block {
       onBeforeElUpdated: shouldMorph(operation),
       onElUpdated: _ => {
         this.element.removeAttribute('updating')
+        this.element.didTransitionToVisible = false
         dispatch(this.element, 'cable-ready:after-update', operation)
         assignFocus(operation.focusSelector)
       }
@@ -237,7 +272,11 @@ class Block {
 
   shouldUpdate (data) {
     // if everything that could prevent an update is false, update this block
-    return !this.ignoresInnerUpdates && this.hasChangesSelectedForUpdate(data)
+    return (
+      !this.ignoresInnerUpdates &&
+      this.hasChangesSelectedForUpdate(data) &&
+      (!this.observeAppearance || this.visible)
+    )
   }
 
   hasChangesSelectedForUpdate (data) {
@@ -271,5 +310,13 @@ class Block {
 
   get query () {
     return this.element.query
+  }
+
+  get visible () {
+    return this.element.visible
+  }
+
+  get observeAppearance () {
+    return this.element.observeAppearance
   }
 }
