@@ -1,0 +1,9 @@
+<div data-controller="cable-car">
+  <h1><%= plural_table_name.titleize %></h1>
+
+  <div id="<%= plural_table_name %>">
+    <%%= render @<%= plural_table_name %> %>
+  </div>
+
+  <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, data: {remote: true, type: "json"} %>
+</div>
