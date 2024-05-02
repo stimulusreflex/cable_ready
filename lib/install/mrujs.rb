@@ -2,63 +2,63 @@
 
 require "cable_ready/installer"
 
-return if pack_path_missing?
+return if CableReady::Installer.pack_path_missing?
 
-mrujs_path = config_path / "mrujs.js"
+mrujs_path = CableReady::Installer.config_path / "mrujs.js"
 
 proceed = false
 
 if !File.exist?(mrujs_path)
-  proceed = if options.key? "mrujs"
-    options["mrujs"]
+  proceed = if CableReady::Installer.options.key? "mrujs"
+    CableReady::Installer.options["mrujs"]
   else
     !no?("✨ Would you like to install and enable mrujs? It's a modern, drop-in replacement for rails-ujs (Y/n)")
   end
 end
 
 if proceed
-  if bundler == "importmap"
+  if CableReady::Installer.bundler == "importmap"
 
-    if !importmap_path.exist?
-      halt "#{friendly_importmap_path} is missing. You need a valid importmap config file to proceed."
+    if !CableReady::Installer.importmap_path.exist?
+      CableReady::Installer.halt "#{friendly_CableReady::Installer.importmap_path} is missing. You need a valid importmap config file to proceed."
       return
     end
 
-    importmap = importmap_path.read
+    importmap = CableReady::Installer.importmap_path.read
 
     if !importmap.include?("pin \"mrujs\"")
-      append_file(importmap_path, <<~RUBY, verbose: false)
+      append_file(CableReady::Installer.importmap_path, <<~RUBY, verbose: false)
         pin "mrujs", to: "https://ga.jspm.io/npm:mrujs@0.10.1/dist/index.module.js"
       RUBY
       say "✅ pin mrujs"
     end
 
     if !importmap.include?("pin \"mrujs/plugins\"")
-      append_file(importmap_path, <<~RUBY, verbose: false)
+      append_file(CableReady::Installer.importmap_path, <<~RUBY, verbose: false)
         pin "mrujs/plugins", to: "https://ga.jspm.io/npm:mrujs@0.10.1/plugins/dist/plugins.module.js"
       RUBY
       say "✅ pin mrujs plugins"
     end
   else
     # queue mrujs for installation
-    if !package_json.read.include?('"mrujs":')
-      add_package "mrujs@^0.10.1"
+    if !CableReady::Installer.package_json.read.include?('"mrujs":')
+      CableReady::Installer.add_package "mrujs@^0.10.1"
     end
 
     # queue @rails/ujs for removal
-    if package_json.read.include?('"@rails/ujs":')
-      drop_package "@rails/ujs"
+    if CableReady::Installer.package_json.read.include?('"@rails/ujs":')
+      CableReady::Installer.drop_package "@rails/ujs"
     end
   end
 
   step_path = "/app/javascript/config/"
-  mrujs_src = fetch(step_path, "mrujs.js.tt")
+  mrujs_src = CableReady::Installer.fetch(step_path, "mrujs.js.tt")
 
   # create entrypoint/config/mrujs.js if necessary
   copy_file(mrujs_src, mrujs_path) unless mrujs_path.exist?
 
   # import mrujs config in entrypoint/config/index.js
-  index_path = config_path / "index.js"
+  index_path = CableReady::Installer.config_path / "index.js"
   index = index_path.read
   friendly_index_path = index_path.relative_path_from(Rails.root).to_s
   mrujs_pattern = /import ['"].\/mrujs['"]/
@@ -72,10 +72,10 @@ if proceed
   # remove @rails/ujs from application.js
   rails_ujs_pattern = /import Rails from ['"]@rails\/ujs['"]/
 
-  lines = pack_path.readlines
+  lines = CableReady::Installer.pack_path.readlines
   if lines.index { |line| line =~ rails_ujs_pattern }
     gsub_file pack_path, rails_ujs_pattern, "", verbose: false
-    say "✅ @rails/ujs removed from #{friendly_pack_path}"
+    say "✅ @rails/ujs removed from #{CableReady::Installer.friendly_pack_path}"
   end
 
   # set Action View to generate remote forms when using form_with
@@ -84,7 +84,7 @@ if proceed
   defaults_pattern = /config\.load_defaults \d\.\d/
 
   lines = application_path.readlines
-  backup(application_path) do
+  CableReady::Installer.backup(application_path) do
     if !lines.index { |line| line =~ application_pattern }
       if (index = lines.index { |line| line =~ /^[^#]*#{defaults_pattern}/ })
         gsub_file application_path, /\s*#{defaults_pattern}\n/, verbose: false do
@@ -110,12 +110,12 @@ if proceed
   # remove turbolinks from Gemfile because it's incompatible with mrujs (and unnecessary)
   turbolinks_pattern = /^[^#]*gem ["']turbolinks["']/
 
-  lines = gemfile_path.readlines
+  lines = CableReady::Installer.gemfile_path.readlines
   if lines.index { |line| line =~ turbolinks_pattern }
-    remove_gem :turbolinks
+    CableReady::Installer.remove_gem :turbolinks
   else
     say "✅ turbolinks is not present in Gemfile"
   end
 end
 
-complete_step :mrujs
+CableReady::Installer.complete_step :mrujs

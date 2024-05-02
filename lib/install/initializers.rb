@@ -2,7 +2,7 @@
 
 require "cable_ready/installer"
 
-cr_initializer_src = fetch("/", "config/initializers/cable_ready.rb")
+cr_initializer_src = CableReady::Installer.fetch("/", "config/initializers/cable_ready.rb")
 cr_initializer_path = Rails.root.join("config/initializers/cable_ready.rb")
 
 if !cr_initializer_path.exist?
@@ -12,4 +12,4 @@ else
   say "⏩ config/initializers/cable_ready.rb already exists. Skipping."
 end
 
-complete_step :initializers
+CableReady::Installer.complete_step :initializers
