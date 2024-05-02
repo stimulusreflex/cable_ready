@@ -5,6 +5,7 @@ PATH
       actionpack (>= 5.2)
       actionview (>= 5.2)
       activesupport (>= 5.2)
+      observer (~> 0.1)
       railties (>= 5.2)
       thread-local (>= 1.1.0)
 
@@ -114,6 +115,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
+    observer (0.1.2)
     parallel (1.22.1)
     parser (3.2.1.0)
       ast (~> 2.4.1)
