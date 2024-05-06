@@ -2,18 +2,18 @@
 
 require "cable_ready/installer"
 
-if !package_json.exist?
+if !CableReady::Installer.package_json.exist?
   say "⏩ No package.json file found. Skipping."
 
   return
 end
 
 # run yarn install only when packages are waiting to be added or removed
-add = package_list.exist? ? package_list.readlines.map(&:chomp) : []
-dev = dev_package_list.exist? ? dev_package_list.readlines.map(&:chomp) : []
-drop = drop_package_list.exist? ? drop_package_list.readlines.map(&:chomp) : []
+add = CableReady::Installer.package_list.exist? ? CableReady::Installer.package_list.readlines.map(&:chomp) : []
+dev = CableReady::Installer.dev_package_list.exist? ? CableReady::Installer.dev_package_list.readlines.map(&:chomp) : []
+drop = CableReady::Installer.drop_package_list.exist? ? CableReady::Installer.drop_package_list.readlines.map(&:chomp) : []
 
-json = JSON.parse(package_json.read)
+json = JSON.parse(CableReady::Installer.package_json.read)
 
 if add.present? || dev.present? || drop.present?
 
@@ -36,7 +36,7 @@ if add.present? || dev.present? || drop.present?
     json["devDependencies"].delete(package)
   end
 
-  package_json.write JSON.pretty_generate(json)
+  CableReady::Installer.package_json.write JSON.pretty_generate(json)
 
   system "yarn install --silent"
 else
@@ -44,13 +44,13 @@ else
 
 end
 
-if bundler == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
+if CableReady::Installer.bundler == "esbuild" && json["scripts"]["build"] != "node esbuild.config.mjs"
   json["scripts"]["build:default"] = json["scripts"]["build"]
   json["scripts"]["build"] = "node esbuild.config.mjs"
-  package_json.write JSON.pretty_generate(json)
+  CableReady::Installer.package_json.write JSON.pretty_generate(json)
   say "✅ Your build script has been updated to use esbuild.config.mjs"
 else
   say "⏩ Your build script is already setup. Skipping."
 end
 
-complete_step :yarn
+CableReady::Installer.complete_step :yarn

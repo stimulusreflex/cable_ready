@@ -2,14 +2,14 @@
 
 require "cable_ready/installer"
 
-hash = gemfile_hash
+hash = CableReady::Installer.gemfile_hash
 
 # run bundle only when gems are waiting to be added or removed
-add = add_gem_list.exist? ? add_gem_list.readlines.map(&:chomp) : []
-remove = remove_gem_list.exist? ? remove_gem_list.readlines.map(&:chomp) : []
+add = CableReady::Installer.add_gem_list.exist? ? CableReady::Installer.add_gem_list.readlines.map(&:chomp) : []
+remove = CableReady::Installer.remove_gem_list.exist? ? CableReady::Installer.remove_gem_list.readlines.map(&:chomp) : []
 
 if add.present? || remove.present?
-  lines = gemfile_path.readlines
+  lines = CableReady::Installer.gemfile_path.readlines
 
   remove.each do |name|
     index = lines.index { |line| line =~ /gem ['"]#{name}['"]/ }
@@ -40,15 +40,15 @@ if add.present? || remove.present?
     end
   end
 
-  gemfile_path.write lines.join
+  CableReady::Installer.gemfile_path.write lines.join
 
-  bundle_command("install --quiet", "BUNDLE_IGNORE_MESSAGES" => "1") if hash != gemfile_hash
+  bundle_command("install --quiet", "BUNDLE_IGNORE_MESSAGES" => "1") if hash != CableReady::Installer.gemfile_hash
 end
 
-FileUtils.cp(development_working_path, development_path)
+FileUtils.cp(CableReady::Installer.development_working_path, CableReady::Installer.development_path)
 say "✅ development environment configuration installed"
 
-FileUtils.cp(action_cable_initializer_working_path, action_cable_initializer_path)
+FileUtils.cp(CableReady::Installer.action_cable_initializer_working_path, CableReady::Installer.action_cable_initializer_path)
 say "✅ Action Cable initializer installed"
 
-complete_step :bundle
+CableReady::Installer.complete_step :bundle

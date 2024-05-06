@@ -2,26 +2,26 @@
 
 require "cable_ready/installer"
 
-initializer = action_cable_initializer_working_path.read
+initializer = CableReady::Installer.action_cable_initializer_working_path.read
 
 proceed = false
 
 if initializer.exclude? "PermessageDeflate.configure"
-  proceed = if options.key? "compression"
-    options["compression"]
+  proceed = if CableReady::Installer.options.key? "compression"
+    CableReady::Installer.options["compression"]
   else
     !no?("✨ Configure Action Cable to compress your WebSocket traffic with gzip? (Y/n)")
   end
 end
 
 if proceed
-  if !gemfile.match?(/gem ['"]permessage_deflate['"]/)
-    add_gem "permessage_deflate@>= 0.1"
+  if !CableReady::Installer.gemfile.match?(/gem ['"]permessage_deflate['"]/)
+    CableReady::Installer.add_gem "permessage_deflate@>= 0.1"
   end
 
   # add permessage_deflate config to Action Cable initializer
   if initializer.exclude? "PermessageDeflate.configure"
-    create_or_append(action_cable_initializer_working_path, verbose: false) do
+    CableReady::Installer.create_or_append(CableReady::Installer.action_cable_initializer_working_path, verbose: false) do
       <<~RUBY
         module ActionCable
           module Connection
@@ -48,4 +48,4 @@ if proceed
   end
 end
 
-complete_step :compression
+CableReady::Installer.complete_step :compression
