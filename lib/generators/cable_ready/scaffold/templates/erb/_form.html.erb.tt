@@ -1,0 +1,38 @@
+<%%= form_with(model: <%= model_resource_name %>, data: {remote: true, type: "json"}, id: dom_id(<%= singular_table_name %>), html: {style: "margin-bottom: 36px;"}) do |form| %>
+  <%% if <%= singular_table_name %>.errors.any? %>
+    <div>
+      <h2><%%= pluralize(<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+      <ul>
+        <%% <%= singular_table_name %>.errors.each do |error| %>
+          <li><%%= error.full_message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+<% attributes.each do |attribute| -%>
+  <div>
+<% if attribute.password_digest? -%>
+    <%%= form.label :password %><br>
+    <%%= form.password_field :password %>
+  </div>
+
+  <div>
+    <%%= form.label :password_confirmation %><br>
+    <%%= form.password_field :password_confirmation %>
+<% elsif attribute.attachments? -%>
+    <%%= form.label :<%= attribute.column_name %> %><br>
+    <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, multiple: true %>
+<% else -%>
+    <%%= form.label :<%= attribute.column_name %> %><br>
+    <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %> %>
+<% end -%>
+  </div>
+
+<% end -%>
+  <div style="margin-top: 12px">
+    <%%= form.submit %>
+    <%%= link_to "Cancel", <%= plural_table_name %>_path, data: {remote: true, type: "json"}, style: "margin-left: 8px;" %>
+  </div>
+<%% end %>
