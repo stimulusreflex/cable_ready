@@ -45,7 +45,7 @@ module CableReady
 
     def clear_channel(channel)
       @channels.except!(channel.identifier)
-      observer = CableReady.config.observers.find { |o| o.try(:identifier) == channel.identifier}
+      observer = CableReady.config.observers.find { |o| o.try(:identifier) == channel.identifier }
       CableReady.config.delete_observer(observer) if observer
     end
   end
