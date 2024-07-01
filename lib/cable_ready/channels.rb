@@ -27,7 +27,7 @@ module CableReady
         .select { |channel| channel.identifier.is_a?(String) }
         .tap do |channels|
           channels.each { |channel| @channels[channel.identifier].broadcast(clear: clear) }
-          channels.each { |channel| clear_channel(channel)  if clear }
+          channels.each { |channel| clear_channel(channel) if clear }
         end
     end
 
@@ -37,7 +37,7 @@ module CableReady
         .reject { |channel| channel.identifier.is_a?(String) }
         .tap do |channels|
           channels.each { |channel| @channels[channel.identifier].broadcast_to(model, clear: clear) }
-          channels.each { |channel| clear_channel(channel)  if clear }
+          channels.each { |channel| clear_channel(channel) if clear }
         end
     end
 
