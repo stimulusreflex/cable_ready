@@ -52,14 +52,14 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
-    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/dev-server-esbuild": "^1.0.3",
     "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^0.19.0",
     "prettier-standard": "^16.4.1",
-    "rollup": "^4.22.4",
-    "sinon": "^15.0.2",
-    "vite": "^4.1.4",
-    "vitepress": "^1.0.0-beta.1",
-    "vitepress-plugin-search": "^1.0.4-alpha.19"
+    "rollup": "^4.25.0",
+    "sinon": "^19.0.2",
+    "vite": "^5.4.10",
+    "vitepress": "^1.5.0",
+    "vitepress-plugin-search": "^1.0.4-alpha.22"
   }
 }
