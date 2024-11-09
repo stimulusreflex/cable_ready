@@ -64,6 +64,7 @@ export default class UpdatesForElement extends SubscribingElement {
   }
 
   disconnectedCallback () {
+    super.disconnectedCallback()
     if (this.observeAppearance) {
       this.appearanceObserver.stop()
     }
