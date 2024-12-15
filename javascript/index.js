@@ -12,6 +12,7 @@ import OperationStore, { addOperation, addOperations } from './operation_store'
 import StreamFromElement from './elements/stream_from_element'
 import UpdatesForElement from './elements/updates_for_element'
 import SubscribingElement from './elements/subscribing_element'
+import MissingElement from './missing_element'
 import CableConsumer from './cable_consumer'
 import Debug from './debug'
 
