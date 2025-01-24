@@ -30,7 +30,7 @@ As the ~~secret weapon~~ primary dependency powering [StimulusReflex](https://do
 
 #### With Ajax
 
-New in v5, the [Cable Car](/guide/cable-car) API allows developers to create a CableReady JSON payload. You're covered, whether you're using the amazing [Mrujs](https://mrujs.com) or `fetch`ing data from URLs.
+New in v5, the [Cable Car](/guide/cable-car) API allows developers to create a CableReady JSON payload. You're covered, whether you're using the amazing [Mrujs](https://mrujs.netlify.app/) or `fetch`ing data from URLs.
 
 ## Why should I use CableReady?
 
