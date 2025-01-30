@@ -1,9 +1,11 @@
 import Operations from './operations'
 
-let operations = Operations
+if (!window.CableReadyOperationsStore) {
+  window.CableReadyOperationsStore = Operations
+}
 
 const add = newOperations => {
-  operations = { ...operations, ...newOperations }
+  window.CableReadyOperationsStore = { ...window.CableReadyOperationsStore, ...newOperations }
 }
 
 const addOperations = operations => {
@@ -21,6 +23,10 @@ export { addOperation, addOperations }
 
 export default {
   get all () {
-    return operations
+    return window.CableReadyOperationsStore
+  },
+
+  getAll() {
+    return window.CableReadyOperationsStore
   }
 }
