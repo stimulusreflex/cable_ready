@@ -52,7 +52,7 @@ module CableReady
 
         resource = model
         resource = resource.send(collection.through_association.underscore) if collection.through_association
-        resource.send(collection.inverse_association.underscore)
+        resource&.send(collection.inverse_association.underscore)
       end
     end
   end
