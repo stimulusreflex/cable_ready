@@ -1,0 +1,64 @@
+require "application_system_test_case"
+
+<% module_namespacing do -%>
+class <%= class_name.pluralize %>Test < ApplicationSystemTestCase
+  include ActionView::RecordIdentifier
+
+  setup do
+    @<%= singular_table_name %> = <%= fixture_name %>(:one)
+  end
+
+  test "visiting the index" do
+    visit <%= plural_table_name %>_url
+    assert_selector "h1", text: "<%= class_name.pluralize.titleize %>"
+  end
+
+  test "creating a <%= human_name %>" do
+    visit <%= plural_table_name %>_url
+    click_on "New <%= class_name.titleize %>"
+
+    <%- attributes_hash.each do |attr, value| -%>
+    <%- if boolean?(attr) -%>
+    check "<%= attr.humanize %>" if <%= value %>
+    <%- else -%>
+    fill_in "<%= attr.humanize %>", with: <%= value %>
+    <%- end -%>
+    <%- end -%>
+    click_on "Create <%= human_name %>"
+
+    <%- attributes_hash.each do |_attr, value| -%>
+      assert_text <%= value %>
+    <%- end %>
+  end
+
+  test "updating a <%= human_name %>" do
+    visit <%= plural_table_name %>_url
+    click_on "[edit]", match: :first
+
+    <%- attributes_hash.each do |attr, value| -%>
+    <%- if boolean?(attr) -%>
+    check "<%= attr.humanize %>" if <%= value %>
+    <%- else -%>
+    fill_in "<%= attr.humanize %>", with: <%= value %>
+    <%- end -%>
+    <%- end -%>
+    click_on "Update <%= human_name %>"
+
+    <%- attributes_hash.each do |_attr, value| -%>
+      assert_text <%= value %>
+    <%- end %>
+  end
+
+  test "destroying a <%= human_name %>" do
+    visit <%= plural_table_name %>_url
+    record_selector = "##{dom_id(<%= fixture_name %>(:one))}"
+    page.accept_confirm do
+      within record_selector do
+        click_on "[destroy]"
+      end
+    end
+
+    refute_selector record_selector
+  end
+end
+<% end -%>

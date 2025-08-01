@@ -1,0 +1,14 @@
+<div id="<%%= dom_id(<%= singular_table_name %>) %>" style="margin-bottom: 36px;">
+  <dl>
+    <% attributes.reject(&:password_digest?).each do |attribute| -%>
+      <dt><%= attribute.human_name %></dt>
+      <dd><%%= <%= singular_table_name %>.<%= attribute.column_name %> %></dd>
+    <% end -%>
+  </dl>
+
+  <div>
+    <td><%%= link_to '[show]', <%= model_resource_name %> %></td>
+    <td><%%= link_to '[edit]', edit_<%= singular_route_name %>_path(<%= singular_table_name %>), data: {remote: true, type: "json"}%></td>
+    <td><%%= link_to '[destroy]', <%= model_resource_name %>, method: :delete, data: { confirm: 'Are you sure?', remote: true, type: "json" } %></td>
+  </div>
+</div>

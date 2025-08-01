@@ -1,0 +1,85 @@
+<% if namespaced? -%>
+require_dependency "<%= namespaced_path %>/application_controller"
+
+<% end -%>
+<% module_namespacing do -%>
+class <%= controller_class_name %>Controller < ApplicationController
+  include CableReady::Broadcaster
+  before_action :set_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
+
+  # GET <%= route_url %>
+  def index
+    @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
+    respond_to do |format|
+      format.html { render }
+      format.json { render operations: cable_car.inner_html(@<%= plural_table_name %>, html: self.class.render(@<%= plural_table_name %>)) }
+    end
+  end
+
+  # GET <%= route_url %>/1
+  def show
+  end
+
+  # GET <%= route_url %>/new
+  def new
+    @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
+    render operations: cable_car.append(selector: "#<%= plural_table_name %>", html: render_form(@<%= singular_table_name %>))
+  end
+
+  # GET <%= route_url %>/1/edit
+  def edit
+    render operations: cable_car.outer_html(selector: @<%= singular_table_name %>, html: render_form(@<%= singular_table_name %>))
+  end
+
+  # POST <%= route_url %>
+  def create
+    @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
+
+    if @<%= orm_instance.save %>
+      render operations: cable_car
+        .append(selector: "#<%= plural_table_name %>", html: render_<%= singular_table_name %>(@<%= singular_table_name %>))
+        .remove(selector: "#new_<%= singular_table_name %>")
+    else
+      render operations: cable_car.outer_html(selector: @<%= singular_table_name %>, html: render_form(@<%= singular_table_name %>))
+    end
+  end
+
+  # PATCH/PUT <%= route_url %>/1
+  def update
+    if @<%= orm_instance.update("#{singular_table_name}_params") %>
+      render operations: cable_car.outer_html(selector: @<%= singular_table_name %>, html: render_<%= singular_table_name %>(@<%= singular_table_name %>))
+    else
+      render operations: cable_car.outer_html(selector: @<%= singular_table_name %>, html: render_form(@<%= singular_table_name %>))
+    end
+  end
+
+  # DELETE <%= route_url %>/1
+  def destroy
+    @<%= orm_instance.destroy %>
+    render operations: cable_car.remove(selector: @<%= singular_table_name %>)
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_<%= singular_table_name %>
+      @<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
+    end
+
+    # Only allow a list of trusted parameters through.
+    def <%= "#{singular_table_name}_params" %>
+      <%- if attributes_names.empty? -%>
+      params.fetch(:<%= singular_table_name %>, {})
+      <%- else -%>
+      params.require(:<%= singular_table_name %>).permit(<%= permitted_params %>)
+      <%- end -%>
+    end
+
+    def render_<%= singular_table_name %> <%= singular_table_name %>
+      self.class.render(<%= singular_table_name %>)
+    end
+
+    def render_form <%= singular_table_name %>
+      self.class.render(partial: "form", locals: {<%= singular_table_name %>: <%= singular_table_name %>})
+    end
+end
+<% end -%>
