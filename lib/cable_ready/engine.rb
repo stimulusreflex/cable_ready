@@ -49,6 +49,22 @@ module CableReady
       end
     end
 
+    initializer "cable_ready.integration_test_request_encoding" do
+      # standard:disable Lint/ConstantDefinitionInBlock
+      ActiveSupport.on_load(:action_dispatch_integration_test) do
+        # Support `as: :cable_ready`. Public `register_encoder` API is a little too strict.
+        class ActionDispatch::RequestEncoder
+          class CableReadyStreamEncoder < IdentityEncoder
+            header = [Mime[:cable_ready], Mime[:html]].join(",")
+            define_method(:accept_header) { header }
+          end
+
+          @encoders[:cable_ready] = CableReadyStreamEncoder.new
+        end
+      end
+      # standard:enable Lint/ConstantDefinitionInBlock
+    end
+
     initializer "cable_ready.importmap", before: "importmap" do |app|
       if app.config.respond_to?(:importmap)
         app.config.importmap.paths << Engine.root.join("lib/cable_ready/importmap.rb")
