@@ -120,7 +120,7 @@ export default class UpdatesForElement extends SubscribingElement {
           const response = await graciouslyFetch(url, {
             'X-Cable-Ready': 'update'
           })
-          this.html[url] = await response.text()
+          if (response) this.html[url] = await response.text()
         }
       })
     )
@@ -254,7 +254,8 @@ class Block {
           )
 
           const frameTemplate = document.createElement('template')
-          frameTemplate.innerHTML = await frameResponse.text()
+          if (frameResponse)
+            frameTemplate.innerHTML = await frameResponse.text()
 
           // recurse here to get all nested eager loaded frames
           await this.resolveTurboFrames(frameTemplate.content)
