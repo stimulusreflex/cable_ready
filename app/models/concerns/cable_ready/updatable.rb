@@ -184,6 +184,11 @@ module CableReady
         return if skip_updates_classes.any? { |klass| klass >= self }
         raise("ActionCable must be enabled to use Updatable") unless defined?(ActionCable)
 
+        # Broadcast to the same String stream name the subscriber streams from
+        # (see ViewHelper#build_options), so servers that transform non-String
+        # broadcastings (e.g. AnyCable) don't change it.
+        broadcasting = compound([model_class])
+
         debounce_time = options.delete(:debounce)
         debounce_time ||= CableReady.config.updatable_debounce_time
 
@@ -195,10 +200,10 @@ module CableReady
           if old_wait_until.nil? || old_wait_until < now
             new_wait_until = now + debounce_time.to_f
             CableReady.config.updatable_debounce_adapter[key] = new_wait_until
-            ActionCable.server.broadcast(model_class, options)
+            ActionCable.server.broadcast(broadcasting, options)
           end
         else
-          ActionCable.server.broadcast(model_class, options)
+          ActionCable.server.broadcast(broadcasting, options)
         end
       end
 
